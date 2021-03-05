@@ -86,6 +86,13 @@ using the Platform Designer tool from Intel Corporation. Table 1 shows
 the components that includes the GRTOS multiprocessor architecture based
 on NIOS II processors.
 
+  Table   Table
+  ------- -------
+  1       2
+          
+
+  : Table caption.
+
   Component                                   Quantity (i)       Name
   ------------------------------------------- ------------------ ---------------------
   Clock Source                                1                  clk_0
