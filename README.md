@@ -195,7 +195,7 @@ The pattern of the tasks requiring execution changes during runtime according to
 
 -   **time events**: these events are configured to happen at a certain system time. Time events may be sorted according to the occurrence time in a total order relationship. The next time the event is the earliest time event. Several embodiments may be utilized to break ties when two or more time events are configured with the same occurrence time. A time event takes place when the following condition holds:
 
-R_NXT_EVN_CNT ??? R_TM_CNT (2)
+R_NXT_EVN_CNT \>= R_TM_CNT (2)
 
 where the R_NXT_EVN_CNT register holds the earliest occurrence time event and the up-counter R_TM_CNT register keeps the system time. The C1_EVN_TM_OCC signal is asserted when Equation (2) is true; otherwise, it is de-asserted. In the R_NXT_TM_EVN_PRC register, the bit corresponding to the processor that executes the task associated with the next timed event is set to 1. Otherwise, if the next time event is not associated with an executing task, all the bits of the R_NXT_TM_EVN_PRC register should be set to 0.
 
