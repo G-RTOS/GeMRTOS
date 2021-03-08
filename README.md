@@ -1,6 +1,6 @@
 -   [GRTOS](#grtos)
 -   [GRTOS system architecture](#grtos-system-architecture)
-    -   [GRTOS with Intel Nios^®^ II
+    -   [GRTOS with Intel Nios^??^??II
         processors](#grtos-with-intel-nios-ii-processors)
     -   [GRTOS Controller](#grtos-controller)
     -   [GRTOS controller registers](#grtos-controller-registers)
@@ -69,13 +69,13 @@ register CPUID (123-125).
 
 FIG. 1: GRTOS multiprocessor system layout.
 
-## GRTOS with Intel Nios^®^ II[^1] processors
+## GRTOS with Intel Nios^??^??II[^1] processors
 
-The GRTOS multiprocessor system is implemented based on the Nios^®^ II
+The GRTOS multiprocessor system is implemented based on the Nios^??^??II
 processor of Intel Corporation. The system architecture is designed
 using the Platform Designer tool from Intel Corporation. The GRTOS
 architecture is included in the GRTOS Multiprocessor compound IP that
-includes: Nios^®^ II processors, GRTOS controller, debugging monitor and
+includes: Nios^??^??II processors, GRTOS controller, debugging monitor and
 interfaces, bridges and configuration memories. The GRTOS Multiprocessor
 IP allows designer an easy configuration of the multiprocessor
 architecture .
@@ -93,7 +93,7 @@ the time module (209), the mutex module (210), the event module (211)
 and the addressable control logic (212) including an interface element
 (213) and a decoder element (214).
 
-![](images\readme\media\image2.png)
+![](images/readme/media/image2.png)
 
 FIG. 2: GRTOS controller architecture.
 
@@ -230,7 +230,7 @@ Most applications require time support. For an adequate and flexible
 time basis, the system clock signal is prescaled through the up counter
 R_TM_PSC_CNT register, as shown in FIG. 3.
 
-![](images\readme\media\image3.png)
+![](images/readme/media/image3.png)
 
 FIG. 3: GRTOS time prescaler.
 
@@ -346,7 +346,7 @@ processor interrupt requests (PIRQs) , may be classified as:
     occurrence time. A time event takes place when the following
     condition holds:
 
-R_NXT_EVN_CNT ≥ R_TM_CNT (2)
+R_NXT_EVN_CNT ??? R_TM_CNT (2)
 
 where the R_NXT_EVN_CNT register holds the earliest occurrence time
 event and the up-counter R_TM_CNT register keeps the system time. The
@@ -525,7 +525,7 @@ components of a task implementation that consists of:
     suspended task in order to resume it properly and store subroutine
     data.
 
-![](images\readme\media\image4.png)
+![](images/readme/media/image4.png)
 
 FIG. 4: Task components and structure.
 
@@ -546,7 +546,7 @@ changes:
     priority task. A task in the running state is called an "*executing
     task*".
 
-![](images\readme\media\image5.png)
+![](images/readme/media/image5.png)
 
 FIG. 5: Task states and events.
 
@@ -656,7 +656,7 @@ FIG. 6 shows a RCB structure to support semaphore or message queue
 functionality that can be extended to different kinds of system
 resources.
 
-![](images\readme\media\image6.png)
+![](images/readme/media/image6.png)
 
 FIG. 6: Resource extensions of RCB data structure.
 
@@ -685,7 +685,7 @@ system. When a task is in the ready state, it should be linked to a
 TCBRDYL list; when a task is in the running state, it should be linked
 to a TCBRUNL list.
 
-![](images\readme\media\image7.png)
+![](images/readme/media/image7.png)
 
 FIG. 7: Ready and Running LCB lists.
 
@@ -790,7 +790,7 @@ includes the following sections:
     execution. The task state is changed to the waiting state and its
     status is saved. Then, the start task section is called.
 
-![](images\readme\media\image8.png)
+![](images/readme/media/image8.png)
 
 FIG. 8: GRTOS structure.
 
@@ -811,7 +811,7 @@ section is executed before any other section and (2) the rest of
 processors start executing tasks codes after the initialization of the
 system.
 
-![](images\readme\media\image9.png)
+![](images/readme/media/image9.png)
 
 FIG. 9: Initialization section structure.
 
@@ -1059,7 +1059,7 @@ Cayssials.
 
 Ricardo Cayssials retains and reserves all rights.
 
-© Ricardo Cayssials 2017-2021. All rights reserved.
+?? Ricardo Cayssials 2017-2021. All rights reserved.
 
 GRTOS (USPTO Patent Pending)
 
