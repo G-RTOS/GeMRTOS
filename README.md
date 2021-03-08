@@ -1,6 +1,6 @@
 -   [GRTOS](#grtos)
 -   [GRTOS system architecture](#grtos-system-architecture)
-    -   [GRTOS with Intel Nios??II processors](#grtos-with-intel-nios-ii-processors)
+    -   [GRTOS with Intel Nios II processors](#grtos-with-intel-nios-ii-processors)
     -   [GRTOS Controller](#grtos-controller)
     -   [GRTOS controller registers](#grtos-controller-registers)
     -   [Mutex module 210](#mutex-module-210)
@@ -41,9 +41,9 @@ In the GRTOS system architecture, a set of *N* processors shares a common memory
 
 FIG. 1: GRTOS multiprocessor system layout.
 
-## GRTOS with Intel Nios??II[^1] processors
+## GRTOS with Intel Nios II[^1] processors
 
-The GRTOS multiprocessor system is implemented based on the Nios??II processor of Intel Corporation. The system architecture is designed using the Platform Designer tool from Intel Corporation. The GRTOS architecture is included in the GRTOS Multiprocessor compound IP that includes: Nios??II processors, GRTOS controller, debugging monitor and interfaces, bridges and configuration memories. The GRTOS Multiprocessor IP allows designer an easy configuration of the multiprocessor architecture .
+The GRTOS multiprocessor system is implemented based on the Nios II processor of Intel Corporation. The system architecture is designed using the Platform Designer tool from Intel Corporation. The GRTOS architecture is included in the GRTOS Multiprocessor compound IP that includes: Nios II processors, GRTOS controller, debugging monitor and interfaces, bridges and configuration memories. The GRTOS Multiprocessor IP allows designer an easy configuration of the multiprocessor architecture .
 
 ## GRTOS Controller
 
