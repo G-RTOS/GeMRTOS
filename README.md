@@ -65,7 +65,7 @@ system bus (113) allows the processors (110-112) to share the system
 memory (114). Each processor has a unique internal identification
 register CPUID (123-125).
 
-![](images\readme\media\image1.png)
+![](images/readme/media/image1.png)
 
 FIG. 1: GRTOS multiprocessor system layout.
 
