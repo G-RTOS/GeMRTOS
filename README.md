@@ -540,10 +540,10 @@ changes:
     task*".
 
 <p align="center">
-  <img src=media/image5.emf>
+  <img src=media/image5.png>
 </p>
 
-![](media/image5.emf)
+![](media/image5.png)
 
 FIG. 3: Task states and events.
 
