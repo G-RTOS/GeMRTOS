@@ -539,7 +539,10 @@ changes:
     priority task. A task in the running state is called an "*executing
     task*".
 
-![](media\image5.emf)
+<p align="center">
+  <img src="media/image5.emf">
+</p>
+![](media/image5.emf)
 
 FIG. 3: Task states and events.
 
