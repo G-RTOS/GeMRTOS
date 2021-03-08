@@ -540,7 +540,7 @@ changes:
     task*".
 
 <p align="center">
-  <img src="./media/image5.emf">
+  <img src=media/image5.emf>
 </p>
 ![](media/image5.emf)
 
