@@ -65,6 +65,8 @@ system bus (113) allows the processors (110-112) to share the system
 memory (114). Each processor has a unique internal identification
 register CPUID (123-125).
 
+![](images\readme\media\image1.png)
+
 FIG. 1: GRTOS multiprocessor system layout.
 
 ## GRTOS with Intel Nios^®^ II[^1] processors
@@ -90,6 +92,8 @@ interrupt requests (PIRQs) (107-109), the controller registers (208),
 the time module (209), the mutex module (210), the event module (211)
 and the addressable control logic (212) including an interface element
 (213) and a decoder element (214).
+
+![](images\readme\media\image2.png)
 
 FIG. 2: GRTOS controller architecture.
 
@@ -149,8 +153,8 @@ GRTOS controller uses internal signals to manage the different events of
 the multiprocessor hardware architecture. The main signals that produce
 system events include:
 
--   C1_MTX_GRN C1_MTX_GRN signal is 0 when the R_MTX_PRC_GRN register is
-    equal to 0; otherwise, it is 1.
+-   C1_MTX_GRN: C1_MTX_GRN signal is 0 when the R_MTX_PRC_GRN register
+    is equal to 0; otherwise, it is 1.
 
 -   C1_NXT_EVN_PRC_ZRO
 
@@ -226,6 +230,8 @@ Most applications require time support. For an adequate and flexible
 time basis, the system clock signal is prescaled through the up counter
 R_TM_PSC_CNT register, as shown in FIG. 3.
 
+![](images\readme\media\image3.png)
+
 FIG. 3: GRTOS time prescaler.
 
 The modulus of the up-counter R_TM_PSC_CNT register is equal to the
@@ -242,29 +248,28 @@ instruction.
 
 The GRTOS controller may stay in one of two time modes:
 
-**unfrozen mode**: the GRTOS controller starts and remains in unfrozen
-mode while the condition (1) holds:
+-   **unfrozen mode**: the GRTOS controller starts and remains in
+    unfrozen mode while the condition (1) holds:
 
-+-----------------------------------------------+-----+
-| (R_FRZ_TM_THR + R_NXT_EVN_CNT \< R_TM_CNT and | (1) |
-|                                               |     |
-| C1_FRZ_MDE_ENB == 1)                          |     |
-|                                               |     |
-| or                                            |     |
-|                                               |     |
-| C1_FRZ_MDE_ENB == 0                           |     |
-+-----------------------------------------------+-----+
+(R_FRZ_TM_THR + R_NXT_EVN_CNT \< R_TM_CNT and
+
+C1_FRZ_MDE_ENB == 1)
+
+or
+
+C1_FRZ_MDE_ENB == 0
 
 The up-counter R_TM_CNT, it is called the time counting register, is
 incremented at the system time unit rate when the GRTOS controller is in
 unfrozen mode.
 
-**frozen mode**: the GRTOS controller switches to frozen mode when the
-C1_FRZ_MDE_ENB is equal to one (frozen mode enabled) and the time
-elapsed since the next time event, stored in the R_NXT_EVN_CNT, is
-greater than the threshold time configured in the R_FRZ_TM_THR. In
-frozen mode, the up-counter R_FRZ_TM_CNT, it is called the *frozen time
-counting register*, is incremented at the system time unit rate.
+-   **frozen mode**: the GRTOS controller switches to frozen mode when
+    the C1_FRZ_MDE_ENB is equal to one (frozen mode enabled) and the
+    time elapsed since the next time event, stored in the R_NXT_EVN_CNT,
+    is greater than the threshold time configured in the R_FRZ_TM_THR.
+    In frozen mode, the up-counter R_FRZ_TM_CNT, it is called the
+    *frozen time counting register*, is incremented at the system time
+    unit rate.
 
 During runtime, the normal mode should be the unfrozen mode. In this
 mode, the system time is held in the up counter R_TM_CNT register. The
@@ -341,11 +346,11 @@ processor interrupt requests (PIRQs) , may be classified as:
     occurrence time. A time event takes place when the following
     condition holds:
 
-R_NXT_EVN_CNT ≥ R_TM_CNT (1)
+R_NXT_EVN_CNT ≥ R_TM_CNT (2)
 
 where the R_NXT_EVN_CNT register holds the earliest occurrence time
 event and the up-counter R_TM_CNT register keeps the system time. The
-C1_EVN_TM_OCC signal is asserted when Equation (1) is true; otherwise,
+C1_EVN_TM_OCC signal is asserted when Equation (2) is true; otherwise,
 it is de-asserted. In the R_NXT_TM_EVN_PRC register, the bit
 corresponding to the processor that executes the task associated with
 the next timed event is set to 1. Otherwise, if the next time event is
@@ -506,7 +511,7 @@ of GRTOS controller is:
 
 ## Task 
 
-A task is defined as a unit of execution. FIG. 3 shows the main
+A task is defined as a unit of execution. FIG. 4 shows the main
 components of a task implementation that consists of:
 
 -   **TCB data structure**: this is a control block (TCB) that stores
@@ -520,10 +525,12 @@ components of a task implementation that consists of:
     suspended task in order to resume it properly and store subroutine
     data.
 
-FIG. 3: Task components and structure.
+![](images\readme\media\image4.png)
+
+FIG. 4: Task components and structure.
 
 Tasks are executed by the processors to produce their designed
-functions. A task may stay in different states. FIG. 3 shows an
+functions. A task may stay in different states. FIG. 5 shows an
 embodiment of these states and the different events that produce their
 changes:
 
@@ -539,18 +546,14 @@ changes:
     priority task. A task in the running state is called an "*executing
     task*".
 
-<p align="center">
-  <img src=media/image5.png>
-</p>
+![](images\readme\media\image5.png)
 
-![](media/image5.png)
-
-FIG. 3: Task states and events.
+FIG. 5: Task states and events.
 
 There are different causes of changes in the state of a task such as an
 event in a device interrupt requests (DIRQs), an internal time event, an
 event produced by another task or, the availability of a requested
-resource as well as other events specified in the system. In FIG. 3, the
+resource as well as other events specified in the system. In FIG. 5, the
 state changes are grouped in the following set of events:
 
 -   **create events**: create a task and set its state as the waiting
@@ -649,11 +652,13 @@ a timeout may need to be specified in order to avoid a task either
 granting or waiting for a resource for a long time, which would impede
 the adequate sharing of resources among tasks.
 
-FIG. 3 shows a RCB structure to support semaphore or message queue
+FIG. 6 shows a RCB structure to support semaphore or message queue
 functionality that can be extended to different kinds of system
 resources.
 
-FIG. 3: Resource extensions of RCB data structure.
+![](images\readme\media\image6.png)
+
+FIG. 6: Resource extensions of RCB data structure.
 
 ## Signals
 
@@ -675,10 +680,12 @@ structures allow holding information about the tasks ready for execution
 and the tasks currently executing in a determined TCBRDYL list. Several
 ready linked lists may be defined in order to group the tasks of the
 system according to each one's function and the function of the group.
-FIG. 3 the LCBL list that links all the LCB data structures of the
+FIG. 7 the LCBL list that links all the LCB data structures of the
 system. When a task is in the ready state, it should be linked to a
 TCBRDYL list; when a task is in the running state, it should be linked
 to a TCBRUNL list.
+
+![](images\readme\media\image7.png)
 
 FIG. 7: Ready and Running LCB lists.
 
@@ -741,7 +748,7 @@ the data structure. The system control blocks include:
 
 ## GRTOS structure
 
-FIG. 7 shows the GRTOS code structure. Shadow sections are executed in
+FIG. 8 shows the GRTOS code structure. Shadow sections are executed in
 the critical section of the GRTOS controller. The GRTOS structure
 includes the following sections:
 
@@ -783,11 +790,13 @@ includes the following sections:
     execution. The task state is changed to the waiting state and its
     status is saved. Then, the start task section is called.
 
-FIG. 7: GRTOS structure.
+![](images\readme\media\image8.png)
+
+FIG. 8: GRTOS structure.
 
 ## Initialization section
 
-FIG. 7 shows the structure of the initialization section that sets the
+FIG. 9 shows the structure of the initialization section that sets the
 initial value of the data structures of the GRTOS. At the beginning, the
 stack pointer register (SP) of each processor is configured with a
 unique stack memory address to avoid conflicts among processors. In
@@ -802,7 +811,9 @@ section is executed before any other section and (2) the rest of
 processors start executing tasks codes after the initialization of the
 system.
 
-FIG. 7: Initialization section structure.
+![](images\readme\media\image9.png)
+
+FIG. 9: Initialization section structure.
 
 The processor with an internal identification register CPUID equal to 1:
 
@@ -847,7 +858,7 @@ executed.
 
 ## Task switch section
 
-FIG. 7 shows the structure of the task switch section. This section
+FIG. 10 shows the structure of the task switch section. This section
 implements the methods for saving and restoring task statuses according
 to the states of the tasks. Prior to executing the code of the next
 task, the pending signals are executed and then, when there is no other
@@ -869,7 +880,7 @@ presents three entry points:
     to execute the signal code when returning from interrupt and the
     return address is set to GRTOS_Return_from_signal.
 
-FIG. 7: Task switch section structure.
+FIG. 10: Task switch section structure.
 
 The task switch section is completed by executing a return from
 interrupt in order to enable the processor interrupt. Before leaving the
@@ -1049,5 +1060,7 @@ Cayssials.
 Ricardo Cayssials retains and reserves all rights.
 
 © Ricardo Cayssials 2017-2021. All rights reserved.
+
+GRTOS (USPTO Patent Pending)
 
 [^1]: *Nios is a trademark of Intel Corporation or its subsidiaries.*
