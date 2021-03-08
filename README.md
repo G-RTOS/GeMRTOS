@@ -1,7 +1,4 @@
----
-title: GRTOS
----
-
+-   [GRTOS](#grtos)
 -   [GRTOS system architecture](#grtos-system-architecture)
     -   [GRTOS with Intel Nios^®^ II
         processors](#grtos-with-intel-nios-ii-processors)
@@ -33,6 +30,8 @@ title: GRTOS
     -   [Task complete section](#task-complete-section)
 -   [Priority Management](#priority-management)
 -   [](#section)
+
+# GRTOS
 
 The GRTOS is a multiprocessor system architecture for facilitating
 real-time multitasking processing. In GRTOS, each task is assigned to a
