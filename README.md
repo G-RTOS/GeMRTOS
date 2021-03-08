@@ -542,6 +542,7 @@ changes:
 <p align="center">
   <img src=media/image5.emf>
 </p>
+
 ![](media/image5.emf)
 
 FIG. 3: Task states and events.
