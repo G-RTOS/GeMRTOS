@@ -71,7 +71,7 @@ FIG. 1: GRTOS multiprocessor system layout.
 
 The GRTOS multiprocessor system is implemented based on the Nios^®^ II
 processor of Intel Corporation. The system architecture is designed
-using the Platform Designer[^2] tool from Intel Corporation. The GRTOS
+using the Platform Designer tool from Intel Corporation. The GRTOS
 architecture is included in the GRTOS Multiprocessor compound IP that
 includes: Nios^®^ II processors, GRTOS controller, debugging monitor and
 interfaces, bridges and configuration memories. The GRTOS Multiprocessor
@@ -1035,9 +1035,6 @@ discipline.
 
 -   Nios is a trademark of Intel Corporation or its subsidiaries.
 
--   Platform Designer is a trademark of Intel Corporation or its
-    subsidiaries.
-
 All text, source code, figures and diagrams are exclusive property of
 Ricardo Cayssials.
 
@@ -1050,6 +1047,3 @@ Ricardo Cayssials retains and reserves all rights.
 © Ricardo Cayssials 2017-2021. All rights reserved.
 
 [^1]: *Nios is a trademark of Intel Corporation or its subsidiaries.*
-
-[^2]: *Platform Designer is a trademark of Intel Corporation or its
-    subsidiaries.*
