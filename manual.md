@@ -130,20 +130,7 @@ FIG. 1: GRTOS multiprocessor system layout.
 
 The GRTOS multiprocessor system is implemented based on the NIOS II processor of Intel Corporation. The system architecture is designed using the Platform Designer tool from Intel Corporation. Table 1 shows the components that includes the GRTOS multiprocessor architecture based on NIOS II processors.
 
-| Component                                 | Quantity (i)     | Name                  |
-|-------------------------------------------|------------------|-----------------------|
-| Clock Source                              | 1                | clk\_0                |
-| Nios II Processor                         | 1..NProcessors   | nios2\_qsys\_$i       |
-| Nios II Avalon monitor module             | 1                | nios\_avalon\_monitor |
-| Nios II Avalon bridge                     | 1                | nios\_avalon\_bridge  |
-| gRTOS                                     | 1                | grtos\_0              |
-| JTAG UART Intel FPGA IP                   | 0..NProcessors+1 | jtag\_uart\_$i        |
-| Interval Timer Intel FPGA IP              | 1                | timer\_0              |
-| On-Chip Memory (RAM or ROM) Intel FGPA IP | 2                | onchip\_memory1\_$i   |
-| System ID Peripheral Intel FPGA IP        | 1                | sysid\_qsys\_0        |
-| JTAG to Avalon Master Bridge              | 1                | master\_0             |
-| IRQ Bridge                                | 1                | irq\_bridge\_0        |
-| Reset Bridge                              | 1                | reset\_bridge\_0      |
+<table><thead><tr class="header"><th>Component</th><th>Quantity (i)</th><th>Name</th></tr></thead><tbody><tr class="odd"><td>Clock Source</td><td>1</td><td>clk_0</td></tr><tr class="even"><td>Nios II Processor</td><td>1..NProcessors</td><td>nios2_qsys_$i</td></tr><tr class="odd"><td>Nios II Avalon monitor module</td><td>1</td><td>nios_avalon_monitor</td></tr><tr class="even"><td>Nios II Avalon bridge</td><td>1</td><td>nios_avalon_bridge</td></tr><tr class="odd"><td>gRTOS</td><td>1</td><td>grtos_0</td></tr><tr class="even"><td>JTAG UART Intel FPGA IP</td><td>0..NProcessors+1</td><td>jtag_uart_$i</td></tr><tr class="odd"><td>Interval Timer Intel FPGA IP</td><td>1</td><td>timer_0</td></tr><tr class="even"><td>On-Chip Memory (RAM or ROM) Intel FGPA IP</td><td>2</td><td>onchip_memory1_$i</td></tr><tr class="odd"><td>System ID Peripheral Intel FPGA IP</td><td>1</td><td>sysid_qsys_0</td></tr><tr class="even"><td>JTAG to Avalon Master Bridge</td><td>1</td><td>master_0</td></tr><tr class="odd"><td>IRQ Bridge</td><td>1</td><td>irq_bridge_0</td></tr><tr class="even"><td>Reset Bridge</td><td>1</td><td>reset_bridge_0</td></tr></tbody></table>
 
 Table 1: GRTOS multiprocessor components in Intel Corporation???s Platform Designer.
 
@@ -163,27 +150,7 @@ FIG. 2: GRTOS controller architecture.
 
 The behavior of the GRTOS controller is determined by a set of GRTOS controller registers (208). Table 1 shows the GRTOS controller registers. Some of these registers may be configured through the interface element of the GRTOS controller. They are assigned with a unique memory map address to be read and written. For instance, the R\_CTRL register can be used to configure some functions of the GRTOS controller such as enabling or disabling the frozen mode.
 
-| R\_CTRL              |     |
-|----------------------|-----|
-| R\_MTX\_PRC\_GRN     |     |
-| R\_MTX\_CLR\_CNT     |     |
-| R\_MTX\_NXT\_PRC     |     |
-| R\_MTX\_RSV\_PRC     |     |
-| R\_NXT\_EVN\_CNT     |     |
-| R\_TM\_PSC           |     |
-| R\_TM\_CNT           |     |
-| R\_FRZ\_TM\_CNT      |     |
-| R\_TM\_PSC\_CNT      |     |
-| R\_NXT\_EVN\_TM      |     |
-| R\_FRZ\_TM\_THR      |     |
-| R\_NXT\_TM\_EVN\_PRC |     |
-| R\_LOW\_PRI\_PRC     |     |
-| R\_TRG\_PRC\_INT     |     |
-| R\_INT\_ENB          |     |
-| R\_IRQ\_ENB          |     |
-| R\_INT\_CLR          |     |
-| R\_IRQ\_PND          |     |
-| R\_LST\_EVN          |     |
+<table><thead><tr class="header"><th>R_CTRL</th><th></th></tr></thead><tbody><tr class="odd"><td>R_MTX_PRC_GRN</td><td></td></tr><tr class="even"><td>R_MTX_CLR_CNT</td><td></td></tr><tr class="odd"><td>R_MTX_NXT_PRC</td><td></td></tr><tr class="even"><td>R_MTX_RSV_PRC</td><td></td></tr><tr class="odd"><td>R_NXT_EVN_CNT</td><td></td></tr><tr class="even"><td>R_TM_PSC</td><td></td></tr><tr class="odd"><td>R_TM_CNT</td><td></td></tr><tr class="even"><td>R_FRZ_TM_CNT</td><td></td></tr><tr class="odd"><td>R_TM_PSC_CNT</td><td></td></tr><tr class="even"><td>R_NXT_EVN_TM</td><td></td></tr><tr class="odd"><td>R_FRZ_TM_THR</td><td></td></tr><tr class="even"><td>R_NXT_TM_EVN_PRC</td><td></td></tr><tr class="odd"><td>R_LOW_PRI_PRC</td><td></td></tr><tr class="even"><td>R_TRG_PRC_INT</td><td></td></tr><tr class="odd"><td>R_INT_ENB</td><td></td></tr><tr class="even"><td>R_IRQ_ENB</td><td></td></tr><tr class="odd"><td>R_INT_CLR</td><td></td></tr><tr class="even"><td>R_IRQ_PND</td><td></td></tr><tr class="odd"><td>R_LST_EVN</td><td></td></tr></tbody></table>
 
 Table 1: GRTOS controller registers.
 
@@ -245,14 +212,7 @@ During runtime, the normal mode should be the unfrozen mode. In this mode, the s
 
 ### Unfrozen/frozen related instructions
 
-| GRTOS\_CMD\_FRZ\_ENB\_SET           | Enables the frozen mode event                                                                     |
-|-------------------------------------|---------------------------------------------------------------------------------------------------|
-| GRTOS\_CMD\_FRZ\_DSB\_SET           | Disables the frozen mode event                                                                    |
-| GRTOS\_CMD\_GET\_FRZ\_ENB           | Returns the status of the frozen mode (G\_TRUE if enabled, G\_FALSE if disabled)                  |
-| GRTOS\_CMD\_GET\_FRZ\_ACT           | Returns the status of the frozen mode event (G\_TRUE if active, G\_FALSE if inactive)             |
-| GRTOS\_CMD\_FRZ\_EVN\_CLR           | Clears the C1\_FRZ\_EVN flags. It should be executed when the frozen mode strategy is completed.  |
-| GRTOS\_CMD\_FRZ\_TM\_THR\_SET(time) | Sets the Frozen Time Threshold register (R\_FRZ\_TM\_THR) of the GRTOS controller.                |
-| GRTOS\_CMD\_FRZ\_TM\_THR\_GET       | Returns the value of the Frozen Time Threshold (R\_FRZ\_TM\_THR) register of the GRTOS controller |
+<table><thead><tr class="header"><th>GRTOS_CMD_FRZ_ENB_SET</th><th>Enables the frozen mode event</th></tr></thead><tbody><tr class="odd"><td>GRTOS_CMD_FRZ_DSB_SET</td><td>Disables the frozen mode event</td></tr><tr class="even"><td>GRTOS_CMD_GET_FRZ_ENB</td><td>Returns the status of the frozen mode (G_TRUE if enabled, G_FALSE if disabled)</td></tr><tr class="odd"><td>GRTOS_CMD_GET_FRZ_ACT</td><td>Returns the status of the frozen mode event (G_TRUE if active, G_FALSE if inactive)</td></tr><tr class="even"><td>GRTOS_CMD_FRZ_EVN_CLR</td><td>Clears the C1_FRZ_EVN flags. It should be executed when the frozen mode strategy is completed.</td></tr><tr class="odd"><td>GRTOS_CMD_FRZ_TM_THR_SET(time)</td><td>Sets the Frozen Time Threshold register (R_FRZ_TM_THR) of the GRTOS controller.</td></tr><tr class="even"><td>GRTOS_CMD_FRZ_TM_THR_GET</td><td>Returns the value of the Frozen Time Threshold (R_FRZ_TM_THR) register of the GRTOS controller</td></tr></tbody></table>
 
 ## Interrupt input module and interrupt output module
 
@@ -292,20 +252,7 @@ When the system requires a processor to execute a higher priority task, the GRTO
 
 ### Input/output interrupts related instructions
 
-| GRTOS\_CMD\_IRQ\_ENB\_CLR(*irq*)              | Disables the device interrupt request event *irq* (DIRQ).                                                                                                                                                                                 |
-|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GRTOS\_CMD\_IRQ\_ENB\_SET(*irq*)              | Enables the device interrupt request event *irq* (DIRQ).                                                                                                                                                                                  |
-| GRTOS\_CMD\_NXT\_TM\_PRC\_SET(*processor*)    | Sets the Lowest Priority Processor in the GRTOS Controller.                                                                                                                                                                               |
-| GRTOS\_CMD\_NXT\_OCC\_TM\_EVN\_SET(*timeset*) | Sets the Next Occurence Time register of the GRTOS controller to produce a timed event when system time reaches the value of *timeset*.                                                                                                   |
-| GRTOS\_CMD\_LOW\_PRC\_SET(*processor*)        | Sets the processor with CPUID equal to *processor* as the Lowest Priority Processor in the GRTOS Controller.                                                                                                                              |
-| GRTOS\_CMD\_CRITICAL\_SECTION\_GET            | Defines the entry to a critical section to handle system variables and ISR routines. It asks for critical section and puts the processor in halt mode. GRTOS controller enables the processor when section is granted to it.              |
-| GRTOS\_CMD\_CRITICAL\_SECTION\_RELEASE        | Releases the critical section from the current processor. The final released is delayed by the controller to let the processor finishes executing the return from the critical section. It should be executed from the interrupt routine. |
-| GRTOS\_CMD\_MTX\_RQS\_GET                     | Returns the current value of the Mutex.                                                                                                                                                                                                   |
-| GRTOS\_CMD\_PRC\_INT\_ENB                     | Enables the processor interrupt request of the current processor in the GRTOS controller                                                                                                                                                  |
-| GRTOS\_CMD\_PRC\_INT\_DSB                     | Disables the interrupt of the current processor in the GRTOS controller.                                                                                                                                                                  |
-| GRTOS\_CMD\_IRQ\_ENB\_GET(*irq*)              | Reads the enabled status of the device interrupt request (DIRQ) *irq.*                                                                                                                                                                    |
-| GRTOS\_CMD\_TRG\_PRC\_INT\_SET(*proc*)        | Interrupts the processor *proc*. If proc interrupt is enabled in the GRTOS controller, then the processor is interrupted.                                                                                                                 |
-| GRTOS\_CMD\_INT\_PRC\_PND\_CLR                | Clears the pending interrupt of the current processor.                                                                                                                                                                                    |
+<table><thead><tr class="header"><th>GRTOS_CMD_IRQ_ENB_CLR(<em>irq</em>)</th><th>Disables the device interrupt request event <em>irq</em> (DIRQ).</th></tr></thead><tbody><tr class="odd"><td>GRTOS_CMD_IRQ_ENB_SET(<em>irq</em>)</td><td>Enables the device interrupt request event <em>irq</em> (DIRQ).</td></tr><tr class="even"><td>GRTOS_CMD_NXT_TM_PRC_SET(<em>processor</em>)</td><td>Sets the Lowest Priority Processor in the GRTOS Controller.</td></tr><tr class="odd"><td>GRTOS_CMD_NXT_OCC_TM_EVN_SET(<em>timeset</em>)</td><td>Sets the Next Occurence Time register of the GRTOS controller to produce a timed event when system time reaches the value of <em>timeset</em>.</td></tr><tr class="even"><td>GRTOS_CMD_LOW_PRC_SET(<em>processor</em>)</td><td>Sets the processor with CPUID equal to <em>processor</em> as the Lowest Priority Processor in the GRTOS Controller.</td></tr><tr class="odd"><td>GRTOS_CMD_CRITICAL_SECTION_GET</td><td>Defines the entry to a critical section to handle system variables and ISR routines. It asks for critical section and puts the processor in halt mode. GRTOS controller enables the processor when section is granted to it.</td></tr><tr class="even"><td>GRTOS_CMD_CRITICAL_SECTION_RELEASE</td><td>Releases the critical section from the current processor. The final released is delayed by the controller to let the processor finishes executing the return from the critical section. It should be executed from the interrupt routine.</td></tr><tr class="odd"><td>GRTOS_CMD_MTX_RQS_GET</td><td>Returns the current value of the Mutex.</td></tr><tr class="even"><td>GRTOS_CMD_PRC_INT_ENB</td><td>Enables the processor interrupt request of the current processor in the GRTOS controller</td></tr><tr class="odd"><td>GRTOS_CMD_PRC_INT_DSB</td><td>Disables the interrupt of the current processor in the GRTOS controller.</td></tr><tr class="even"><td>GRTOS_CMD_IRQ_ENB_GET(<em>irq</em>)</td><td>Reads the enabled status of the device interrupt request (DIRQ) <em>irq.</em></td></tr><tr class="odd"><td>GRTOS_CMD_TRG_PRC_INT_SET(<em>proc</em>)</td><td>Interrupts the processor <em>proc</em>. If proc interrupt is enabled in the GRTOS controller, then the processor is interrupted.</td></tr><tr class="even"><td>GRTOS_CMD_INT_PRC_PND_CLR</td><td>Clears the pending interrupt of the current processor.</td></tr></tbody></table>
 
 ## Event module
 
@@ -313,17 +260,11 @@ The GRTOS controller handles a set of events and determines the way they are man
 
 When a processor executes the GRTOS\_CMD\_EVN\_OCC instruction, the R\_LST\_EVN register is transferred through the interface element to the processor. Several events may be asserted when the processor reads the R\_LST\_EVN register. In order to avoid inconsistency, the event module sorts the events and assigns to the R\_LST\_EVN register the code of the asserted event with the lowest sorted order. The following table shows the sorted list of events of GRTOS controller:
 
-| Sorted Order | Event Code                            | Description                                                                                                                                                                                                                                   |
-|--------------|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1            | FROZEN event code (EVN\_CODE\_FROZEN) | This event takes place when the GRTOS controller changes from unfrozen mode to frozen mode. The C1\_FRZ\_MDE\_ENB and C1\_FRZ\_EVN signals should be clear to allow accessing the rest of events when the GRTOS controller is in frozen mode. |
-| 2            | TIMED event code (EVN\_CODE\_TIMED)   | This event takes place when a time event happens (C1\_EVN\_TM\_OCC signal is asserted).                                                                                                                                                       |
-| 3 to ...     | DIRQ*i*\_CODE (DIRQ event codes)      | The DIRQ*i*\_CODE is asserted when there is a pending request from the device interrupt requests (DIRQs) with the index *i*                                                                                                                   |
+<table><thead><tr class="header"><th>Sorted Order</th><th>Event Code</th><th>Description</th></tr></thead><tbody><tr class="odd"><td>1</td><td>FROZEN event code (EVN_CODE_FROZEN)</td><td>This event takes place when the GRTOS controller changes from unfrozen mode to frozen mode. The C1_FRZ_MDE_ENB and C1_FRZ_EVN signals should be clear to allow accessing the rest of events when the GRTOS controller is in frozen mode.</td></tr><tr class="even"><td>2</td><td>TIMED event code (EVN_CODE_TIMED)</td><td>This event takes place when a time event happens (C1_EVN_TM_OCC signal is asserted).</td></tr><tr class="odd"><td>3 to ...</td><td>DIRQ<em>i</em>_CODE (DIRQ event codes)</td><td>The DIRQ<em>i</em>_CODE is asserted when there is a pending request from the device interrupt requests (DIRQs) with the index <em>i</em></td></tr></tbody></table>
 
 ### Event module related instructions
 
-|                      |                                                      |
-|----------------------|------------------------------------------------------|
-| GRTOS\_CMD\_EVN\_OCC | Returns the event happened from the GRTOS controller |
+<table><tbody><tr class="odd"><td>GRTOS_CMD_EVN_OCC</td><td>Returns the event happened from the GRTOS controller</td></tr></tbody></table>
 
 # System components and Data Structures
 
