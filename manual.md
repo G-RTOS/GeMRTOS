@@ -14,7 +14,7 @@ Distribution, use in presentations, or publications in any form is strictly proh
 
 Ricardo Cayssials retains and reserves all rights.
 
-© Ricardo Cayssials 2017-2021. All rights reserved.
+?? Ricardo Cayssials 2017-2021. All rights reserved.
 
 -   Nios is a trademark of Intel Corporation or its subsidiaries.
 
@@ -145,11 +145,11 @@ The GRTOS multiprocessor system is implemented based on the NIOS II processor of
 | IRQ Bridge                                | 1                | irq_bridge_0        |
 | Reset Bridge                              | 1                | reset_bridge_0      |
 
-Table 1: GRTOS multiprocessor components in Intel Corporation’s Platform Designer.
+Table 1: GRTOS multiprocessor components in Intel Corporation???s Platform Designer.
 
 Table 2 shows the memory requirements of each component of the GRTOS multiprocessor architecture.
 
-<table><thead><tr class="header"><th>Component</th><th>Quantity (i)</th><th>Interface</th><th>Address span</th><th></th><th>Order</th></tr></thead><tbody><tr class="odd"><td>Nios II Processor</td><td>1..NProcessors</td><td>debug_mem_master</td><td>7FFH</td><td><p>0x0400_2800</p><p>0x0400_3000</p><p>0x0400_3800</p></td><td>3</td></tr><tr class="even"><td>Nios II Avalon monitor module</td><td>1</td><td>s_Global</td><td>FFH</td><td><p>0x0400_4200</p><p>0x0400_4300</p></td><td>5</td></tr><tr class="odd"><td>Nios II Avalon monitor module</td><td>1..NProcessors</td><td>s$i</td><td>0x0 – 0xFFFF_FFFF</td><td></td><td></td></tr><tr class="even"><td>Nios II Avalon bridge</td><td>1..NProcessors</td><td>s$i</td><td>0x0 – 0xFFFF_FFFF</td><td></td><td></td></tr><tr class="odd"><td>gRTOS</td><td>1</td><td>s_Global</td><td>1FFH</td><td>0x0400_4000</td><td>4</td></tr><tr class="even"><td>gRTOS</td><td>1..NProcessors</td><td>s_processor$i</td><td>7H</td><td><p>0x0400_4420</p><p>0x0400_4428</p><p>0x0400_4430</p></td><td>7</td></tr><tr class="odd"><td>gRTOS</td><td>1</td><td>s_processor_monitor</td><td>7H</td><td>0x0400_4438</td><td>8</td></tr><tr class="even"><td>JTAG UART Intel FPGA IP</td><td>0..NProcessors+1</td><td>avalon_jtag_slave</td><td>7H</td><td><p>0x0400_4440</p><p>0x0400_4448</p><p>0x0400_4450</p><p>0x0400_4458</p><p>0x0400_4460</p></td><td>9</td></tr><tr class="odd"><td>Interval Timer Intel FPGA IP</td><td>1</td><td>s1</td><td>1FH</td><td>0x0400_4400</td><td>6</td></tr><tr class="even"><td>onchip_memory1_0</td><td>1</td><td>s1</td><td>7FFH</td><td>0x0400_2000</td><td>2</td></tr><tr class="odd"><td>onchip_memory1_1</td><td>1</td><td>s1</td><td>1FFFH</td><td>0x0400_0000</td><td>1</td></tr><tr class="even"><td>sysid_qsys_0</td><td>1</td><td>control_slave</td><td>7H</td><td>0x0400_4468</td><td>10</td></tr></tbody></table>
+<table><thead><tr class="header"><th>Component</th><th>Quantity (i)</th><th>Interface</th><th>Address span</th><th></th><th>Order</th></tr></thead><tbody><tr class="odd"><td>Nios II Processor</td><td>1..NProcessors</td><td>debug_mem_master</td><td>7FFH</td><td><p>0x0400_2800</p><p>0x0400_3000</p><p>0x0400_3800</p></td><td>3</td></tr><tr class="even"><td>Nios II Avalon monitor module</td><td>1</td><td>s_Global</td><td>FFH</td><td><p>0x0400_4200</p><p>0x0400_4300</p></td><td>5</td></tr><tr class="odd"><td>Nios II Avalon monitor module</td><td>1..NProcessors</td><td>s$i</td><td>0x0 ??? 0xFFFF_FFFF</td><td></td><td></td></tr><tr class="even"><td>Nios II Avalon bridge</td><td>1..NProcessors</td><td>s$i</td><td>0x0 ??? 0xFFFF_FFFF</td><td></td><td></td></tr><tr class="odd"><td>gRTOS</td><td>1</td><td>s_Global</td><td>1FFH</td><td>0x0400_4000</td><td>4</td></tr><tr class="even"><td>gRTOS</td><td>1..NProcessors</td><td>s_processor$i</td><td>7H</td><td><p>0x0400_4420</p><p>0x0400_4428</p><p>0x0400_4430</p></td><td>7</td></tr><tr class="odd"><td>gRTOS</td><td>1</td><td>s_processor_monitor</td><td>7H</td><td>0x0400_4438</td><td>8</td></tr><tr class="even"><td>JTAG UART Intel FPGA IP</td><td>0..NProcessors+1</td><td>avalon_jtag_slave</td><td>7H</td><td><p>0x0400_4440</p><p>0x0400_4448</p><p>0x0400_4450</p><p>0x0400_4458</p><p>0x0400_4460</p></td><td>9</td></tr><tr class="odd"><td>Interval Timer Intel FPGA IP</td><td>1</td><td>s1</td><td>1FH</td><td>0x0400_4400</td><td>6</td></tr><tr class="even"><td>onchip_memory1_0</td><td>1</td><td>s1</td><td>7FFH</td><td>0x0400_2000</td><td>2</td></tr><tr class="odd"><td>onchip_memory1_1</td><td>1</td><td>s1</td><td>1FFFH</td><td>0x0400_0000</td><td>1</td></tr><tr class="even"><td>sysid_qsys_0</td><td>1</td><td>control_slave</td><td>7H</td><td>0x0400_4468</td><td>10</td></tr></tbody></table>
 
 Table 2: GRTOS multiprocessor component memory requirements.
 
@@ -262,7 +262,7 @@ The pattern of the tasks requiring execution changes during runtime according to
 
 -   **time events**: these events are configured to happen at a certain system time. Time events may be sorted according to the occurrence time in a total order relationship. The next time the event is the earliest time event. Several embodiments may be utilized to break ties when two or more time events are configured with the same occurrence time. A time event takes place when the following condition holds:
 
-R_NXT_EVN_CNT ≥ R_TM_CNT (1)
+R_NXT_EVN_CNT ??? R_TM_CNT (1)
 
 where the R_NXT_EVN_CNT register holds the earliest occurrence time event and the up-counter R_TM_CNT register keeps the system time. The C1_EVN_TM_OCC signal is asserted when Equation (1) is true; otherwise, it is de-asserted. In the R_NXT_TM_EVN_PRC register, the bit corresponding to the processor that executes the task associated with the next timed event is set to 1. Otherwise, if the next time event is not associated with an executing task, all the bits of the R_NXT_TM_EVN_PRC register should be set to 0.
 
@@ -341,11 +341,11 @@ FIG. 3: Task components and structure.
 
 Tasks are executed by the processors to produce their designed functions. A task may stay in different states. FIG. 3 shows an embodiment of these states and the different events that produce their changes:
 
--   **waiting state**: the task is waiting for an event to release. When a task is in the waiting state, it is called a “*waiting task*”.
+-   **waiting state**: the task is waiting for an event to release. When a task is in the waiting state, it is called a ???*waiting task*???.
 
--   **ready state**: the task is ready to be executed and it is waiting to grant a processor for execution. A task in the ready state is called a “*ready task*”.
+-   **ready state**: the task is ready to be executed and it is waiting to grant a processor for execution. A task in the ready state is called a ???*ready task*???.
 
--   **running state**: the task is executing on a processor. A task is executed until it finishes the execution or is preempted by a higher priority task. A task in the running state is called an “*executing task*”.
+-   **running state**: the task is executing on a processor. A task is executed until it finishes the execution or is preempted by a higher priority task. A task in the running state is called an ???*executing task*???.
 
 FIG. 3: Task states and events.
 
@@ -387,7 +387,7 @@ Time is important because it marks when events occur. The R_TM_CNT register of t
 
 ## Resources
 
-In a multitasking system, tasks may share the utilization of the system’s resources, such as data memory sections, code memory sections or input/output devices as well as other special resources. To manage the utilization of these resources and share them among tasks efficiently, an operating system should offer an adequate resource management mechanism. This mechanism offers data structures and functions to handle the sharing of system resources among the tasks that require their utilization.
+In a multitasking system, tasks may share the utilization of the system???s resources, such as data memory sections, code memory sections or input/output devices as well as other special resources. To manage the utilization of these resources and share them among tasks efficiently, an operating system should offer an adequate resource management mechanism. This mechanism offers data structures and functions to handle the sharing of system resources among the tasks that require their utilization.
 
 The GRTOS implements the data structure of a resource in the RCB data structure. The RCB data structure supports a linked list to ECB data structures to manage the events associated with resources, in addition to the data fields required to implement the functionalities of specific kinds of resources. When a task requests a resource, (1) the resource may be granted to the task if it is available or (2) the task may be blocked if it must wait until the resource becomes available. Moreover, a timeout may need to be specified in order to avoid a task either granting or waiting for a resource for a long time, which would impede the adequate sharing of resources among tasks.
 
@@ -403,7 +403,7 @@ The SCB data structure points to the code to be executed when the condition of t
 
 ## Ready and Running Linked Lists (TCBRDYL list and TCBRUNL list)
 
-Tasks in the ready state are grouped in the Ready Linked Lists. LCB data structures allow holding information about the tasks ready for execution and the tasks currently executing in a determined TCBRDYL list. Several ready linked lists may be defined in order to group the tasks of the system according to each one’s function and the function of the group. FIG. 3 the LCBL list that links all the LCB data structures of the system. When a task is in the ready state, it should be linked to a TCBRDYL list; when a task is in the running state, it should be linked to a TCBRUNL list.
+Tasks in the ready state are grouped in the Ready Linked Lists. LCB data structures allow holding information about the tasks ready for execution and the tasks currently executing in a determined TCBRDYL list. Several ready linked lists may be defined in order to group the tasks of the system according to each one???s function and the function of the group. FIG. 3 the LCBL list that links all the LCB data structures of the system. When a task is in the ready state, it should be linked to a TCBRDYL list; when a task is in the running state, it should be linked to a TCBRUNL list.
 
 FIG. 7: Ready and Running LCB lists.
 
@@ -677,7 +677,7 @@ The rest of the processors of the plurality of processors 110-112:
 
 -   assign an unique stack for each processor of the system.
 
--   wait until the R_PRC_RST register is equal to CPUID – 1.
+-   wait until the R_PRC_RST register is equal to CPUID ??? 1.
 
 -   get the critical section: processors are synchronized to start the execution of user tasks requesting the critical section of the GRTOS controller.
 
@@ -779,7 +779,7 @@ The complete task section is executed when a task finishes its execution. Then, 
 
 Priority discipline determines the sequence in which tasks are executed. A priority discipline defines a total order among tasks in the ready state. The TCBRDYL lists sort the TCB data structures of the tasks according to the TCBReadyPriority field. By previously setting the TCBReadyPriority field to link the TCB data structure to the TCBRDYL lists (by executing the gk_TCBRDYL_Link(GS_TCB \*ptcb) function), different priority disciplines may be implemented. For instance, leaving a constant value in the TCBReadyPriority field implements a Fixed Priority discipline, while assigning TCBReadyPriority field = gk_now + TCBDeadline field 1907 implements an Earliest Deadline First priority discipline.
 
-# A “Hello World” for GRTOS
+# A ???Hello World??? for GRTOS
 
 These section describes a simple example for setting an application using some of the GRTOS system calls. In this example, four task are programed to be executed in 3 processors, with the following features:
 
