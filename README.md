@@ -1,4 +1,5 @@
-﻿-   [GRTOS](#grtos)
+﻿-   [Â© Ricardo Cayssials. All rights reserved.](#ricardo-cayssials.-all-rights-reserved.)
+-   [GRTOS](#grtos)
 -   [GRTOS system architecture](#grtos-system-architecture)
     -   [GRTOS with Intel Nios II processors](#grtos-with-intel-nios-ii-processors)
     -   [GRTOS Controller](#grtos-controller)
@@ -26,6 +27,8 @@
     -   [Task complete section](#task-complete-section)
 -   [Priority Management](#priority-management)
 -   [](#section)
+
+# Â© Ricardo Cayssials. All rights reserved.
 
 # GRTOS
 
