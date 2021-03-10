@@ -1,4 +1,4 @@
-﻿-   [Â© Ricardo Cayssials. All rights reserved.](#ricardo-cayssials.-all-rights-reserved.)
+﻿-   [© Ricardo Cayssials. All rights reserved.](#ricardo-cayssials.-all-rights-reserved.)
 -   [GRTOS](#grtos)
 -   [GRTOS system architecture](#grtos-system-architecture)
     -   [GRTOS with Intel Nios II processors](#grtos-with-intel-nios-ii-processors)
@@ -28,7 +28,7 @@
 -   [Priority Management](#priority-management)
 -   [](#section)
 
-# Â© Ricardo Cayssials. All rights reserved.
+# © Ricardo Cayssials. All rights reserved.
 
 # GRTOS
 
@@ -288,11 +288,11 @@ FIG. 4: Task components and structure.
 
 Tasks are executed by the processors to produce their designed functions. A task may stay in different states. FIG. 5 shows an embodiment of these states and the different events that produce their changes:
 
--   **waiting state**: the task is waiting for an event to release. When a task is in the waiting state, it is called a â€œ*waiting task*â€.
+-   **waiting state**: the task is waiting for an event to release. When a task is in the waiting state, it is called a “*waiting task*”.
 
--   **ready state**: the task is ready to be executed and it is waiting to grant a processor for execution. A task in the ready state is called a â€œ*ready task*â€.
+-   **ready state**: the task is ready to be executed and it is waiting to grant a processor for execution. A task in the ready state is called a “*ready task*”.
 
--   **running state**: the task is executing on a processor. A task is executed until it finishes the execution or is preempted by a higher priority task. A task in the running state is called an â€œ*executing task*â€.
+-   **running state**: the task is executing on a processor. A task is executed until it finishes the execution or is preempted by a higher priority task. A task in the running state is called an “*executing task*”.
 
 ![](images/readme/media/image5.png)
 
@@ -336,7 +336,7 @@ Time is important because it marks when events occur. The R\_TM\_CNT register of
 
 ## Resources
 
-In a multitasking system, tasks may share the utilization of the systemâ€™s resources, such as data memory sections, code memory sections or input/output devices as well as other special resources. To manage the utilization of these resources and share them among tasks efficiently, an operating system should offer an adequate resource management mechanism. This mechanism offers data structures and functions to handle the sharing of system resources among the tasks that require their utilization.
+In a multitasking system, tasks may share the utilization of the system’s resources, such as data memory sections, code memory sections or input/output devices as well as other special resources. To manage the utilization of these resources and share them among tasks efficiently, an operating system should offer an adequate resource management mechanism. This mechanism offers data structures and functions to handle the sharing of system resources among the tasks that require their utilization.
 
 The GRTOS implements the data structure of a resource in the RCB data structure. The RCB data structure supports a linked list to ECB data structures to manage the events associated with resources, in addition to the data fields required to implement the functionalities of specific kinds of resources. When a task requests a resource, (1) the resource may be granted to the task if it is available or (2) the task may be blocked if it must wait until the resource becomes available. Moreover, a timeout may need to be specified in order to avoid a task either granting or waiting for a resource for a long time, which would impede the adequate sharing of resources among tasks.
 
@@ -354,7 +354,7 @@ The SCB data structure points to the code to be executed when the condition of t
 
 ## Ready and Running Linked Lists (TCBRDYL list and TCBRUNL list)
 
-Tasks in the ready state are grouped in the Ready Linked Lists. LCB data structures allow holding information about the tasks ready for execution and the tasks currently executing in a determined TCBRDYL list. Several ready linked lists may be defined in order to group the tasks of the system according to each oneâ€™s function and the function of the group. FIG. 7 the LCBL list that links all the LCB data structures of the system. When a task is in the ready state, it should be linked to a TCBRDYL list; when a task is in the running state, it should be linked to a TCBRUNL list.
+Tasks in the ready state are grouped in the Ready Linked Lists. LCB data structures allow holding information about the tasks ready for execution and the tasks currently executing in a determined TCBRDYL list. Several ready linked lists may be defined in order to group the tasks of the system according to each one’s function and the function of the group. FIG. 7 the LCBL list that links all the LCB data structures of the system. When a task is in the ready state, it should be linked to a TCBRDYL list; when a task is in the running state, it should be linked to a TCBRUNL list.
 
 ![](images/readme/media/image7.png)
 
@@ -440,7 +440,7 @@ The rest of the processors of the plurality of processors 110-112:
 
 assign an unique stack for each processor of the system.
 
-wait until the R\_PRC\_RST register is equal to CPUID â€“ 1.
+wait until the R\_PRC\_RST register is equal to CPUID – 1.
 
 get the critical section: processors are synchronized to start the execution of user tasks requesting the critical section of the GRTOS controller.
 
