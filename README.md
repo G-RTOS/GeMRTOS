@@ -1,4 +1,4 @@
--   [GRTOS](#grtos)
+﻿-   [GRTOS](#grtos)
 -   [GRTOS system architecture](#grtos-system-architecture)
     -   [GRTOS with Intel Nios II processors](#grtos-with-intel-nios-ii-processors)
     -   [GRTOS Controller](#grtos-controller)
@@ -37,7 +37,7 @@ Scheduling mechanism, priority disciplines, number of processors and fault-toler
 
 In the GRTOS system architecture, a set of *N* processors shares a common memory and *M* input/output devices through a common bus. FIG. 1 shows a layout of the GRTIOS controller interconnection in a multiprocessor architecture. The GRTOS controller receives device interrupt requests (DIRQs) (101-103) from input/output peripheral devices (104-106). The GRTOS controller sends processor interrupt requests (PIRQs) (107-109) to the system processors (110-112). The system bus (113) allows the processors (110-112) to share the system memory (114). Each processor has a unique internal identification register CPUID (123-125).
 
-![](images/readme/media/image1.emf)
+![](images/readme/media/image1.png)
 
 FIG. 1: GRTOS multiprocessor system layout.
 
@@ -49,7 +49,7 @@ The GRTOS multiprocessor system is implemented based on the Nios II processor of
 
 The GRTOS controller manages and synchronizes all the hardware events in the system. As shown in FIG. 2, the GRTOS controller includes the interrupt input module (200) containing device interrupt request inputs (DIRQIs) (201-203) that receives the device interrupt requests (DIRQs) (101-103), the interrupt output module (204) containing processor interrupt request outputs (PIRQOs) (205-207) sending the processor interrupt requests (PIRQs) (107-109), the controller registers (208), the time module (209), the mutex module (210), the event module (211) and the addressable control logic (212) including an interface element (213) and a decoder element (214).
 
-![](images/readme/media/image2.emf)
+![](images/readme/media/image2.png)
 
 FIG. 2: GRTOS controller architecture.
 
@@ -141,7 +141,7 @@ instruction to release the mutex in order to leave the critical section code.
 
 Most applications require time support. For an adequate and flexible time basis, the system clock signal is prescaled through the up counter R\_TM\_PSC\_CNT register, as shown in FIG. 3.
 
-![](images/readme/media/image3.emf)
+![](images/readme/media/image3.png)
 
 FIG. 3: GRTOS time prescaler.
 
@@ -279,19 +279,19 @@ A task is defined as a unit of execution. FIG. 4 shows the main components of a 
 
 -   **task stack**: this is data storage to preserve the status of a suspended task in order to resume it properly and store subroutine data.
 
-![](images/readme/media/image4.emf)
+![](images/readme/media/image4.png)
 
 FIG. 4: Task components and structure.
 
 Tasks are executed by the processors to produce their designed functions. A task may stay in different states. FIG. 5 shows an embodiment of these states and the different events that produce their changes:
 
--   **waiting state**: the task is waiting for an event to release. When a task is in the waiting state, it is called a ???*waiting task*???.
+-   **waiting state**: the task is waiting for an event to release. When a task is in the waiting state, it is called a â€œ*waiting task*â€.
 
--   **ready state**: the task is ready to be executed and it is waiting to grant a processor for execution. A task in the ready state is called a ???*ready task*???.
+-   **ready state**: the task is ready to be executed and it is waiting to grant a processor for execution. A task in the ready state is called a â€œ*ready task*â€.
 
--   **running state**: the task is executing on a processor. A task is executed until it finishes the execution or is preempted by a higher priority task. A task in the running state is called an ???*executing task*???.
+-   **running state**: the task is executing on a processor. A task is executed until it finishes the execution or is preempted by a higher priority task. A task in the running state is called an â€œ*executing task*â€.
 
-![](images/readme/media/image5.emf)
+![](images/readme/media/image5.png)
 
 FIG. 5: Task states and events.
 
@@ -333,13 +333,13 @@ Time is important because it marks when events occur. The R\_TM\_CNT register of
 
 ## Resources
 
-In a multitasking system, tasks may share the utilization of the system???s resources, such as data memory sections, code memory sections or input/output devices as well as other special resources. To manage the utilization of these resources and share them among tasks efficiently, an operating system should offer an adequate resource management mechanism. This mechanism offers data structures and functions to handle the sharing of system resources among the tasks that require their utilization.
+In a multitasking system, tasks may share the utilization of the systemâ€™s resources, such as data memory sections, code memory sections or input/output devices as well as other special resources. To manage the utilization of these resources and share them among tasks efficiently, an operating system should offer an adequate resource management mechanism. This mechanism offers data structures and functions to handle the sharing of system resources among the tasks that require their utilization.
 
 The GRTOS implements the data structure of a resource in the RCB data structure. The RCB data structure supports a linked list to ECB data structures to manage the events associated with resources, in addition to the data fields required to implement the functionalities of specific kinds of resources. When a task requests a resource, (1) the resource may be granted to the task if it is available or (2) the task may be blocked if it must wait until the resource becomes available. Moreover, a timeout may need to be specified in order to avoid a task either granting or waiting for a resource for a long time, which would impede the adequate sharing of resources among tasks.
 
 FIG. 6 shows a RCB structure to support semaphore or message queue functionality that can be extended to different kinds of system resources.
 
-![](images/readme/media/image6.emf)
+![](images/readme/media/image6.png)
 
 FIG. 6: Resource extensions of RCB data structure.
 
@@ -351,9 +351,9 @@ The SCB data structure points to the code to be executed when the condition of t
 
 ## Ready and Running Linked Lists (TCBRDYL list and TCBRUNL list)
 
-Tasks in the ready state are grouped in the Ready Linked Lists. LCB data structures allow holding information about the tasks ready for execution and the tasks currently executing in a determined TCBRDYL list. Several ready linked lists may be defined in order to group the tasks of the system according to each one???s function and the function of the group. FIG. 7 the LCBL list that links all the LCB data structures of the system. When a task is in the ready state, it should be linked to a TCBRDYL list; when a task is in the running state, it should be linked to a TCBRUNL list.
+Tasks in the ready state are grouped in the Ready Linked Lists. LCB data structures allow holding information about the tasks ready for execution and the tasks currently executing in a determined TCBRDYL list. Several ready linked lists may be defined in order to group the tasks of the system according to each oneâ€™s function and the function of the group. FIG. 7 the LCBL list that links all the LCB data structures of the system. When a task is in the ready state, it should be linked to a TCBRDYL list; when a task is in the running state, it should be linked to a TCBRUNL list.
 
-![](images/readme/media/image7.emf)
+![](images/readme/media/image7.png)
 
 FIG. 7: Ready and Running LCB lists.
 
@@ -407,7 +407,7 @@ FIG. 8 shows the GRTOS code structure. Shadow sections are executed in the criti
 
 -   **task complete section**: is executed when a task completes its execution. The task state is changed to the waiting state and its status is saved. Then, the start task section is called.
 
-![](images/readme/media/image8.emf)
+![](images/readme/media/image8.png)
 
 FIG. 8: GRTOS structure.
 
@@ -415,7 +415,7 @@ FIG. 8: GRTOS structure.
 
 FIG. 9 shows the structure of the initialization section that sets the initial value of the data structures of the GRTOS. At the beginning, the stack pointer register (SP) of each processor is configured with a unique stack memory address to avoid conflicts among processors. In order to synchronize the initialization, only the processor whose internal identification register CPUID is equal to 1 executes the configuration code of the data structures and the GRTOS controller. The rest of the processors waits, until the critical section is granted to the processor with an internal identification, register CPUID equal to 1. Then, they request the critical section and wait for it to be granted. This mechanism guarantees that: (1) the initialization code section is executed before any other section and (2) the rest of processors start executing tasks codes after the initialization of the system.
 
-![](images/readme/media/image9.emf)
+![](images/readme/media/image9.png)
 
 FIG. 9: Initialization section structure.
 
@@ -437,7 +437,7 @@ The rest of the processors of the plurality of processors 110-112:
 
 assign an unique stack for each processor of the system.
 
-wait until the R\_PRC\_RST register is equal to CPUID ??? 1.
+wait until the R\_PRC\_RST register is equal to CPUID â€“ 1.
 
 get the critical section: processors are synchronized to start the execution of user tasks requesting the critical section of the GRTOS controller.
 
