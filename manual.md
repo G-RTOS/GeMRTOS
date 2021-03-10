@@ -110,7 +110,7 @@ Ricardo Cayssials retains and reserves all rights.
 
 [Configuration functions 39](#configuration-functions)
 
-[gu_Set_Default_Task_Type(unsigned int type) 39](#gu_set_default_task_typeunsigned-int-type)
+[gu\_Set\_Default\_Task\_Type(unsigned int type) 39](#gu_set_default_task_typeunsigned-int-type)
 
 <span id="_Toc52290861" class="anchor"></span>About GRTOS
 
@@ -130,20 +130,20 @@ FIG. 1: GRTOS multiprocessor system layout.
 
 The GRTOS multiprocessor system is implemented based on the NIOS II processor of Intel Corporation. The system architecture is designed using the Platform Designer tool from Intel Corporation. Table 1 shows the components that includes the GRTOS multiprocessor architecture based on NIOS II processors.
 
-| Component                                 | Quantity (i)     | Name                |
-|-------------------------------------------|------------------|---------------------|
-| Clock Source                              | 1                | clk_0               |
-| Nios II Processor                         | 1..NProcessors   | nios2_qsys\_$i      |
-| Nios II Avalon monitor module             | 1                | nios_avalon_monitor |
-| Nios II Avalon bridge                     | 1                | nios_avalon_bridge  |
-| gRTOS                                     | 1                | grtos_0             |
-| JTAG UART Intel FPGA IP                   | 0..NProcessors+1 | jtag_uart\_$i       |
-| Interval Timer Intel FPGA IP              | 1                | timer_0             |
-| On-Chip Memory (RAM or ROM) Intel FGPA IP | 2                | onchip_memory1\_$i  |
-| System ID Peripheral Intel FPGA IP        | 1                | sysid_qsys_0        |
-| JTAG to Avalon Master Bridge              | 1                | master_0            |
-| IRQ Bridge                                | 1                | irq_bridge_0        |
-| Reset Bridge                              | 1                | reset_bridge_0      |
+| Component                                 | Quantity (i)     | Name                  |
+|-------------------------------------------|------------------|-----------------------|
+| Clock Source                              | 1                | clk\_0                |
+| Nios II Processor                         | 1..NProcessors   | nios2\_qsys\_$i       |
+| Nios II Avalon monitor module             | 1                | nios\_avalon\_monitor |
+| Nios II Avalon bridge                     | 1                | nios\_avalon\_bridge  |
+| gRTOS                                     | 1                | grtos\_0              |
+| JTAG UART Intel FPGA IP                   | 0..NProcessors+1 | jtag\_uart\_$i        |
+| Interval Timer Intel FPGA IP              | 1                | timer\_0              |
+| On-Chip Memory (RAM or ROM) Intel FGPA IP | 2                | onchip\_memory1\_$i   |
+| System ID Peripheral Intel FPGA IP        | 1                | sysid\_qsys\_0        |
+| JTAG to Avalon Master Bridge              | 1                | master\_0             |
+| IRQ Bridge                                | 1                | irq\_bridge\_0        |
+| Reset Bridge                              | 1                | reset\_bridge\_0      |
 
 Table 1: GRTOS multiprocessor components in Intel Corporationâ€™s Platform Designer.
 
@@ -161,29 +161,29 @@ FIG. 2: GRTOS controller architecture.
 
 ## GRTOS controller registers
 
-The behavior of the GRTOS controller is determined by a set of GRTOS controller registers (208). Table 1 shows the GRTOS controller registers. Some of these registers may be configured through the interface element of the GRTOS controller. They are assigned with a unique memory map address to be read and written. For instance, the R_CTRL register can be used to configure some functions of the GRTOS controller such as enabling or disabling the frozen mode.
+The behavior of the GRTOS controller is determined by a set of GRTOS controller registers (208). Table 1 shows the GRTOS controller registers. Some of these registers may be configured through the interface element of the GRTOS controller. They are assigned with a unique memory map address to be read and written. For instance, the R\_CTRL register can be used to configure some functions of the GRTOS controller such as enabling or disabling the frozen mode.
 
-| R_CTRL           |     |
-|------------------|-----|
-| R_MTX_PRC_GRN    |     |
-| R_MTX_CLR_CNT    |     |
-| R_MTX_NXT_PRC    |     |
-| R_MTX_RSV_PRC    |     |
-| R_NXT_EVN_CNT    |     |
-| R_TM_PSC         |     |
-| R_TM_CNT         |     |
-| R_FRZ_TM_CNT     |     |
-| R_TM_PSC_CNT     |     |
-| R_NXT_EVN_TM     |     |
-| R_FRZ_TM_THR     |     |
-| R_NXT_TM_EVN_PRC |     |
-| R_LOW_PRI_PRC    |     |
-| R_TRG_PRC_INT    |     |
-| R_INT_ENB        |     |
-| R_IRQ_ENB        |     |
-| R_INT_CLR        |     |
-| R_IRQ_PND        |     |
-| R_LST_EVN        |     |
+| R\_CTRL              |     |
+|----------------------|-----|
+| R\_MTX\_PRC\_GRN     |     |
+| R\_MTX\_CLR\_CNT     |     |
+| R\_MTX\_NXT\_PRC     |     |
+| R\_MTX\_RSV\_PRC     |     |
+| R\_NXT\_EVN\_CNT     |     |
+| R\_TM\_PSC           |     |
+| R\_TM\_CNT           |     |
+| R\_FRZ\_TM\_CNT      |     |
+| R\_TM\_PSC\_CNT      |     |
+| R\_NXT\_EVN\_TM      |     |
+| R\_FRZ\_TM\_THR      |     |
+| R\_NXT\_TM\_EVN\_PRC |     |
+| R\_LOW\_PRI\_PRC     |     |
+| R\_TRG\_PRC\_INT     |     |
+| R\_INT\_ENB          |     |
+| R\_IRQ\_ENB          |     |
+| R\_INT\_CLR          |     |
+| R\_IRQ\_PND          |     |
+| R\_LST\_EVN          |     |
 
 Table 1: GRTOS controller registers.
 
@@ -199,33 +199,33 @@ The states of these signals determines the behavior of the GRTOS controller.
 
 ## Mutex module 210
 
-In a multiprocessor system, a hardware-implemented mutex is required to preserve coherency in critical sections among the processors. The R_MTX_PRC_GRN register, it is called the *mutex register*, is the main register of the mutex module and it is used to implement a critical section among the processors. A processor may execute a critical section when the value of the R_MTX_PRC_GRN register is equal to its internal identification register CPUID. The R_MTX_PRC_GRN register can take three different kinds of values:
+In a multiprocessor system, a hardware-implemented mutex is required to preserve coherency in critical sections among the processors. The R\_MTX\_PRC\_GRN register, it is called the *mutex register*, is the main register of the mutex module and it is used to implement a critical section among the processors. A processor may execute a critical section when the value of the R\_MTX\_PRC\_GRN register is equal to its internal identification register CPUID. The R\_MTX\_PRC\_GRN register can take three different kinds of values:
 
--   0: there is no processor that grants the critical section. A processor may request the mutex when the R_MTX_PRC_GRN register equals to 0.
+-   0: there is no processor that grants the critical section. A processor may request the mutex when the R\_MTX\_PRC\_GRN register equals to 0.
 
--   values from 1 to *N*: the critical section is granted to the processor with internal identification register CPUID equal to the R_MTX_PRC_GRN register.
+-   values from 1 to *N*: the critical section is granted to the processor with internal identification register CPUID equal to the R\_MTX\_PRC\_GRN register.
 
--   constant MTX_BLCK: the critical section is blocked when the R_MTX_CLR_CNT register is different from 0. The value MTX_BLCK is assigned to the R_MTX_PRC_GRN register when the critical section is released by the processor that grants it. This mechanism blocks the critical section until the count of the R_MTX_CLR_CNT register reaches a value equal to 0. The next processor to grant the critical section is stored in the R_MTX_NXT_PRC register. The R_MTX_NXT_PRC register is used to avoid an active competition among the processors that are requesting access to the mutex.
+-   constant MTX\_BLCK: the critical section is blocked when the R\_MTX\_CLR\_CNT register is different from 0. The value MTX\_BLCK is assigned to the R\_MTX\_PRC\_GRN register when the critical section is released by the processor that grants it. This mechanism blocks the critical section until the count of the R\_MTX\_CLR\_CNT register reaches a value equal to 0. The next processor to grant the critical section is stored in the R\_MTX\_NXT\_PRC register. The R\_MTX\_NXT\_PRC register is used to avoid an active competition among the processors that are requesting access to the mutex.
 
-Before a processor starts executing a critical section code, the processor may request the mutex by repeatedly executing a mutex request and verifying that the mutex is granted to it by checking that the mutex register holds its identification CPUID. However, this mechanism may be inefficient when several processors simultaneously request the mutex. A more efficient mechanism is implemented using the R_MTX_RSV_PRC register. Each processor sets the corresponding bit of the R_MTX_RSV_PRC register according to its internal identification register CPUID executing the
+Before a processor starts executing a critical section code, the processor may request the mutex by repeatedly executing a mutex request and verifying that the mutex is granted to it by checking that the mutex register holds its identification CPUID. However, this mechanism may be inefficient when several processors simultaneously request the mutex. A more efficient mechanism is implemented using the R\_MTX\_RSV\_PRC register. Each processor sets the corresponding bit of the R\_MTX\_RSV\_PRC register according to its internal identification register CPUID executing the
 
-GRTOS_USER_CRITICAL_SECTION_GET
+GRTOS\_USER\_CRITICAL\_SECTION\_GET
 
-instruction when the processor requests access to the mutex. The GRTOS controller halts a processor when its corresponding bit is set to 1 in the R_MTX_RSV_PRC register and the mutex is not granted to it. The processor halt mechanism is implemented by asserting a wait_request signal for each processor in the interface element of the GRTOS controller. The processor that grants the critical section executes the
+instruction when the processor requests access to the mutex. The GRTOS controller halts a processor when its corresponding bit is set to 1 in the R\_MTX\_RSV\_PRC register and the mutex is not granted to it. The processor halt mechanism is implemented by asserting a wait\_request signal for each processor in the interface element of the GRTOS controller. The processor that grants the critical section executes the
 
-GRTOS_USER_CRITICAL_SECTION_RELEASE
+GRTOS\_USER\_CRITICAL\_SECTION\_RELEASE
 
 instruction to release the mutex in order to leave the critical section code.
 
 ## GRTOS controller time module
 
-Most applications require time support. For an adequate and flexible time basis, the system clock signal is prescaled through the up counter R_TM_PSC_CNT register, as shown in FIG. 3.
+Most applications require time support. For an adequate and flexible time basis, the system clock signal is prescaled through the up counter R\_TM\_PSC\_CNT register, as shown in FIG. 3.
 
 FIG. 3: GRTOS time prescaler.
 
-The modulus of the up-counter R_TM_PSC_CNT register is equal to the value configured in the R_TM_PSC register plus 1. The R_TM_PSC register should be configured to obtain the desired system time unit, prescaling the CLK signal. The value stored in the R_TM_PSC register is set by executing a
+The modulus of the up-counter R\_TM\_PSC\_CNT register is equal to the value configured in the R\_TM\_PSC register plus 1. The R\_TM\_PSC register should be configured to obtain the desired system time unit, prescaling the CLK signal. The value stored in the R\_TM\_PSC register is set by executing a
 
-GRTOS_CMD_SET_TIME_PRESCALE(scale)
+GRTOS\_CMD\_SET\_TIME\_PRESCALE(scale)
 
 instruction.
 
@@ -237,22 +237,22 @@ The GRTOS controller may stay in one of two time modes:
 
 <table><tbody><tr class="odd"><td><p>(R_FRZ_TM_THR + R_NXT_EVN_CNT &lt; R_TM_CNT and</p><p>C1_FRZ_MDE_ENB == 1)</p><p>or</p><p>C1_FRZ_MDE_ENB == 0</p></td><td>(1)</td></tr></tbody></table>
 
-The up-counter R_TM_CNT, it is called the time counting register, is incremented at the system time unit rate when the GRTOS controller is in unfrozen mode.
+The up-counter R\_TM\_CNT, it is called the time counting register, is incremented at the system time unit rate when the GRTOS controller is in unfrozen mode.
 
--   **frozen mode**: the GRTOS controller switches to frozen mode when the C1_FRZ_MDE_ENB is equal to one (frozen mode enabled) and the time elapsed since the next time event, stored in the R_NXT_EVN_CNT, is greater than the threshold time configured in the R_FRZ_TM_THR. In frozen mode, the up-counter R_FRZ_TM_CNT, it is called the *frozen time counting register*, is incremented at the system time unit rate.
+-   **frozen mode**: the GRTOS controller switches to frozen mode when the C1\_FRZ\_MDE\_ENB is equal to one (frozen mode enabled) and the time elapsed since the next time event, stored in the R\_NXT\_EVN\_CNT, is greater than the threshold time configured in the R\_FRZ\_TM\_THR. In frozen mode, the up-counter R\_FRZ\_TM\_CNT, it is called the *frozen time counting register*, is incremented at the system time unit rate.
 
-During runtime, the normal mode should be the unfrozen mode. In this mode, the system time is held in the up counter R_TM_CNT register. The GRTOS controller holds the next time event in the R_NXT_EVN_CNT register. Each time that the up counter R_TM_CNT register reaches the value stored in the R_NXT_EVN_CNT register, a time event is considered to have occurred. If the code associated with the time event is being executed by a system processor (the C1_NXT_EVN_PRC_ZRO signal is asserted), then the processor executing such code is interrupted; otherwise, the system processor with the lowest priority is interrupted. The interrupted system processor should execute the code to process the time event and then the R_NXT_EVN_CNT register should be updated with the next system event. In this mode, the events are processed according to the time they happen. However, if the event processing takes longer than a certain threshold, it becomes convenient in some applications to freeze this dynamic in order to avoid a domino effect over the system events. When the frozen mode is enabled (C1_FRZ_MDE_ENB signal is equal to one) and the next event remains unprocessed, with an interval equal to or greater than the time defined in the R_FRZ_TM_THR register, then the GRTOS controller apparatus switches to frozen mode. In frozen mode, the up-counter R_TM_CNT register is frozen and the up-counter R_FRZ_TM_CNT register is incremented at the system time unit rate. Consequently, the up-counter R_TM_CNT register keeps the time (in system time units) that the GRTOS controller remains in unfrozen mode, while the up counter R_FRZ_TM_CNT register keeps the time (in system time units) that the GRTOS controller remains in frozen mode. When the GRTOS controller switches to frozen mode, the GRTOS controller produces an event (C1_FRZ_EVN). When all the time events are processed (R_TM_CNT \> R_NXT_EVN_CNT), the GRTOS controller switches back to unfrozen mode.
+During runtime, the normal mode should be the unfrozen mode. In this mode, the system time is held in the up counter R\_TM\_CNT register. The GRTOS controller holds the next time event in the R\_NXT\_EVN\_CNT register. Each time that the up counter R\_TM\_CNT register reaches the value stored in the R\_NXT\_EVN\_CNT register, a time event is considered to have occurred. If the code associated with the time event is being executed by a system processor (the C1\_NXT\_EVN\_PRC\_ZRO signal is asserted), then the processor executing such code is interrupted; otherwise, the system processor with the lowest priority is interrupted. The interrupted system processor should execute the code to process the time event and then the R\_NXT\_EVN\_CNT register should be updated with the next system event. In this mode, the events are processed according to the time they happen. However, if the event processing takes longer than a certain threshold, it becomes convenient in some applications to freeze this dynamic in order to avoid a domino effect over the system events. When the frozen mode is enabled (C1\_FRZ\_MDE\_ENB signal is equal to one) and the next event remains unprocessed, with an interval equal to or greater than the time defined in the R\_FRZ\_TM\_THR register, then the GRTOS controller apparatus switches to frozen mode. In frozen mode, the up-counter R\_TM\_CNT register is frozen and the up-counter R\_FRZ\_TM\_CNT register is incremented at the system time unit rate. Consequently, the up-counter R\_TM\_CNT register keeps the time (in system time units) that the GRTOS controller remains in unfrozen mode, while the up counter R\_FRZ\_TM\_CNT register keeps the time (in system time units) that the GRTOS controller remains in frozen mode. When the GRTOS controller switches to frozen mode, the GRTOS controller produces an event (C1\_FRZ\_EVN). When all the time events are processed (R\_TM\_CNT &gt; R\_NXT\_EVN\_CNT), the GRTOS controller switches back to unfrozen mode.
 
 ### Unfrozen/frozen related instructions
 
-| GRTOS_CMD_FRZ_ENB_SET          | Enables the frozen mode event                                                                  |
-|--------------------------------|------------------------------------------------------------------------------------------------|
-| GRTOS_CMD_FRZ_DSB_SET          | Disables the frozen mode event                                                                 |
-| GRTOS_CMD_GET_FRZ_ENB          | Returns the status of the frozen mode (G_TRUE if enabled, G_FALSE if disabled)                 |
-| GRTOS_CMD_GET_FRZ_ACT          | Returns the status of the frozen mode event (G_TRUE if active, G_FALSE if inactive)            |
-| GRTOS_CMD_FRZ_EVN_CLR          | Clears the C1_FRZ_EVN flags. It should be executed when the frozen mode strategy is completed. |
-| GRTOS_CMD_FRZ_TM_THR_SET(time) | Sets the Frozen Time Threshold register (R_FRZ_TM_THR) of the GRTOS controller.                |
-| GRTOS_CMD_FRZ_TM_THR_GET       | Returns the value of the Frozen Time Threshold (R_FRZ_TM_THR) register of the GRTOS controller |
+| GRTOS\_CMD\_FRZ\_ENB\_SET           | Enables the frozen mode event                                                                     |
+|-------------------------------------|---------------------------------------------------------------------------------------------------|
+| GRTOS\_CMD\_FRZ\_DSB\_SET           | Disables the frozen mode event                                                                    |
+| GRTOS\_CMD\_GET\_FRZ\_ENB           | Returns the status of the frozen mode (G\_TRUE if enabled, G\_FALSE if disabled)                  |
+| GRTOS\_CMD\_GET\_FRZ\_ACT           | Returns the status of the frozen mode event (G\_TRUE if active, G\_FALSE if inactive)             |
+| GRTOS\_CMD\_FRZ\_EVN\_CLR           | Clears the C1\_FRZ\_EVN flags. It should be executed when the frozen mode strategy is completed.  |
+| GRTOS\_CMD\_FRZ\_TM\_THR\_SET(time) | Sets the Frozen Time Threshold register (R\_FRZ\_TM\_THR) of the GRTOS controller.                |
+| GRTOS\_CMD\_FRZ\_TM\_THR\_GET       | Returns the value of the Frozen Time Threshold (R\_FRZ\_TM\_THR) register of the GRTOS controller |
 
 ## Interrupt input module and interrupt output module
 
@@ -262,68 +262,68 @@ The pattern of the tasks requiring execution changes during runtime according to
 
 -   **time events**: these events are configured to happen at a certain system time. Time events may be sorted according to the occurrence time in a total order relationship. The next time the event is the earliest time event. Several embodiments may be utilized to break ties when two or more time events are configured with the same occurrence time. A time event takes place when the following condition holds:
 
-R_NXT_EVN_CNT â‰¥ R_TM_CNT (1)
+R\_NXT\_EVN\_CNT â‰¥ R\_TM\_CNT (1)
 
-where the R_NXT_EVN_CNT register holds the earliest occurrence time event and the up-counter R_TM_CNT register keeps the system time. The C1_EVN_TM_OCC signal is asserted when Equation (1) is true; otherwise, it is de-asserted. In the R_NXT_TM_EVN_PRC register, the bit corresponding to the processor that executes the task associated with the next timed event is set to 1. Otherwise, if the next time event is not associated with an executing task, all the bits of the R_NXT_TM_EVN_PRC register should be set to 0.
+where the R\_NXT\_EVN\_CNT register holds the earliest occurrence time event and the up-counter R\_TM\_CNT register keeps the system time. The C1\_EVN\_TM\_OCC signal is asserted when Equation (1) is true; otherwise, it is de-asserted. In the R\_NXT\_TM\_EVN\_PRC register, the bit corresponding to the processor that executes the task associated with the next timed event is set to 1. Otherwise, if the next time event is not associated with an executing task, all the bits of the R\_NXT\_TM\_EVN\_PRC register should be set to 0.
 
--   **device interrupt requests (DIRQs) events**: these events are produced by the input/output peripheral devices connected to the of input/output peripheral device ports. Most of these events require the execution of the associated interrupt service routine (ISR) in order to satisfy the demand of the input/output peripheral device. Interrupt requests from device interrupt requests (DIRQs) may be enabled or disabled by setting or clearing, respectively, the corresponding bit in the R_IRQ_ENB register. Therefore, a device interrupt request (DIRQ) will produce a processor interrupt request (PIRQ) when there exists a request from that device and the corresponding bit in the R_IRQ_ENB register is enabled.
+-   **device interrupt requests (DIRQs) events**: these events are produced by the input/output peripheral devices connected to the of input/output peripheral device ports. Most of these events require the execution of the associated interrupt service routine (ISR) in order to satisfy the demand of the input/output peripheral device. Interrupt requests from device interrupt requests (DIRQs) may be enabled or disabled by setting or clearing, respectively, the corresponding bit in the R\_IRQ\_ENB register. Therefore, a device interrupt request (DIRQ) will produce a processor interrupt request (PIRQ) when there exists a request from that device and the corresponding bit in the R\_IRQ\_ENB register is enabled.
 
--   **internal interrupt trigger events**: a processor may interrupt another processor using the R_TRG_PRC_INT register. Setting the corresponding bit of the R_TRG_PRC_INT register triggers the interrupt (bit 0: processor 1, bit 1: processor 2, etc.).
+-   **internal interrupt trigger events**: a processor may interrupt another processor using the R\_TRG\_PRC\_INT register. Setting the corresponding bit of the R\_TRG\_PRC\_INT register triggers the interrupt (bit 0: processor 1, bit 1: processor 2, etc.).
 
-The processor interrupt requests (PIRQs) may be enabled or disabled by setting the corresponding bit of the R_INT_ENB register. When there exists at least a pending interrupt, then the C1_IRQ_PND signal is set to 1, otherwise, it is set to 0.
+The processor interrupt requests (PIRQs) may be enabled or disabled by setting the corresponding bit of the R\_INT\_ENB register. When there exists at least a pending interrupt, then the C1\_IRQ\_PND signal is set to 1, otherwise, it is set to 0.
 
 A processor should be interrupted (the corresponding processor interrupt request (PIRQ) of the GRTOS controller should be asserted) when:
 
--   Critical section is not granted to any processor (the C1_MTX_GRN signal is not set), the processor interrupt is enabled (the corresponding bit of the R_INT_ENB register is set) and:
+-   Critical section is not granted to any processor (the C1\_MTX\_GRN signal is not set), the processor interrupt is enabled (the corresponding bit of the R\_INT\_ENB register is set) and:
 
-    1.  the processor is executing the task associated with the next time event (the corresponding bit of the R_NXT_TM_EVN_PRC register is set) and a time event occurred (the C1_EVN_TM_OCC signal is set), or
+    1.  the processor is executing the task associated with the next time event (the corresponding bit of the R\_NXT\_TM\_EVN\_PRC register is set) and a time event occurred (the C1\_EVN\_TM\_OCC signal is set), or
 
-    2.  the processor is executing the lowest priority task (the corresponding bit of the R_LOW_PRI_PRC register is set) and there is an IRQ request pending (the C1_IRQ_PND signal is set), or
+    2.  the processor is executing the lowest priority task (the corresponding bit of the R\_LOW\_PRI\_PRC register is set) and there is an IRQ request pending (the C1\_IRQ\_PND signal is set), or
 
-    3.  the processor is executing the lowest priority task (the corresponding bit of the R_LOW_PRI_PRC register is set), a time event occurred (the C1_EVN_TM_OCC signal is set) and no processor is executing the next time event (the C1_EVN_TM_OCC signal is not set).
+    3.  the processor is executing the lowest priority task (the corresponding bit of the R\_LOW\_PRI\_PRC register is set), a time event occurred (the C1\_EVN\_TM\_OCC signal is set) and no processor is executing the next time event (the C1\_EVN\_TM\_OCC signal is not set).
 
--   Trigger processor interrupt is set (the corresponding bit of the R_TRG_PRC_INT register is set) and the processor interrupt is enabled (the corresponding bit of the R_INT_ENB register is set).
+-   Trigger processor interrupt is set (the corresponding bit of the R\_TRG\_PRC\_INT register is set) and the processor interrupt is enabled (the corresponding bit of the R\_INT\_ENB register is set).
 
-The processor interrupt request outputs (PIRQOs) are registered to avoid spurious triggers. The R_IRQ_PND register preserves the status of the pending processor interrupts that should be reset by the proper processor when it executes the interrupt handler routine (ISR). The R_INT_CLR register allows clearing the bit in the R_IRQ_PND register of the corresponding processor interrupt in the GRTOS controller. The R1_IRQ_PND signal is asserted when a pending interrupt is set.
+The processor interrupt request outputs (PIRQOs) are registered to avoid spurious triggers. The R\_IRQ\_PND register preserves the status of the pending processor interrupts that should be reset by the proper processor when it executes the interrupt handler routine (ISR). The R\_INT\_CLR register allows clearing the bit in the R\_IRQ\_PND register of the corresponding processor interrupt in the GRTOS controller. The R1\_IRQ\_PND signal is asserted when a pending interrupt is set.
 
-When a processor is interrupted, it should execute the interrupt service routine (ISR). When the ISR is executed, the processor interrupt is disabled in the GRTOS controller (R_INT_ENB register). To avoid being interrupted in the ISR, the mutex is requested for access to the critical section and then the processor waits until the mutex access is granted.
+When a processor is interrupted, it should execute the interrupt service routine (ISR). When the ISR is executed, the processor interrupt is disabled in the GRTOS controller (R\_INT\_ENB register). To avoid being interrupted in the ISR, the mutex is requested for access to the critical section and then the processor waits until the mutex access is granted.
 
-When the system requires a processor to execute a higher priority task, the GRTOS controller interrupts the processor that is executing the lowest priority task. In the R_LOW_PRI_PRC register, the bit corresponding to the processor that is executing the lowest priority task is set to 1; otherwise, it is set to 0.
+When the system requires a processor to execute a higher priority task, the GRTOS controller interrupts the processor that is executing the lowest priority task. In the R\_LOW\_PRI\_PRC register, the bit corresponding to the processor that is executing the lowest priority task is set to 1; otherwise, it is set to 0.
 
 ### Input/output interrupts related instructions
 
-| GRTOS_CMD_IRQ_ENB_CLR(*irq*)            | Disables the device interrupt request event *irq* (DIRQ).                                                                                                                                                                                 |
-|-----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GRTOS_CMD_IRQ_ENB_SET(*irq*)            | Enables the device interrupt request event *irq* (DIRQ).                                                                                                                                                                                  |
-| GRTOS_CMD_NXT_TM_PRC_SET(*processor*)   | Sets the Lowest Priority Processor in the GRTOS Controller.                                                                                                                                                                               |
-| GRTOS_CMD_NXT_OCC_TM_EVN_SET(*timeset*) | Sets the Next Occurence Time register of the GRTOS controller to produce a timed event when system time reaches the value of *timeset*.                                                                                                   |
-| GRTOS_CMD_LOW_PRC_SET(*processor*)      | Sets the processor with CPUID equal to *processor* as the Lowest Priority Processor in the GRTOS Controller.                                                                                                                              |
-| GRTOS_CMD_CRITICAL_SECTION_GET          | Defines the entry to a critical section to handle system variables and ISR routines. It asks for critical section and puts the processor in halt mode. GRTOS controller enables the processor when section is granted to it.              |
-| GRTOS_CMD_CRITICAL_SECTION_RELEASE      | Releases the critical section from the current processor. The final released is delayed by the controller to let the processor finishes executing the return from the critical section. It should be executed from the interrupt routine. |
-| GRTOS_CMD_MTX_RQS_GET                   | Returns the current value of the Mutex.                                                                                                                                                                                                   |
-| GRTOS_CMD_PRC_INT_ENB                   | Enables the processor interrupt request of the current processor in the GRTOS controller                                                                                                                                                  |
-| GRTOS_CMD_PRC_INT_DSB                   | Disables the interrupt of the current processor in the GRTOS controller.                                                                                                                                                                  |
-| GRTOS_CMD_IRQ_ENB_GET(*irq*)            | Reads the enabled status of the device interrupt request (DIRQ) *irq.*                                                                                                                                                                    |
-| GRTOS_CMD_TRG_PRC_INT_SET(*proc*)       | Interrupts the processor *proc*. If proc interrupt is enabled in the GRTOS controller, then the processor is interrupted.                                                                                                                 |
-| GRTOS_CMD_INT_PRC_PND_CLR               | Clears the pending interrupt of the current processor.                                                                                                                                                                                    |
+| GRTOS\_CMD\_IRQ\_ENB\_CLR(*irq*)              | Disables the device interrupt request event *irq* (DIRQ).                                                                                                                                                                                 |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GRTOS\_CMD\_IRQ\_ENB\_SET(*irq*)              | Enables the device interrupt request event *irq* (DIRQ).                                                                                                                                                                                  |
+| GRTOS\_CMD\_NXT\_TM\_PRC\_SET(*processor*)    | Sets the Lowest Priority Processor in the GRTOS Controller.                                                                                                                                                                               |
+| GRTOS\_CMD\_NXT\_OCC\_TM\_EVN\_SET(*timeset*) | Sets the Next Occurence Time register of the GRTOS controller to produce a timed event when system time reaches the value of *timeset*.                                                                                                   |
+| GRTOS\_CMD\_LOW\_PRC\_SET(*processor*)        | Sets the processor with CPUID equal to *processor* as the Lowest Priority Processor in the GRTOS Controller.                                                                                                                              |
+| GRTOS\_CMD\_CRITICAL\_SECTION\_GET            | Defines the entry to a critical section to handle system variables and ISR routines. It asks for critical section and puts the processor in halt mode. GRTOS controller enables the processor when section is granted to it.              |
+| GRTOS\_CMD\_CRITICAL\_SECTION\_RELEASE        | Releases the critical section from the current processor. The final released is delayed by the controller to let the processor finishes executing the return from the critical section. It should be executed from the interrupt routine. |
+| GRTOS\_CMD\_MTX\_RQS\_GET                     | Returns the current value of the Mutex.                                                                                                                                                                                                   |
+| GRTOS\_CMD\_PRC\_INT\_ENB                     | Enables the processor interrupt request of the current processor in the GRTOS controller                                                                                                                                                  |
+| GRTOS\_CMD\_PRC\_INT\_DSB                     | Disables the interrupt of the current processor in the GRTOS controller.                                                                                                                                                                  |
+| GRTOS\_CMD\_IRQ\_ENB\_GET(*irq*)              | Reads the enabled status of the device interrupt request (DIRQ) *irq.*                                                                                                                                                                    |
+| GRTOS\_CMD\_TRG\_PRC\_INT\_SET(*proc*)        | Interrupts the processor *proc*. If proc interrupt is enabled in the GRTOS controller, then the processor is interrupted.                                                                                                                 |
+| GRTOS\_CMD\_INT\_PRC\_PND\_CLR                | Clears the pending interrupt of the current processor.                                                                                                                                                                                    |
 
 ## Event module
 
-The GRTOS controller handles a set of events and determines the way they are managed to preserve the consistency of the system. When a processor is interrupted because an event happened, it must execute the event handler routine associated with that event. Once the critical section is granted in the ISR, the processor must get the event that produced the interrupt by reading the event code in the R_LST_EVN register.
+The GRTOS controller handles a set of events and determines the way they are managed to preserve the consistency of the system. When a processor is interrupted because an event happened, it must execute the event handler routine associated with that event. Once the critical section is granted in the ISR, the processor must get the event that produced the interrupt by reading the event code in the R\_LST\_EVN register.
 
-When a processor executes the GRTOS_CMD_EVN_OCC instruction, the R_LST_EVN register is transferred through the interface element to the processor. Several events may be asserted when the processor reads the R_LST_EVN register. In order to avoid inconsistency, the event module sorts the events and assigns to the R_LST_EVN register the code of the asserted event with the lowest sorted order. The following table shows the sorted list of events of GRTOS controller:
+When a processor executes the GRTOS\_CMD\_EVN\_OCC instruction, the R\_LST\_EVN register is transferred through the interface element to the processor. Several events may be asserted when the processor reads the R\_LST\_EVN register. In order to avoid inconsistency, the event module sorts the events and assigns to the R\_LST\_EVN register the code of the asserted event with the lowest sorted order. The following table shows the sorted list of events of GRTOS controller:
 
-| Sorted Order | Event Code                          | Description                                                                                                                                                                                                                              |
-|--------------|-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1            | FROZEN event code (EVN_CODE_FROZEN) | This event takes place when the GRTOS controller changes from unfrozen mode to frozen mode. The C1_FRZ_MDE_ENB and C1_FRZ_EVN signals should be clear to allow accessing the rest of events when the GRTOS controller is in frozen mode. |
-| 2            | TIMED event code (EVN_CODE_TIMED)   | This event takes place when a time event happens (C1_EVN_TM_OCC signal is asserted).                                                                                                                                                     |
-| 3 to ...     | DIRQ*i*\_CODE (DIRQ event codes)    | The DIRQ*i*\_CODE is asserted when there is a pending request from the device interrupt requests (DIRQs) with the index *i*                                                                                                              |
+| Sorted Order | Event Code                            | Description                                                                                                                                                                                                                                   |
+|--------------|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1            | FROZEN event code (EVN\_CODE\_FROZEN) | This event takes place when the GRTOS controller changes from unfrozen mode to frozen mode. The C1\_FRZ\_MDE\_ENB and C1\_FRZ\_EVN signals should be clear to allow accessing the rest of events when the GRTOS controller is in frozen mode. |
+| 2            | TIMED event code (EVN\_CODE\_TIMED)   | This event takes place when a time event happens (C1\_EVN\_TM\_OCC signal is asserted).                                                                                                                                                       |
+| 3 to ...     | DIRQ*i*\_CODE (DIRQ event codes)      | The DIRQ*i*\_CODE is asserted when there is a pending request from the device interrupt requests (DIRQs) with the index *i*                                                                                                                   |
 
 ### Event module related instructions
 
-|                   |                                                      |
-|-------------------|------------------------------------------------------|
-| GRTOS_CMD_EVN_OCC | Returns the event happened from the GRTOS controller |
+|                      |                                                      |
+|----------------------|------------------------------------------------------|
+| GRTOS\_CMD\_EVN\_OCC | Returns the event happened from the GRTOS controller |
 
 # System components and Data Structures
 
@@ -383,7 +383,7 @@ Internal events are produced by different conditions, such as when an executing 
 
 ## Time
 
-Time is important because it marks when events occur. The R_TM_CNT register of the GRTOS controller holds the system time and the R_FRZ_TM_CNT register holds the length of time the system stayed in frozen mode. The GRTOS controller produces a time event (C1_EVN_TM_OCC signal) each time the R_TM_CNT register reaches the value stored in the R_NXT_EVN_CNT register.
+Time is important because it marks when events occur. The R\_TM\_CNT register of the GRTOS controller holds the system time and the R\_FRZ\_TM\_CNT register holds the length of time the system stayed in frozen mode. The GRTOS controller produces a time event (C1\_EVN\_TM\_OCC signal) each time the R\_TM\_CNT register reaches the value stored in the R\_NXT\_EVN\_CNT register.
 
 ## Resources
 
@@ -411,7 +411,7 @@ FIG. 7: Ready and Running LCB lists.
 
 The processors executes the code of the operating system, tasks, and signals. The GRTOS is in charge of sharing the utilization of the processors among the system tasks. Each processor should be assigned to execute the highest priority tasks in the ready state. A PCB data structure stores the state of a processor and the ready linked lists that the processor may serve. A processor may serve several TCBRDYL lists and several processors may serve to the same TCBRDYL list.
 
-The LCBL list shown in FIG. 7 sorts the LCB data structures according to the priority of the tasks executed by each processor. In this way, it is easy to determine the lowest priority processor to be defined in the R_LOW_PRI_PRC register of the GRTOS controller.
+The LCBL list shown in FIG. 7 sorts the LCB data structures according to the priority of the tasks executed by each processor. In this way, it is easy to determine the lowest priority processor to be defined in the R\_LOW\_PRI\_PRC register of the GRTOS controller.
 
 ## RRDS data structure
 
@@ -425,27 +425,27 @@ Each of the control blocks holds all the information required to perform its fun
 
 The KCB data structure holds the main information about the computer program. The KCB data structure includes the following fields:
 
--   KCB_NextOccTime field: this field holds the time that the earliest time event shall take place, if at all. When the KCB_NextOccTime field changes its value, it is written to the R_NXT_EVN_TM register of the GRTOS controller.
+-   KCB\_NextOccTime field: this field holds the time that the earliest time event shall take place, if at all. When the KCB\_NextOccTime field changes its value, it is written to the R\_NXT\_EVN\_TM register of the GRTOS controller.
 
--   \*KCB_NextECBTL field: this field is the root block of the ECBTL list. It points to the first-time ECB data structure in the ECBTL list or NULL if there is not any ECB data structure in the ECBTL list.
+-   \*KCB\_NextECBTL field: this field is the root block of the ECBTL list. It points to the first-time ECB data structure in the ECBTL list or NULL if there is not any ECB data structure in the ECBTL list.
 
--   \*KCB_NextTCBWL field: this field is the root block of the TCBWL list. It points to the first-waiting TCB data structure in the TCBWL list or NULL if there is not any TCB data structure in the TCBWL list.
+-   \*KCB\_NextTCBWL field: this field is the root block of the TCBWL list. It points to the first-waiting TCB data structure in the TCBWL list or NULL if there is not any TCB data structure in the TCBWL list.
 
--   \*KCB_NextTCBFL field: this field is the root block of the TCBFL list. It points to the first-free TCB data structure in the TCBFL list or NULL if there is not any TCB data structure in the TCBFL list.
+-   \*KCB\_NextTCBFL field: this field is the root block of the TCBFL list. It points to the first-free TCB data structure in the TCBFL list or NULL if there is not any TCB data structure in the TCBFL list.
 
--   \*KCB_NextECBFL field: this field is the root block of the ECBFL list. It points to the first-free ECB data structure in the ECBFL list or NULL if there is not any ECB data structure in the ECBFL list.
+-   \*KCB\_NextECBFL field: this field is the root block of the ECBFL list. It points to the first-free ECB data structure in the ECBFL list or NULL if there is not any ECB data structure in the ECBFL list.
 
--   \*KCB_NextRCBFL field: this field is the root block of the RCBFL list. It points to the first-free RCB data structure in the RCBFL list or NULL if there is not any RCB data structure in the RCBFL list.
+-   \*KCB\_NextRCBFL field: this field is the root block of the RCBFL list. It points to the first-free RCB data structure in the RCBFL list or NULL if there is not any RCB data structure in the RCBFL list.
 
--   \*KCB_NextRRDSFL field: this field is the root block of the RRDSFL list. It points to the first-free RRDS data structure in the RRDSFL list or NULL if there is not any RRDS data structure in the RRDSFL list.
+-   \*KCB\_NextRRDSFL field: this field is the root block of the RRDSFL list. It points to the first-free RRDS data structure in the RRDSFL list or NULL if there is not any RRDS data structure in the RRDSFL list.
 
--   \*KCB_NextSCBFL field: this field is the root block of the SCBFL list . It points to the first-free SCB data structure in the SCBFL list or NULL if there is not any SCB data structure in the SCBFL list.
+-   \*KCB\_NextSCBFL field: this field is the root block of the SCBFL list . It points to the first-free SCB data structure in the SCBFL list or NULL if there is not any SCB data structure in the SCBFL list.
 
--   \*KCB_NextMCBFL field: this field is the root block of the MCBFL list. It points to the first-free MCB data structure in the MCBFL list or NULL if there is not any MCB data structure in the MCBFL list.
+-   \*KCB\_NextMCBFL field: this field is the root block of the MCBFL list. It points to the first-free MCB data structure in the MCBFL list or NULL if there is not any MCB data structure in the MCBFL list.
 
--   \*KCB_NextLCBL field 1809: this field is the root block of the LCBL list. It points to the first-free LCB data structure in the LCBL list or NULL if there is not any LCB data structure in the LCBL list.
+-   \*KCB\_NextLCBL field 1809: this field is the root block of the LCBL list. It points to the first-free LCB data structure in the LCBL list or NULL if there is not any LCB data structure in the LCBL list.
 
--   \*KCB_NextKCBASL field : this field is the root block of the KCBASL list. It points to the first SCB data structure associated with the KCB data structure.
+-   \*KCB\_NextKCBASL field : this field is the root block of the KCBASL list. It points to the first SCB data structure associated with the KCB data structure.
 
 ## TCB data structure
 
@@ -467,31 +467,31 @@ The TCB data structure holds the support information required for the tasks. The
 
 -   TCBDeadline field: this field may hold the deadline of the task associated with the TCB data structure.
 
--   \*TCB_StackPointer field: this field holds the current stack pointer of the task when it is not in the running state.
+-   \*TCB\_StackPointer field: this field holds the current stack pointer of the task when it is not in the running state.
 
--   \*TCB_StackBottom field: this field holds a pointer to the bottom of the task stack.
+-   \*TCB\_StackBottom field: this field holds a pointer to the bottom of the task stack.
 
--   \*TCB_StackTop field: this field holds a pointer to the top of the task stack.
+-   \*TCB\_StackTop field: this field holds a pointer to the top of the task stack.
 
--   \*TCB_TaskCode field: this field holds a pointer to the starting address of the task code.
+-   \*TCB\_TaskCode field: this field holds a pointer to the starting address of the task code.
 
--   \*TCB_TaskArg field: this field holds a pointer to the starting arguments of the task.
+-   \*TCB\_TaskArg field: this field holds a pointer to the starting arguments of the task.
 
--   \*TCB_NextTCB field: this field points to the next element of the list that the TCB data structure is linked.
+-   \*TCB\_NextTCB field: this field points to the next element of the list that the TCB data structure is linked.
 
--   \*TCB_PrevTCB field: this field points to the previous element of the list that the TCB data structure is linked.
+-   \*TCB\_PrevTCB field: this field points to the previous element of the list that the TCB data structure is linked.
 
--   \*TCB_NextTCBAEL field: this field is the root of the TCBAEL list . It points to the first ECB data structure in the TCBAEL list or NULL if there is not any ECB data structure in the TCBAEL list.
+-   \*TCB\_NextTCBAEL field: this field is the root of the TCBAEL list . It points to the first ECB data structure in the TCBAEL list or NULL if there is not any ECB data structure in the TCBAEL list.
 
--   \*TCB_NextTCBASL field 1916: this field is the root of the TCBASL list. It points to the first SCB data structure in the TCBASL list or NULL if there is not any SCB data structure in the TCBASL list.
+-   \*TCB\_NextTCBASL field 1916: this field is the root of the TCBASL list. It points to the first SCB data structure in the TCBASL list or NULL if there is not any SCB data structure in the TCBASL list.
 
--   \*TCB_NextTCBPSL field 1917: this field is the root of the TCBPSL list. It points to the first SCB data structure in the TCBPSL list or NULL if there is not any SCB data structure in the TCBPSL list.
+-   \*TCB\_NextTCBPSL field 1917: this field is the root of the TCBPSL list. It points to the first SCB data structure in the TCBPSL list or NULL if there is not any SCB data structure in the TCBPSL list.
 
--   TCB_AssocPCB field : this field holds the value of the internal identification register CPUID of the processor that is currently executing the task associated with the TCB data structure.
+-   TCB\_AssocPCB field : this field holds the value of the internal identification register CPUID of the processor that is currently executing the task associated with the TCB data structure.
 
--   TCB_INTNumber field: this field holds the IRQ number of the device interrupt request (DIRQ) input when TCB data structure is associated with an Interrupt Task (TCBType field is equal to ISR).
+-   TCB\_INTNumber field: this field holds the IRQ number of the device interrupt request (DIRQ) input when TCB data structure is associated with an Interrupt Task (TCBType field is equal to ISR).
 
--   TCB_RDY_LCB_Index field: this field holds the index of the LCBL list to be linked when it is in the ready state.
+-   TCB\_RDY\_LCB\_Index field: this field holds the index of the LCBL list to be linked when it is in the ready state.
 
 ## ECB data structure
 
@@ -503,23 +503,23 @@ The ECB data structure holds information about events. The ECB data structure in
 
 -   ECBValue field: this field holds the value to be used as a sorting criterion in several linked lists. For instance, it may hold time when the ECB data structure is used as a time event or the waiting priority when it is used to request a resource.
 
--   \*ECB_NextECB field: this field points to the next element of the list with which the ECB data structure is linked.
+-   \*ECB\_NextECB field: this field points to the next element of the list with which the ECB data structure is linked.
 
--   \*ECB_PrevECB field: this field points to the previous element of the list with which the ECB data structure is linked.
+-   \*ECB\_PrevECB field: this field points to the previous element of the list with which the ECB data structure is linked.
 
--   \*ECB_AssocTCB field 2005: this field points to the TCB data structure 1201 with which the ECB data structure 1202 is associated.
+-   \*ECB\_AssocTCB field 2005: this field points to the TCB data structure 1201 with which the ECB data structure 1202 is associated.
 
--   \*ECB_AssocRCB field: this field points to the RCB data structure with which the ECB data structure is associated.
+-   \*ECB\_AssocRCB field: this field points to the RCB data structure with which the ECB data structure is associated.
 
--   \*ECB_NextTCBAEL field: this field points to the next element of the TCBAEL list.
+-   \*ECB\_NextTCBAEL field: this field points to the next element of the TCBAEL list.
 
--   \*ECB_PrevTCBAEL field: this field points to the previous element of the TCBAEL list.
+-   \*ECB\_PrevTCBAEL field: this field points to the previous element of the TCBAEL list.
 
--   \*ECB_NextECBAEL field: this field is the root block of the ECBAEL list. It is NULL if there is no ECB data structure associated with the ECB data structure.
+-   \*ECB\_NextECBAEL field: this field is the root block of the ECBAEL list. It is NULL if there is no ECB data structure associated with the ECB data structure.
 
--   \*ECB_NextECBASL field: this field is the root block of the ECBASL list. It is NULL if there is no SCB data structure associated with the ECB data structure.
+-   \*ECB\_NextECBASL field: this field is the root block of the ECBASL list. It is NULL if there is no SCB data structure associated with the ECB data structure.
 
--   \*ECB_RRDS field: this field points to the RRDS data structure associated with the ECB data structure. It is NULL if there is no RRDS data structure associated.
+-   \*ECB\_RRDS field: this field points to the RRDS data structure associated with the ECB data structure. It is NULL if there is no RRDS data structure associated.
 
 ## RCB data structure
 
@@ -539,13 +539,13 @@ The RCB data structure holds information about a resource. The RCB data structur
 
 -   RCBGrantedTimeout field: this field holds the default granted timeout for the resource associated with the RCB data structure.
 
--   \*RCB_NextRCBWEL field: this field is the root block of the RCBWEL list. It is NULL if there is no ECB data structure linked to the RCBWEL list.
+-   \*RCB\_NextRCBWEL field: this field is the root block of the RCBWEL list. It is NULL if there is no ECB data structure linked to the RCBWEL list.
 
--   \*RCB_NextRCBGEL field: this field is the root block of the RCBGEL list. It is NULL if there is no ECB data structure linked to the RCBGEL list.
+-   \*RCB\_NextRCBGEL field: this field is the root block of the RCBGEL list. It is NULL if there is no ECB data structure linked to the RCBGEL list.
 
--   \*RCB_NextRCB field: this field points to the next element of the list with which the RCB data structure is linked.
+-   \*RCB\_NextRCB field: this field points to the next element of the list with which the RCB data structure is linked.
 
--   \*RCB_NextRCBASL field: this field points to the next element of the RCBASL list.
+-   \*RCB\_NextRCBASL field: this field points to the next element of the RCBASL list.
 
 Different resources can be implemented according to the synchronization features to be achieved. Each one of these synchronization mechanisms requires data structures to hold its status. The resource-dependent structure is appended to the RCB data structure to support different synchronization mechanisms.
 
@@ -563,9 +563,9 @@ Messages are used as a communication resource among different tasks. The message
 
 -   MESEntries field: this field holds the current number of MCB data structures of the message queue structure.
 
--   \*MES_FirstMCB field: this field points to the first MCB data structure linked to the message queue structure.
+-   \*MES\_FirstMCB field: this field points to the first MCB data structure linked to the message queue structure.
 
--   \*MES_LastMCB field: this field points to the last MCB data structure linked to the message queue structure.
+-   \*MES\_LastMCB field: this field points to the last MCB data structure linked to the message queue structure.
 
 ## SCB data structure
 
@@ -577,15 +577,15 @@ Signals are used to manage internal events that can be produced during runtime. 
 
 -   SCBPriority field: this field holds the priority of the SCB data structure. This field is used to determine the order in which the pending signals are executed (highest priority first).
 
--   \*SCB_TaskCode field: this field holds a pointer to the starting address of the signal code.
+-   \*SCB\_TaskCode field: this field holds a pointer to the starting address of the signal code.
 
--   \*SCB_TaskArg field: this field holds a pointer to the starting arguments of the signal.
+-   \*SCB\_TaskArg field: this field holds a pointer to the starting arguments of the signal.
 
--   \*SCB_NextSCB field: this field holds pointers to the next element of the list to which the SCB data structure is linked.
+-   \*SCB\_NextSCB field: this field holds pointers to the next element of the list to which the SCB data structure is linked.
 
--   \*SCB_NextSCBAPSL field: this fields links all the pending signals with the signal that generates them.
+-   \*SCB\_NextSCBAPSL field: this fields links all the pending signals with the signal that generates them.
 
--   \*SCB_AssocXCB field: points to the data structure with which this SCB data structure is associated.
+-   \*SCB\_AssocXCB field: points to the data structure with which this SCB data structure is associated.
 
 ## LCB data structure
 
@@ -597,15 +597,15 @@ In a multiprocessor system, tasks may be grouped to be executed by either one or
 
 -   LCBRunPriority field: this field holds the lowest priority of the executing tasks linked to the LCB data structure or the lowest possible priority value if no task is in the running state.
 
--   \*LCB_NextTCBRUNL field: this field is the root block of the TCBRUNL list. It is NULL if there is no TCB data structure associated with the TCBRUNL list.
+-   \*LCB\_NextTCBRUNL field: this field is the root block of the TCBRUNL list. It is NULL if there is no TCB data structure associated with the TCBRUNL list.
 
--   \*LCB_NextTCBRDYL field: this field is the root block of the TCBRDYL list. It is NULL if there is no TCB data structure associated with the TCBRDYL list.
+-   \*LCB\_NextTCBRDYL field: this field is the root block of the TCBRDYL list. It is NULL if there is no TCB data structure associated with the TCBRDYL list.
 
--   \*LCB_NextLCBL field: this field holds a pointer to the next element in the LCBL list.
+-   \*LCB\_NextLCBL field: this field holds a pointer to the next element in the LCBL list.
 
--   \*LCB_PrevLCBL field: this field holds a pointer to the previous element in the LCBL list.
+-   \*LCB\_PrevLCBL field: this field holds a pointer to the previous element in the LCBL list.
 
--   \*LCB_NextLCBFPL field: this field is the root block of the LCBFPL list. It is NULL if there is no PCB data structure linked to the LCBFPL list.
+-   \*LCB\_NextLCBFPL field: this field is the root block of the LCBFPL list. It is NULL if there is no PCB data structure linked to the LCBFPL list.
 
 ## PCB data structure
 
@@ -617,15 +617,15 @@ Each processor of the system requires a data structure to preserve its status du
 
 -   PCBType field: this field holds the type of the PCB data structure. The type is used to determine the actions performed during runtime.
 
--   PCB_RDY_LCBL\[...\] field: this field holds an array that contains the index of the LCBL list that the processor, associated with the PCB data structure, uses to search for a task in the ready state to execute.
+-   PCB\_RDY\_LCBL\[...\] field: this field holds an array that contains the index of the LCBL list that the processor, associated with the PCB data structure, uses to search for a task in the ready state to execute.
 
--   \*PCB_IDLETCB field: this field holds a pointer to the TCB data structure of the idle task associated with the PCB data structure.
+-   \*PCB\_IDLETCB field: this field holds a pointer to the TCB data structure of the idle task associated with the PCB data structure.
 
--   \*PCB_EXECTCB field: this field holds a pointer to the TCB data structure of the currently executing task associated with the PCB data structure.
+-   \*PCB\_EXECTCB field: this field holds a pointer to the TCB data structure of the currently executing task associated with the PCB data structure.
 
--   \*PCB_NextPCB field: this field holds a pointer to the next element of the list to which the PCB data structure is linked.
+-   \*PCB\_NextPCB field: this field holds a pointer to the next element of the list to which the PCB data structure is linked.
 
--   \*PCB_PrevPCB field: this field holds a pointer to the previous element of the list to which the PCB data structure is linked.
+-   \*PCB\_PrevPCB field: this field holds a pointer to the previous element of the list to which the PCB data structure is linked.
 
 ## RRDS data structure
 
@@ -661,7 +661,7 @@ FIG. 7: Initialization section structure.
 
 The processor with an internal identification register CPUID equal to 1:
 
--   resets the GRTOS controller and the rest of the processors: sets R_PRC_RST register to 0 by executing a GRTOS_CMD_RST_GRTOS instruction. The internal registers of the GRTOS controller are set to their initial values and the processors with CPUID different from 1 are reset.
+-   resets the GRTOS controller and the rest of the processors: sets R\_PRC\_RST register to 0 by executing a GRTOS\_CMD\_RST\_GRTOS instruction. The internal registers of the GRTOS controller are set to their initial values and the processors with CPUID different from 1 are reset.
 
 -   gets access to the critical section of the GRTOS controller: to avoid consistency errors when data structures and linked lists are initialized.
 
@@ -677,11 +677,11 @@ The rest of the processors of the plurality of processors 110-112:
 
 -   assign an unique stack for each processor of the system.
 
--   wait until the R_PRC_RST register is equal to CPUID â€“ 1.
+-   wait until the R\_PRC\_RST register is equal to CPUID â€“ 1.
 
 -   get the critical section: processors are synchronized to start the execution of user tasks requesting the critical section of the GRTOS controller.
 
--   assign the value of CPUID to the R_PRC_RST register. This assignment enables the next processor to start its configuration.
+-   assign the value of CPUID to the R\_PRC\_RST register. This assignment enables the next processor to start its configuration.
 
 When the initialization section is executed, the start task section is executed.
 
@@ -689,13 +689,13 @@ When the initialization section is executed, the start task section is executed.
 
 FIG. 7 shows the structure of the task switch section. This section implements the methods for saving and restoring task statuses according to the states of the tasks. Prior to executing the code of the next task, the pending signals are executed and then, when there is no other pending signal, the code of the task is resumed. The task switch section presents three entry points:
 
--   **GRTOS_Suspend_Task**t: saves the status of the current task and restores the status of the idle task of the processor.
+-   **GRTOS\_Suspend\_Task**t: saves the status of the current task and restores the status of the idle task of the processor.
 
--   **GRTOS_irq_entry**: saves the status of the current task and restores the status of the idle task of the processor.
+-   **GRTOS\_irq\_entry**: saves the status of the current task and restores the status of the idle task of the processor.
 
--   **GRTOS_Return_from_signal**: when there exists a pending signal for a task, the RETURN_FROM_SIGNAL is configured as the return entry point.
+-   **GRTOS\_Return\_from\_signal**: when there exists a pending signal for a task, the RETURN\_FROM\_SIGNAL is configured as the return entry point.
 
--   **GRTOS_Start_Task**: restore the status of the next task to be executed and return. If signal is pending, the task stack is modify to execute the signal code when returning from interrupt and the return address is set to GRTOS_Return_from_signal.
+-   **GRTOS\_Start\_Task**: restore the status of the next task to be executed and return. If signal is pending, the task stack is modify to execute the signal code when returning from interrupt and the return address is set to GRTOS\_Return\_from\_signal.
 
 FIG. 7: Task switch section structure.
 
@@ -703,7 +703,7 @@ The task switch section is completed by executing a return from interrupt in ord
 
 ## Interrupt handler section
 
-The code of the interrupt handler is executed by the processors when some of them receive a processor interrupt request (PIRQ) from the GRTOS controller and produces a C1_IRQ_PND signal. When a processor receives an interrupt request from a device interrupt request (DIRQ), the processor disables the processor interrupt, and starts executing the interrupt handler section. In the interrupt handler, the processor performs the following procedures:
+The code of the interrupt handler is executed by the processors when some of them receive a processor interrupt request (PIRQ) from the GRTOS controller and produces a C1\_IRQ\_PND signal. When a processor receives an interrupt request from a device interrupt request (DIRQ), the processor disables the processor interrupt, and starts executing the interrupt handler section. In the interrupt handler, the processor performs the following procedures:
 
 -   the status of the processor is saved into the task stack. All the processor registers are pushed into the task stack in order to restore them when the interrupted task is resumed.
 
@@ -715,21 +715,21 @@ The code of the interrupt handler is executed by the processors when some of the
 
 -   the critical section of the GRTOS controller is requested. The processor waits while requesting the critical section of the GRTOS controller until it is granted to the processor.
 
--   the R_LST_EVN register of the GRTOS controller is read to get the last event that occurred. According to the code read from the R_LST_EVN register of the GRTOS controller, the following is performed:
+-   the R\_LST\_EVN register of the GRTOS controller is read to get the last event that occurred. According to the code read from the R\_LST\_EVN register of the GRTOS controller, the following is performed:
 
--   Code EVN_CODE_FROZEN: the gk_KERNEL_FROZEN_IRQ_HANDLER routine is called to perform the procedure according to the type of time event that produced the interrupt while the system time is frozen. This routine calls the gk_FROZEN_CALLBACK() routine in grtosfunctions.c file.
+-   Code EVN\_CODE\_FROZEN: the gk\_KERNEL\_FROZEN\_IRQ\_HANDLER routine is called to perform the procedure according to the type of time event that produced the interrupt while the system time is frozen. This routine calls the gk\_FROZEN\_CALLBACK() routine in grtosfunctions.c file.
 
--   Code EVN_CODE_TIMED: the gk_KERNEL_TIME_IRQ_HANDLER() routine is called to perform the procedure according to the type of time event that produced the current EVN_CODE_TIMED event. This routine calls the gk_TIME_CALLBACK() routine in grtosfunctions.c file.
+-   Code EVN\_CODE\_TIMED: the gk\_KERNEL\_TIME\_IRQ\_HANDLER() routine is called to perform the procedure according to the type of time event that produced the current EVN\_CODE\_TIMED event. This routine calls the gk\_TIME\_CALLBACK() routine in grtosfunctions.c file.
 
 -   Code DIRQ*i*\_CODE: (1) the requesting device interrupt request (DIRQ) is disabled in the GRTOS controller, (2) the TCB data structures associated with the task interrupt of the device interrupt request (DIRQ) are unlinked from the interrupt list to which it is currently linked, (3) the task stack 1601 of the interrupt tasks are initialized and (4) the TCB data structures are linked to the TCBRDYL list.
 
--   Zero (0): there are no more events to process from the GRTOS controller and consequently it calls the SWITCH_SUSPEND_TASK to execute the next task.
+-   Zero (0): there are no more events to process from the GRTOS controller and consequently it calls the SWITCH\_SUSPEND\_TASK to execute the next task.
 
-The R_LST_EVN register of the GRTOS controller is read until the value returned is equal to 0.
+The R\_LST\_EVN register of the GRTOS controller is read until the value returned is equal to 0.
 
 ## System call section
 
-System calls are called from tasks and are executed in the critical section of the GRTOS controller . The execution of the system call depends on the specific system call. Some system calls do not require a context switch and consequently the critical section of the GRTOS controller is released before returning to the caller task. In contrast, when a task requires a context switch, the SWITCH_SUSPEND_TASK entry point in the task switch section is called. When the task is resumed, the system call should complete its execution but getting the critical section first.
+System calls are called from tasks and are executed in the critical section of the GRTOS controller . The execution of the system call depends on the specific system call. Some system calls do not require a context switch and consequently the critical section of the GRTOS controller is released before returning to the caller task. In contrast, when a task requires a context switch, the SWITCH\_SUSPEND\_TASK entry point in the task switch section is called. When the task is resumed, the system call should complete its execution but getting the critical section first.
 
 ## Task suspend section
 
@@ -747,11 +747,11 @@ When a task is suspended, the following procedure is performed:
 
 -   the next time processor is set in the GRTOS controller .
 
--   the SWITCH_SUSPEND_TASK entry point in the task switch section is called to produce the context switching of a suspended task.
+-   the SWITCH\_SUSPEND\_TASK entry point in the task switch section is called to produce the context switching of a suspended task.
 
 ## Task complete section
 
-The complete task section is executed when a task finishes its execution. Then, the COMPLETE_TASK entry is configured as the returning point when a task is started and consequently is the return address when the task finishes its execution. The following steps are executed to complete the execution of a task:
+The complete task section is executed when a task finishes its execution. Then, the COMPLETE\_TASK entry is configured as the returning point when a task is started and consequently is the return address when the task finishes its execution. The following steps are executed to complete the execution of a task:
 
 -   the TCB data structure of the current task is unlinked from the TCBRUNL list.
 
@@ -765,19 +765,19 @@ The complete task section is executed when a task finishes its execution. Then, 
 
 -   the TCB data structure of the next task is linked to the TCBRUNL list and its state is changed to the running state,
 
--   the R_LOW_PRI_PRC register of the GRTOS controller is set with the processor that is executing the lowest priority task.
+-   the R\_LOW\_PRI\_PRC register of the GRTOS controller is set with the processor that is executing the lowest priority task.
 
 -   the priority inversion is checked in order to verify that there is no task in the ready state with higher priority than any task in the running state for the TCBRUNL list of the next task. If there is a task in the ready state with a higher priority than a task that is being executed for a processor in the TCBRUNL list, then the processor interrupt request (PIRQ) in the GRTOS controller is triggered.
 
--   the R_NXT_TM_EVN_PRC register in the GRTOS controller is set with the processor that is executing the task that produces the next time event (0 if no task is executing the next time event).
+-   the R\_NXT\_TM\_EVN\_PRC register in the GRTOS controller is set with the processor that is executing the task that produces the next time event (0 if no task is executing the next time event).
 
 <!-- -->
 
--   the gk_GRTOS_Start_Task is called to produce context switching of a suspended task.
+-   the gk\_GRTOS\_Start\_Task is called to produce context switching of a suspended task.
 
 # Priority Management
 
-Priority discipline determines the sequence in which tasks are executed. A priority discipline defines a total order among tasks in the ready state. The TCBRDYL lists sort the TCB data structures of the tasks according to the TCBReadyPriority field. By previously setting the TCBReadyPriority field to link the TCB data structure to the TCBRDYL lists (by executing the gk_TCBRDYL_Link(GS_TCB \*ptcb) function), different priority disciplines may be implemented. For instance, leaving a constant value in the TCBReadyPriority field implements a Fixed Priority discipline, while assigning TCBReadyPriority field = gk_now + TCBDeadline field 1907 implements an Earliest Deadline First priority discipline.
+Priority discipline determines the sequence in which tasks are executed. A priority discipline defines a total order among tasks in the ready state. The TCBRDYL lists sort the TCB data structures of the tasks according to the TCBReadyPriority field. By previously setting the TCBReadyPriority field to link the TCB data structure to the TCBRDYL lists (by executing the gk\_TCBRDYL\_Link(GS\_TCB \*ptcb) function), different priority disciplines may be implemented. For instance, leaving a constant value in the TCBReadyPriority field implements a Fixed Priority discipline, while assigning TCBReadyPriority field = gk\_now + TCBDeadline field 1907 implements an Earliest Deadline First priority discipline.
 
 # A â€œHello Worldâ€ for GRTOS
 
@@ -795,19 +795,19 @@ The following is the code that should be contained in the main application, toge
 
 Include libraries for system function calls and GRTOS system calls:
 
-\#include \<stdio.h\>
+\#include &lt;stdio.h&gt;
 
-\#include \<grtosuserapi.h\>
+\#include &lt;grtosuserapi.h&gt;
 
-\#include \<grtosdefinitions.h\>
+\#include &lt;grtosdefinitions.h&gt;
 
 Define a semaphore, called *semaphore1*, to synchronize between task1 and task2:
 
-t_semaphore_resource \*semaphore1;
+t\_semaphore\_resource \*semaphore1;
 
 Define the default size of the task stacks:
 
-\#define TASK_STACKSIZE 4096
+\#define TASK\_STACKSIZE 4096
 
 Define the task1 as an infinite loop with a 15 seconds delay.
 
@@ -815,25 +815,25 @@ void task1(void\* pdata)
 
 {
 
-gt_tm sys_time;
+gt\_tm sys\_time;
 
 while (1)
 
 {
 
-sys_time = gu_Clock(gu_get_now());
+sys\_time = gu\_Clock(gu\_get\_now());
 
 printf("Hello task1: ");
 
-printf("Processor = %d, ", gu_Get_CPU_ID());
+printf("Processor = %d, ", gu\_Get\_CPU\_ID());
 
-printf("year = %d, day = %d, ", sys_time.tm_year, sys_time.tm_day);
+printf("year = %d, day = %d, ", sys\_time.tm\_year, sys\_time.tm\_day);
 
-printf("hour = %d, min = %d, ", sys_time.tm_hour, sys_time.tm_min, );
+printf("hour = %d, min = %d, ", sys\_time.tm\_hour, sys\_time.tm\_min, );
 
-printf("sec = %d, ms = %d\\n\\n", sys_time.tm_sec, sys_time.tm_msec);
+printf("sec = %d, ms = %d\\n\\n", sys\_time.tm\_sec, sys\_time.tm\_msec);
 
-gu_TASK_Sleep(0, 0, 15, 0);
+gu\_TASK\_Sleep(0, 0, 15, 0);
 
 }
 
@@ -843,6 +843,6 @@ gu_TASK_Sleep(0, 0, 15, 0);
 
 # Configuration functions
 
-## gu_Set_Default_Task_Type(unsigned int type)
+## gu\_Set\_Default\_Task\_Type(unsigned int type)
 
 [1] Nios is a trademark of Intel Corporation or its subsidiaries.
