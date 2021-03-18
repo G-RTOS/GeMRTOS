@@ -2,16 +2,47 @@
   <head>
 	<meta name="google-site-verification" content="wEweHUWwV9m471mYKOajM2rZqwqgbPiv8Ki0eWndDew" />
 	<!-- <meta http-equiv="refresh" content="0; URL=https://github.com/G-RTOS/GRTOS" /> -->
+	<style>
+	html {font-family: Arial; display: inline-block; text-align: center;}
+	h2 {font-size: 3.0rem;}
+	p {font-size: 3.0rem;}
+	body {margin:0px auto; padding-bottom: 12px;}
+	.switch {position: relative; display: inline-block; width: 60px; height: 34px} 
+	.switch input {display: none}
+	.slider {position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 17px}
+	.slider:before {position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: #fff; -webkit-transition: .4s; transition: .4s; border-radius: 34px}
+	input:checked+.slider {background-color: #2196F3}
+	input:checked+.slider:before {-webkit-transform: translateX(26px); -ms-transform: translateX(26px); transform: translateX(26px)}
+
+	.sidenav {
+	  width: 130px;
+	  position: fixed;
+	  z-index: 1;
+	  top: 20px;
+	  left: 10px;
+	  overflow-x: hidden;
+	  padding: 8px 0;
+	}
+
+	.main {
+	  margin-left: 140px; /* Same width as the sidebar + left position in px */
+	  padding: 0px 10px;
+	}
+	</style>
+	  
   </head>
   <body>
-	<!-- Lightweight client-side loader that feature-detects and load polyfills only when necessary -->
-	<script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2/webcomponents-loader.min.js"></script>
+	<div id="sidenav" class="sidenav"></div>
+	<div class="main">
+	  
+		<!-- Lightweight client-side loader that feature-detects and load polyfills only when necessary -->
+		<script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2/webcomponents-loader.min.js"></script>
 
-	<!-- Load the element definition -->
-	<script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@1/src/zero-md.min.js"></script>
+		<!-- Load the element definition -->
+		<script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@1/src/zero-md.min.js"></script>
 
-	<!-- Simply set the `src` attribute to your MD file and win -->
-	<zero-md src="README.md"></zero-md>
-
+		<!-- Simply set the `src` attribute to your MD file and win -->
+		<zero-md src="README.md"></zero-md>
+	</div>
   </body>
 </html>
