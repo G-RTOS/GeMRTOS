@@ -137,6 +137,8 @@ GeMRTOS system architecture
 
 In the GeMRTOS system architecture, a set of *N* processors shares a common memory and *M* input/output devices through a common bus. FIG. 1 shows a layout of the GRTIOS controller interconnection in a multiprocessor architecture. The GeMRTOS controller receives device interrupt requests (DIRQs) (101-103) from input/output peripheral devices (104-106). The GeMRTOS controller sends processor interrupt requests (PIRQs) (107-109) to the system processors (110-112). The system bus (113) allows the processors (110-112) to share the system memory (114). Each processor has a unique internal identification register CPUID (123-125).
 
+![](.\images\manual/media/image2.png)
+
 FIG. 1: GeMRTOS multiprocessor system layout.
 
 GeMRTOS with Intel Nios II[1] processors
@@ -162,6 +164,8 @@ The GeMRTOS multiprocessor system is implemented based on the Nios II processor 
 Table 1: GeMRTOS multiprocessor components in Intel Corporation’s Platform Designer.
 
 FIG. 2 shows a schematic of the architecture implemented for Nios II processors.
+
+![](.\images\manual/media/image3.png)
 
 FIG. 2: GeMRTOS multiprocessor system layout with NIOS II processors.
 
