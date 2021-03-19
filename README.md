@@ -45,8 +45,6 @@ GeMRTOS system architecture
 
 In the GeMRTOS system architecture, a set of *N* processors shares a common memory and *M* input/output devices through a common bus. FIG. 1 shows a layout of the GRTIOS controller interconnection in a multiprocessor architecture. The GeMRTOS controller receives device interrupt requests (DIRQs) (101-103) from input/output peripheral devices (104-106). The GeMRTOS controller sends processor interrupt requests (PIRQs) (107-109) to the system processors (110-112). The system bus (113) allows the processors (110-112) to share the system memory (114). Each processor has a unique internal identification register CPUID (123-125).
 
-![](./images/readme/media/image2.png)
-
 FIG. 1: GeMRTOS multiprocessor system layout.
 
 GeMRTOS with Intel Nios II[1] processors
@@ -68,63 +66,34 @@ GeMRTOS controller registers
 
 The behavior of the GeMRTOS controller is determined by a set of GeMRTOS controller registers (208). Some of these registers may be configured through the interface element of the GeMRTOS controller. They are assigned with a unique memory map address to be read and written. For instance, the R\_CTRL register can be used to configure some functions of the GeMRTOS controller such as enabling or disabling the frozen mode. The main GeMRTOS controller registers includes:
 
--   R\_CTRL
-
--   R\_MTX\_PRC\_GRN
-
--   R\_MTX\_CLR\_CNT
-
--   R\_MTX\_NXT\_PRC
-
--   R\_MTX\_RSV\_PRC
-
--   R\_NXT\_EVN\_CNT
-
--   R\_TM\_PSC
-
--   R\_TM\_CNT
-
--   R\_FRZ\_TM\_CNT
-
--   R\_TM\_PSC\_CNT
-
--   R\_NXT\_EVN\_TM
-
--   R\_FRZ\_TM\_THR
-
--   R\_NXT\_TM\_EVN\_PRC
-
--   R\_LOW\_PRI\_PRC
-
--   R\_TRG\_PRC\_INT
-
--   R\_INT\_ENB
-
--   R\_IRQ\_ENB
-
--   R\_INT\_CLR
-
--   R\_IRQ\_PND
-
--   R\_LST\_EVN
+| **Register**         |     |
+|----------------------|-----|
+| R\_CTRL              |     |
+| R\_MTX\_PRC\_GRN     |     |
+| R\_MTX\_CLR\_CNT     |     |
+| R\_MTX\_NXT\_PRC     |     |
+| R\_MTX\_RSV\_PRC     |     |
+| R\_NXT\_EVN\_CNT     |     |
+| R\_TM\_PSC           |     |
+| R\_TM\_CNT           |     |
+| R\_FRZ\_TM\_CNT      |     |
+| R\_TM\_PSC\_CNT      |     |
+| R\_NXT\_EVN\_TM      |     |
+| R\_FRZ\_TM\_THR      |     |
+| R\_NXT\_TM\_EVN\_PRC |     |
+| R\_LOW\_PRI\_PRC     |     |
+| R\_TRG\_PRC\_INT     |     |
+| R\_INT\_ENB          |     |
+| R\_IRQ\_ENB          |     |
+| R\_INT\_CLR          |     |
+| R\_IRQ\_PND          |     |
+| R\_LST\_EVN          |     |
 
 ### GeMRTOS controller: internal signals
 
 GeMRTOS controller uses internal signals to manage the different events of the multiprocessor hardware architecture. The main signals that produce system events include:
 
--   C1\_MTX\_GRN: C1\_MTX\_GRN signal is 0 when the R\_MTX\_PRC\_GRN register is equal to 0; otherwise, it is 1.
-
--   C1\_NXT\_EVN\_PRC\_ZRO
-
--   R1\_IRQ\_PND
-
--   R1\_FRZ\_MDE\_ENB
-
--   C1\_FRZ\_MDE
-
--   C1\_EVN\_TM\_OCC
-
--   C1\_IRQ\_PND
+<table><thead><tr class="header"><th><strong>Signal</strong></th><th><blockquote><p><strong>Description</strong></p></blockquote></th></tr></thead><tbody><tr class="odd"><td>C1_MTX_GRN</td><td><blockquote><p>C1_MTX_GRN signal is 0 when the R_MTX_PRC_GRN register is equal to 0; otherwise, it is 1.</p></blockquote></td></tr><tr class="even"><td>C1_NXT_EVN_PRC_ZRO</td><td></td></tr><tr class="odd"><td>R1_IRQ_PND</td><td></td></tr><tr class="even"><td>R1_FRZ_MDE_ENB</td><td></td></tr><tr class="odd"><td>C1_FRZ_MDE</td><td></td></tr><tr class="even"><td>C1_EVN_TM_OCC</td><td></td></tr><tr class="odd"><td>C1_IRQ_PND</td><td></td></tr></tbody></table>
 
 The states of these signals determines the behavior of the GeMRTOS controller.
 

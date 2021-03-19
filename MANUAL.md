@@ -137,54 +137,50 @@ GeMRTOS system architecture
 
 In the GeMRTOS system architecture, a set of *N* processors shares a common memory and *M* input/output devices through a common bus. FIG. 1 shows a layout of the GRTIOS controller interconnection in a multiprocessor architecture. The GeMRTOS controller receives device interrupt requests (DIRQs) (101-103) from input/output peripheral devices (104-106). The GeMRTOS controller sends processor interrupt requests (PIRQs) (107-109) to the system processors (110-112). The system bus (113) allows the processors (110-112) to share the system memory (114). Each processor has a unique internal identification register CPUID (123-125).
 
-![](.\images\manual/media/image2.png)
-
 FIG. 1: GeMRTOS multiprocessor system layout.
 
-GeMRTOS with Intel NIOS II[1] processors
+GeMRTOS with Intel Nios II[1] processors
 ----------------------------------------
 
-The GeMRTOS multiprocessor system is implemented based on the NIOS II processor of Intel Corporation. The system architecture is designed using the Platform Designer tool from Intel Corporation. Table 1 shows the components that includes the GeMRTOS multiprocessor architecture based on NIOS II processors.
+The GeMRTOS multiprocessor system is implemented based on the Nios II processor of Intel Corporation. The system architecture is designed using the Platform Designer tool from Intel Corporation. Table 1 shows the components that includes the GeMRTOS multiprocessor architecture based on Nios II processors. The NProcessos is the parameter that determines the number of Nios II processors of the system.
 
-| Component                                 | Quantity (i)     | Name                  |
-|-------------------------------------------|------------------|-----------------------|
-| Clock Source                              | 1                | clk\_0                |
-| Nios II Processor                         | 1..NProcessors   | nios2\_qsys\_$i       |
-| Nios II Avalon monitor module             | 1                | nios\_avalon\_monitor |
-| Nios II Avalon bridge                     | 1                | nios\_avalon\_bridge  |
-| gRTOS                                     | 1                | grtos\_0              |
-| JTAG UART Intel FPGA IP                   | 0..NProcessors+1 | jtag\_uart\_$i        |
-| Interval Timer Intel FPGA IP              | 1                | timer\_0              |
-| On-Chip Memory (RAM or ROM) Intel FGPA IP | 2                | onchip\_memory1\_$i   |
-| System ID Peripheral Intel FPGA IP        | 1                | sysid\_qsys\_0        |
-| JTAG to Avalon Master Bridge              | 1                | master\_0             |
-| IRQ Bridge                                | 1                | irq\_bridge\_0        |
-| Reset Bridge                              | 1                | reset\_bridge\_0      |
+| **Component**                             | **Quantity (i)** |
+|-------------------------------------------|------------------|
+| Clock Source                              | 1                |
+| Nios II Processor                         | 1..NProcessors   |
+| Nios II Avalon monitor module             | 1                |
+| Nios II Avalon bridge                     | 1                |
+| GeMRTOS                                   | 1                |
+| JTAG UART Intel FPGA IP                   | 1..NProcessors+2 |
+| Interval Timer Intel FPGA IP              | 1                |
+| On-Chip Memory (RAM or ROM) Intel FGPA IP | 2                |
+| System ID Peripheral Intel FPGA IP        | 1                |
+| JTAG to Avalon Master Bridge              | 1                |
+| IRQ Bridge                                | 1                |
+| Reset Bridge                              | 1                |
 
 Table 1: GeMRTOS multiprocessor components in Intel Corporation’s Platform Designer.
 
 FIG. 2 shows a schematic of the architecture implemented for Nios II processors.
 
-![](.\images\manual/media/image3.png)
-
 FIG. 2: GeMRTOS multiprocessor system layout with NIOS II processors.
 
 Table 2 shows the memory requirements of each component of the GeMRTOS multiprocessor architecture.
 
-| Component                     | Quantity (i)     | Interface             | Address span       | Order |
-|-------------------------------|------------------|-----------------------|--------------------|-------|
-| Nios II Processor             | 1..NProcessors   | debug\_mem\_master    | 7FFH               | 3     |
-| Nios II Avalon monitor module | 1                | s\_Global             | FFH                | 5     |
-| Nios II Avalon monitor module | 1..NProcessors   | s$i                   | 0x0 – 0xFFFF\_FFFF |       |
-| Nios II Avalon bridge         | 1..NProcessors   | s$i                   | 0x0 – 0xFFFF\_FFFF |       |
-| gRTOS                         | 1                | s\_Global             | 1FFH               | 4     |
-| gRTOS                         | 1..NProcessors   | s\_processor$i        | 7H                 | 7     |
-| gRTOS                         | 1                | s\_processor\_monitor | 7H                 | 8     |
-| JTAG UART Intel FPGA IP       | 0..NProcessors+1 | avalon\_jtag\_slave   | 7H                 | 9     |
-| Interval Timer Intel FPGA IP  | 1                | s1                    | 1FH                | 6     |
-| onchip\_memory1\_0            | 1                | s1                    | 7FFH               | 2     |
-| onchip\_memory1\_1            | 1                | s1                    | 1FFFH              | 1     |
-| sysid\_qsys\_0                | 1                | control\_slave        | 7H                 | 10    |
+| **Component**                 | **Quantity (i)** | **Interface**         | **Address span**   |
+|-------------------------------|------------------|-----------------------|--------------------|
+| Nios II Processor             | 1..NProcessors   | debug\_mem\_master    | 7FFH               |
+| Nios II Avalon monitor module | 1                | s\_Global             | FFH                |
+| Nios II Avalon monitor module | 1..NProcessors   | s$i                   | 0x0 – 0xFFFF\_FFFF |
+| Nios II Avalon bridge         | 1..NProcessors   | s$i                   | 0x0 – 0xFFFF\_FFFF |
+| gRTOS                         | 1                | s\_Global             | 1FFH               |
+| gRTOS                         | 1..NProcessors   | s\_processor$i        | 7H                 |
+| gRTOS                         | 1                | s\_processor\_monitor | 7H                 |
+| JTAG UART Intel FPGA IP       | 0..NProcessors+1 | avalon\_jtag\_slave   | 7H                 |
+| Interval Timer Intel FPGA IP  | 1                | s1                    | 1FH                |
+| onchip\_memory1\_0            | 1                | s1                    | 7FFH               |
+| onchip\_memory1\_1            | 1                | s1                    | 1FFFH              |
+| sysid\_qsys\_0                | 1                | control\_slave        | 7H                 |
 
 Table 2: GeMRTOS multiprocessor component memory requirements.
 
@@ -202,8 +198,9 @@ GeMRTOS controller registers
 
 The behavior of the GeMRTOS controller is determined by a set of GeMRTOS controller registers (208). Table 3 shows the GeMRTOS controller registers. Some of these registers may be configured through the interface element of the GeMRTOS controller. They are assigned with a unique memory map address to be read and written. For instance, the R\_CTRL register can be used to configure some functions of the GeMRTOS controller such as enabling or disabling the frozen mode.
 
-| R\_CTRL              |     |
+| **Register**         |     |
 |----------------------|-----|
+| R\_CTRL              |     |
 | R\_MTX\_PRC\_GRN     |     |
 | R\_MTX\_CLR\_CNT     |     |
 | R\_MTX\_NXT\_PRC     |     |
@@ -230,7 +227,7 @@ Table 3: GeMRTOS controller registers.
 
 GeMRTOS controller uses internal signals to manage the different events of the multiprocessor hardware architecture. Table 4 shows the internal signals of the GeMRTOS controller.
 
-<table><thead><tr class="header"><th>C1_MTX_GRN</th><th><blockquote><p>C1_MTX_GRN signal is 0 when the R_MTX_PRC_GRN register is equal to 0; otherwise, it is 1.</p></blockquote></th></tr></thead><tbody><tr class="odd"><td>C1_NXT_EVN_PRC_ZRO</td><td></td></tr><tr class="even"><td>R1_IRQ_PND</td><td></td></tr><tr class="odd"><td>R1_FRZ_MDE_ENB</td><td></td></tr><tr class="even"><td>C1_FRZ_MDE</td><td></td></tr><tr class="odd"><td>C1_EVN_TM_OCC</td><td></td></tr><tr class="even"><td>C1_IRQ_PND</td><td></td></tr></tbody></table>
+<table><thead><tr class="header"><th><strong>Signal</strong></th><th><blockquote><p><strong>Description</strong></p></blockquote></th></tr></thead><tbody><tr class="odd"><td>C1_MTX_GRN</td><td><blockquote><p>C1_MTX_GRN signal is 0 when the R_MTX_PRC_GRN register is equal to 0; otherwise, it is 1.</p></blockquote></td></tr><tr class="even"><td>C1_NXT_EVN_PRC_ZRO</td><td></td></tr><tr class="odd"><td>R1_IRQ_PND</td><td></td></tr><tr class="even"><td>R1_FRZ_MDE_ENB</td><td></td></tr><tr class="odd"><td>C1_FRZ_MDE</td><td></td></tr><tr class="even"><td>C1_EVN_TM_OCC</td><td></td></tr><tr class="odd"><td>C1_IRQ_PND</td><td></td></tr></tbody></table>
 
 Table 4: GeMRTOS controller registers.
 
