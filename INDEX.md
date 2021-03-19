@@ -112,13 +112,7 @@ The GeMRTOS controller may stay in one of two time modes:
 
 -   **unfrozen mode**: the GeMRTOS controller starts and remains in unfrozen mode while the condition (1) holds:
 
-(R\_FRZ\_TM\_THR + R\_NXT\_EVN\_CNT &lt; R\_TM\_CNT and
-
-C1\_FRZ\_MDE\_ENB == 1)
-
-or
-
-C1\_FRZ\_MDE\_ENB == 0
+<table><tbody><tr class="odd"><td><p>(R_FRZ_TM_THR + R_NXT_EVN_CNT &lt; R_TM_CNT and</p><p>C1_FRZ_MDE_ENB == 1)</p><p>or</p><p>C1_FRZ_MDE_ENB == 0</p></td><td>(1)</td></tr></tbody></table>
 
 The up-counter R\_TM\_CNT, it is called the time counting register, is incremented at the system time unit rate when the GeMRTOS controller is in unfrozen mode.
 
