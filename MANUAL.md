@@ -26,7 +26,7 @@ Multiprocessor The Generic RTOS (GeMRTOS) 1
 
 [Reference Manual version 0.9.0 1](#reference-manual-version-0.9.0)
 
-[About GeMRTOS 5](#about-gemrtos)
+[About GeMRTOS 5](#about-gemrtos-generic-multiprocessor-real-time-operating-system)
 
 [Introduction 5](#introduction)
 
@@ -118,8 +118,8 @@ Multiprocessor The Generic RTOS (GeMRTOS) 1
 
 [gu\_Set\_Default\_Task\_Type(unsigned int type) 37](#gu_set_default_task_typeunsigned-int-type)
 
-About GeMRTOS
-=============
+About GeMRTOS: Generic Multiprocessor Real-Time Operating System
+================================================================
 
 Introduction
 ============

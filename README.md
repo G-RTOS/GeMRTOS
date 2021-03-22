@@ -1,4 +1,4 @@
-﻿-   [GeMRTOS](#gemrtos)
+﻿-   [GeMRTOS – Generic Multiprocessor Real-Time Operating System](#gemrtos-generic-multiprocessor-real-time-operating-system)
 -   [GeMRTOS system architecture](#gemrtos-system-architecture)
     -   [GeMRTOS with Intel Nios II processors](#gemrtos-with-intel-nios-ii-processors)
     -   [GeMRTOS Controller](#gemrtos-controller)
@@ -29,8 +29,8 @@
 
 © Ricardo Cayssials. All rights reserved.
 
-GeMRTOS
-=======
+GeMRTOS – Generic Multiprocessor Real-Time Operating System
+===========================================================
 
 The GeMRTOS is a multiprocessor system architecture for facilitating real-time multitasking processing. In GeMRTOS, each task is assigned to a list of tasks and one or more processors may serve that list (FIG. 1). Processors may serve one or more lists of tasks, thereby allowing the predictability of partitioned scheduling with a flexible balance of processor loads. Scheduling overhead is reduced using a timer-tickless scheduler. Floating scheduling reduces the overhead for the highest priority tasks and isolates the design of the system from the number of processors of the hardware architecture. The generic feature allows partial configuring global and partitioned scheduling.
 
@@ -141,7 +141,7 @@ The GeMRTOS controller may stay in one of two time modes:
 
 -   **unfrozen mode**: the GeMRTOS controller starts and remains in unfrozen mode while the condition (1) holds:
 
-<table><tbody><tr class="odd"><td><p>(R_FRZ_TM_THR + R_NXT_EVN_CNT &lt; R_TM_CNT and</p><p>C1_FRZ_MDE_ENB == 1)</p><p>or</p><p>C1_FRZ_MDE_ENB == 0</p></td><td>(1)</td></tr></tbody></table>
+<table><tbody><tr class="odd"><td><p>(R_FRZ_TM_THR + R_NXT_EVN_CNT &lt; R_TM_CNT and</p><p>C1_FRZ_MDE_ENB == 1)</p><p>or</p><p>C1_FRZ_MDE_ENB == 0</p></td><td>()</td></tr></tbody></table>
 
 The up-counter R\_TM\_CNT, it is called the time counting register, is incremented at the system time unit rate when the GeMRTOS controller is in unfrozen mode.
 
