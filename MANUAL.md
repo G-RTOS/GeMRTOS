@@ -780,6 +780,8 @@ FIG. 12 shows the structure of the task switch section. This section implements 
 
 -   **GeMRTOS\_Start\_Task**: restore the status of the next task to be executed and return. If signal is pending, the task stack is modify to execute the signal code when returning from interrupt and the return address is set to GeMRTOS\_Return\_from\_signal.
 
+![](.\images\manual/media/image12.png)
+
 FIG. 12: Task switch section structure.
 
 The task switch section is completed by executing a return from interrupt in order to enable the processor interrupt. Before leaving the section, the critical section is released and the corresponding processor interrupt request (PIRQ) of the GeMRTOS controller is enabled.
