@@ -874,6 +874,8 @@ GeMRTOS Implementation for Nios II Processors
 
 The GeMRTOS implementation involves hardware components and software libraries. Intel’s tools and Nios II IP library components are used to implement GeMRTOS in Intel FPGAs. FIG. shows the design flow of the GeMRTOS for Nios II Processors.
 
+![](.\images\manual/media/image13.png)
+
 FIG. 13: GeMRTOS Design Flow for Nios II Processors.
 
 In what follows, a “Hello World” example with GeRMTOS is detailed to show the design flow with GeMRTOS.
