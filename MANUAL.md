@@ -130,7 +130,7 @@ Introduction
 
 This document provides a technical reference of the GeMRTOS multiprocessor system architecture for facilitating real-time multitasking processing. In GeMRTOS, each task is assigned to a list of tasks and one or more processors may serve that list (FIG. 1). Processors may serve one or more lists of tasks, thereby allowing the predictability of partitioned scheduling with a flexible balance of processor loads. Scheduling overhead is reduced using a timer-tickless scheduler. Floating scheduling reduces the overhead for the highest priority tasks and isolates the design of the system from the number of processors of the hardware architecture. The generic feature allows partial configuring global and partitioned scheduling.
 
-![](.\images\manual/media/image1.png)
+![](./images/manual/media/image1.png)
 
 FIG. 1: Scheduling lists in multiprocessor operating system.
 
@@ -141,7 +141,7 @@ GeMRTOS system architecture
 
 In the GeMRTOS system architecture, a set of *N* processors shares a common memory and *M* input/output devices through a common bus. FIG. 2 shows a layout of the GRTIOS controller interconnection in a multiprocessor architecture. The GeMRTOS controller receives device interrupt requests (DIRQs) (101-103) from input/output peripheral devices (104-106). The GeMRTOS controller sends processor interrupt requests (PIRQs) (107-109) to the system processors (110-112). The system bus (113) allows the processors (110-112) to share the system memory (114). Each processor has a unique internal identification register CPUID (123-125).
 
-![](.\images\manual/media/image2.png)
+![](./images/manual/media/image2.png)
 
 FIG. 2: GeMRTOS multiprocessor system layout.
 
@@ -169,7 +169,7 @@ Table 1: GeMRTOS multiprocessor components in Intel Corporation’s Platform Des
 
 FIG. 3 shows a schematic of the architecture implemented for Nios II processors.
 
-![](.\images\manual/media/image3.png)
+![](./images/manual/media/image3.png)
 
 FIG. 3: GeMRTOS multiprocessor system layout with NIOS II processors.
 
@@ -197,7 +197,7 @@ GeMRTOS Controller
 
 The GeMRTOS controller manages and synchronizes all the hardware events in the system. As shown in FIG. 4, the GeMRTOS controller includes the interrupt input module (200) containing device interrupt request inputs (DIRQIs) (201-203) that receives the device interrupt requests (DIRQs) (101-103), the interrupt output module (204) containing processor interrupt request outputs (PIRQOs) (205-207) sending the processor interrupt requests (PIRQs) (107-109), the controller registers (208), the time module (209), the mutex module (210), the event module (211) and the addressable control logic (212) including an interface element (213) and a decoder element (214).
 
-![](.\images\manual/media/image4.png)
+![](./images/manual/media/image4.png)
 
 FIG. 4: GeMRTOS controller architecture.
 
@@ -267,7 +267,7 @@ GeMRTOS controller time module
 
 Most applications require time support. For an adequate and flexible time basis, the system clock signal is prescaled through the up counter R\_TM\_PSC\_CNT register, as shown in FIG. 5.
 
-![](.\images\manual/media/image5.png)
+![](./images/manual/media/image5.png)
 
 FIG. 5: GeMRTOS time prescaler.
 
@@ -389,7 +389,7 @@ A task is defined as a unit of execution. FIG. 6 shows the main components of a 
 
 -   **task stack**: this is data storage to preserve the status of a suspended task in order to resume it properly and store subroutine data.
 
-![](.\images\manual/media/image6.png)
+![](./images/manual/media/image6.png)
 
 FIG. 6: Task components and structure.
 
@@ -401,7 +401,7 @@ Tasks are executed by the processors to produce their designed functions. A task
 
 -   **running state**: the task is executing on a processor. A task is executed until it finishes the execution or is preempted by a higher priority task. A task in the running state is called an “*executing task*”.
 
-![](.\images\manual/media/image7.png)
+![](./images/manual/media/image7.png)
 
 FIG. 7: Task states and events.
 
@@ -452,7 +452,7 @@ The GeMRTOS implements the data structure of a resource in the RCB data structur
 
 FIG. 8 shows a RCB structure to support semaphore or message queue functionality that can be extended to different kinds of system resources.
 
-![](.\images\manual/media/image8.png)
+![](./images/manual/media/image8.png)
 
 FIG. 8: Resource extensions of RCB data structure.
 
@@ -468,7 +468,7 @@ Ready and Running Linked Lists (TCBRDYL list and TCBRUNL list)
 
 Tasks in the ready state are grouped in the Ready Linked Lists. LCB data structures allow holding information about the tasks ready for execution and the tasks currently executing in a determined TCBRDYL list. Several ready linked lists may be defined in order to group the tasks of the system according to each one’s function and the function of the group. FIG. 9 the LCBL list that links all the LCB data structures of the system. When a task is in the ready state, it should be linked to a TCBRDYL list; when a task is in the running state, it should be linked to a TCBRUNL list.
 
-![](.\images\manual/media/image9.png)
+![](./images/manual/media/image9.png)
 
 FIG. 9: Ready and Running LCB lists.
 
@@ -728,7 +728,7 @@ FIG. 10 shows the GeMRTOS code structure. Shadow sections are executed in the cr
 
 -   **task complete section**: is executed when a task completes its execution. The task state is changed to the waiting state and its status is saved. Then, the start task section is called.
 
-![](.\images\manual/media/image10.png)
+![](./images/manual/media/image10.png)
 
 FIG. 10: GeMRTOS structure.
 
@@ -737,7 +737,7 @@ Initialization section
 
 FIG. 11 shows the structure of the initialization section that sets the initial value of the data structures of the GeMRTOS. At the beginning, the stack pointer register (SP) of each processor is configured with a unique stack memory address to avoid conflicts among processors. In order to synchronize the initialization, only the processor whose internal identification register CPUID is equal to 1 executes the configuration code of the data structures and the GeMRTOS controller. The rest of the processors waits, until the critical section is granted to the processor with an internal identification, register CPUID equal to 1. Then, they request the critical section and wait for it to be granted. This mechanism guarantees that: (1) the initialization code section is executed before any other section and (2) the rest of processors start executing tasks codes after the initialization of the system.
 
-![](.\images\manual/media/image11.png)
+![](./images/manual/media/image11.png)
 
 FIG. 11: Initialization section structure.
 
@@ -780,7 +780,7 @@ FIG. 12 shows the structure of the task switch section. This section implements 
 
 -   **GeMRTOS\_Start\_Task**: restore the status of the next task to be executed and return. If signal is pending, the task stack is modify to execute the signal code when returning from interrupt and the return address is set to GeMRTOS\_Return\_from\_signal.
 
-![](.\images\manual/media/image12.png)
+![](./images/manual/media/image12.png)
 
 FIG. 12: Task switch section structure.
 
@@ -874,7 +874,7 @@ GeMRTOS Implementation for Nios II Processors
 
 The GeMRTOS implementation involves hardware components and software libraries. Intel’s tools and Nios II IP library components are used to implement GeMRTOS in Intel FPGAs. FIG. shows the design flow of the GeMRTOS for Nios II Processors.
 
-![](.\images\manual/media/image13.png)
+![](./images/manual/media/image13.png)
 
 FIG. 13: GeMRTOS Design Flow for Nios II Processors.
 
