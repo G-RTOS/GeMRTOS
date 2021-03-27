@@ -114,11 +114,13 @@ Ricardo Cayssials retains and reserves all rights.
 
 [GeMRTOS Implementation for Nios II Processors 35](#gemrtos-implementation-for-nios-ii-processors)
 
-[“Hello World” for GeMRTOS 35](#hello-world-for-gemrtos)
+[Creating a GeMRTOS “Hello worlds” system 36](#creating-a-gemrtos-hello-worlds-system)
 
-[Configuration functions 37](#configuration-functions)
+[“Hello World” for GeMRTOS 36](#hello-world-for-gemrtos)
 
-[gu\_Set\_Default\_Task\_Type(unsigned int type) 37](#gu_set_default_task_typeunsigned-int-type)
+[Configuration functions 39](#configuration-functions)
+
+[gu\_Set\_Default\_Task\_Type(unsigned int type) 39](#gu_set_default_task_typeunsigned-int-type)
 
 About GeMRTOS: Generic Multiprocessor Real-Time Operating System
 ================================================================
@@ -870,7 +872,7 @@ GeMRTOS Implementation for Nios II Processors
 
 The GeMRTOS implementation involves hardware components and software libraries. Intel’s tools and Nios II IP library components are used to implement GeMRTOS in Intel FPGAs. FIG. shows the design flow of the GeMRTOS for Nios II Processors.
 
-FIG. 1: GeMRTOS Design Flow for Nios II Processors.
+FIG. 13: GeMRTOS Design Flow for Nios II Processors.
 
 In what follows, a “Hello World” example with GeRMTOS is detailed to show the design flow with GeMRTOS.
 
