@@ -206,28 +206,28 @@ GeMRTOS controller registers
 
 The behavior of the GeMRTOS controller is determined by a set of GeMRTOS controller registers (208). Table 3 shows the GeMRTOS controller registers. Some of these registers may be configured through the interface element of the GeMRTOS controller. They are assigned with a unique memory map address to be read and written. For instance, the R\_CTRL register can be used to configure some functions of the GeMRTOS controller such as enabling or disabling the frozen mode.
 
-| **Register**         |     |
-|----------------------|-----|
-| R\_CTRL              |     |
-| R\_MTX\_PRC\_GRN     |     |
-| R\_MTX\_CLR\_CNT     |     |
-| R\_MTX\_NXT\_PRC     |     |
-| R\_MTX\_RSV\_PRC     |     |
-| R\_NXT\_EVN\_CNT     |     |
-| R\_TM\_PSC           |     |
-| R\_TM\_CNT           |     |
-| R\_FRZ\_TM\_CNT      |     |
-| R\_TM\_PSC\_CNT      |     |
-| R\_NXT\_EVN\_TM      |     |
-| R\_FRZ\_TM\_THR      |     |
-| R\_NXT\_TM\_EVN\_PRC |     |
-| R\_LOW\_PRI\_PRC     |     |
-| R\_TRG\_PRC\_INT     |     |
-| R\_INT\_ENB          |     |
-| R\_IRQ\_ENB          |     |
-| R\_INT\_CLR          |     |
-| R\_IRQ\_PND          |     |
-| R\_LST\_EVN          |     |
+| **Register**     | **Description**                                                                                                                                                                            |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| R\_CTRL          | It is used to configure the functions of the GeMRTOS controller such as enabling or disabling the frozen mode.                                                                             |
+| R\_MTX\_PRC\_GRN | It is used to implement a critical section among the processors.                                                                                                                           |
+|                  |                                                                                                                                                                                            |
+| R\_MTX\_NXT\_PRC | It is used by the current granted critical section processor to avoid competition among the processors that are requesting access to the mutex                                             |
+| R\_MTX\_RSV\_PRC | It is used for each processor to request access to the mutex. The GeMRTOS halts the processor when the corresponding bit of the R\_MTX\_RSV\_PRC is set, until the mutex is granted to it. |
+| R\_NXT\_EVN\_TM  | It is used by the GeMRTOS controller to hold the earliest occurrence time event.                                                                                                           |
+| R\_TM\_PSC       | It is used to prescale the system clok in order to get the system time.                                                                                                                    |
+| R\_TM\_CNT       | It is used to hold the system time when system is in normal mode. It is called the *time* *counting regiter*.                                                                              |
+| R\_FRZ\_TM\_CNT  | It is used to hold the system time when system is in frozen mode. It is called the *frozen time* *counting regiter*.                                                                       |
+|                  |                                                                                                                                                                                            |
+|                  |                                                                                                                                                                                            |
+| R\_FRZ\_TM\_THR  | It is used to hold the frozen mode threshold.                                                                                                                                              |
+|                  |                                                                                                                                                                                            |
+|                  |                                                                                                                                                                                            |
+|                  |                                                                                                                                                                                            |
+| R\_INT\_ENB      | It is used to enable or disable the processor interrupts.                                                                                                                                  |
+| R\_IRQ\_ENB      | It is used to enable or disable the device request interrupts.                                                                                                                             |
+| R\_INT\_CLR      | It is used to clear the processor interrupt.                                                                                                                                               |
+|                  |                                                                                                                                                                                            |
+|                  |                                                                                                                                                                                            |
 
 Table 3: GeMRTOS controller registers.
 
@@ -235,11 +235,11 @@ Table 3: GeMRTOS controller registers.
 
 GeMRTOS controller uses internal signals to manage the different events of the multiprocessor hardware architecture. Table 4 shows the internal signals of the GeMRTOS controller.
 
-<table><thead><tr class="header"><th><strong>Signal</strong></th><th><blockquote><p><strong>Description</strong></p></blockquote></th></tr></thead><tbody><tr class="odd"><td>C1_MTX_GRN</td><td><blockquote><p>C1_MTX_GRN signal is 0 when the R_MTX_PRC_GRN register is equal to 0; otherwise, it is 1.</p></blockquote></td></tr><tr class="even"><td>C1_NXT_EVN_PRC_ZRO</td><td></td></tr><tr class="odd"><td>R1_IRQ_PND</td><td></td></tr><tr class="even"><td>R1_FRZ_MDE_ENB</td><td></td></tr><tr class="odd"><td>C1_FRZ_MDE</td><td>C1_MTX_GRN signal is 1 when the GeMRTOS controller is in frozen mode; otherwise, it is 0.</td></tr><tr class="even"><td>C1_EVN_TM_OCC</td><td></td></tr><tr class="odd"><td>C1_IRQ_PND</td><td></td></tr></tbody></table>
+<table><thead><tr class="header"><th><strong>Signal</strong></th><th><blockquote><p><strong>Description</strong></p></blockquote></th></tr></thead><tbody><tr class="odd"><td>C1_MTX_GRN</td><td><blockquote><p>C1_MTX_GRN signal is 0 when the R_MTX_PRC_GRN register is equal to 0; otherwise, it is 1.</p></blockquote></td></tr><tr class="even"><td></td><td></td></tr><tr class="odd"><td>R1_IRQ_PND</td><td>The R1_IRQ_PND signal is asserted when a pending interrupt is set.</td></tr><tr class="even"><td>C1_FRZ_MDE_ENB</td><td>The C1_FRZ_MDE_ENB signal should be clear to allow accessing the rest of events when the GeMRTOS controller is in frozen mode</td></tr><tr class="odd"><td>C1_FRZ_MDE</td><td>C1_MTX_GRN signal is 1 when the GeMRTOS controller is in frozen mode; otherwise, it is 0.</td></tr><tr class="even"><td>C1_EVN_TM_OCC</td><td>The GeMRTOS controller produces a time event (C1_EVN_TM_OCC signal) each time the R_TM_CNT register reaches the value stored in the R_NXT_EVN_TM register.</td></tr><tr class="odd"><td>C1_IRQ_PND</td><td>When there exists at least a pending interrupt, then the C1_IRQ_PND signal is set to 1, otherwise, it is set to 0.</td></tr></tbody></table>
 
-Table 4: GeMRTOS controller registers.
+Table 4: GeMRTOS controller signals.
 
-The states of these signals determines the behavior of the GeMRTOS controller.
+The states of these signals determine the behavior of the GeMRTOS controller.
 
 Mutex module 210
 ----------------
