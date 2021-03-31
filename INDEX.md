@@ -104,7 +104,7 @@ The GeMRTOS controller may stay in one of two time modes:
 
 -   **unfrozen mode**: the GeMRTOS controller starts and remains in unfrozen mode while the condition (1) holds:
 
-<table><tbody><tr class="odd"><td><p>(R_FRZ_TM_THR + R_NXT_EVN_CNT &lt; R_TM_CNT and</p><p>C1_FRZ_MDE_ENB == 1)</p><p>or</p><p>C1_FRZ_MDE_ENB == 0</p></td><td>(1)</td></tr></tbody></table>
+<table><tbody><tr class="odd"><td><p>(R_FRZ_TM_THR + R_NXT_EVN_CNT &lt; R_TM_CNT and</p><p>C1_FRZ_MDE_ENB == 1)</p><p>or</p><p>C1_FRZ_MDE_ENB == 0</p></td><td>()</td></tr></tbody></table>
 
 The up-counter R\_TM\_CNT, it is called the time counting register, is incremented at the system time unit rate when the GeMRTOS controller is in unfrozen mode.
 
@@ -319,8 +319,8 @@ RRDS data structure
 
 Each request for a resource may include an RRDS data structure that contains the specific information for that request. If the pointer to an RRDS data structure 1210 in the RCBType field is NULL, then the default values of the resource are considered.
 
-Control block fields
-====================
+Control blocks
+==============
 
 Each of the control blocks holds all the information required to perform its functions and the links required for the linked lists in fields of the data structure. The system control blocks include:
 
@@ -340,8 +340,8 @@ Each of the control blocks holds all the information required to perform its fun
 
 -   RRDS data structure: holds information of the specific resource request. The information of the RRDS data structure depends on the resource it is associated.
 
-GeMRTOS structure
------------------
+GeMRTOS code structure
+----------------------
 
 FIG. 8 shows the GeMRTOS code structure. Shadow sections are executed in the critical section of the GeMRTOS controller. The GeMRTOS structure includes the following sections:
 
@@ -368,7 +368,7 @@ FIG. 8: GeMRTOS structure.
 Initialization section
 ----------------------
 
-FIG. 9 shows the structure of the initialization section that sets the initial value of the data structures of the GeMRTOS. At the beginning, the stack pointer register (SP) of each processor is configured with a unique stack memory address to avoid conflicts among processors. In order to synchronize the initialization, only the processor whose internal identification register CPUID is equal to 1 executes the configuration code of the data structures and the GeMRTOS controller. The rest of the processors waits, until the critical section is granted to the processor with an internal identification, register CPUID equal to 1. Then, they request the critical section and wait for it to be granted. This mechanism guarantees that: (1) the initialization code section is executed before any other section and (2) the rest of processors start executing tasks codes after the initialization of the system.
+FIG. 9 shows the structure of the initialization section that sets the initial value of the data structures of the GeMRTOS. At the beginning, the stack pointer register (SP) of each processor is configured with a unique stack memory address to avoid conflicts among processors. In order to synchronize the initialization, only the processor whose internal identification register CPUID is equal to 1 executes the configuration code of the data structures and the GeMRTOS controller. The rest of the processors wait, until the critical section is granted to the processor with an internal identification, register CPUID equal to 1. Then, they request the critical section and wait for it to be granted. This mechanism guarantees that: (1) the initialization code section is executed before any other section and (2) the rest of processors start executing tasks codes after the initialization of the system.
 
 ![](./images/index/media/image10.png)
 
@@ -376,27 +376,27 @@ FIG. 9: Initialization section structure.
 
 The processor with an internal identification register CPUID equal to 1:
 
-resets the GeMRTOS controller and the rest of the processors: sets R\_PRC\_RST register to 0 by executing a GeMRTOS\_CMD\_RST\_GeMRTOS instruction. The internal registers of the GeMRTOS controller are set to their initial values and the processors with CPUID different from 1 are reset.
+-   resets the GeMRTOS controller and the rest of the processors: set R\_PRC\_RST register to 0 by executing a GeMRTOS\_CMD\_RST\_GeMRTOS instruction. The internal registers of the GeMRTOS controller are set to their initial values and the processors with CPUID different from 1 are reset.
 
-gets access to the critical section of the GeMRTOS controller: to avoid consistency errors when data structures and linked lists are initialized.
+-   gets access to the critical section of the GeMRTOS controller: to avoid consistency errors when data structures and linked lists are initialized.
 
-initializes data structures: all the data structures of the computer program are created with their initial values.
+-   initializes data structures: all the data structures of the computer program are created with their initial values.
 
-initializes linked lists: all linked lists are created in their initial states.
+-   initializes linked lists: all linked lists are created in their initial states.
 
-initializes interrupt and idle tasks: creates the interrupt task associating the ISR of each device interrupt request (DIRQ). An idle task is created for each processor of the system.
+-   initializes interrupt and idle tasks: creates the interrupt task associating the ISR of each device interrupt request (DIRQ). An idle task is created for each processor of the system.
 
-executes the main routine (main()) defined in the user program. The user initializes and creates the user tasks and interrupt tasks in this routine.
+-   executes the main routine (main()) defined in the user program. The user initializes and creates the user tasks and interrupt tasks in this routine.
 
-The rest of the processors of the plurality of processors 110-112:
+> The rest of the processors:
 
-assign an unique stack for each processor of the system.
+-   assign an unique stack for each processor of the system.
 
-wait until the R\_PRC\_RST register is equal to CPUID – 1.
+-   wait until the R\_PRC\_RST register is equal to CPUID – 1.
 
-get the critical section: processors are synchronized to start the execution of user tasks requesting the critical section of the GeMRTOS controller.
+-   get the critical section: processors are synchronized to start the execution of user tasks requesting the critical section of the GeMRTOS controller.
 
-assign the value of CPUID to the R\_PRC\_RST register. This assignment enables the next processor to start its configuration.
+-   assign the value of CPUID to the R\_PRC\_RST register. This assignment enables the next processor to start its configuration.
 
 When the initialization section is executed, the start task section is executed.
 
@@ -411,7 +411,7 @@ FIG. 10 shows the structure of the task switch section. This section implements 
 
 -   **GeMRTOS\_Return\_from\_signal**: when there exists a pending signal for a task, the RETURN\_FROM\_SIGNAL is configured as the return entry point.
 
--   **GeMRTOS\_Start\_Task**: restore the status of the next task to be executed and return. If signal is pending, the task stack is modify to execute the signal code when returning from interrupt and the return address is set to GeMRTOS\_Return\_from\_signal.
+-   **GeMRTOS\_Start\_Task**: restore the status of the next task to be executed and return. If signal is pending, the task stack is modified to execute the signal code when returning from interrupt and the return address is set to GeMRTOS\_Return\_from\_signal.
 
 FIG. 10: Task switch section structure.
 
@@ -422,25 +422,25 @@ Interrupt handler section
 
 The code of the interrupt handler is executed by the processors when some of them receive a processor interrupt request (PIRQ) from the GeMRTOS controller and produces a C1\_IRQ\_PND signal. When a processor receives an interrupt request from a device interrupt request (DIRQ), the processor disables the processor interrupt, and starts executing the interrupt handler section. In the interrupt handler, the processor performs the following procedures:
 
-the status of the processor is saved into the task stack. All the processor registers are pushed into the task stack in order to restore them when the interrupted task is resumed.
+-   the status of the processor is saved into the task stack. All the processor registers are pushed into the task stack in order to restore them when the interrupted task is resumed.
 
-the status of the idle task is restored from the idle task stack. The interrupt section is executed as the idle task of the processor in order to avoid task status inconsistencies.
+-   the status of the idle task is restored from the idle task stack. The interrupt section is executed as the idle task of the processor in order to avoid task status inconsistencies.
 
-the processor interrupt request (PIRQ) of the GeMRTOS controller associated with the processor is disabled. No new interrupt will be produced to the processor by the GeMRTOS controller while it is executing the interrupt handler section.
+-   the processor interrupt request (PIRQ) of the GeMRTOS controller associated with the processor is disabled. No new interrupt will be produced to the processor by the GeMRTOS controller while it is executing the interrupt handler section.
 
-the processor interrupt request (PIRQ) of the GeMRTOS controller associated with the processor is cleared. The interrupt request is cleared to avoid a new request when it is enabled.
+-   the processor interrupt request (PIRQ) of the GeMRTOS controller associated with the processor is cleared. The interrupt request is cleared to avoid a new request when it is enabled.
 
-the critical section of the GeMRTOS controller is requested. The processor waits while requesting the critical section of the GeMRTOS controller until it is granted to the processor.
+-   the critical section of the GeMRTOS controller is requested. The processor waits while requesting the critical section of the GeMRTOS controller until it is granted to the processor.
 
-the R\_LST\_EVN register of the GeMRTOS controller is read to get the last event that occurred. According to the code read from the R\_LST\_EVN register of the GeMRTOS controller, the following is performed:
+-   the R\_LST\_EVN register of the GeMRTOS controller is read to get the last event that occurred. According to the code read from the R\_LST\_EVN register of the GeMRTOS controller, the following is performed:
 
-Code EVN\_CODE\_FROZEN: the gk\_KERNEL\_FROZEN\_IRQ\_HANDLER routine is called to perform the procedure according to the type of time event that produced the interrupt while the system time is frozen. This routine calls the gk\_FROZEN\_CALLBACK() routine in grtosfunctions.c file.
+-   Code EVN\_CODE\_FROZEN: the gk\_KERNEL\_FROZEN\_IRQ\_HANDLER routine is called to perform the procedure according to the type of time event that produced the interrupt while the system time is frozen. This routine calls the gk\_FROZEN\_CALLBACK() routine in grtosfunctions.c file.
 
-Code EVN\_CODE\_TIMED: the gk\_KERNEL\_TIME\_IRQ\_HANDLER() routine is called to perform the procedure according to the type of time event that produced the current EVN\_CODE\_TIMED event. This routine calls the gk\_TIME\_CALLBACK() routine in grtosfunctions.c file.
+-   Code EVN\_CODE\_TIMED: the gk\_KERNEL\_TIME\_IRQ\_HANDLER() routine is called to perform the procedure according to the type of time event that produced the current EVN\_CODE\_TIMED event. This routine calls the gk\_TIME\_CALLBACK() routine in grtosfunctions.c file.
 
-Code DIRQ*i*\_CODE: (1) the requesting device interrupt request (DIRQ) is disabled in the GeMRTOS controller, (2) the TCB data structures associated with the task interrupt of the device interrupt request (DIRQ) are unlinked from the interrupt list to which it is currently linked, (3) the task stack 1601 of the interrupt tasks are initialized and (4) the TCB data structures are linked to the TCBRDYL list.
+-   Code DIRQ*i*\_CODE: (1) the requesting device interrupt request (DIRQ) is disabled in the GeMRTOS controller, (2) the TCB data structures associated with the task interrupt of the device interrupt request (DIRQ) are unlinked from the interrupt list to which it is currently linked, (3) the task stack 1601 of the interrupt tasks are initialized and (4) the TCB data structures are linked to the TCBRDYL list.
 
-Zero (0): there are no more events to process from the GeMRTOS controller and consequently it calls the SWITCH\_SUSPEND\_TASK to execute the next task.
+-   Zero (0): there are no more events to process from the GeMRTOS controller and consequently it calls the SWITCH\_SUSPEND\_TASK to execute the next task.
 
 The R\_LST\_EVN register of the GeMRTOS controller is read until the value returned is equal to 0.
 

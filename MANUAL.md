@@ -76,25 +76,25 @@ Ricardo Cayssials retains and reserves all rights.
 
 [Control block fields 23](#control-block-fields)
 
-[KCB data structure 1200 23](#kcb-data-structure-1200)
+[KCB data structure 1200 23](#section)
 
-[TCB data structure 23](#tcb-data-structure)
+[TCB data structure 23](#section-1)
 
-[ECB data structure 25](#ecb-data-structure)
+[ECB data structure 25](#section-2)
 
-[RCB data structure 26](#rcb-data-structure)
+[RCB data structure 26](#section-3)
 
-[Semaphore structure 26](#semaphore-structure)
+[Semaphore structure 26](#section-4)
 
-[Message queue structure 27](#message-queue-structure)
+[Message queue structure 27](#section-5)
 
-[SCB data structure 27](#scb-data-structure)
+[SCB data structure 27](#section-6)
 
-[LCB data structure 27](#lcb-data-structure)
+[LCB data structure 27](#section-7)
 
-[PCB data structure 28](#pcb-data-structure)
+[PCB data structure 28](#section-8)
 
-[RRDS data structure 29](#rrds-data-structure-1)
+[RRDS data structure 29](#section-9)
 
 [GeMRTOS structure 29](#gemrtos-structure)
 
@@ -235,7 +235,7 @@ Table 3: GeMRTOS controller registers.
 
 GeMRTOS controller uses internal signals to manage the different events of the multiprocessor hardware architecture. Table 4 shows the internal signals of the GeMRTOS controller.
 
-<table><thead><tr class="header"><th><strong>Signal</strong></th><th><blockquote><p><strong>Description</strong></p></blockquote></th></tr></thead><tbody><tr class="odd"><td>C1_MTX_GRN</td><td><blockquote><p>C1_MTX_GRN signal is 0 when the R_MTX_PRC_GRN register is equal to 0; otherwise, it is 1.</p></blockquote></td></tr><tr class="even"><td></td><td></td></tr><tr class="odd"><td>R1_IRQ_PND</td><td>The R1_IRQ_PND signal is asserted when a pending interrupt is set.</td></tr><tr class="even"><td>C1_FRZ_MDE_ENB</td><td>The C1_FRZ_MDE_ENB signal should be clear to allow accessing the rest of events when the GeMRTOS controller is in frozen mode</td></tr><tr class="odd"><td>C1_FRZ_MDE</td><td>C1_MTX_GRN signal is 1 when the GeMRTOS controller is in frozen mode; otherwise, it is 0.</td></tr><tr class="even"><td>C1_EVN_TM_OCC</td><td>The GeMRTOS controller produces a time event (C1_EVN_TM_OCC signal) each time the R_TM_CNT register reaches the value stored in the R_NXT_EVN_TM register.</td></tr><tr class="odd"><td>C1_IRQ_PND</td><td>When there exists at least a pending interrupt, then the C1_IRQ_PND signal is set to 1, otherwise, it is set to 0.</td></tr></tbody></table>
+<table><thead><tr class="header"><th><strong>Signal</strong></th><th><blockquote><p><strong>Description</strong></p></blockquote></th></tr></thead><tbody><tr class="odd"><td>C1_MTX_GRN</td><td>C1_MTX_GRN signal is 0 when the R_MTX_PRC_GRN register is equal to 0; otherwise, it is 1.</td></tr><tr class="even"><td></td><td></td></tr><tr class="odd"><td>R1_IRQ_PND</td><td>The R1_IRQ_PND signal is asserted when a pending interrupt is set.</td></tr><tr class="even"><td>C1_FRZ_MDE_ENB</td><td>The C1_FRZ_MDE_ENB signal should be clear to allow accessing the rest of events when the GeMRTOS controller is in frozen mode</td></tr><tr class="odd"><td>C1_FRZ_MDE</td><td>C1_MTX_GRN signal is 1 when the GeMRTOS controller is in frozen mode; otherwise, it is 0.</td></tr><tr class="even"><td>C1_EVN_TM_OCC</td><td>The GeMRTOS controller produces a time event (C1_EVN_TM_OCC signal) each time the R_TM_CNT register reaches the value stored in the R_NXT_EVN_TM register.</td></tr><tr class="odd"><td>C1_IRQ_PND</td><td>When there exists at least a pending interrupt, then the C1_IRQ_PND signal is set to 1, otherwise, it is set to 0.</td></tr></tbody></table>
 
 Table 4: GeMRTOS controller signals.
 
@@ -487,225 +487,120 @@ Each request for a resource may include an RRDS data structure that contains the
 Control block fields
 ====================
 
-Each of the control blocks holds all the information required to perform its functions and the links required for the linked lists in fields of the data structure.
-
-KCB data structure 1200
------------------------
-
-The KCB data structure holds the main information about the computer program. The KCB data structure includes the following fields:
-
--   KCB\_NextOccTime field: this field holds the time that the earliest time event shall take place, if at all. When the KCB\_NextOccTime field changes its value, it is written to the R\_NXT\_EVN\_TM register of the GeMRTOS controller.
-
--   \*KCB\_NextECBTL field: this field is the root block of the ECBTL list. It points to the first-time ECB data structure in the ECBTL list or NULL if there is not any ECB data structure in the ECBTL list.
-
--   \*KCB\_NextTCBWL field: this field is the root block of the TCBWL list. It points to the first-waiting TCB data structure in the TCBWL list or NULL if there is not any TCB data structure in the TCBWL list.
-
--   \*KCB\_NextTCBFL field: this field is the root block of the TCBFL list. It points to the first-free TCB data structure in the TCBFL list or NULL if there is not any TCB data structure in the TCBFL list.
-
--   \*KCB\_NextECBFL field: this field is the root block of the ECBFL list. It points to the first-free ECB data structure in the ECBFL list or NULL if there is not any ECB data structure in the ECBFL list.
-
--   \*KCB\_NextRCBFL field: this field is the root block of the RCBFL list. It points to the first-free RCB data structure in the RCBFL list or NULL if there is not any RCB data structure in the RCBFL list.
-
--   \*KCB\_NextRRDSFL field: this field is the root block of the RRDSFL list. It points to the first-free RRDS data structure in the RRDSFL list or NULL if there is not any RRDS data structure in the RRDSFL list.
-
--   \*KCB\_NextSCBFL field: this field is the root block of the SCBFL list . It points to the first-free SCB data structure in the SCBFL list or NULL if there is not any SCB data structure in the SCBFL list.
-
--   \*KCB\_NextMCBFL field: this field is the root block of the MCBFL list. It points to the first-free MCB data structure in the MCBFL list or NULL if there is not any MCB data structure in the MCBFL list.
-
--   \*KCB\_NextLCBL field 1809: this field is the root block of the LCBL list. It points to the first-free LCB data structure in the LCBL list or NULL if there is not any LCB data structure in the LCBL list.
-
--   \*KCB\_NextKCBASL field : this field is the root block of the KCBASL list. It points to the first SCB data structure associated with the KCB data structure.
-
-TCB data structure
-------------------
-
-The TCB data structure holds the support information required for the tasks. The TCB data structure includes the following fields:
-
--   TCBState field: this field holds the state of the TCB data structure. The state may be used to determine the action to be performed during runtime. For instance, to unlink a TCB data structure from the current linked list, the TCBState field can be used to select the adequate unlink function.
-
--   TCBType field: this field holds the type of the TCB data structure. The type may be used to determine the action to be performed during runtime. For instance, if it is a periodic task, then the release time event should be updated periodically.
-
--   TCBReadyPriority field: this field holds the priority of the task associated with the TCB data structure when it is in the ready state. The task that is ready for execution with the lowest value in the TCBReadyPriority field (highest priority) is chosen for execution when a processor is available.
-
--   TCBInherPriority field: this field holds the priority that the task inherits when a resource is granted. The priority of the resource may be inherited by the task when the resource is granted to the task.
-
--   TCBRunPriority field: this field holds the priority of the task associated with the TCB data structure when it is in the running state.
-
--   TCBCurrentPriority field: this field holds the current priority of the task associated with the TCB data structure according to its state. For instance, when a task is in the running state, the current priority may be set according to the highest priority between the TCBRunPriority field and the TCBInherPriority field when it grants a resource.
-
--   TCBPeriod field: this field may hold the period of the task associated with the TCB data structure.
-
--   TCBDeadline field: this field may hold the deadline of the task associated with the TCB data structure.
-
--   \*TCB\_StackPointer field: this field holds the current stack pointer of the task when it is not in the running state.
-
--   \*TCB\_StackBottom field: this field holds a pointer to the bottom of the task stack.
-
--   \*TCB\_StackTop field: this field holds a pointer to the top of the task stack.
-
--   \*TCB\_TaskCode field: this field holds a pointer to the starting address of the task code.
-
--   \*TCB\_TaskArg field: this field holds a pointer to the starting arguments of the task.
-
--   \*TCB\_NextTCB field: this field points to the next element of the list that the TCB data structure is linked.
-
--   \*TCB\_PrevTCB field: this field points to the previous element of the list that the TCB data structure is linked.
-
--   \*TCB\_NextTCBAEL field: this field is the root of the TCBAEL list . It points to the first ECB data structure in the TCBAEL list or NULL if there is not any ECB data structure in the TCBAEL list.
-
--   \*TCB\_NextTCBASL field 1916: this field is the root of the TCBASL list. It points to the first SCB data structure in the TCBASL list or NULL if there is not any SCB data structure in the TCBASL list.
-
--   \*TCB\_NextTCBPSL field 1917: this field is the root of the TCBPSL list. It points to the first SCB data structure in the TCBPSL list or NULL if there is not any SCB data structure in the TCBPSL list.
-
--   TCB\_AssocPCB field : this field holds the value of the internal identification register CPUID of the processor that is currently executing the task associated with the TCB data structure.
-
--   TCB\_INTNumber field: this field holds the IRQ number of the device interrupt request (DIRQ) input when TCB data structure is associated with an Interrupt Task (TCBType field is equal to ISR).
-
--   TCB\_RDY\_LCB\_Index field: this field holds the index of the LCBL list to be linked when it is in the ready state.
-
-ECB data structure
-------------------
-
-The ECB data structure holds information about events. The ECB data structure includes the following fields:
-
--   ECBState field: this field holds the state of the ECB data structure. The state may be used to determine the action to be performed during runtime. For instance, to unlink an ECB data structure from the current linked list, the ECBState field is used to select the adequate unlink function.
-
--   ECBType field: this field holds the type of the ECB data structure. The type may be used to determine the action to be performed during runtime.
-
--   ECBValue field: this field holds the value to be used as a sorting criterion in several linked lists. For instance, it may hold time when the ECB data structure is used as a time event or the waiting priority when it is used to request a resource.
-
--   \*ECB\_NextECB field: this field points to the next element of the list with which the ECB data structure is linked.
-
--   \*ECB\_PrevECB field: this field points to the previous element of the list with which the ECB data structure is linked.
-
--   \*ECB\_AssocTCB field 2005: this field points to the TCB data structure 1201 with which the ECB data structure 1202 is associated.
-
--   \*ECB\_AssocRCB field: this field points to the RCB data structure with which the ECB data structure is associated.
-
--   \*ECB\_NextTCBAEL field: this field points to the next element of the TCBAEL list.
-
--   \*ECB\_PrevTCBAEL field: this field points to the previous element of the TCBAEL list.
-
--   \*ECB\_NextECBAEL field: this field is the root block of the ECBAEL list. It is NULL if there is no ECB data structure associated with the ECB data structure.
-
--   \*ECB\_NextECBASL field: this field is the root block of the ECBASL list. It is NULL if there is no SCB data structure associated with the ECB data structure.
-
--   \*ECB\_RRDS field: this field points to the RRDS data structure associated with the ECB data structure. It is NULL if there is no RRDS data structure associated.
-
-RCB data structure
-------------------
-
-The RCB data structure holds information about a resource. The RCB data structure includes the following fields:
-
--   RCBState field: this field holds the state of the RCB data structure. The state may be used to determine the action to be performed during runtime.
-
--   RCBType field: this field holds the type of the RCB data structure. The type is used to determine the actions performed on the resource during runtime.
-
--   RCBCount field: this field holds the count that determines the availability of the resource for requests.
-
--   RCBPriority field: this field holds the priority of the lowest priority task that is granting the resource. This field may be used, for instance, to determine if priority inversion exits between tasks granting and tasks waiting for the resource.
-
--   RCBGrantedPriority field: this field holds the priority that a task inherits when it grants the resource.
-
--   RCBWaitingTimeout field: this field holds the default waiting timeout for the resource associated with the RCB data structure.
-
--   RCBGrantedTimeout field: this field holds the default granted timeout for the resource associated with the RCB data structure.
-
--   \*RCB\_NextRCBWEL field: this field is the root block of the RCBWEL list. It is NULL if there is no ECB data structure linked to the RCBWEL list.
-
--   \*RCB\_NextRCBGEL field: this field is the root block of the RCBGEL list. It is NULL if there is no ECB data structure linked to the RCBGEL list.
-
--   \*RCB\_NextRCB field: this field points to the next element of the list with which the RCB data structure is linked.
-
--   \*RCB\_NextRCBASL field: this field points to the next element of the RCBASL list.
-
-Different resources can be implemented according to the synchronization features to be achieved. Each one of these synchronization mechanisms requires data structures to hold its status. The resource-dependent structure is appended to the RCB data structure to support different synchronization mechanisms.
-
-### Semaphore structure
-
-A semaphore is a widely used synchronization resource for controlling the access of different tasks to critical sections. The fields of this data structure are appended to the RCB data structure. The semaphore structure includes the field:
-
--   SEMMaxCount field: this field holds the maximum number of simultaneous requests that can be granted for the semaphore structure.
-
-### Message queue structure
-
-Messages are used as a communication resource among different tasks. The messages are organized as a queue list in which the first message sent is the first message to be delivered. The message queue structure includes the following fields:
-
--   MESSize field: this field holds the maximum number of MCB data structures for the message queue structure.
-
--   MESEntries field: this field holds the current number of MCB data structures of the message queue structure.
-
--   \*MES\_FirstMCB field: this field points to the first MCB data structure linked to the message queue structure.
-
--   \*MES\_LastMCB field: this field points to the last MCB data structure linked to the message queue structure.
-
-SCB data structure
-------------------
-
-Signals are used to manage internal events that can be produced during runtime. The SCB data structure includes the following fields
-
--   SCBState field: this field holds the state of the SCB data structure. The state may be used to determine some actions to be performed during runtime.
-
--   SCBType field: this field holds the type of the SCB data structure. The type is used to determine some actions to be performed during runtime.
-
--   SCBPriority field: this field holds the priority of the SCB data structure. This field is used to determine the order in which the pending signals are executed (highest priority first).
-
--   \*SCB\_TaskCode field: this field holds a pointer to the starting address of the signal code.
-
--   \*SCB\_TaskArg field: this field holds a pointer to the starting arguments of the signal.
-
--   \*SCB\_NextSCB field: this field holds pointers to the next element of the list to which the SCB data structure is linked.
-
--   \*SCB\_NextSCBAPSL field: this fields links all the pending signals with the signal that generates them.
-
--   \*SCB\_AssocXCB field: points to the data structure with which this SCB data structure is associated.
-
-LCB data structure
-------------------
-
-In a multiprocessor system, tasks may be grouped to be executed by either one or several processors in order to produce a certain performance or function. The LCB data structure allows organizing the group of tasks to be executed by one or several processors and the sharing of processors among LCB data structures. The LCB data structure includes the following fields:
-
--   LCBState field: this field holds the state of the LCB data structure. The state may be used to determine the action to be performed during runtime.
-
--   LCBType field: this field holds the type of the LCB data structure. The type is used to determine the actions to perform during runtime.
-
--   LCBRunPriority field: this field holds the lowest priority of the executing tasks linked to the LCB data structure or the lowest possible priority value if no task is in the running state.
-
--   \*LCB\_NextTCBRUNL field: this field is the root block of the TCBRUNL list. It is NULL if there is no TCB data structure associated with the TCBRUNL list.
-
--   \*LCB\_NextTCBRDYL field: this field is the root block of the TCBRDYL list. It is NULL if there is no TCB data structure associated with the TCBRDYL list.
-
--   \*LCB\_NextLCBL field: this field holds a pointer to the next element in the LCBL list.
-
--   \*LCB\_PrevLCBL field: this field holds a pointer to the previous element in the LCBL list.
-
--   \*LCB\_NextLCBFPL field: this field is the root block of the LCBFPL list. It is NULL if there is no PCB data structure linked to the LCBFPL list.
-
-PCB data structure
-------------------
-
-Each processor of the system requires a data structure to preserve its status during runtime. The PCB data structure holds the information of one processor. The PCB data structure includes the following fields:
-
--   PCBID field: this field holds the value of the internal identification register CPUID of the processor associated with the PCB data structure.
-
--   PCBState field: this field holds the state of the PCB data structure. The state may be used to determine the action to be performed during runtime.
-
--   PCBType field: this field holds the type of the PCB data structure. The type is used to determine the actions performed during runtime.
-
--   PCB\_RDY\_LCBL\[...\] field: this field holds an array that contains the index of the LCBL list that the processor, associated with the PCB data structure, uses to search for a task in the ready state to execute.
-
--   \*PCB\_IDLETCB field: this field holds a pointer to the TCB data structure of the idle task associated with the PCB data structure.
-
--   \*PCB\_EXECTCB field: this field holds a pointer to the TCB data structure of the currently executing task associated with the PCB data structure.
-
--   \*PCB\_NextPCB field: this field holds a pointer to the next element of the list to which the PCB data structure is linked.
-
--   \*PCB\_PrevPCB field: this field holds a pointer to the previous element of the list to which the PCB data structure is linked.
-
-RRDS data structure
--------------------
-
-The RRDS data structure is the structure that holds information of the specific resource request. Fields of the RRDS data structure depend on the resource it is associated.
+Each of the control blocks holds all the information required to perform its functions and the links required for the linked lists in fields of the data structure. The system control blocks include:
+
+-   KCB data structure: holds the main information about the operating system.
+
+-   TCB data structure: holds the support information required for the tasks
+
+-   ECB data structure: holds information about an event.
+
+-   RCB data structure: holds information about a resource such as: Semaphores or Message queues.
+
+-   SCB data structure: holds information used to manage internal signals that can be produced during runtime.
+
+-   LCB data structure: allows organizing the group of tasks to be executed by one or several processors and the sharing of processors among LCB data structures. In a multiprocessor system, tasks may be grouped, through LCB data structure, to be executed by either one or several processors in order to produce a certain performance or function.
+
+-   PCB data structure: holds the information of one processor. Each processor of the system requires a data structure to preserve its status during runtime.
+
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+
+### 
+
+-   
+
+### 
+
+-   
+-   
+-   
+-   
+
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+
+RRDS data structure: holds information of the specific resource request. The information of the RRDS data structure depends on the resource it is associated.
 
 GeMRTOS structure
 -----------------
@@ -735,7 +630,7 @@ FIG. 10: GeMRTOS structure.
 Initialization section
 ----------------------
 
-FIG. 11 shows the structure of the initialization section that sets the initial value of the data structures of the GeMRTOS. At the beginning, the stack pointer register (SP) of each processor is configured with a unique stack memory address to avoid conflicts among processors. In order to synchronize the initialization, only the processor whose internal identification register CPUID is equal to 1 executes the configuration code of the data structures and the GeMRTOS controller. The rest of the processors waits, until the critical section is granted to the processor with an internal identification, register CPUID equal to 1. Then, they request the critical section and wait for it to be granted. This mechanism guarantees that: (1) the initialization code section is executed before any other section and (2) the rest of processors start executing tasks codes after the initialization of the system.
+FIG. 11 shows the structure of the initialization section that sets the initial value of the data structures of the GeMRTOS. At the beginning, the stack pointer register (SP) of each processor is configured with a unique stack memory address to avoid conflicts among processors. In order to synchronize the initialization, only the processor whose internal identification register CPUID is equal to 1 executes the configuration code of the data structures and the GeMRTOS controller. The rest of the processors wait, until the critical section is granted to the processor with an internal identification, register CPUID equal to 1. Then, they request the critical section and wait for it to be granted. This mechanism guarantees that: (1) the initialization code section is executed before any other section and (2) the rest of processors start executing tasks codes after the initialization of the system.
 
 ![](./images/manual/media/image11.png)
 
@@ -743,7 +638,7 @@ FIG. 11: Initialization section structure.
 
 The processor with an internal identification register CPUID equal to 1:
 
--   resets the GeMRTOS controller and the rest of the processors: sets R\_PRC\_RST register to 0 by executing a GeMRTOS\_CMD\_RST\_GeMRTOS instruction. The internal registers of the GeMRTOS controller are set to their initial values and the processors with CPUID different from 1 are reset.
+-   resets the GeMRTOS controller and the rest of the processors: set R\_PRC\_RST register to 0 by executing a GeMRTOS\_CMD\_RST\_GeMRTOS instruction. The internal registers of the GeMRTOS controller are set to their initial values and the processors with CPUID different from 1 are reset.
 
 -   gets access to the critical section of the GeMRTOS controller: to avoid consistency errors when data structures and linked lists are initialized.
 
@@ -755,7 +650,7 @@ The processor with an internal identification register CPUID equal to 1:
 
 -   executes the main routine (main()) defined in the user program. The user initializes and creates the user tasks and interrupt tasks in this routine.
 
-The rest of the processors of the plurality of processors 110-112:
+The rest of the processors:
 
 -   assign an unique stack for each processor of the system.
 
@@ -778,7 +673,7 @@ FIG. 12 shows the structure of the task switch section. This section implements 
 
 -   **GeMRTOS\_Return\_from\_signal**: when there exists a pending signal for a task, the RETURN\_FROM\_SIGNAL is configured as the return entry point.
 
--   **GeMRTOS\_Start\_Task**: restore the status of the next task to be executed and return. If signal is pending, the task stack is modify to execute the signal code when returning from interrupt and the return address is set to GeMRTOS\_Return\_from\_signal.
+-   **GeMRTOS\_Start\_Task**: restore the status of the next task to be executed and return. If signal is pending, the task stack is modified to execute the signal code when returning from interrupt and the return address is set to GeMRTOS\_Return\_from\_signal.
 
 ![](./images/manual/media/image12.png)
 
@@ -823,19 +718,19 @@ Task suspend section
 
 When a task is suspended, the following procedure is performed:
 
--   the TCB data structure of the task is unlinked from the TCBRUNL list and then linked to the TCBWL list. The task remains in the waiting state until a release event changes it to the ready state.
+1.  the TCB data structure of the task is unlinked from the TCBRUNL list and then linked to the TCBWL list. The task remains in the waiting state until a release event changes it to the ready state.
 
--   the next task to execute is chosen among tasks in the ready state that may be executed by the current processor.
+2.  the next task to execute is chosen among tasks in the ready state that may be executed by the current processor.
 
--   the next task is linked to the TCBRUNL list and its state is changed to the running state.
+3.  the next task is linked to the TCBRUNL list and its state is changed to the running state.
 
--   the processor interrupt is set to the running priority of the next task, the LCBL list is updated accordingly and the lowest priority processor register is set in the GeMRTOS controller.
+4.  the processor interrupt is set to the running priority of the next task, the LCBL list is updated accordingly and the lowest priority processor register is set in the GeMRTOS controller.
 
--   the priority inversion is checked in order to verify that there is no task in the ready state with higher priority than any task in the running state for the TCBRUNL list of the next task. If there is a task in the ready state with a higher priority than a task that is currently being executed for a processor in the TCBRUNL list, then the processor interrupt request (PIRQ) in the GeMRTOS controller is triggered.
+5.  the priority inversion is checked in order to verify that there is no task in the ready state with higher priority than any task in the running state for the TCBRUNL list of the next task. If there is a task in the ready state with a higher priority than a task that is currently being executed for a processor in the TCBRUNL list, then the processor interrupt request (PIRQ) in the GeMRTOS controller is triggered.
 
--   the next time processor is set in the GeMRTOS controller .
+6.  the next time processor is set in the GeMRTOS controller .
 
--   the SWITCH\_SUSPEND\_TASK entry point in the task switch section is called to produce the context switching of a suspended task.
+7.  the SWITCH\_SUSPEND\_TASK entry point in the task switch section is called to produce the context switching of a suspended task.
 
 Task complete section
 ---------------------
@@ -859,8 +754,6 @@ The complete task section is executed when a task finishes its execution. Then, 
 -   the priority inversion is checked in order to verify that there is no task in the ready state with higher priority than any task in the running state for the TCBRUNL list of the next task. If there is a task in the ready state with a higher priority than a task that is being executed for a processor in the TCBRUNL list, then the processor interrupt request (PIRQ) in the GeMRTOS controller is triggered.
 
 -   the R\_NXT\_TM\_EVN\_PRC register in the GeMRTOS controller is set with the processor that is executing the task that produces the next time event (0 if no task is executing the next time event).
-
-<!-- -->
 
 -   the gk\_GeMRTOS\_Start\_Task is called to produce context switching of a suspended task.
 
