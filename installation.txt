@@ -1,0 +1,2 @@
+1) Download Quartus Prime from Intel.com. This tutorial uses Quartus Prime Lite version 18.0
+2) If HPS support is desired, download and install "Intel SoC FPGA Embedded Development Suite"
