@@ -1,0 +1,10 @@
+/GeMRTOS/DE10Nano/.qsys_edit/*
+/GeMRTOS/DE10Nano/db/*
+/GeMRTOS/DE10Nano/soc_system/synthesis/*
+/GeMRTOS/DE10Nano/soc_system/*.xml
+/GeMRTOS/DE10Nano/soc_system/*.bsf
+*.qws
+*.cmp
+*.rpt
+*.html
+*.sopcinfo

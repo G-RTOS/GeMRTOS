@@ -45,20 +45,20 @@ add_fileset quartus_synth QUARTUS_SYNTH "" "Quartus Synthesis"
 set_fileset_property quartus_synth TOP_LEVEL grtos
 set_fileset_property quartus_synth ENABLE_RELATIVE_INCLUDE_PATHS false
 add_fileset_file grtos.qxp QXP PATH grtos.qxp
-add_fileset_file STD_FIFO.vhd VHDL PATH STD_FIFO.vhd
+# add_fileset_file STD_FIFO.vhd VHDL PATH STD_FIFO.vhd
 
 
 add_fileset sim_verilog SIM_VERILOG "" "Verilog Simulation"
 set_fileset_property sim_verilog TOP_LEVEL grtos
 set_fileset_property sim_verilog ENABLE_RELATIVE_INCLUDE_PATHS false
 add_fileset_file grtos.qxp QXP PATH grtos.qxp
-add_fileset_file STD_FIFO.vhd VHDL PATH STD_FIFO.vhd
+# add_fileset_file STD_FIFO.vhd VHDL PATH STD_FIFO.vhd
 
 add_fileset sim_vhdl SIM_VHDL "" "VHDL Simulation"
 set_fileset_property sim_vhdl TOP_LEVEL grtos
 set_fileset_property sim_vhdl ENABLE_RELATIVE_INCLUDE_PATHS false
 add_fileset_file grtos.qxp QXP PATH grtos.qxp
-add_fileset_file STD_FIFO.vhd VHDL PATH STD_FIFO.vhd
+# add_fileset_file STD_FIFO.vhd VHDL PATH STD_FIFO.vhd
 
 # 
 # parameters
