@@ -331,7 +331,7 @@ proc compose { } {
         set_instance_parameter_value nios2_qsys_${i} {icache_ramBlockType} {Automatic}
         set_instance_parameter_value nios2_qsys_${i} {icache_size} {0}
         set_instance_parameter_value nios2_qsys_${i} {icache_tagramBlockType} {Automatic}
-        set_instance_parameter_value nios2_qsys_${i} {impl} {Fast}
+        set_instance_parameter_value nios2_qsys_${i} {impl} {Tiny}
         set_instance_parameter_value nios2_qsys_${i} {instruction_master_high_performance_paddr_base} {0}
         set_instance_parameter_value nios2_qsys_${i} {instruction_master_high_performance_paddr_size} {0.0}
         set_instance_parameter_value nios2_qsys_${i} {instruction_master_paddr_base} {0}

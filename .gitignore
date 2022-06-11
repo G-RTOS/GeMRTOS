@@ -5,8 +5,13 @@
 /GeMRTOS/DE10Nano/soc_system/synthesis/*
 /GeMRTOS/DE10Nano/soc_system/*.xml
 /GeMRTOS/DE10Nano/soc_system/*.bsf
+/GeMRTOS/DE10Nano/hps_isw_handoff/*
+grtos_bsp_create.sh
 *.qws
 *.cmp
 *.rpt
 *.html
 *.sopcinfo
+*_dump.txt
+*_summary.csv
+
