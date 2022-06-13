@@ -25,7 +25,7 @@ cd ..
 
 # copiar preloader en la SD que debe estar como disco E
 # Pasar como parametro la letra de la unidad !!!!!!!!!
-alt-boot-disk-util -p ./software/spl_bsp/preloader-mkpimage.bin -b ./software/spl_bsp/uboot-socfpga/u-boot.img -a write -d e
+alt-boot-disk-util -p ./software/spl_bsp/preloader-mkpimage.bin -b ./software/spl_bsp/uboot-socfpga/u-boot.img -a write -d $1
 #alt-boot-disk-util -p ./software/spl_bsp/preloader-mkpimage.bin -a write -d e
 
 
@@ -36,8 +36,8 @@ cd ..
 cd ..
 
 # PONER cp soc_system.rbf /cygdrive/f !!!!!!!!!!!!
-cp ./software/script/u-boot.scr ../../../e
-diff -qsr ./software/script/u-boot.scr ../../../e
+cp ./software/script/u-boot.scr /cygdrive/$1
+diff -qsr ./software/script/u-boot.scr /cygdrive/$1
 
 # Fijarse las unidades de red si se desea transferir estos archivos !!!!!!!
 cp ./software/script/u-boot.scr ../../f/sdfat
@@ -54,8 +54,8 @@ sleep 10s
 # De https://rocketboards.org/foswiki/pub/Documentation/DE10Standard/DE10-Standard_Control_Panel.pdf
 quartus_cpf -c -o bitstream_compression=on ./output_files/DE10_NANO_SoC_GHRD.sof soc_system.rbf
 # Copiarlo a la FAT32 que esta en el drive E
-cp soc_system.rbf ../../../e
-diff -qsr soc_system.rbf ../../../e
+cp soc_system.rbf /cygdrive/$1
+diff -qsr soc_system.rbf /cygdrive/$1
 
 # Comprobar si se desea conpartirlos a red !!!!!!!!
 cp soc_system.rbf ../../f/sdfat
@@ -73,8 +73,8 @@ diff -qsr soc_system.rbf ../../f/sdfat
 # pasar como parametro el nombre del soc_system !!!!!!!!!!!
 sopc2dts --input soc_system.sopcinfo --output socfpga.dtb --type dtb --board hps_common_board_info.xml --board soc_system_board_info.xml --bridge-removal all --sopc-parameters node --clocks -v
 
-cp socfpga.dtb ../../../e
-diff -qsr socfpga.dtb ../../../e
+cp socfpga.dtb /cygdrive/$1
+diff -qsr socfpga.dtb /cygdrive/$1
 
 # Fijarse si se desea transferir por red !!!!!!!!!
 cp socfpga.dtb ../../f/sdfat
@@ -84,8 +84,8 @@ diff -qsr socfpga.dtb ../../f/sdfat
 sopc2dts --input soc_system.sopcinfo --output socfpga.dts --type dts --board hps_common_board_info.xml --board soc_system_board_info.xml --bridge-removal all --clocks -v
 
 # para que transfiera y lo saque de la cache
-cp soc_system.rbf ../../../e
-diff -qsr soc_system.rbf ../../../e
+cp soc_system.rbf /cygdrive/$1
+diff -qsr soc_system.rbf /cygdrive/$1
 
 # Fijarse si se desea transferir por red !!!!!!!!!
 cp soc_system.rbf ../../f/sdfat
@@ -94,9 +94,9 @@ diff -qsr soc_system.rbf ../../f/sdfat
 
 # Obtengo todos los archivos cabeceras y los transfiero al directorio headers
 sopc-create-header-files soc_system.sopcinfo > system_modules.h
-mkdir -p /cygdrive/e/headers
-chmod -R 0777 /cygdrive/e/headers/
-cp *.h /cygdrive/e/headers
+mkdir -p /cygdrive/$1/headers
+chmod -R 0777 /cygdrive/$1/headers/
+cp *.h /cygdrive/$1/headers
 
 # Fijarse si se desea transferir por red !!!!!!!!!
 cp *.h /cygdrive/f/sdfat/headers

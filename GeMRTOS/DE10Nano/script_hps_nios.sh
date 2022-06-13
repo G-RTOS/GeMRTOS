@@ -20,6 +20,7 @@ QUARTUS_PROJECT=""
 QSYS_PROJECT=""
 NIOS_BSP_DIR=""
 SOF=""
+SD_VOLUME=""
 
 for ARGUMENT in "$@"
 do
@@ -31,6 +32,7 @@ do
             QSYS_PROJECT)      QSYS_PROJECT=${VALUE} ;;
             NIOS_BSP_DIR)      NIOS_BSP_DIR=${VALUE} ;;
             SOF)               SOF=${VALUE} ;;
+            SD_VOLUME)         SD_VOLUME=${VALUE} ;;
             *)   
     esac    
 done
@@ -40,6 +42,7 @@ echo "QUARTUS_PROJECT = ${QUARTUS_PROJECT}"
 echo "QSYS_PROJECT = ${QSYS_PROJECT}"
 echo "NIOS_BSP_DIR = ${NIOS_BSP_DIR}"
 echo "SOF = $SOF"
+echo "SD_VOLUME = $SD_VOLUME"
 
 # Get the starting time
 START=$(date +%s);
@@ -90,7 +93,7 @@ if [ "$QSYS_PROJECT" != "" ]; then
         # Run the BSP creation from the executable produced by the qsys-script
         # SACAR ESTE !!!!!!!!!!!
         # bsp-generate-files --bsp-dir "./software/spl_bsp" --settings "./software/spl_bsp/settings.bsp"
-        bash grtos_bsp_create.sh ${NIOS_BSP_DIR} 
+        bash grtos_bsp_create.sh ${NIOS_BSP_DIR} ${SD_VOLUME}
 
         # #########
         # Clean previous compilations
