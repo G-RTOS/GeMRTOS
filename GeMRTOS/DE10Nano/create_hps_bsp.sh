@@ -34,6 +34,8 @@ mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "bootscript" -d u-boot.tx
 #mkimage -A arm -O u-boot -T script -C none -a 0 -e 0 -n "bootscript" -d u-boot.txt u-boot.scr
 cd ..
 cd ..
+
+# PONER cp soc_system.rbf /cygdrive/f !!!!!!!!!!!!
 cp ./software/script/u-boot.scr ../../../e
 diff -qsr ./software/script/u-boot.scr ../../../e
 
