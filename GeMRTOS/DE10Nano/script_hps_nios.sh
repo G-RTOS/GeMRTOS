@@ -98,6 +98,9 @@ if [ "$QSYS_PROJECT" != "" ]; then
         # bsp-generate-files --bsp-dir "./software/spl_bsp" --settings "./software/spl_bsp/settings.bsp"
         bash grtos_bsp_create.sh ${NIOS_BSP_DIR} ${SD_VOLUME}
 
+
+        nios2-app-generate-makefile --bsp-dir ${NIOS_BSP_DIR} --app-dir ${NIOS_APP_DIR} --set QUARTUS_PROJECT_DIR=./ --elf-name hellogrtos.elf --set OBJDUMP_INCLUDE_SOURCE 1 --src-rdir ${NIOS_APP_DIR}
+
         # #########
         # Clean previous compilations
         make clean --directory=${NIOS_BSP_DIR}

@@ -17,6 +17,7 @@ bsp-create-settings --type spl --bsp-dir software/spl_bsp --preloader-settings-d
 
 
 # transferir el archivo Makefile de patch en Windows 10 !!!!!!!!!
+# de https://community.intel.com/t5/Nios-II-Embedded-Design-Suite/Preloader-Make-untar-failing/td-p/219059
 cd ./software/spl_bsp/
 make 
 make uboot
