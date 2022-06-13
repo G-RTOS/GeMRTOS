@@ -50,7 +50,7 @@
 #include <ext_isr.h>
 #include <sys/alt_cache.h>
 
-#include "C:/genericDE10/corrida/rts_gemrtos.h"
+#include "../runtime/rts_gemrtos.h"
 
 #include <inttypes.h>
 
