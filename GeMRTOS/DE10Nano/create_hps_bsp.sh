@@ -4,13 +4,16 @@
 # bash bsp-createsettings.sh
 # bsp-generate-files --bsp-dir "./software/spl_bsp" --settings "./software/spl_bsp/settings.bsp"
 
-if [ ! -e ./software/spl_bsp ]; then
-    echo "Select .\hps_isw_handoff\soc_system_hps_0 as preloader directory"
-    echo "Select FAT SUPPORT"
-    bsp-editor
-else
-    bsp-create-settings --type spl --bsp-dir software/spl_bsp --preloader-settings-dir hps_isw_handoff/soc_system_hps_0/ --settings software/spl_bsp/settings.bsp
-fi
+
+bsp-create-settings --type spl --bsp-dir software/spl_bsp --preloader-settings-dir hps_isw_handoff/soc_system_hps_0/ --settings software/spl_bsp/settings.bsp --set spl.boot.FAT_SUPPORT 1
+
+# if [ ! -e ./software/spl_bsp ]; then
+#     echo "Select .\hps_isw_handoff\soc_system_hps_0 as preloader directory"
+#     echo "Select FAT SUPPORT"
+#     bsp-editor
+# else
+#     bsp-create-settings --type spl --bsp-dir software/spl_bsp --preloader-settings-dir hps_isw_handoff/soc_system_hps_0/ --settings software/spl_bsp/settings.bsp
+# fi
 
 
 
