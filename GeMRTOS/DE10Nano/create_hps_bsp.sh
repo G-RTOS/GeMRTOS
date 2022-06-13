@@ -16,7 +16,7 @@ bsp-create-settings --type spl --bsp-dir software/spl_bsp --preloader-settings-d
 # fi
 
 
-
+# transferir el archivo Makefile de patch en Windows 10 !!!!!!!!!
 cd ./software/spl_bsp/
 make 
 make uboot
@@ -24,6 +24,7 @@ cd ..
 cd ..
 
 # copiar preloader en la SD que debe estar como disco E
+# Pasar como parametro la letra de la unidad !!!!!!!!!
 alt-boot-disk-util -p ./software/spl_bsp/preloader-mkpimage.bin -b ./software/spl_bsp/uboot-socfpga/u-boot.img -a write -d e
 #alt-boot-disk-util -p ./software/spl_bsp/preloader-mkpimage.bin -a write -d e
 
@@ -35,12 +36,17 @@ cd ..
 cd ..
 cp ./software/script/u-boot.scr ../../../e
 diff -qsr ./software/script/u-boot.scr ../../../e
+
+# Fijarse las unidades de red si se desea transferir estos archivos !!!!!!!
 cp ./software/script/u-boot.scr ../../f/sdfat
 diff -qsr ./software/script/u-boot.scr ../../f/sdfat
 
 cp ./software/spl_bsp/uboot-socfpga/u-boot.img ../../f/sdfat
 
 sleep 10s
+
+
+# Pasar como parametro el nombre del archivo .SOF !!!!!!!!!!!!!!!
 # Generar el rbf
 # quartus_cpf -c ./output_files/DE10_NANO_SoC_GHRD.sof soc_system.rbf
 # De https://rocketboards.org/foswiki/pub/Documentation/DE10Standard/DE10-Standard_Control_Panel.pdf
@@ -48,6 +54,8 @@ quartus_cpf -c -o bitstream_compression=on ./output_files/DE10_NANO_SoC_GHRD.sof
 # Copiarlo a la FAT32 que esta en el drive E
 cp soc_system.rbf ../../../e
 diff -qsr soc_system.rbf ../../../e
+
+# Comprobar si se desea conpartirlos a red !!!!!!!!
 cp soc_system.rbf ../../f/sdfat
 diff -qsr soc_system.rbf ../../f/sdfat
 
@@ -60,10 +68,13 @@ diff -qsr soc_system.rbf ../../f/sdfat
 # Este era el primero que funciona sin crossing 
 #sopc2dts --input soc_system.sopcinfo --output socfpga.dtb --type dtb --board hps_common_board_info.xml --board soc_system_board_info.xml --bridge-removal all --clocks -v
 #sopc2dts --input soc_system.sopcinfo --output socfpga.dtb --type dtb --board hps_common_board_info.xml --board soc_system_board_info.xml --bridge-removal all --sopc-parameters cmacro --clocks -v
+# pasar como parametro el nombre del soc_system !!!!!!!!!!!
 sopc2dts --input soc_system.sopcinfo --output socfpga.dtb --type dtb --board hps_common_board_info.xml --board soc_system_board_info.xml --bridge-removal all --sopc-parameters node --clocks -v
 
 cp socfpga.dtb ../../../e
 diff -qsr socfpga.dtb ../../../e
+
+# Fijarse si se desea transferir por red !!!!!!!!!
 cp socfpga.dtb ../../f/sdfat
 diff -qsr socfpga.dtb ../../f/sdfat
 
@@ -73,6 +84,8 @@ sopc2dts --input soc_system.sopcinfo --output socfpga.dts --type dts --board hps
 # para que transfiera y lo saque de la cache
 cp soc_system.rbf ../../../e
 diff -qsr soc_system.rbf ../../../e
+
+# Fijarse si se desea transferir por red !!!!!!!!!
 cp soc_system.rbf ../../f/sdfat
 diff -qsr soc_system.rbf ../../f/sdfat
 
@@ -82,6 +95,8 @@ sopc-create-header-files soc_system.sopcinfo > system_modules.h
 mkdir -p /cygdrive/e/headers
 chmod -R 0777 /cygdrive/e/headers/
 cp *.h /cygdrive/e/headers
+
+# Fijarse si se desea transferir por red !!!!!!!!!
 cp *.h /cygdrive/f/sdfat/headers
 
 sync 
@@ -89,4 +104,5 @@ sync
 # cp soc_system.dtb ../../../e
 # diff -qsr soc_system.dtb ../../../e
 
+# Modificarse el bat para recibir la letra de la unidad !!!!!!!!!
 cmd /c script.bat
