@@ -81,6 +81,9 @@ if [ "$QSYS_PROJECT" != "" ]; then
         qsys-generate ${QSYS_PROJECT}.qsys --upgrade-ip-cores
         qsys-generate ${QSYS_PROJECT}.qsys --synthesis=VERILOG  
 
+        # Compile the Quartus project
+        quartus_cmd ${QUARTUS_PROJECT}.qpf -c ${QUARTUS_PROJECT}.qsf
+        
         # #########
         # Get  data to produce the BSP settings file for HPS
         qsys-script --system-file=${QSYS_PROJECT}.qsys --script=qsysscript.tcl
@@ -113,8 +116,7 @@ if [ "$QSYS_PROJECT" != "" ]; then
         # Clean the previous Quartus compilation files
         rm ./output_files/*
 
-        # Compile the Quartus project
-        quartus_cmd ${QUARTUS_PROJECT}.qpf -c ${QUARTUS_PROJECT}.qsf
+
 
 
     else
