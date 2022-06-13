@@ -2,6 +2,7 @@
 /GeMRTOS/DE10Nano/db/*
 /GeMRTOS/DE10Nano/incremental_db/*
 /GeMRTOS/DE10Nano/output_files/*
+/GeMRTOS/DE10Nano/software/hellogemrtos_bsp/*
 /GeMRTOS/DE10Nano/soc_system/synthesis/*
 /GeMRTOS/DE10Nano/soc_system/*.xml
 /GeMRTOS/DE10Nano/soc_system/*.bsf
