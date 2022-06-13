@@ -86,7 +86,7 @@ if [ "$QSYS_PROJECT" != "" ]; then
         qsys-script --system-file=${QSYS_PROJECT}.qsys --script=qsysscript.tcl
         # Run the BSP creation from the executable produced by the qsys-script
         # SACAR ESTE !!!!!!!!!!!
-        bsp-generate-files --bsp-dir "./software/spl_bsp" --settings "./software/spl_bsp/settings.bsp"
+        # bsp-generate-files --bsp-dir "./software/spl_bsp" --settings "./software/spl_bsp/settings.bsp"
         bash grtos_bsp_create.sh ${NIOS_BSP_DIR} 
 
         # #########

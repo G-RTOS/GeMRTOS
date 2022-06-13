@@ -5,7 +5,7 @@
 # bsp-generate-files --bsp-dir "./software/spl_bsp" --settings "./software/spl_bsp/settings.bsp"
 
 if [ ! -e ./software/spl_bsp ]; then
-    echo "Select .\hps_isw_handoff\soc_system_hps_0 como preloader directory"
+    echo "Select .\hps_isw_handoff\soc_system_hps_0 as preloader directory"
     echo "Select FAT SUPPORT"
     bsp-editor
 else

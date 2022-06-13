@@ -3,6 +3,7 @@
 /GeMRTOS/DE10Nano/incremental_db/*
 /GeMRTOS/DE10Nano/output_files/*
 /GeMRTOS/DE10Nano/software/hellogemrtos_bsp/*
+/GeMRTOS/DE10Nano/software/spl_bsp/*
 /GeMRTOS/DE10Nano/soc_system/synthesis/*
 /GeMRTOS/DE10Nano/soc_system/*.xml
 /GeMRTOS/DE10Nano/soc_system/*.bsf
@@ -15,4 +16,4 @@ grtos_bsp_create.sh
 *.sopcinfo
 *_dump.txt
 *_summary.csv
-
+u-boot.scr
