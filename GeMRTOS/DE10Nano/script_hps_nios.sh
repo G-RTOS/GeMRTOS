@@ -18,6 +18,7 @@
 QSYS=""
 QUARTUS_PROJECT=""
 QSYS_PROJECT=""
+NIOS_APP_DIR=""
 NIOS_BSP_DIR=""
 SOF=""
 SD_VOLUME=""
@@ -33,6 +34,7 @@ do
             NIOS_BSP_DIR)      NIOS_BSP_DIR=${VALUE} ;;
             SOF)               SOF=${VALUE} ;;
             SD_VOLUME)         SD_VOLUME=${VALUE} ;;
+            NIOS_APP_DIR)      NIOS_APP_DIR=${VALUE} ;;
             *)   
     esac    
 done
@@ -43,6 +45,7 @@ echo "QSYS_PROJECT = ${QSYS_PROJECT}"
 echo "NIOS_BSP_DIR = ${NIOS_BSP_DIR}"
 echo "SOF = $SOF"
 echo "SD_VOLUME = $SD_VOLUME"
+echo "NIOS_APP_DIR = $NIOS_APP_DIR"
 
 # Get the starting time
 START=$(date +%s);
@@ -98,7 +101,7 @@ if [ "$QSYS_PROJECT" != "" ]; then
         # #########
         # Clean previous compilations
         make clean --directory=${NIOS_BSP_DIR}
-        make clean --directory=./software/hellogrtos
+        make clean --directory=${NIOS_APP_DIR}
         # nios2-bsp-update-settings --bsp-dir ${NIOS_BSP_DIR} --settings ${NIOS_BSP_DIR}/settings.bsp
 
         # Poner si se quiere el codigo en memoria inerna
@@ -106,9 +109,9 @@ if [ "$QSYS_PROJECT" != "" ]; then
 
         # Build both projects
         make all --directory=${NIOS_BSP_DIR}
-        make all --directory=./software/hellogrtos
+        make all --directory=${NIOS_APP_DIR}
 
-        cd ./software/hellogrtos
+        cd ${NIOS_APP_DIR}
         make mem_init_generate
         cd ..
         cd ..
@@ -151,7 +154,7 @@ fi
 
 # Clean previous compilations
 make clean --directory=${NIOS_BSP_DIR}
-make clean --directory=./software/hellogrtos
+make clean --directory=${NIOS_APP_DIR}
 
 # Build the BSP project with the .sopcinfo file in ./
 # nios2-bsp hal ./software/hellogrtos_bsp .
@@ -170,7 +173,7 @@ nios2-bsp-update-settings --bsp-dir ${NIOS_BSP_DIR} --settings ${NIOS_BSP_DIR}/s
 
 # Build both projects
 make all --directory=${NIOS_BSP_DIR}
-make all --directory=./software/hellogrtos
+make all --directory=${NIOS_APP_DIR}
 
 # nios2-bsp-update-settings [--bsp-dir <directory>] 
 #  [--cmd <tcl command>] [--cpu-name <cpu name>] 
