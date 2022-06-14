@@ -64,7 +64,7 @@ fi
 
 
 # Generation of QSYS, Quartus and HPS projects
-if [ "$QSYS_PROJECT" = "" ]; then
+if [ "$QSYS_PROJECT" != "" ]; then
     # Geberate qsys if updated or not generated
     generated=`stat -c "%Y" ${QSYS_PROJECT}.qsys`
     compilated=`stat -c "%Y" ./output_files/$QUARTUS_PROJECT.sof`
