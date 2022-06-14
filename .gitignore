@@ -16,6 +16,11 @@ grtos_bsp_create.sh
 *.sopcinfo
 *_dump.txt
 *_summary.csv
+*.elf
+*.objdump
+*.o
+*.d
+*.map
 /GeMRTOS/DE10Nano/software/script/u-boot.scr
 /GeMRTOS/DE10Nano/software/hellogemrtos/Makefile
 /GeMRTOS/DE10Nano/u-boot.scr

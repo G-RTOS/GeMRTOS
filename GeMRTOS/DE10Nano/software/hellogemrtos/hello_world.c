@@ -13,7 +13,9 @@
 // #include <sem.h>
 #include <grtosdefinitions.h>
 
-#include "C:/genericDE10/corrida/rts.h"
+// Change this for final version. This is just to make real-time tasks for runtime testing
+// #include "C:/genericDE10/corrida/rts.h"
+#include "../runtime/rts.h"
 
 
 // #pragma GCC optimize('mno-cache-volatile')
