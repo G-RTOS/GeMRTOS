@@ -11,15 +11,17 @@
 # bash grtos_bsp_create.sh "./software/hellogrtos_bsp" 
 
 # de https://stackoverflow.com/questions/5499472/specify-command-line-arguments-like-name-value-pairs-for-shell-script
-# llamar bash script_hps_nios.sh QSYS=qsys QUARTUS_PROJECT="./DE10_NANO_SoC_GHRD" QSYS_PROJECT="./soc_system" NIOS_BSP_DIR="./software/hellogrtos_bsp" |& tee script.txt
+# llamar bash script_hps_nios.sh QSYS=qsys QUARTUS_PROJECT="./DE10_NANO_SoC_GHRD" QSYS_PROJECT="./soc_system" NIOS_BSP_NAME="./software/hellogrtos_bsp" |& tee script.txt
 # llamar para solo nios download 
-# bash script_hps_nios.sh NIOS_BSP_DIR="./software/hellogrtos_bsp" |& tee script.txt
+# bash script_hps_nios.sh NIOS_BSP_NAME="./software/hellogrtos_bsp" |& tee script.txt
+
+# bash script_hps_nios.sh QSYS="qsys" QUARTUS_PROJECT="DE10_NANO_SoC_GHRD" QSYS_PROJECT="soc_system" NIOS_BSP_NAME="hellogemrtos_bsp" NIOS_APP_NAME="hellogemrtos" SD_VOLUME="f"  SOF="true" |& tee script.txt
 
 QSYS=""
 QUARTUS_PROJECT=""
 QSYS_PROJECT=""
-NIOS_APP_DIR=""
-NIOS_BSP_DIR=""
+NIOS_APP_NAME=""
+NIOS_BSP_NAME=""
 SOF=""
 SD_VOLUME=""
 
@@ -31,10 +33,10 @@ do
             QSYS)              QSYS=${VALUE} ;;
             QUARTUS_PROJECT)   QUARTUS_PROJECT=${VALUE} ;;
             QSYS_PROJECT)      QSYS_PROJECT=${VALUE} ;;
-            NIOS_BSP_DIR)      NIOS_BSP_DIR=${VALUE} ;;
+            NIOS_BSP_NAME)     NIOS_BSP_NAME=${VALUE} ;;
             SOF)               SOF=${VALUE} ;;
             SD_VOLUME)         SD_VOLUME=${VALUE} ;;
-            NIOS_APP_DIR)      NIOS_APP_DIR=${VALUE} ;;
+            NIOS_APP_NAME)     NIOS_APP_NAME=${VALUE} ;;
             *)   
     esac    
 done
@@ -42,10 +44,10 @@ done
 echo "QSYS = $QSYS"
 echo "QUARTUS_PROJECT = ${QUARTUS_PROJECT}"
 echo "QSYS_PROJECT = ${QSYS_PROJECT}"
-echo "NIOS_BSP_DIR = ${NIOS_BSP_DIR}"
+echo "NIOS_BSP_NAME = ./software/${NIOS_BSP_NAME}"
 echo "SOF = $SOF"
 echo "SD_VOLUME = $SD_VOLUME"
-echo "NIOS_APP_DIR = $NIOS_APP_DIR"
+echo "NIOS_APP_NAME = $NIOS_APP_NAME"
 
 # Get the starting time
 START=$(date +%s);
@@ -79,7 +81,7 @@ if [ "$QSYS_PROJECT" != "" ]; then
 
     if [ $generated -gt $compilated ] || [ ! -e ./output_files/$QUARTUS_PROJECT.sof ]; then
 
-        echo "QSYS PROJECT NOT UPDATE: GENERATING AND COMPILING"
+        echo "QSYS PROJECT NOT UPDATED: GENERATING AND COMPILING"
         # Clean the previos Qsys generation files
         rm -rf -- ./$QSYS_PROJECT/synthesis/*
 
@@ -98,36 +100,31 @@ if [ "$QSYS_PROJECT" != "" ]; then
         # Run the BSP creation from the executable produced by the qsys-script
         # SACAR ESTE !!!!!!!!!!!
         # bsp-generate-files --bsp-dir "./software/spl_bsp" --settings "./software/spl_bsp/settings.bsp"
-        bash grtos_bsp_create.sh ${NIOS_BSP_DIR} ${SD_VOLUME}
+        bash grtos_bsp_create.sh ./software/${NIOS_BSP_NAME} ${SD_VOLUME}
 
-
-        nios2-app-generate-makefile --bsp-dir ${NIOS_BSP_DIR} --app-dir ${NIOS_APP_DIR} --set QUARTUS_PROJECT_DIR=./ --elf-name hellogrtos.elf --set OBJDUMP_INCLUDE_SOURCE 1 --src-rdir ${NIOS_APP_DIR}
+        # from https://www.intel.com/content/www/us/en/docs/programmable/683525/21-3/nios2-app-generate-makefile.html
+        nios2-app-generate-makefile --bsp-dir ./software/${NIOS_BSP_NAME} --app-dir ./software/${NIOS_APP_NAME} --set QUARTUS_PROJECT_DIR=./ --elf-name ${NIOS_BSP_NAME}.elf --set OBJDUMP_INCLUDE_SOURCE 1 --src-rdir ./software/${NIOS_APP_NAME} --inc-rdir ./software/${NIOS_APP_NAME}
 
         # #########
         # Clean previous compilations
-        make clean --directory=${NIOS_BSP_DIR}
-        make clean --directory=${NIOS_APP_DIR}
-        # nios2-bsp-update-settings --bsp-dir ${NIOS_BSP_DIR} --settings ${NIOS_BSP_DIR}/settings.bsp
+        make clean --directory=./software/${NIOS_BSP_NAME}
+        make clean --directory=./software/${NIOS_APP_NAME}
+        # nios2-bsp-update-settings --bsp-dir ./software/${NIOS_BSP_NAME} --settings ./software/${NIOS_BSP_NAME}/settings.bsp
 
         # Poner si se quiere el codigo en memoria inerna
-        # nios2-bsp-update-settings --bsp-dir ${NIOS_BSP_DIR} --settings ${NIOS_BSP_DIR}/settings.bsp --cmd add_section_mapping .text GRTOS_Multiprocessor_0_onchip_memory2_2
+        # nios2-bsp-update-settings --bsp-dir ./software/${NIOS_BSP_NAME} --settings ./software/${NIOS_BSP_NAME}/settings.bsp --cmd add_section_mapping .text GRTOS_Multiprocessor_0_onchip_memory2_2
 
         # Build both projects
-        make all --directory=${NIOS_BSP_DIR}
-        make all --directory=${NIOS_APP_DIR}
+        make all --directory=./software/${NIOS_BSP_NAME}
+        make all --directory=./software/${NIOS_APP_NAME}
 
-        cd ${NIOS_APP_DIR}
+        cd ./software/${NIOS_APP_NAME}
         make mem_init_generate
         cd ..
         cd ..
-        quartus_cdb DE10_NANO_SoC_GHRD -c DE10_NANO_SoC_GHRD --update_mif
+        quartus_cdb ${QUARTUS_PROJECT} -c ${QUARTUS_PROJECT} --update_mif
 
         # #########
-
-
-
-
-
 
     else
         echo "Qsys already updated\n"
@@ -157,16 +154,16 @@ fi
 ## Start Software stage
 
 # Clean previous compilations
-make clean --directory=${NIOS_BSP_DIR}
-make clean --directory=${NIOS_APP_DIR}
+make clean --directory=./software/${NIOS_BSP_NAME}
+make clean --directory=./software/${NIOS_APP_NAME}
 
 # Build the BSP project with the .sopcinfo file in ./
 # nios2-bsp hal ./software/hellogrtos_bsp .
 # nios2-bsp-generate-files --bsp-dir . --settings settings.bsp (C:\generic18\software\hellogrtos_bsp)
-nios2-bsp-update-settings --bsp-dir ${NIOS_BSP_DIR} --settings ${NIOS_BSP_DIR}/settings.bsp 
+nios2-bsp-update-settings --bsp-dir ./software/${NIOS_BSP_NAME} --settings ./software/${NIOS_BSP_NAME}/settings.bsp 
 
 # Poner si se quiere el codigo en memoria inerna
-# nios2-bsp-update-settings --bsp-dir ${NIOS_BSP_DIR} --settings ${NIOS_BSP_DIR}/settings.bsp --cmd add_section_mapping .text GRTOS_Multiprocessor_0_onchip_memory2_2
+# nios2-bsp-update-settings --bsp-dir ./software/${NIOS_BSP_NAME} --settings ./software/${NIOS_BSP_NAME}/settings.bsp --cmd add_section_mapping .text GRTOS_Multiprocessor_0_onchip_memory2_2
 
 
 # Para crear una seccion en el codgo. de https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/hb/nios2/n2sw_nii52015.pdf
@@ -176,8 +173,8 @@ nios2-bsp-update-settings --bsp-dir ${NIOS_BSP_DIR} --settings ${NIOS_BSP_DIR}/s
 #nios2-bsp hal my_bsp --set hal.make.bsp_cflags_debug -g --set hal.make.bsp_cflags_optimization -O0r
 
 # Build both projects
-make all --directory=${NIOS_BSP_DIR}
-make all --directory=${NIOS_APP_DIR}
+make all --directory=./software/${NIOS_BSP_NAME}
+make all --directory=./software/${NIOS_APP_NAME}
 
 # nios2-bsp-update-settings [--bsp-dir <directory>] 
 #  [--cmd <tcl command>] [--cpu-name <cpu name>] 
@@ -243,7 +240,7 @@ sleep 5s
 
 sleep 10s
 # start processor 1 resetting the others ones
-nios2-download --go -r ./software/hellogrtos/hellogrtos.elf --instance=0
+nios2-download --go -r ./software/${NIOS_APP_NAME}/${NIOS_APP_NAME}.elf --instance=0
 
 #nios2-download --go -r ./software/hellogrtos/hellogrtos.elf --instance=0
 # sleep 5s

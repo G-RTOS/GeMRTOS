@@ -8,6 +8,7 @@
 /GeMRTOS/DE10Nano/soc_system/*.xml
 /GeMRTOS/DE10Nano/soc_system/*.bsf
 /GeMRTOS/DE10Nano/hps_isw_handoff/*
+/GeMRTOS/Quartus
 grtos_bsp_create.sh
 *.qws
 *.cmp
@@ -21,6 +22,11 @@ grtos_bsp_create.sh
 *.o
 *.d
 *.map
+*_inst.v
+*_inst.vhd
+*_bb.v
+*rpt.lck
+script.txt
 /GeMRTOS/DE10Nano/software/script/u-boot.scr
 /GeMRTOS/DE10Nano/software/hellogemrtos/Makefile
 /GeMRTOS/DE10Nano/u-boot.scr
