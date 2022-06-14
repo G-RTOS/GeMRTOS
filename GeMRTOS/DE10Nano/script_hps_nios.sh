@@ -44,7 +44,7 @@ done
 echo "QSYS = $QSYS"
 echo "QUARTUS_PROJECT = ${QUARTUS_PROJECT}"
 echo "QSYS_PROJECT = ${QSYS_PROJECT}"
-echo "NIOS_BSP_NAME = ./software/${NIOS_BSP_NAME}"
+echo "NIOS_BSP_NAME = ${NIOS_BSP_NAME}"
 echo "SOF = $SOF"
 echo "SD_VOLUME = $SD_VOLUME"
 echo "NIOS_APP_NAME = $NIOS_APP_NAME"
@@ -62,19 +62,9 @@ elif [ "$QSYS" != "" ]; then
     exit 0
 fi
 
-# Update the GeMRTOS controller if ./Quartus/grtos/grtos.vhd or ./Quartus/grtos/STD_FIFO.vhd are newer than ./Quartus/grtos/grtos.qxp
-gen_grtos=`stat -c "%Y" ./Quartus/grtos/grtos.vhd`
-gen_STD_FIFO=`stat -c "%Y" ./Quartus/grtos/STD_FIFO.vhd`
-com_qxp=`stat -c "%Y" ./Quartus/grtos/grtos.qxp`
-if [ $gen_grtos -gt $com_qxp ] || [ $gen_STD_FIFO -gt $com_qxp ] || [ ! -e ./Quartus/grtos/grtos.qxp ]; then
-    # Updata the encriptation of the grrtos
-    echo "Updating grtos encryptation"
-    quartus_cdb ./Quartus/grtos/grtos -c grtos --incremental_compilation_export=grtos.qxp --incremental_compilation_export_partition_name=Top --incremental_compilation_export_post_synth=on --incremental_compilation_export_post_fit=off --incremental_compilation_export_routing=on --incremental_compilation_export_flatten=on
-    cp ./Quartus/grtos/grtos.qxp ./grtos
-fi
 
 # Generation of QSYS, Quartus and HPS projects
-if [ "$QSYS_PROJECT" != "" ]; then
+if [ "$QSYS_PROJECT" = "" ]; then
     # Geberate qsys if updated or not generated
     generated=`stat -c "%Y" ${QSYS_PROJECT}.qsys`
     compilated=`stat -c "%Y" ./output_files/$QUARTUS_PROJECT.sof`
@@ -127,7 +117,7 @@ if [ "$QSYS_PROJECT" != "" ]; then
         # #########
 
     else
-        echo "Qsys already updated\n"
+      echo "Qsys already updated\n"
     fi
     END=$(date +%s);
     echo $((END-START)) | awk '{print "Total time elapsed: "int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'
