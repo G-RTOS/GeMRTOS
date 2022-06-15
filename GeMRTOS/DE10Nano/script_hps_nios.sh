@@ -112,20 +112,25 @@ if [ "$QSYS_PROJECT" != "" ]; then
         make mem_init_generate
         cd ..
         cd ..
-        quartus_cdb ${QUARTUS_PROJECT} -c ${QUARTUS_PROJECT} --update_mif
+        # Update initialization memory with start-up program
+        # from https://www.intel.com/content/www/us/en/support/programmable/articles/000078411.html
+        quartus_cdb --update_mif ${QUARTUS_PROJECT}
+        quartus_asm ${QUARTUS_PROJECT}
+        # quartus_cdb ${QUARTUS_PROJECT} -c ${QUARTUS_PROJECT} --update_mif BORRAR !!!
 
         # #########
 
     else
-      echo "Qsys already updated\n"
+        echo "Qsys already updated\n"
     fi
     END=$(date +%s);
     echo $((END-START)) | awk '{print "Total time elapsed: "int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'
     read -n 1 -s -r -p "Change SD to board and press any key to continue downloading nios software"
+    echo
 fi
 
 # Show jtag devices connected
-echo on
+echo
 
 jtagconfig -n
 # from https://forum.trenz-electronic.de/index.php?topic=1228.0
@@ -142,6 +147,9 @@ if [ "$SOF" = "true" ]; then
 fi
 
 ## Start Software stage
+
+# from https://www.intel.com/content/www/us/en/docs/programmable/683525/21-3/nios2-app-generate-makefile.html
+nios2-app-generate-makefile --bsp-dir ./software/${NIOS_BSP_NAME} --app-dir ./software/${NIOS_APP_NAME} --set QUARTUS_PROJECT_DIR=./ --elf-name ${NIOS_APP_NAME}.elf --set OBJDUMP_INCLUDE_SOURCE 1 --src-rdir ./software/${NIOS_APP_NAME} --inc-rdir ./software/${NIOS_APP_NAME}
 
 # Clean previous compilations
 make clean --directory=./software/${NIOS_BSP_NAME}
@@ -198,18 +206,18 @@ sleep 5s
 
 #cygstart terminal_err.sh
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=1 
-sleep 5s
+sleep 2s
 #cygstart terminal_1.sh
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=2
-sleep 5s
+sleep 2s
 #cygstart terminal_2.sh
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=3
-sleep 5s
+sleep 2s
 #cygstart terminal_3.sh
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=4
-sleep 5s
+sleep 2s
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=5
-sleep 5s
+sleep 2s
 #cygstart nios2-terminal --instance=1
 
 # Download the application to each one of the processors, reseting them

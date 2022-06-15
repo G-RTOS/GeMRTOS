@@ -158,7 +158,7 @@
  * when 1: checks are enable
  * when 0: checks are disable
  */
-#define G_DEBUG_WHILEFOREVER_ENABLE  0
+#define G_DEBUG_WHILEFOREVER_ENABLE  1
 
 
 /**

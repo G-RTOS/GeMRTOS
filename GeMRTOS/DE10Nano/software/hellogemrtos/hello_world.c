@@ -275,6 +275,9 @@ int main()
                 gu_StartTaskwithOffset(ptcb_array[i], 0, 0, 5, 0);
             }
             gu_signal_create(G_SCB_TCB_ABORTED, 0, (void *) ptcb_array[i], (void *) sig_aborted_task_generic,  (void *) 1);  /// Abort when deadline
+            #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+                fprintf(stderr,"[ MESSAGE ] TASK %d CREATED\n", (int) i);
+            #endif
         }
         // task_sampling_enable[0] = 2;
     #endif
@@ -386,6 +389,10 @@ int main()
             gu_SetTaskAbortwhenDeadline(ptcb1, 0);      
             gu_StartTaskwithOffset(ptcb1, 0, 0, 5, 0);
         }
-    #endif    
+    #endif  
+    
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] FINISHING EXECUTION OF MAIN\n");
+    #endif
   return 0;
 }
