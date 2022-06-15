@@ -691,23 +691,38 @@ void gk_START_KERNEL (void)
 {
     int i;    
     char filename[20];  /// String to hold the de name
-  
+    
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
     GRTOS_USER_CRITICAL_SECTION_GET;
     GRTOS_USER_CRITICAL_SECTION_SET_RELEASE_TIME(200);
+
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
     
-    // fprintf(stderr, "[ OK ] Starting GRTOS \n");
     for (i=0; i<G_NUMBER_OF_PCB ; i++) {
         // sprintf(filename, "/dev/jtag_uart_%d", i+2);
         sprintf(filename, "/dev/%s_jtag_uart_%d", GRTOS_DRIVER_SYSTEM_NAME, i+2);
         fpuart[i] = fopen (filename, "r+");  //Open file for reading and writing one for each processor starting in 2 (0 for stdio, 1 for stderr) 
     }
 
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
     /// Disable processor interrupt
     NIOS2_WRITE_STATUS(0);
     /// Read the pending and the enabled External Interrupts of the Processor
     NIOS2_READ_IPENDING(G_IRQ_PENDING);
     NIOS2_READ_IENABLE(G_IRQ_ENABLED);
-     
+
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
     /// Uninstall the interrupt device drivers of the HAL
     for (i=0; i<32 ; i++) {
         alt_ic_irq_disable(0,i); 
@@ -723,6 +738,9 @@ void gk_START_KERNEL (void)
                         (void *) NULL,
                         (void *) NULL);
                         
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
     
     NIOS2_WRITE_IENABLE (0); 
     NIOS2_WRITE_STATUS(0);  
@@ -731,16 +749,28 @@ void gk_START_KERNEL (void)
     #if G_GRTOS_PRESERVE_HAL_ISR == 1
         gk_INIT_IRQ();       /*!< Init IRQ tasks */
     #endif
+
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
     
 	g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBState = GS_PCB_STATE_RUNNING;  // to set it to FREE
 	g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBID = GRTOS_CMD_PRC_ID ; PRINT_DEBUG_LINE
     g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB;
     gk_LCBFPL_Link(GRTOS_CMD_PRC_ID);
+
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
     
     G_Running = G_TRUE;     /* First processor is CPU 1 because G_Runninh flag is set to TRUE here */
    
     IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);
 
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
 	gk_KERNEL_TASK_START();  	// Start the GRTOS for processor 1
 
 	printf("******************************************** \n");
