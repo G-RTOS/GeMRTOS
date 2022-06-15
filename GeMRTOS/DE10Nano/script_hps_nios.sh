@@ -119,14 +119,16 @@ if [ "$QSYS_PROJECT" != "" ]; then
         # quartus_cdb ${QUARTUS_PROJECT} -c ${QUARTUS_PROJECT} --update_mif BORRAR !!!
 
         # #########
-
+        
+        END=$(date +%s);
+        echo $((END-START)) | awk '{print "Total time elapsed: "int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'
+        read -n 1 -s -r -p "Change SD to board and press any key to continue downloading nios software"
+        echo
+        
     else
         echo "Qsys already updated\n"
     fi
-    END=$(date +%s);
-    echo $((END-START)) | awk '{print "Total time elapsed: "int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'
-    read -n 1 -s -r -p "Change SD to board and press any key to continue downloading nios software"
-    echo
+
 fi
 
 # Show jtag devices connected

@@ -360,7 +360,11 @@ void gk_KERNEL_TIME_IRQ_HANDLER (void)
 void  gk_KERNEL_TASK_START (void)
 {
 	GS_TCB *ptcbtostart = gk_PCB_GetNextTCB();  /// Get the Next TCB to run in the current processor 
-
+    
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcbtostart) != G_TRUE) G_DEBUG_WHILEFOREVER; 
 	if (ptcbtostart->TCBState != G_TASK_STATE_READY) G_DEBUG_WHILEFOREVER; 
@@ -369,14 +373,26 @@ void  gk_KERNEL_TASK_START (void)
 	/// Change State to Running
     gk_TCB_Unlink(ptcbtostart); 
 	gk_TCBRUNL_Link(ptcbtostart); 
-
+    
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
 	gk_SetLowestProcessor(); 
 	gk_LCB_CheckInvertion(); 
 	gk_SetNextTimeProcessor(); 
-
+    
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
 	/// Enable Processor Interrupt
 	NIOS2_WRITE_IENABLE (1); 
-
+    
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
 	//Load the processor status and return to execute the task
 	GRTOS_Start_Task(); 
 
@@ -764,8 +780,12 @@ void gk_START_KERNEL (void)
     #endif
     
     G_Running = G_TRUE;     /* First processor is CPU 1 because G_Runninh flag is set to TRUE here */
-   
-    IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);
+
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
+    IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);           // Enables the next processor to start
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);

@@ -188,18 +188,35 @@ void task_generic(void* pdata)
     GS_ECB  *pbuffer;
     int i;
     
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+        
     // GRTOS_MULTIPROCESSOR_0_GRTOS_0_S_PROCESSOR_MONITOR_BASE
      // Write the sampling time
     if ((task_sampling_enable[(int) pdata] == 1) || (task_sampling_enable[(int) pdata] == 2)) {
         // IOWR(GRTOS_MONITOR_BASE, 0, (int) pdata | 0x800000);
         gk_MONITOR_FIFO_SAMPLE ((int) pdata | 0x800000);
     }
+    
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+        
     task_invocation_number[(int) pdata]++;        
     execution_auxiliar_counts[(int) pdata] = 0;
     
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+        
     for (i=0; i < USER_TCB_execution_time[(int) pdata]; i++ ) {
         execution_auxiliar_counts[(int) pdata]++;
     }
+    
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
     
     // sys_time = gu_Clock(gu_get_now());
     if (USER_TCB_execution_time[(int) pdata] == (int) 0) {
@@ -210,13 +227,21 @@ void task_generic(void* pdata)
     // printf("y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
     // printf("h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
     // printf("s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec);
-
+    
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
      // Write the actuation time
     if ((task_sampling_enable[(int) pdata] == 1) || (task_sampling_enable[(int) pdata] == 3)) {     
         // IOWR(GRTOS_MONITOR_BASE, 0, (int) pdata | 0xC00000);
         gk_MONITOR_FIFO_SAMPLE ((int) pdata | 0xC00000);
     }
-
+    
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
 }
 
 GS_TCB *ptcb_array[G_MAX_NUMBER_OF_USER_TCB];
