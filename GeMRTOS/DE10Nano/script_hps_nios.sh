@@ -81,6 +81,7 @@ if [ "$QSYS_PROJECT" != "" ]; then
 
         # Clean the previous Quartus compilation files
         rm ./output_files/*
+        
         # Compile the Quartus project
         quartus_cmd ${QUARTUS_PROJECT}.qpf -c ${QUARTUS_PROJECT}.qsf
         
@@ -112,11 +113,11 @@ if [ "$QSYS_PROJECT" != "" ]; then
         make mem_init_generate
         cd ..
         cd ..
+
         # Update initialization memory with start-up program
         # from https://www.intel.com/content/www/us/en/support/programmable/articles/000078411.html
         quartus_cdb --update_mif ${QUARTUS_PROJECT}
         quartus_asm ${QUARTUS_PROJECT}
-        # quartus_cdb ${QUARTUS_PROJECT} -c ${QUARTUS_PROJECT} --update_mif BORRAR !!!
 
         # #########
         
