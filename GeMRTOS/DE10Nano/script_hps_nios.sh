@@ -15,7 +15,7 @@
 # llamar para solo nios download 
 # bash script_hps_nios.sh NIOS_BSP_NAME="./software/hellogrtos_bsp" |& tee script.txt
 
-# bash script_hps_nios.sh QSYS="qsys" QUARTUS_PROJECT="DE10_NANO_SoC_GHRD" QSYS_PROJECT="soc_system" NIOS_BSP_NAME="hellogemrtos_bsp" NIOS_APP_NAME="hellogemrtos" SD_VOLUME="f"  SOF="true" |& tee script.txt
+# bash script_hps_nios.sh QSYS="qsys" QUARTUS_PROJECT="DE10_NANO_SoC_GHRD" QSYS_PROJECT="soc_system" NIOS_BSP_NAME="hellogemrtos_bsp" NIOS_APP_NAME="hellogemrtos" SD_VOLUME="e"  SOF="false" |& tee script.txt
 
 QSYS=""
 QUARTUS_PROJECT=""
