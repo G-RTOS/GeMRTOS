@@ -79,20 +79,14 @@ if [ "$QSYS_PROJECT" != "" ]; then
         qsys-generate ${QSYS_PROJECT}.qsys --upgrade-ip-cores
         qsys-generate ${QSYS_PROJECT}.qsys --synthesis=VERILOG  
 
-        # Clean the previous Quartus compilation files
-        rm ./output_files/*
-        
-        # Compile the Quartus project
-        quartus_cmd ${QUARTUS_PROJECT}.qpf -c ${QUARTUS_PROJECT}.qsf
-        
         # #########
         # Get  data to produce the BSP settings file for HPS
         qsys-script --system-file=${QSYS_PROJECT}.qsys --script=qsysscript.tcl
         # Run the BSP creation from the executable produced by the qsys-script
         # SACAR ESTE !!!!!!!!!!!
-        # bsp-generate-files --bsp-dir "./software/spl_bsp" --settings "./software/spl_bsp/settings.bsp"
-        bash grtos_bsp_create.sh ./software/${NIOS_BSP_NAME} ${SD_VOLUME}
-
+        bsp-generate-files --bsp-dir "./software/spl_bsp" --settings "./software/spl_bsp/settings.bsp"
+        bash grtos_bsp_create.sh ./software/${NIOS_BSP_NAME}
+        
         # from https://www.intel.com/content/www/us/en/docs/programmable/683525/21-3/nios2-app-generate-makefile.html
         nios2-app-generate-makefile --bsp-dir ./software/${NIOS_BSP_NAME} --app-dir ./software/${NIOS_APP_NAME} --set QUARTUS_PROJECT_DIR=./ --elf-name ${NIOS_BSP_NAME}.elf --set OBJDUMP_INCLUDE_SOURCE 1 --src-rdir ./software/${NIOS_APP_NAME} --inc-rdir ./software/${NIOS_APP_NAME}
 
@@ -117,9 +111,18 @@ if [ "$QSYS_PROJECT" != "" ]; then
         # Update initialization memory with start-up program
         # from https://www.intel.com/content/www/us/en/support/programmable/articles/000078411.html
         quartus_cdb --update_mif ${QUARTUS_PROJECT}
-        quartus_asm ${QUARTUS_PROJECT}
+        quartus_asm ${QUARTUS_PROJECT}        
+        
+        # Clean the previous Quartus compilation files
+        rm ./output_files/*
+        
+        # Compile the Quartus project
+        quartus_cmd ${QUARTUS_PROJECT}.qpf -c ${QUARTUS_PROJECT}.qsf        
 
-        # #########
+        # #########        
+        # Create HPS SD card if required
+        bash grtos_hps_create.sh ${SD_VOLUME}
+
         
         END=$(date +%s);
         echo $((END-START)) | awk '{print "Total time elapsed: "int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'

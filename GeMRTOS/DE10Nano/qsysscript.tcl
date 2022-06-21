@@ -42,12 +42,16 @@ foreach instance $instances {
 
 
 
-set fp [open "grtos_bsp_create.sh" w+]
+set fp [open "grtos_hps_create.sh" w+]
     puts $fp "#!> /bin/bash"
     puts $fp "# Automatically created from qsys-script with qsysscript.tcl"
     if { $generate_hps_bsp  == 1 } {
-        puts $fp "bash create_hps_bsp.sh \$2"
-    } 
+        puts $fp "bash create_hps_bsp.sh \$1"
+    } else {
+        puts $fp "echo \"no hps found\""
+    }
+close $fp
+set fp [open "grtos_bsp_create.sh" w+]
     puts $fp "nios2-bsp hal \$1 ${project_name}.sopcinfo --cpu-name ${main_processor} --cmd \"set_setting hal.enable_reduced_device_drivers true\" --cmd \"set_setting hal.stderr ${stderr}\" --cmd \"set_setting hal.stdin ${stdio}\"  --cmd \"set_setting hal.stdout ${stdio}\" --cmd ${rstmem} "
 close $fp
 
