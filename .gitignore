@@ -28,6 +28,7 @@ grtos_bsp_create.sh
 *_bb.v
 *rpt.lck
 script.txt
+/GeMRTOS/DE10Nano/software/headers
 /GeMRTOS/DE10Nano/software/script/u-boot.scr
 /GeMRTOS/DE10Nano/software/hellogemrtos/Makefile
 /GeMRTOS/DE10Nano/u-boot.scr
@@ -36,3 +37,6 @@ script.txt
 /GeMRTOS/DE10Nano/*.dtb
 /GeMRTOS/DE10Nano/*.dts
 /GeMRTOS/DE10Nano/grtos_hps_create.sh
+GeMRTOS/DE10Nano/grtos_nios_bsp_create.sh
+GeMRTOS/DE10Nano/grtos_hps_bsp_create.sh
+GeMRTOS/DE10Nano/new_script.txt
