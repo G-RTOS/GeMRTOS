@@ -66,20 +66,21 @@ cd ..
 alt-boot-disk-util -p ./${SOFTWARE_DIR_NAME}/spl_bsp/preloader-mkpimage.bin -b ./${SOFTWARE_DIR_NAME}/spl_bsp/uboot-socfpga/u-boot.img -a write -d ${SD_VOLUME}
 #alt-boot-disk-util -p ./software/spl_bsp/preloader-mkpimage.bin -a write -d e
 
+mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "bootscript" -d ./misc/boards/${BOARD}/boot/u-boot.txt ./misc/boards/${BOARD}/boot/u-boot.scr
+# ###################################################################
+# cd ./${SOFTWARE_DIR_NAME}/script/
+# mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "bootscript" -d u-boot.txt u-boot.scr
+# cd ..
+# cd ..
+# cp ./${SOFTWARE_DIR_NAME}/script/u-boot.scr ../../../${SD_VOLUME}
+# diff -qsr ./${SOFTWARE_DIR_NAME}/script/u-boot.scr ../../../${SD_VOLUME}
+# cp ./${SOFTWARE_DIR_NAME}/script/u-boot.scr ../../${FAT_VOLUME}/sdfat
+# diff -qsr ./${SOFTWARE_DIR_NAME}/script/u-boot.scr ../../${FAT_VOLUME}/sdfat
+# 
+# cp ./${SOFTWARE_DIR_NAME}/spl_bsp/uboot-socfpga/u-boot.img ../../${FAT_VOLUME}/sdfat
+# sleep 10s
+# ###################################################################
 
-cd ./${SOFTWARE_DIR_NAME}/script/
-mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "bootscript" -d u-boot.txt u-boot.scr
-#mkimage -A arm -O u-boot -T script -C none -a 0 -e 0 -n "bootscript" -d u-boot.txt u-boot.scr
-cd ..
-cd ..
-cp ./${SOFTWARE_DIR_NAME}/script/u-boot.scr ../../../${SD_VOLUME}
-diff -qsr ./${SOFTWARE_DIR_NAME}/script/u-boot.scr ../../../${SD_VOLUME}
-cp ./${SOFTWARE_DIR_NAME}/script/u-boot.scr ../../${FAT_VOLUME}/sdfat
-diff -qsr ./${SOFTWARE_DIR_NAME}/script/u-boot.scr ../../${FAT_VOLUME}/sdfat
-
-cp ./${SOFTWARE_DIR_NAME}/spl_bsp/uboot-socfpga/u-boot.img ../../${FAT_VOLUME}/sdfat
-
-sleep 10s
 
 # Compile the Quartus project
 # quartus_cmd DE10_NANO_SoC_GHRD.qpf -c DE10_NANO_SoC_GHRD.qsf
@@ -89,11 +90,14 @@ echo TRUE
 # quartus_cpf -c ./output_files/DE10_NANO_SoC_GHRD.sof soc_system.rbf
 # De https://rocketboards.org/foswiki/pub/Documentation/DE10Standard/DE10-Standard_Control_Panel.pdf
 quartus_cpf -c -o bitstream_compression=on ./output_files/${QUARTUS_PRJ}.sof soc_system.rbf
-# Copiarlo a la FAT32 que esta en el drive E
-cp soc_system.rbf ../../../${SD_VOLUME}
-diff -qsr soc_system.rbf ../../../${SD_VOLUME}
-cp soc_system.rbf ../../${FAT_VOLUME}/sdfat
-diff -qsr soc_system.rbf ../../${FAT_VOLUME}/sdfat
+
+# ###################################################################
+# # Copiarlo a la FAT32 que esta en el drive E
+# cp soc_system.rbf ../../../${SD_VOLUME}
+# diff -qsr soc_system.rbf ../../../${SD_VOLUME}
+# cp soc_system.rbf ../../${FAT_VOLUME}/sdfat
+# diff -qsr soc_system.rbf ../../${FAT_VOLUME}/sdfat
+# ###################################################################
 
 # Generar el archivo dts
 #sopc2dts -i soc_system.sopcinfo -o socfpga.dts
@@ -106,19 +110,23 @@ diff -qsr soc_system.rbf ../../${FAT_VOLUME}/sdfat
 #sopc2dts --input soc_system.sopcinfo --output socfpga.dtb --type dtb --board hps_common_board_info.xml --board soc_system_board_info.xml --bridge-removal all --sopc-parameters cmacro --clocks -v
 sopc2dts --input ${QSYS_PRJ}.sopcinfo --output socfpga.dtb --type dtb --board ./misc/boards/${BOARD}/hps_common_board_info.xml --board ./misc/boards/${BOARD}/soc_system_board_info.xml --bridge-removal all --sopc-parameters node --clocks -v
 
-cp socfpga.dtb ../../../${SD_VOLUME}
-diff -qsr socfpga.dtb ../../../${SD_VOLUME}
-cp socfpga.dtb ../../${FAT_VOLUME}/sdfat
-diff -qsr socfpga.dtb ../../${FAT_VOLUME}/sdfat
+# ###################################################################
+# cp socfpga.dtb ../../../${SD_VOLUME}
+# diff -qsr socfpga.dtb ../../../${SD_VOLUME}
+# cp socfpga.dtb ../../${FAT_VOLUME}/sdfat
+# diff -qsr socfpga.dtb ../../${FAT_VOLUME}/sdfat
+# ###################################################################
 
 # version dts que es la version leible de dtb y se convierte con la aplicacion dtc
 sopc2dts --input ${QSYS_PRJ}.sopcinfo --output socfpga.dts --type dts --board ./misc/boards/${BOARD}/hps_common_board_info.xml --board ./misc/boards/${BOARD}/soc_system_board_info.xml --bridge-removal all --clocks -v
 
 # para que transfiera y lo saque de la cache
-cp soc_system.rbf ../../../${SD_VOLUME}
-diff -qsr soc_system.rbf ../../../${SD_VOLUME}
-cp soc_system.rbf ../../${FAT_VOLUME}/sdfat
-diff -qsr soc_system.rbf ../../${FAT_VOLUME}/sdfat
+# ###################################################################
+# cp soc_system.rbf ../../../${SD_VOLUME}
+# diff -qsr soc_system.rbf ../../../${SD_VOLUME}
+# cp soc_system.rbf ../../${FAT_VOLUME}/sdfat
+# diff -qsr soc_system.rbf ../../${FAT_VOLUME}/sdfat
+# ###################################################################
 
 
 # Obtengo todos los archivos cabeceras y los transfiero al directorio headers
@@ -127,35 +135,38 @@ mkdir ./${SOFTWARE_DIR_NAME}/headers/
 
 # Create header files for GeMRTOS console debugging
 sopc-create-header-files ${QSYS_PRJ}.sopcinfo --output-dir ./${SOFTWARE_DIR_NAME}/headers/     # system_modules.h
-mkdir -p /cygdrive/${SD_VOLUME}/headers
-chmod -R 0777 /cygdrive/${SD_VOLUME}/headers/
-cp *.h /cygdrive/${SD_VOLUME}/headers
-cp *.h /cygdrive/${FAT_VOLUME}/sdfat/headers
 
-sync 
+# ###################################################################
+# mkdir -p /cygdrive/${SD_VOLUME}/headers
+# chmod -R 0777 /cygdrive/${SD_VOLUME}/headers/
+# cp *.h /cygdrive/${SD_VOLUME}/headers
+# cp *.h /cygdrive/${FAT_VOLUME}/sdfat/headers
+# sync 
+# ###################################################################
 
 # cp soc_system.dtb ../../../e
 # diff -qsr soc_system.dtb ../../../e
 
 # cmd /c script.bat
 
+# Copy is done through CMD to avoid cygwin disk cache
 if [ ! "${SD_VOLUME}" = "0" ]; then
     cmd /c "del ${SD_VOLUME}:\\u-boot.scr"
     cmd /c "del ${SD_VOLUME}:\\soc_system.rbf"
     cmd /c "del ${SD_VOLUME}:\\socfpga.dtb"
     cmd /c "del ${SD_VOLUME}:\\u-boot.img"
 
-    cmd /c "copy .\\${SOFTWARE_DIR_NAME}\\script\\u-boot.scr ${SD_VOLUME}:"
+    cmd /c "copy .\\misc\boards\\${BOARD}\\boot\\u-boot.scr ${SD_VOLUME}:"
     cmd /c "copy soc_system.rbf ${SD_VOLUME}:"
     cmd /c "copy socfpga.dtb ${SD_VOLUME}:"
     cmd /c "copy .\\${SOFTWARE_DIR_NAME}\\spl_bsp\\uboot-socfpga\\u-boot.img ${SD_VOLUME}:"
     
     cmd /c "rmdir -r ${SD_VOLUME}:\\headers"
-    cmd /c "copy \\${SOFTWARE_DIR_NAME}\\headers\\* ${SD_VOLUME}:\\headers"
+    cmd /c "copy .\\${SOFTWARE_DIR_NAME}\\headers\\* ${SD_VOLUME}:\\headers"
 fi
 
 if [ ! "${FAT_VOLUME}" = "0" ]; then
-    cmd /c "copy .\\${SOFTWARE_DIR_NAME}\\script\u-boot.scr ${FAT_VOLUME}:\\sdfat\\"
+    cmd /c "copy .\\misc\boards\\${BOARD}\\boot\\u-boot.scr ${FAT_VOLUME}:\\sdfat\\"
     cmd /c "copy soc_system.rbf ${FAT_VOLUME}:\\sdfat\\"
     cmd /c "copy socfpga.dtb ${FAT_VOLUME}:\\sdfat\\"
     cmd /c "copy .\\${SOFTWARE_DIR_NAME}\\spl_bsp\\uboot-socfpga\\u-boot.img ${FAT_VOLUME}:\\sdfat\\"
