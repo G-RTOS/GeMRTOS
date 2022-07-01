@@ -95,6 +95,7 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
 
     # Clean the previous Quartus compilation files
     rm -rf ./output_files
+    mkdir ./output_files
 
     # Remove previous qsys generation files
     rm -rf ./${QSYS_PRJ}
@@ -104,7 +105,8 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
 
     # Generate the Qsys SOPC
     qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores
-    qsys-generate ${QSYS_PRJ}.qsys --output-directory=./output_files/ --synthesis=VERILOG
+    qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG
+
     echo TRUE
 
     # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
