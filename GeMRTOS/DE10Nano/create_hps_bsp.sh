@@ -48,7 +48,10 @@ cp ./software/spl_bsp/uboot-socfpga/u-boot.img ../../f/sdfat
 
 sleep 10s
 
-
+# Compile the Quartus project
+quartus_cmd DE10_NANO_SoC_GHRD.qpf -c DE10_NANO_SoC_GHRD.qsf
+echo TRUE  
+    
 # Pasar como parametro el nombre del archivo .SOF !!!!!!!!!!!!!!!
 # Generar el rbf
 # quartus_cpf -c ./output_files/DE10_NANO_SoC_GHRD.sof soc_system.rbf
