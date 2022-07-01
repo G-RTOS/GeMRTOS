@@ -35,3 +35,4 @@ script.txt
 /GeMRTOS/DE10Nano/*.rbf
 /GeMRTOS/DE10Nano/*.dtb
 /GeMRTOS/DE10Nano/*.dts
+/GeMRTOS/DE10Nano/grtos_hps_create.sh
