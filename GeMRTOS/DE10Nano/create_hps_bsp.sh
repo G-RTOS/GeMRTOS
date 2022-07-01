@@ -108,7 +108,7 @@ quartus_cpf -c -o bitstream_compression=on ./output_files/${QUARTUS_PRJ}.sof ./o
 # Este era el primero que funciona sin crossing 
 #sopc2dts --input soc_system.sopcinfo --output socfpga.dtb --type dtb --board hps_common_board_info.xml --board soc_system_board_info.xml --bridge-removal all --clocks -v
 #sopc2dts --input soc_system.sopcinfo --output socfpga.dtb --type dtb --board hps_common_board_info.xml --board soc_system_board_info.xml --bridge-removal all --sopc-parameters cmacro --clocks -v
-sopc2dts --input ${QSYS_PRJ}.sopcinfo --output ./output_files/socfpga.dtb --type dtb --board ./misc/boards/${BOARD}/hps_common_board_info.xml --board ./misc/boards/${BOARD}/soc_system_board_info.xml --bridge-removal all --sopc-parameters node --clocks -v
+sopc2dts --input ./output_files/${QSYS_PRJ}.sopcinfo --output ./output_files/socfpga.dtb --type dtb --board ./misc/boards/${BOARD}/hps_common_board_info.xml --board ./misc/boards/${BOARD}/soc_system_board_info.xml --bridge-removal all --sopc-parameters node --clocks -v
 
 # ###################################################################
 # cp socfpga.dtb ../../../${SD_VOLUME}
@@ -118,7 +118,7 @@ sopc2dts --input ${QSYS_PRJ}.sopcinfo --output ./output_files/socfpga.dtb --type
 # ###################################################################
 
 # version dts que es la version leible de dtb y se convierte con la aplicacion dtc
-sopc2dts --input ${QSYS_PRJ}.sopcinfo --output ./output_files/socfpga.dts --type dts --board ./misc/boards/${BOARD}/hps_common_board_info.xml --board ./misc/boards/${BOARD}/soc_system_board_info.xml --bridge-removal all --clocks -v
+sopc2dts --input ./output_files/${QSYS_PRJ}.sopcinfo --output ./output_files/socfpga.dts --type dts --board ./misc/boards/${BOARD}/hps_common_board_info.xml --board ./misc/boards/${BOARD}/soc_system_board_info.xml --bridge-removal all --clocks -v
 
 # para que transfiera y lo saque de la cache
 # ###################################################################
@@ -134,7 +134,7 @@ rm -rf ./${SOFTWARE_DIR_NAME}/headers/
 mkdir ./${SOFTWARE_DIR_NAME}/headers/
 
 # Create header files for GeMRTOS console debugging
-sopc-create-header-files ${QSYS_PRJ}.sopcinfo --output-dir ./${SOFTWARE_DIR_NAME}/headers/     # system_modules.h
+sopc-create-header-files ./output_files/${QSYS_PRJ}.sopcinfo --output-dir ./${SOFTWARE_DIR_NAME}/headers/     # system_modules.h
 
 # ###################################################################
 # mkdir -p /cygdrive/${SD_VOLUME}/headers
