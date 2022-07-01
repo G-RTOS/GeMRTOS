@@ -89,7 +89,7 @@ echo TRUE
 # Generar el rbf
 # quartus_cpf -c ./output_files/DE10_NANO_SoC_GHRD.sof soc_system.rbf
 # De https://rocketboards.org/foswiki/pub/Documentation/DE10Standard/DE10-Standard_Control_Panel.pdf
-quartus_cpf -c -o bitstream_compression=on ./output_files/${QUARTUS_PRJ}.sof soc_system.rbf
+quartus_cpf -c -o bitstream_compression=on ./output_files/${QUARTUS_PRJ}.sof ./output_files/soc_system.rbf
 
 # ###################################################################
 # # Copiarlo a la FAT32 que esta en el drive E
@@ -108,7 +108,7 @@ quartus_cpf -c -o bitstream_compression=on ./output_files/${QUARTUS_PRJ}.sof soc
 # Este era el primero que funciona sin crossing 
 #sopc2dts --input soc_system.sopcinfo --output socfpga.dtb --type dtb --board hps_common_board_info.xml --board soc_system_board_info.xml --bridge-removal all --clocks -v
 #sopc2dts --input soc_system.sopcinfo --output socfpga.dtb --type dtb --board hps_common_board_info.xml --board soc_system_board_info.xml --bridge-removal all --sopc-parameters cmacro --clocks -v
-sopc2dts --input ${QSYS_PRJ}.sopcinfo --output socfpga.dtb --type dtb --board ./misc/boards/${BOARD}/hps_common_board_info.xml --board ./misc/boards/${BOARD}/soc_system_board_info.xml --bridge-removal all --sopc-parameters node --clocks -v
+sopc2dts --input ${QSYS_PRJ}.sopcinfo --output ./output_files/socfpga.dtb --type dtb --board ./misc/boards/${BOARD}/hps_common_board_info.xml --board ./misc/boards/${BOARD}/soc_system_board_info.xml --bridge-removal all --sopc-parameters node --clocks -v
 
 # ###################################################################
 # cp socfpga.dtb ../../../${SD_VOLUME}
@@ -118,7 +118,7 @@ sopc2dts --input ${QSYS_PRJ}.sopcinfo --output socfpga.dtb --type dtb --board ./
 # ###################################################################
 
 # version dts que es la version leible de dtb y se convierte con la aplicacion dtc
-sopc2dts --input ${QSYS_PRJ}.sopcinfo --output socfpga.dts --type dts --board ./misc/boards/${BOARD}/hps_common_board_info.xml --board ./misc/boards/${BOARD}/soc_system_board_info.xml --bridge-removal all --clocks -v
+sopc2dts --input ${QSYS_PRJ}.sopcinfo --output ./output_files/socfpga.dts --type dts --board ./misc/boards/${BOARD}/hps_common_board_info.xml --board ./misc/boards/${BOARD}/soc_system_board_info.xml --bridge-removal all --clocks -v
 
 # para que transfiera y lo saque de la cache
 # ###################################################################
@@ -157,8 +157,8 @@ if [ ! "${SD_VOLUME}" = "0" ]; then
     cmd /c "del ${SD_VOLUME}:\\u-boot.img"
 
     cmd /c "copy .\\misc\boards\\${BOARD}\\boot\\u-boot.scr ${SD_VOLUME}:"
-    cmd /c "copy soc_system.rbf ${SD_VOLUME}:"
-    cmd /c "copy socfpga.dtb ${SD_VOLUME}:"
+    cmd /c "copy .\\output_files\\soc_system.rbf ${SD_VOLUME}:"
+    cmd /c "copy .\\output_files\\socfpga.dtb ${SD_VOLUME}:"
     cmd /c "copy .\\${SOFTWARE_DIR_NAME}\\spl_bsp\\uboot-socfpga\\u-boot.img ${SD_VOLUME}:"
     
     cmd /c "rmdir -r ${SD_VOLUME}:\\headers"
@@ -167,8 +167,8 @@ fi
 
 if [ ! "${FAT_VOLUME}" = "0" ]; then
     cmd /c "copy .\\misc\boards\\${BOARD}\\boot\\u-boot.scr ${FAT_VOLUME}:\\sdfat\\"
-    cmd /c "copy soc_system.rbf ${FAT_VOLUME}:\\sdfat\\"
-    cmd /c "copy socfpga.dtb ${FAT_VOLUME}:\\sdfat\\"
+    cmd /c "copy .\\output_files\\soc_system.rbf ${FAT_VOLUME}:\\sdfat\\"
+    cmd /c "copy .\\output_files\\socfpga.dtb ${FAT_VOLUME}:\\sdfat\\"
     cmd /c "copy .\\${SOFTWARE_DIR_NAME}\\spl_bsp\\uboot-socfpga\\u-boot.img ${FAT_VOLUME}:\\sdfat\\"
     
     cmd /c "rmdir -r ${FAT_VOLUME}:\\sdfat\\headers"
