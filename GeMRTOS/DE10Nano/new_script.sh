@@ -104,7 +104,7 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
 
     # Generate the Qsys SOPC
     qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores
-    qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG
+    qsys-generate ${QSYS_PRJ}.qsys --output-directory=./output_files/ --synthesis=VERILOG
     echo TRUE
 
     # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
