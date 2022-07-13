@@ -42,7 +42,7 @@ GS_TCB *gk_Get_TCB(void)
 {
     g_kcb.KCB_NUMBER_OF_TCBs++;
     // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102
-    void *mem = malloc(sizeof(GS_TCB) + 15);
+    void *mem = malloc(sizeof(GS_TCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
     GS_TCB *ptcb = (GS_TCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
  
     /// INITIALIZE THE TCB STRUCTURE
@@ -79,7 +79,7 @@ GS_ECB * gk_Get_ECB(void)
 {
     g_kcb.KCB_NUMBER_OF_ECBs++;;
     // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102    
-    void *mem = malloc(sizeof(GS_ECB) + 15);
+    void *mem = malloc(sizeof(GS_ECB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
     GS_ECB  *pecb = (GS_ECB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
 
     pecb->BLOCK_HASH     = (unsigned int) pecb + 2;
@@ -103,7 +103,7 @@ GS_ECB * gk_Get_ECB(void)
 G_RCB *gk_Get_RCB(void)
 {
     g_kcb.KCB_NUMBER_OF_RCBs++;;
-    void *mem = malloc(sizeof(G_RCB) + 15);
+    void *mem = malloc(sizeof(G_RCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
     G_RCB  *prcb = (G_RCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
     // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102    
 
@@ -124,7 +124,7 @@ GS_SCB *gk_Get_SCB(void)
 {
     g_kcb.KCB_NUMBER_OF_SCBs++;
     
-    void *mem = malloc(sizeof(GS_SCB) + 15);
+    void *mem = malloc(sizeof(GS_SCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
     GS_SCB *pscb = (GS_SCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
     
     pscb->BLOCK_HASH     = (unsigned int) pscb + 4;
@@ -138,7 +138,7 @@ GS_SCB *gk_Get_SCB(void)
 GS_RRDS *gk_Get_RRDS(void)
 {
     g_kcb.KCB_NUMBER_OF_RRDSs++;
-    void *mem = malloc(sizeof(GS_RRDS) + 15);
+    void *mem = malloc(sizeof(GS_RRDS) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
     GS_RRDS  *prrds = (GS_RRDS  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
     
     prrds->BLOCK_HASH      = (unsigned int) prrds + 5;
@@ -156,7 +156,7 @@ GS_RRDS *gk_Get_RRDS(void)
 GS_LCB *gk_Get_LCB(void)
 {
     g_kcb.KCB_NUMBER_OF_LCBs++;
-    void *mem = malloc(sizeof(GS_LCB) + 15);
+    void *mem = malloc(sizeof(GS_LCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
     GS_LCB *plcb = (GS_LCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);    
 
     plcb->BLOCK_HASH      = (unsigned int) plcb + 6;
@@ -185,7 +185,7 @@ INT32 gk_Create_PCBs(int Nmbr_PCB)
 {
     g_kcb.KCB_NUMBER_OF_PCBs = Nmbr_PCB;
     // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102
-    void *mem = malloc((Nmbr_PCB) * sizeof(GS_PCB) + 15);
+    void *mem = malloc((Nmbr_PCB) * sizeof(GS_PCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
     g_kcb.G_PCBTbl = (GS_PCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1    
     fprintf(stderr,"[ MESSAGE ] mem = %p, g_kcb.G_PCBTbl = %p, size = %d\n", (void *) mem, (void *) g_kcb.G_PCBTbl, (int) G_NUMBER_OF_PCB * sizeof(GS_PCB));
