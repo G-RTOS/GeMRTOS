@@ -30,11 +30,11 @@
 
 <table>
 <tr>
-<td>
-[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/tOEyBoYKLGA/0.jpg)](http://www.youtube.com/watch?v=tOEyBoYKLGA "GeMRTOS hybrid partition scheduling")
+<td> 
+[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/tOEyBoYKLGA/0.jpg)](http://www.youtube.com/watch?v=tOEyBoYKLGA "GeMRTOS hybrid partition scheduling") 
 </td>
-<td>
-[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/tOEyBoYKLGA/0.jpg)](http://www.youtube.com/watch?v=tOEyBoYKLGA "GeMRTOS hybrid partition scheduling")
+<td> 
+[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/tOEyBoYKLGA/0.jpg)](http://www.youtube.com/watch?v=tOEyBoYKLGA "GeMRTOS hybrid partition scheduling") 
 </td>
 </tr>
 </table>
