@@ -25,9 +25,10 @@
     -   [Task suspend section](#task-suspend-section)
     -   [Task complete section](#task-complete-section)
 -   [Priority Management](#priority-management)
--   [](#section)
 
 © Ricardo Cayssials. All rights reserved.
+
+[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/tOEyBoYKLGA/0.jpg)](http://www.youtube.com/watch?v=tOEyBoYKLGA "GeMRTOS hybrid partition scheduling")
 
 GeMRTOS – Generic Multiprocessor Real-Time Operating System
 ===========================================================
