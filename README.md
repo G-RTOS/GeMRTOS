@@ -43,7 +43,7 @@
 
 
 
-[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/tOEyBoYKLGA/0.jpg)](http://www.youtube.com/watch?v=tOEyBoYKLGA "GeMRTOS hybrid partition scheduling")   
+[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/2pKVQF4E5xI/0.jpg)](http://www.youtube.com/watch?v=2pKVQF4E5xI "GeMRTOS hybrid partition scheduling")   
 
 
 
