@@ -2427,21 +2427,16 @@ GS_TCB *gk_PCB_GetNextTCB(void)
     // fprintf(stderr, "[ OK1 ] ptcb %p, IDLE %p, PCBState %d, ptcb->TCB_RDY_LCB_Index %d PCB_RDY_LCBL[0] %d in %s, %d\n", ptcb, ppcb->PCB_IDLETCB, ppcb->PCBState, ptcb->TCB_RDY_LCB_Index, g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_RDY_LCBL[0], __FUNCTION__,__LINE__);
 
     if (ppcb->PCBState == GS_PCB_STATE_FREE) { // It is not executing a main list task
+        // Unlink if it executing a task
+        if ((ptcb != ppcb->PCB_IDLETCB) && (ptcb != (struct gs_tcb *) 0)) { // It is executing a task (no from main list)
+            gk_TCBRUNL_Unlink(ptcb);
+            gk_TCBRDYL_Link(ptcb);
+        }    
         if (ppcb->PCB_RDY_LCBL[0]->LCB_NextTCBRDYL != (struct gs_tcb *) 0) { // main list has a ready task
-            if ((ptcb != ppcb->PCB_IDLETCB) && (ptcb != (struct gs_tcb *) 0)) { // It is executing a task (no from main list)
-                gk_TCBRUNL_Unlink(ptcb);
-                gk_TCBRDYL_Link(ptcb);
-            }
             ptcb = ppcb->PCB_RDY_LCBL[0]->LCB_NextTCBRDYL;
         }            
         else { // No task to execute from main list
-            if ((ptcb != ppcb->PCB_IDLETCB) && (ptcb != (struct gs_tcb *) 0)) { // It is executing a task (no from main list)
-                gk_TCBRUNL_Unlink(ptcb);
-                gk_TCBRDYL_Link(ptcb);
-            }
             ptcb = ppcb->PCB_IDLETCB;
-            i = 1;
-            // while ((ptcb == ppcb->PCB_IDLETCB) && (i < G_NUMBER_OF_LCBs_FOR_PCB)) {
             for (i = 1; i < G_NUMBER_OF_LCBs_FOR_PCB; i++) {
                 if (ppcb->PCB_RDY_LCBL[i]->LCB_NextTCBRDYL != (struct gs_tcb *) 0) {
                     ptcb = ppcb->PCB_RDY_LCBL[i]->LCB_NextTCBRDYL;

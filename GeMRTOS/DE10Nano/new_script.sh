@@ -3,7 +3,7 @@
 
 # Get parameters from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 # bash new_script.sh -bsp hellogrtos_bsp -app hellogrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -sd e -fat f --board de10nano
-# bash new_script.sh -bsp hellogrtos_bsp -app hellogrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -sd e -fat f --board de10nano -f |& tee new_script.txt
+# bash new_script.sh -bsp hellogrtos_bsp -app hellogrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -gemdir ../gemrtos_ips -sd e -fat f --board de10nano -f -debug|& tee new_script.txt
 
 BSP_NAME=""                   #hellogrtos_bsp
 APP_NAME=""                   #hellogrtos
@@ -17,6 +17,8 @@ APP_INCLUDE_DIR=""
 APP_SRC_DIR=""
 FULL_COMPILATION=0
 EDIT_QSYS=0
+DEBUG=0
+GEM_IPS_DIR="$"
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -29,11 +31,71 @@ while [[ "$#" -gt 0 ]]; do
         -sd|--sd-volumne) SD_VOLUME="$2"; shift ;;
         -fat|--fat-volumne) FAT_VOLUME="$2"; shift ;;
         -idir|--inc-dir) APP_INCLUDE_DIR+=" --inc-rdir $2"; shift ;;
-        -sdir|--src-dir) APP_SRC_DIR+=" ----src-rdir $2"; shift ;;
+        -sdir|--src-dir) APP_SRC_DIR+=" --src-rdir $2"; shift ;;
+        -gemdir|--gemrtos-dir) GEM_IPS_DIR+=",$2/*/*"; shift ;;
         -f|--full-compilation) FULL_COMPILATION=1 ;;
         -e|--edit-qsys) EDIT_QSYS=1 ;;
-        -h|--help) echo "Use ${0##*/} -h | --help | [options]"; 
-                   echo "Required options"; 
+        -debug) DEBUG=1 ;;
+        -h|--help) echo "Use ${0##*/} -h | --help | [options]";
+                   echo "Options";        
+                   echo "[-qsys|--qsys-prj] <qsys_project_name>";
+                   echo "    Required. Name of the QSYS project to generate WITHOUT extension.";
+                   echo "    The <qsys_project_name>.qsys should be in the current path";
+                   echo " ";
+                   echo "[-qpr|--quartus-prj] <quartus_project_name>";
+                   echo "    Required. Name of the QUARTUS project to compile WITHOUT extension.";
+                   echo "    The <quartus_project_name>.qpf should be in the current path";
+                   echo " ";
+                   echo "[-bsp|--bsp-name] <BSP_project_name>";
+                   echo "    Required. Name of the BSP project to be compiled/created.";
+                   echo " ";
+                   echo "[-app|--app-name] <APPLICATION_project_name>";
+                   echo "    Required. Name of the application project to be compiled/created.";
+                   echo " ";
+                   echo "[-e]";
+                   echo "    Optional. Edit Qsys project. The Platform Designer GUI is invoked";
+                   echo  "   to edit the QSYS project"
+                   echo " ";
+                   echo "[-f]";
+                   echo "    Optional. Force full project compilation.";
+                   echo "    If omitted, only the outdated files are processed"
+                   echo " ";
+                   echo "[-brd|--board] <board_code_name>";
+                   echo "    Optional. Name of the board.";
+                   echo "    Valid options: \[de10nano\]";
+                   echo " ";
+                   echo "[-dir|--software-dir] <directory>";
+                   echo "    Optional. Name of the directory in which software application shall"
+                   echo "    be created. If omitter, \"software\" will be used";
+                   echo "    <BSP_project_name> and <APPLICATION_project_name> directories"
+                   echo "    will be created/appended"
+                   echo " ";
+                   echo "[-sd|--sd-volumne] <drive_letter>";
+                   echo "    Optional. Drive letter in which the SD for HPS booting is found";
+                   echo "    For example: \"e\" for SD mounted in \"E:\"";
+                   echo " ";
+                   echo "[-fat|--fat-volumne] <drive_letter>";
+                   echo "    Optional. Drive letter in which the SD FAT partition for HPS booting is mounted";
+                   echo "    FAT partition may be network mounted through ftps";
+                   echo "    For example: \"f\" for SD FAT partition mounted in \"F:\"";
+                   echo " ";
+                   echo "[-idir|--inc-dir] <include_path>";
+                   echo "    Optional. If omitted, only the application path is considered";
+                   echo "    If provided, header files (.h) will be searched recursively to be";
+                   echo "    included to the application project. There may be as many -idir as required";
+                   echo " ";
+                   echo "[-sdir|--src-dir] <source_path>";
+                   echo "    Optional. If omitted, only the application path is considered";
+                   echo "    If provided, source files (.c) will be searched recursively to be";
+                   echo "    included to the application project. There may be as many -sdir as required";
+                   echo " ";  
+                   echo "[-gemdir|--gemrtos-dir] <gemrtos_ips_directory>";
+                   echo "    Optional. If omitted, only the standard default path will be used.";
+                   echo "    <gemrtos_ips_directory> is the root directory containing the GEMRTOS IPs";
+                   echo " ";
+                   echo "[-h|--help]";
+                   echo "    Optional. Display help for this tool.";
+                   echo " "
                    exit 1;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
@@ -52,15 +114,25 @@ if [ "${APP_NAME}" = "" ]; then
     exit 1
 fi
 
-echo "BSP_NAME : ${BSP_NAME}"
-echo "APP_NAME : ${APP_NAME}"
-echo "APP_INCLUDE_DIR : ${APP_INCLUDE_DIR}"
-echo "Should uglify  : $uglify"
+if [ "${DEBUG}" = "1" ]; then
+    echo "Print for tracking"
+    echo "BSP_NAME : ${BSP_NAME}";
+    echo "APP_NAME : ${APP_NAME}";
+    echo "SOFTWARE_DIR_NAME : ${SOFTWARE_DIR_NAME}";
+    echo "QUARTUS_PRJ : ${QUARTUS_PRJ}";
+    echo "QSYS_PRJ : ${QSYS_PRJ}";
+    echo "SD_VOLUME : ${SD_VOLUME}";
+    echo "FAT_VOLUME : ${FAT_VOLUME}";
+    echo "BOARD : ${BOARD}";
+    echo "APP_INCLUDE_DIR : ${APP_INCLUDE_DIR}";
+    echo "APP_SRC_DIR : ${APP_SRC_DIR}";
+    echo "FULL_COMPILATION : ${FULL_COMPILATION}";
+    echo "EDIT_QSYS : ${EDIT_QSYS}";
+    echo "GEM_IPS_DIR : ${GEM_IPS_DIR}";
 
-# exit 1
-
-# Turn echo commands on with variable replacement (set +x turns the echo off)
-set -x
+    # Turn echo commands on with variable replacement (set +x turns the echo off)
+    set -x
+fi
 
 # Remove all the BSP to create from scratch
 rm -rf ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
@@ -81,7 +153,7 @@ START=$(date +%s);
 # Open Qsys is argument is equal to al
 if [ "${EDIT_QSYS}" = "1" ]; then 
     # Open Qsys to modify the SOPC
-    qsys-edit ${QSYS_PRJ}.qsys
+    qsys-edit ${QSYS_PRJ}.qsys --search-path=${GEM_IPS_DIR}
 fi
 
 
@@ -126,7 +198,7 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
     echo TRUE
 
     # Generate the Makefile of the application and build
-    nios2-app-generate-makefile --bsp-dir ./${SOFTWARE_DIR_NAME}/${BSP_NAME} --app-dir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --elf-name ${APP_NAME}.elf --inc-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --src-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME}
+    nios2-app-generate-makefile --bsp-dir ./${SOFTWARE_DIR_NAME}/${BSP_NAME} --app-dir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --elf-name ${APP_NAME}.elf --inc-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --src-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} ${APP_INCLUDE_DIR} ${APP_SRC_DIR}
     echo TRUE
 
     # Build the application
