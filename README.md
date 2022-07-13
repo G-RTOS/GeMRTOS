@@ -1,4 +1,32 @@
-﻿-   [GeMRTOS – Generic Multiprocessor Real-Time Operating System](#gemrtos-generic-multiprocessor-real-time-operating-system)
+﻿
+<table>
+<tr>
+<td>  
+
+
+
+[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/tOEyBoYKLGA/0.jpg)](http://www.youtube.com/watch?v=tOEyBoYKLGA "GeMRTOS hybrid partition scheduling")   
+
+
+
+</td>
+<td>   
+
+
+
+[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/2pKVQF4E5xI/0.jpg)](http://www.youtube.com/watch?v=2pKVQF4E5xI "GeMRTOS hybrid partition scheduling")   
+
+
+
+</td>
+</tr>
+</table>
+
+
+
+
+
+-   [GeMRTOS – Generic Multiprocessor Real-Time Operating System](#gemrtos-generic-multiprocessor-real-time-operating-system)
 -   [GeMRTOS system architecture](#gemrtos-system-architecture)
     -   [GeMRTOS with Intel Nios II processors](#gemrtos-with-intel-nios-ii-processors)
     -   [GeMRTOS Controller](#gemrtos-controller)
@@ -27,30 +55,6 @@
 -   [Priority Management](#priority-management)
 
 © Ricardo Cayssials. All rights reserved.
-
-<table>
-<tr>
-<td>  
-
-
-
-[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/tOEyBoYKLGA/0.jpg)](http://www.youtube.com/watch?v=tOEyBoYKLGA "GeMRTOS hybrid partition scheduling")   
-
-
-
-</td>
-<td>   
-
-
-
-[![GeMRTOS Hybrid partition scheduling](http://img.youtube.com/vi/2pKVQF4E5xI/0.jpg)](http://www.youtube.com/watch?v=2pKVQF4E5xI "GeMRTOS hybrid partition scheduling")   
-
-
-
-</td>
-</tr>
-</table>
-
 
 GeMRTOS – Generic Multiprocessor Real-Time Operating System
 ===========================================================
