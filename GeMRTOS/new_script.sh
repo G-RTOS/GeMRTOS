@@ -52,6 +52,10 @@ while [[ "$#" -gt 0 ]]; do
                    echo "[-app|--app-name] <APPLICATION_project_name>";
                    echo "    Required. Name of the application project to be compiled/created.";
                    echo " ";
+                   echo "[-brd|--board] <board_code_name>";
+                   echo "    Required. Name of the board. A directory with this name should be in current path";
+                   echo "    Valid options: \[de10nano\]";
+                   echo " ";                   
                    echo "[-e]";
                    echo "    Optional. Edit Qsys project. The Platform Designer GUI is invoked";
                    echo  "   to edit the QSYS project"
@@ -59,10 +63,6 @@ while [[ "$#" -gt 0 ]]; do
                    echo "[-f]";
                    echo "    Optional. Force full project compilation.";
                    echo "    If omitted, only the outdated files are processed"
-                   echo " ";
-                   echo "[-brd|--board] <board_code_name>";
-                   echo "    Optional. Name of the board.";
-                   echo "    Valid options: \[de10nano\]";
                    echo " ";
                    echo "[-dir|--software-dir] <directory>";
                    echo "    Optional. Name of the directory in which software application shall"
@@ -83,15 +83,18 @@ while [[ "$#" -gt 0 ]]; do
                    echo "    Optional. If omitted, only the application path is considered";
                    echo "    If provided, header files (.h) will be searched recursively to be";
                    echo "    included to the application project. There may be as many -idir as required";
+                   echo "    Path relative to project directory";
                    echo " ";
                    echo "[-sdir|--src-dir] <source_path>";
                    echo "    Optional. If omitted, only the application path is considered";
                    echo "    If provided, source files (.c) will be searched recursively to be";
                    echo "    included to the application project. There may be as many -sdir as required";
+                   echo "    Path relative to project directory";                   
                    echo " ";  
                    echo "[-gemdir|--gemrtos-dir] <gemrtos_ips_directory>";
                    echo "    Optional. If omitted, only the standard default path will be used.";
                    echo "    <gemrtos_ips_directory> is the root directory containing the GEMRTOS IPs";
+                   echo "    Path relative to project directory";                   
                    echo " ";
                    echo "[-h|--help]";
                    echo "    Optional. Display help for this tool.";
@@ -103,14 +106,23 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 if [ "${BSP_NAME}" = "" ]; then
-    echo "Error: -bsp | --bsp-name option is required"
-    echo "Use ${0##*/} -h | --help for help"
+    echo "Error: -bsp | --bsp-name option is required";
+    echo "Use ${0##*/} -h | --help for help";
     exit 1
 fi
 
+if [ "${BOARD}" = "0" ]; then
+    echo "[-brd|--board] option should be defined";
+fi
+
+if [ ! -d ./${BOARD} ]; then
+    echo "${BOARD} directory not found";
+    echo " ";
+fi
+
 if [ "${APP_NAME}" = "" ]; then
-    echo "Error: -app | --app-name option is required"
-    echo "Use ${0##*/} -h | --help for help"
+    echo "Error: -app | --app-name option is required";
+    echo "Use ${0##*/} -h | --help for help";
     exit 1
 fi
 
@@ -134,9 +146,27 @@ if [ "${DEBUG}" = "1" ]; then
     set -x
 fi
 
+# Copy the boards files if needed
+if [ -d ./misc//boards/${BOARD} ]; then
+    rm -rf ./${BOARD}/misc/boards
+    mkdir -p ./${BOARD}/misc/boards
+    cp -r ./misc//boards/${BOARD} ./${BOARD}/misc/boards/
+    chmod 0777 -R ./${BOARD}/misc/boards/
+fi
+
+# Copy HPS creation for corresponding BOARDS
+if [ "${BOARD}" = "de10nano" ]; then
+    rm -rf ./${BOARD}/create_hps_bsp.sh
+    cp ./misc/create_hps_bsp.sh ./${BOARD}/
+fi
+
+# Change to the project folder
+cd ./${BOARD}
+
 # Remove all the BSP to create from scratch
 rm -rf ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
 mkdir ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
+chmod 0777 -R ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
 
 # Remove all the application files to create from scratch
 rm -rf ./${SOFTWARE_DIR_NAME}/${APP_NAME}/*.map
@@ -168,6 +198,7 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
     # Clean the previous Quartus compilation files
     rm -rf ./output_files
     mkdir ./output_files
+    chmod 0777 -R ./output_files
 
     # Remove previous qsys generation files
     rm -rf ./${QSYS_PRJ}
