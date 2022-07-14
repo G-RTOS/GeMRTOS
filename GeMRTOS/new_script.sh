@@ -149,8 +149,9 @@ fi
 # Copy the boards files if needed
 if [ -d ./misc//boards/${BOARD} ]; then
     rm -rf ./${BOARD}/misc/boards
-    mkdir -m 777 -p ./${BOARD}/misc/boards
+    mkdir -p ./${BOARD}/misc/boards
     cp -r ./misc//boards/${BOARD} ./${BOARD}/misc/boards/
+    chmod 777 -R ./${BOARD}/misc/boards
 fi
 
 # Copy HPS creation for corresponding BOARDS
@@ -164,7 +165,8 @@ cd ./${BOARD}
 
 # Remove all the BSP to create from scratch
 rm -rf ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
-mkdir -m 777 -p ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
+mkdir -p ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
+chmod 777 -R ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
 
 # Remove all the application files to create from scratch
 rm -rf ./${SOFTWARE_DIR_NAME}/${APP_NAME}/*.map
@@ -195,7 +197,8 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
 
     # Clean the previous Quartus compilation files
     rm -rf ./output_files
-    mkdir -m 777 ./output_files
+    mkdir ./output_files
+    chmod 777 -R ./output_files
 
     # Remove previous qsys generation files
     rm -rf ./${QSYS_PRJ}
@@ -204,13 +207,13 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
     rm -rf ./hps_isw_handoff
 
     # Generate the Qsys SOPC
-    qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores
-    qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG
+    qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores --search-path=${GEM_IPS_DIR}
+    qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG --search-path=${GEM_IPS_DIR}
 
     echo TRUE
 
     # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
-    qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl
+    qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl --search-path=${GEM_IPS_DIR}
     echo TRUE
 
     # Create and generate the BSP setting file
@@ -258,7 +261,7 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
 
 else
     # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
-    qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl
+    qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl --search-path=${GEM_IPS_DIR}
 
     # Create and generate the BSP setting file
     bash grtos_nios_bsp_create.sh ./${SOFTWARE_DIR_NAME}/${BSP_NAME}

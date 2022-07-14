@@ -1,0 +1,687 @@
+Print for tracking
+BSP_NAME : hellogrtos_bsp
+APP_NAME : hellogrtos
+SOFTWARE_DIR_NAME : software
+QUARTUS_PRJ : DE10_NANO_SoC_GHRD
+QSYS_PRJ : soc_system
+SD_VOLUME : e
+FAT_VOLUME : f
+BOARD : de10nano
+APP_INCLUDE_DIR : 
+APP_SRC_DIR : 
+FULL_COMPILATION : 1
+EDIT_QSYS : 0
+GEM_IPS_DIR : $,../gemrtos_ips/*/*
++ '[' -d ./misc//boards/de10nano ']'
++ rm -rf ./de10nano/misc/boards
++ mkdir -p ./de10nano/misc/boards
++ cp -r ./misc//boards/de10nano ./de10nano/misc/boards/
++ chmod 777 -R ./de10nano/misc/boards
++ '[' de10nano = de10nano ']'
++ rm -rf ./de10nano/create_hps_bsp.sh
++ cp ./misc/create_hps_bsp.sh ./de10nano/
++ cd ./de10nano
++ rm -rf ./software/hellogrtos_bsp
++ mkdir -p ./software/hellogrtos_bsp
++ chmod 777 -R ./software/hellogrtos_bsp
++ rm -rf './software/hellogrtos/*.map'
++ rm -rf './software/hellogrtos/*.elf'
++ rm -rf './software/hellogrtos/*.objdump'
++ rm -rf ./software/hellogrtos/Makefile
++ rm -rf ./software/hellogrtos/obj
++ rm -rf ./software/hellogrtos/mem_init
+++ date +%s
++ START=1657818350
++ '[' 0 = 1 ']'
+++ stat -c %Y soc_system.qsys
++ generated=1657818261
+++ stat -c %Y ./output_files/DE10_NANO_SoC_GHRD.sof
+stat: cannot stat ‘./output_files/DE10_NANO_SoC_GHRD.sof’: No such file or directory
++ compilated=
++ '[' 1657818261 -gt ']'
+new_script.sh: line 193: [: 1657818261: unary operator expected
++ '[' '!' -f ./output_files/DE10_NANO_SoC_GHRD.sof ']'
++ echo 'Start a full compilation'
+Start a full compilation
++ rm -rf ./db
++ rm -rf ./incremental_db
++ rm -rf ./output_files
++ mkdir ./output_files
++ chmod 777 -R ./output_files
++ rm -rf ./soc_system
++ rm -rf ./hps_isw_handoff
++ qsys-generate soc_system.qsys --upgrade-ip-cores '--search-path=$,../gemrtos_ips/*/*'
+2022.07.14.14:06:24 Info: Starting to upgrade the IP cores in the Platform Designer system 
+2022.07.14.14:06:24 Info: Finished upgrading the ip cores
++ qsys-generate soc_system.qsys --synthesis=VERILOG '--search-path=$,../gemrtos_ips/*/*'
+2022.07.14.14:06:56 Warning: Could not open generation log file C:/GeMRTOS/GeMRTOS/GeMRTOS/de10Nano/soc_system/soc_system_generation.rpt
+2022.07.14.14:06:56 Info: Starting: <b>Create HDL design files for synthesis</b>
+2022.07.14.14:06:56 Info: qsys-generate C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system.qsys --synthesis=VERILOG --output-directory=C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\synthesis --family="Cyclone V" --part=5CSEBA6U23I7
+2022.07.14.14:06:56 Info: Loading de10Nano/soc_system.qsys
+2022.07.14.14:06:57 Info: Reading input file
+2022.07.14.14:06:57 Info: Adding GRTOS_Multiprocessor_0 [GRTOS_Multiprocessor 1.0]
+2022.07.14.14:06:57 Info: Parameterizing module GRTOS_Multiprocessor_0
+2022.07.14.14:06:57 Info: Adding ILC [interrupt_latency_counter 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module ILC
+2022.07.14.14:06:57 Info: Adding address_span_extender_1 [altera_address_span_extender 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module address_span_extender_1
+2022.07.14.14:06:57 Info: Adding address_span_extender_sdram [altera_address_span_extender 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module address_span_extender_sdram
+2022.07.14.14:06:57 Info: Adding button_pio [altera_avalon_pio 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module button_pio
+2022.07.14.14:06:57 Info: Adding clk_0 [clock_source 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module clk_0
+2022.07.14.14:06:57 Info: Adding dipsw_pio [altera_avalon_pio 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module dipsw_pio
+2022.07.14.14:06:57 Info: Adding hps_0 [altera_hps 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module hps_0
+2022.07.14.14:06:57 Info: Adding jtag_uart [altera_avalon_jtag_uart 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module jtag_uart
+2022.07.14.14:06:57 Info: Adding led_pio [altera_avalon_pio 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module led_pio
+2022.07.14.14:06:57 Info: Adding mm_bridge_0 [altera_avalon_mm_bridge 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module mm_bridge_0
+2022.07.14.14:06:57 Info: Adding pll_0 [altera_pll 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module pll_0
+2022.07.14.14:06:57 Info: Adding reset_sequencer_0 [altera_reset_sequencer 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module reset_sequencer_0
+2022.07.14.14:06:57 Info: Adding sysid_qsys [altera_avalon_sysid_qsys 18.0]
+2022.07.14.14:06:57 Info: Parameterizing module sysid_qsys
+2022.07.14.14:06:57 Info: Building connections
+2022.07.14.14:06:57 Info: Parameterizing connections
+2022.07.14.14:06:57 Info: Validating
+2022.07.14.14:07:09 Info: Done reading input file
+2022.07.14.14:07:16 Warning: soc_system.GRTOS_Multiprocessor_0.jtag_uart_0: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.07.14.14:07:16 Warning: soc_system.GRTOS_Multiprocessor_0.jtag_uart_1: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.07.14.14:07:16 Warning: soc_system.GRTOS_Multiprocessor_0.jtag_uart_2: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.07.14.14:07:16 Warning: soc_system.GRTOS_Multiprocessor_0.jtag_uart_3: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.07.14.14:07:16 Warning: soc_system.GRTOS_Multiprocessor_0.jtag_uart_4: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.07.14.14:07:16 Warning: soc_system.GRTOS_Multiprocessor_0.jtag_uart_5: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.07.14.14:07:16 Info: soc_system.GRTOS_Multiprocessor_0.sysid_qsys_0: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+2022.07.14.14:07:16 Info: soc_system.GRTOS_Multiprocessor_0.sysid_qsys_0: Time stamp will be automatically updated when this component is generated.
+2022.07.14.14:07:16 Info: soc_system.button_pio: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+2022.07.14.14:07:16 Info: soc_system.dipsw_pio: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+2022.07.14.14:07:16 Info: soc_system.hps_0: HPS Main PLL counter settings: n = 0  m = 63
+2022.07.14.14:07:16 Info: soc_system.hps_0: HPS peripherial PLL counter settings: n = 0  m = 39
+2022.07.14.14:07:16 Warning: soc_system.jtag_uart: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.07.14.14:07:16 Info: soc_system.pll_0: The legal reference clock frequency is 5.0 MHz..700.0 MHz
+2022.07.14.14:07:16 Info: soc_system.pll_0: Able to implement PLL with user settings
+2022.07.14.14:07:16 Info: soc_system.sysid_qsys: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+2022.07.14.14:07:16 Info: soc_system.sysid_qsys: Time stamp will be automatically updated when this component is generated.
+2022.07.14.14:07:16 Error: Could not create CMSIS SVD file <b>C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\synthesis\soc_system_hps_0_hps.svd</b>
+2022.07.14.14:07:20 Error: Error writing <b>html</b> report <b>java.io.FileNotFoundException: C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\soc_system.html (Access is denied)</b>
+java.io.FileNotFoundException: C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\soc_system.html (Access is denied)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileWriter.<init>(Unknown Source)
+	at com.altera.utilities.AltFile.sharedWriteX(AltFile.java:1476)
+	at com.altera.utilities.AltFile.writeFileX(AltFile.java:1399)
+	at com.altera.sopc.generator.DeploymentReportManager.writeOneReport(DeploymentReportManager.java:446)
+	at com.altera.sopc.generator.DeploymentReportManager.writeReports(DeploymentReportManager.java:414)
+	at com.altera.sopc.generator.DeploymentReportManager.writePreGenerationReports(DeploymentReportManager.java:359)
+	at com.altera.sopcmodel.sbtools.sbgenerate.SbGenerate.doPreGenerationReportWriting(SbGenerate.java:552)
+	at com.altera.sopcmodel.sbtools.sbgenerate.SbGenerate.act(SbGenerate.java:461)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:718)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:730)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.generateSynthesis(QsysGenerationTask.java:597)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.generate(QsysGenerationTask.java:374)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.run(QsysGenerationTask.java:127)
+	at com.altera.qsys.generate.QsysGenerate.createGenerationTaskOuter(QsysGenerate.java:699)
+	at com.altera.qsys.generate.QsysGenerate.runGenerationFlow(QsysGenerate.java:628)
+	at com.altera.qsys.generate.QsysGenerate.act(QsysGenerate.java:389)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:718)
+	at com.altera.qsys.generate.QsysGenerate.main(QsysGenerate.java:180)
+2022.07.14.14:07:20 Error: File error when creating periphs file: <b>C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\synthesis\soc_system.regmap (Access is denied)</b>
+2022.07.14.14:07:20 Info: soc_system: Generating <b>soc_system</b> "<b>soc_system</b>" for QUARTUS_SYNTH
+2022.07.14.14:07:30 Info: Interconnect is inserted between master address_span_extender_sdram.expanded_master and slave hps_0.f2h_axi_slave because the master is of type avalon and the slave is of type axi.
+2022.07.14.14:07:31 Info: Interconnect is inserted between master address_span_extender_1.expanded_master and slave GRTOS_Multiprocessor_0.h2f_axi_master_in because the master has address signal 32 bit wide, but the slave is 27 bit wide.
+2022.07.14.14:07:34 Info: Interconnect is inserted between master hps_0.h2f_lw_axi_master and slave mm_bridge_0.s0 because the master is of type axi and the slave is of type avalon.
+2022.07.14.14:07:35 Warning: hps_0.f2h_irq0: Cannot connect clock for <b>irq_mapper_002.sender</b>
+2022.07.14.14:07:35 Warning: hps_0.f2h_irq0: Cannot connect reset for <b>irq_mapper_002.sender</b>
+2022.07.14.14:07:35 Warning: hps_0.f2h_irq1: Cannot connect clock for <b>irq_mapper_003.sender</b>
+2022.07.14.14:07:35 Warning: hps_0.f2h_irq1: Cannot connect reset for <b>irq_mapper_003.sender</b>
+2022.07.14.14:07:46 Error: Couldn't write <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/de10Nano/soc_system/synthesis/soc_system.v</b>
+2022.07.14.14:07:46 Error: Generation stopped, 27 or more modules remaining
+2022.07.14.14:07:46 Info: soc_system: Done "<b>soc_system</b>" with 24 modules, 1 files
+2022.07.14.14:07:46 Error: Error writing <b>cmp</b> report <b>java.io.FileNotFoundException: C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\soc_system.cmp (Access is denied)</b>
+java.io.FileNotFoundException: C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\soc_system.cmp (Access is denied)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileWriter.<init>(Unknown Source)
+	at com.altera.utilities.AltFile.sharedWriteX(AltFile.java:1476)
+	at com.altera.utilities.AltFile.writeFileX(AltFile.java:1399)
+	at com.altera.sopc.generator.DeploymentReportManager.writeOneReport(DeploymentReportManager.java:446)
+	at com.altera.sopc.generator.DeploymentReportManager.writeReports(DeploymentReportManager.java:414)
+	at com.altera.sopc.generator.DeploymentReportManager.writePostGenerationReports(DeploymentReportManager.java:374)
+	at com.altera.sopcmodel.sbtools.sbgenerate.SbGenerate.act(SbGenerate.java:481)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:718)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:730)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.generateSynthesis(QsysGenerationTask.java:597)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.generate(QsysGenerationTask.java:374)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.run(QsysGenerationTask.java:127)
+	at com.altera.qsys.generate.QsysGenerate.createGenerationTaskOuter(QsysGenerate.java:699)
+	at com.altera.qsys.generate.QsysGenerate.runGenerationFlow(QsysGenerate.java:628)
+	at com.altera.qsys.generate.QsysGenerate.act(QsysGenerate.java:389)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:718)
+	at com.altera.qsys.generate.QsysGenerate.main(QsysGenerate.java:180)
+2022.07.14.14:07:46 Error: Error writing <b>xml</b> report <b>java.io.FileNotFoundException: C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\soc_system.xml (Access is denied)</b>
+java.io.FileNotFoundException: C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\soc_system.xml (Access is denied)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileWriter.<init>(Unknown Source)
+	at com.altera.utilities.AltFile.sharedWriteX(AltFile.java:1476)
+	at com.altera.utilities.AltFile.writeFileX(AltFile.java:1399)
+	at com.altera.sopc.generator.DeploymentReportManager.writeOneReport(DeploymentReportManager.java:446)
+	at com.altera.sopc.generator.DeploymentReportManager.writeReports(DeploymentReportManager.java:414)
+	at com.altera.sopc.generator.DeploymentReportManager.writePostGenerationReports(DeploymentReportManager.java:374)
+	at com.altera.sopcmodel.sbtools.sbgenerate.SbGenerate.act(SbGenerate.java:481)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:718)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:730)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.generateSynthesis(QsysGenerationTask.java:597)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.generate(QsysGenerationTask.java:374)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.run(QsysGenerationTask.java:127)
+	at com.altera.qsys.generate.QsysGenerate.createGenerationTaskOuter(QsysGenerate.java:699)
+	at com.altera.qsys.generate.QsysGenerate.runGenerationFlow(QsysGenerate.java:628)
+	at com.altera.qsys.generate.QsysGenerate.act(QsysGenerate.java:389)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:718)
+	at com.altera.qsys.generate.QsysGenerate.main(QsysGenerate.java:180)
+2022.07.14.14:07:46 Error: Error writing <b>qip</b> report <b>java.io.FileNotFoundException: C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\synthesis\soc_system.qip (Access is denied)</b>
+java.io.FileNotFoundException: C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\synthesis\soc_system.qip (Access is denied)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileWriter.<init>(Unknown Source)
+	at com.altera.utilities.AltFile.sharedWriteX(AltFile.java:1476)
+	at com.altera.utilities.AltFile.writeFileX(AltFile.java:1399)
+	at com.altera.sopc.generator.DeploymentReportManager.writeOneReport(DeploymentReportManager.java:446)
+	at com.altera.sopc.generator.DeploymentReportManager.writeReports(DeploymentReportManager.java:414)
+	at com.altera.sopc.generator.DeploymentReportManager.writePostGenerationReports(DeploymentReportManager.java:374)
+	at com.altera.sopcmodel.sbtools.sbgenerate.SbGenerate.act(SbGenerate.java:481)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:718)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:730)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.generateSynthesis(QsysGenerationTask.java:597)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.generate(QsysGenerationTask.java:374)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.run(QsysGenerationTask.java:127)
+	at com.altera.qsys.generate.QsysGenerate.createGenerationTaskOuter(QsysGenerate.java:699)
+	at com.altera.qsys.generate.QsysGenerate.runGenerationFlow(QsysGenerate.java:628)
+	at com.altera.qsys.generate.QsysGenerate.act(QsysGenerate.java:389)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:718)
+	at com.altera.qsys.generate.QsysGenerate.main(QsysGenerate.java:180)
+2022.07.14.14:07:49 Error: Error writing <b>debuginfo</b> report <b>java.io.FileNotFoundException: C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\synthesis\soc_system.debuginfo (Access is denied)</b>
+java.io.FileNotFoundException: C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\soc_system\synthesis\soc_system.debuginfo (Access is denied)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileWriter.<init>(Unknown Source)
+	at com.altera.utilities.AltFile.sharedWriteX(AltFile.java:1476)
+	at com.altera.utilities.AltFile.writeFileX(AltFile.java:1399)
+	at com.altera.sopc.generator.DeploymentReportManager.writeOneReport(DeploymentReportManager.java:446)
+	at com.altera.sopc.generator.DeploymentReportManager.writeReports(DeploymentReportManager.java:414)
+	at com.altera.sopc.generator.DeploymentReportManager.writePostGenerationReports(DeploymentReportManager.java:374)
+	at com.altera.sopcmodel.sbtools.sbgenerate.SbGenerate.act(SbGenerate.java:481)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:718)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:730)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.generateSynthesis(QsysGenerationTask.java:597)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.generate(QsysGenerationTask.java:374)
+	at com.altera.sopceditor.tools.generation.QsysGenerationTask.run(QsysGenerationTask.java:127)
+	at com.altera.qsys.generate.QsysGenerate.createGenerationTaskOuter(QsysGenerate.java:699)
+	at com.altera.qsys.generate.QsysGenerate.runGenerationFlow(QsysGenerate.java:628)
+	at com.altera.qsys.generate.QsysGenerate.act(QsysGenerate.java:389)
+	at com.altera.utilities.AltCmdLineToolBase.runTheTool(AltCmdLineToolBase.java:718)
+	at com.altera.qsys.generate.QsysGenerate.main(QsysGenerate.java:180)
+2022.07.14.14:07:49 Error: qsys-generate failed with exit code 1: 9 Errors, 11 Warnings
+2022.07.14.14:07:49 Info: Finished: <b>Create HDL design files for synthesis</b>
++ echo TRUE
+TRUE
++ qsys-script --system-file=soc_system.qsys --script=qsysscript.tcl '--search-path=$,../gemrtos_ips/*/*'
+2022.07.14.14:07:49 Info: Doing: <b>qsys-script --system-file=soc_system.qsys --script=qsysscript.tcl --search-path=$,../gemrtos_ips/*/*</b>
+2022.07.14.14:08:23 Info: get_module_property NAME
+Project name= soc_system
+2022.07.14.14:08:23 Info: get_project_properties 
+Project properties DEVICE DEVICE_FAMILY HIDE_FROM_IP_CATALOG
+2022.07.14.14:08:23 Info: get_instances 
+GRTOS_Multiprocessor_0
+2022.07.14.14:08:23 Info: get_composed_instances GRTOS_Multiprocessor_0
+ add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0
+ILC
+2022.07.14.14:08:23 Info: get_composed_instances ILC
+address_span_extender_1
+2022.07.14.14:08:23 Info: get_composed_instances address_span_extender_1
+address_span_extender_sdram
+2022.07.14.14:08:23 Info: get_composed_instances address_span_extender_sdram
+button_pio
+2022.07.14.14:08:23 Info: get_composed_instances button_pio
+clk_0
+2022.07.14.14:08:23 Info: get_composed_instances clk_0
+dipsw_pio
+2022.07.14.14:08:23 Info: get_composed_instances dipsw_pio
+hps_0
+2022.07.14.14:08:23 Info: get_composed_instances hps_0
+jtag_uart
+2022.07.14.14:08:23 Info: get_composed_instances jtag_uart
+led_pio
+2022.07.14.14:08:23 Info: get_composed_instances led_pio
+mm_bridge_0
+2022.07.14.14:08:23 Info: get_composed_instances mm_bridge_0
+pll_0
+2022.07.14.14:08:23 Info: get_composed_instances pll_0
+reset_sequencer_0
+2022.07.14.14:08:23 Info: get_composed_instances reset_sequencer_0
+sysid_qsys
+2022.07.14.14:08:23 Info: get_composed_instances sysid_qsys
+2022.07.14.14:08:23 Error: cannot open file: grtos_hps_bsp_create.sh
++ echo TRUE
+TRUE
++ bash grtos_nios_bsp_create.sh ./software/hellogrtos_bsp
++ nios2-bsp hal ./software/hellogrtos_bsp soc_system.sopcinfo --cpu-name GRTOS_Multiprocessor_0_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0'
++ DEFAULT_IFS=' 	
+'
++ IFS=
++ SLASHPATH=/cygdrive/c/intelFPGA/18.0/nios2eds/sdk2/bin/nios2-bsp
++ PN=nios2-bsp
++ '[' -n 'C:\Windows\system32\cmd.exe' ']'
+++ which cygpath
++ '[' -n /usr/bin/cygpath ']'
++ _IS_CYGWIN=1
+++ cd /cygdrive/c/intelFPGA/18.0/nios2eds/sdk2/bin
++++ pwd
+++ echo /cygdrive/c/intelFPGA/18.0/nios2eds/sdk2/bin/nios2-bsp
++ _this_script=/cygdrive/c/intelFPGA/18.0/nios2eds/sdk2/bin/nios2-bsp
++ _ACDS_ROOT=/cygdrive/c/intelFPGA/18.0
++ unset SLASHPATH
++ unset _this_script
++ '[' '!' -d /cygdrive/c/intelFPGA/18.0/nios2eds ']'
++ '[' -z '' ']'
++ '[' '!' -d /cygdrive/c/intelFPGA/18.0/quartus ']'
++ '[' 1 = 1 ']'
+++ cygpath -m /cygdrive/c/intelFPGA/18.0
++ _ACDS_ROOT=C:/intelFPGA/18.0
++ unset _IS_CYGWIN
++ default_tcl=C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl
++ default_lwhal_tcl=C:/intelFPGA/18.0/nios2eds/sdk2/bin/lwhal-set-defaults.tcl
++ declare -a create_update_options
++ declare -a default_tcl_options
++ sopc_arg=
++ sopc_design_file=
++ log_fname=
++ first_log_fname=
++ second_log_fname=
++ trap cleanup EXIT
++ [[ hal = \-\-\h\e\l\p ]]
++ [[ hal = \-\-\e\x\t\e\n\d\e\d\-\h\e\l\p ]]
++ [[ 15 -lt 2 ]]
++ [[ -r C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl ]]
++ [[ -r C:/intelFPGA/18.0/nios2eds/sdk2/bin/lwhal-set-defaults.tcl ]]
++ bsp_type=hal
++ shift
++ bsp_dir=./software/hellogrtos_bsp
++ shift
++ case $1 in
++ sopc_arg=soc_system.sopcinfo
++ shift
++ [[ ! -d ./software/hellogrtos_bsp ]]
++ [[ -n --cpu-name GRTOS_Multiprocessor_0_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]=--cpu-name
++ shift
++ [[ -n GRTOS_Multiprocessor_0_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]=GRTOS_Multiprocessor_0_nios2_qsys_1
++ shift
++ [[ -n --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ [[ 10 -lt 2 ]]
++ [[ set_setting hal.enable_reduced_device_drivers true = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='set_setting hal.enable_reduced_device_drivers true'
++ shift
++ [[ -n --cmd set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ [[ 8 -lt 2 ]]
++ [[ set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1'
++ shift
++ [[ -n --cmd set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ [[ 6 -lt 2 ]]
++ [[ set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0'
++ shift
++ [[ -n --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ [[ 4 -lt 2 ]]
++ [[ set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0'
++ shift
++ [[ -n --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ [[ 2 -lt 2 ]]
++ [[ add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0'
++ shift
++ [[ -n '' ]]
++ IFS=' 	
+'
+++ echo hal
+++ tr '[:upper:]' '[:lower:]'
++ '[' hal = lwhal ']'
++ echo 'nios2-bsp: Using C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl to set system-dependent settings.'
+nios2-bsp: Using C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl to set system-dependent settings.
++ settings_pname=./software/hellogrtos_bsp/settings.bsp
++ [[ -f ./software/hellogrtos_bsp/settings.bsp ]]
++ echo 'nios2-bsp: Creating new BSP because ./software/hellogrtos_bsp/settings.bsp doesn'\''t exist.'
+nios2-bsp: Creating new BSP because ./software/hellogrtos_bsp/settings.bsp doesn't exist.
++ set_sopc_design_file soc_system.sopcinfo
++ local sopc_design_dir
++ [[ -f soc_system.sopcinfo ]]
++ sopc_design_file=soc_system.sopcinfo
++ [[ -r soc_system.sopcinfo ]]
++ echo 'nios2-bsp: Running "nios2-bsp-create-settings --sopc soc_system.sopcinfo --type hal --settings ./software/hellogrtos_bsp/settings.bsp --bsp-dir ./software/hellogrtos_bsp --script C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl  --cpu-name' GRTOS_Multiprocessor_0_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0"'
+nios2-bsp: Running "nios2-bsp-create-settings --sopc soc_system.sopcinfo --type hal --settings ./software/hellogrtos_bsp/settings.bsp --bsp-dir ./software/hellogrtos_bsp --script C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl  --cpu-name GRTOS_Multiprocessor_0_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0"
++ nios2-bsp-create-settings --sopc soc_system.sopcinfo --type hal --settings ./software/hellogrtos_bsp/settings.bsp --bsp-dir ./software/hellogrtos_bsp --script C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl --cpu-name GRTOS_Multiprocessor_0_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0
+.
+INFO: Creating BSP settings file...
+INFO: nios2-bsp-create-settings --sopc soc_system.sopcinfo --type hal --settings ./software/hellogrtos_bsp/settings.bsp --bsp-dir ./software/hellogrtos_bsp --script C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl --cpu-name GRTOS_Multiprocessor_0_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0 
+INFO: Initializing SOPC project local software IP
+INFO: [Info] <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/de10Nano/*</b> matched 22 files in 0.01 seconds
+INFO: [Info] <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/de10Nano/*/*_sw.tcl</b> matched 0 files in 0.00 seconds
+INFO: [Info] <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/de10Nano/ip/**/*_sw.tcl</b> matched 0 files in 0.00 seconds
+INFO: [Info] <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/ip/**/*_sw.tcl</b> matched 0 files in 0.00 seconds
+INFO: Finished initializing SOPC project local software IP. Total time taken = 2 seconds
+INFO: Searching for BSP components with category: driver_element
+INFO: Searching for BSP components with category: software_package_element
+INFO: Loading drivers from ensemble report. 
+INFO: Finished loading drivers from ensemble report.
+INFO: Tcl message: "STDIO character device is GRTOS_Multiprocessor_0_jtag_uart_0"
+INFO: Tcl message: "System timer device is GRTOS_Multiprocessor_0_timer_0"
+INFO: Tcl message: "Default linker sections mapped to hps_0_axi_sdram"
+INFO: Tcl message: "No bootloader located at the reset address."
+INFO: Tcl message: "Application ELF allowed to contain code at the reset address."
+INFO: Tcl message: "The alt_load() facility is enabled."
+INFO: Tcl message: "The .rwdata section is copied into RAM by alt_load()."
+INFO: Tcl message: "The .exceptions section is copied into RAM by alt_load()."
+INFO: Default memory regions will not be persisted in BSP Settings File.
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\settings.bsp"
+INFO: BSP settings file was created at location "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\settings.bsp".
+INFO: Generating BSP files...
+INFO: Generating BSP files in "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp"
+INFO: Default memory regions will not be persisted in BSP Settings File.
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\settings.bsp"
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\summary.html"
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\system.h"
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\public.mk"
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\alt_sys_init.c"
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\linker.x"
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\linker.h"
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\memory.gdb"
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\Makefile"
+INFO: Generated file "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp\mem_init.mk"
+INFO: Finished generating BSP files. Total time taken = 2 seconds
+INFO: BSP files generated in "C:\GeMRTOS\GeMRTOS\GeMRTOS\de10Nano\software\hellogrtos_bsp"
++ exit 0
++ cleanup
++ [[ -r '' ]]
++ [[ -r '' ]]
++ echo TRUE
+TRUE
++ cd ./software/hellogrtos_bsp
++ make clean
++ cygpath -m /cygdrive/c/GeMRTOS/GeMRTOS/GeMRTOS/de10nano/software/hellogrtos_bsp
++ echo '[BSP' clean 'complete]'
+[BSP clean complete]
++ make all
++ cygpath -m /cygdrive/c/GeMRTOS/GeMRTOS/GeMRTOS/de10nano/software/hellogrtos_bsp
+Compiling alt_alarm_start.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_alarm_start.o HAL/src/alt_alarm_start.c
+Compiling alt_busy_sleep.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_busy_sleep.o HAL/src/alt_busy_sleep.c
+Compiling alt_close.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_close.o HAL/src/alt_close.c
+Compiling alt_dcache_flush.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dcache_flush.o HAL/src/alt_dcache_flush.c
+Compiling alt_dcache_flush_all.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dcache_flush_all.o HAL/src/alt_dcache_flush_all.c
+Compiling alt_dcache_flush_no_writeback.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dcache_flush_no_writeback.o HAL/src/alt_dcache_flush_no_writeback.c
+Compiling alt_dev.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dev.o HAL/src/alt_dev.c
+Compiling alt_dev_llist_insert.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dev_llist_insert.o HAL/src/alt_dev_llist_insert.c
+Compiling alt_dma_rxchan_open.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dma_rxchan_open.o HAL/src/alt_dma_rxchan_open.c
+Compiling alt_dma_txchan_open.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_dma_txchan_open.o HAL/src/alt_dma_txchan_open.c
+Compiling alt_do_ctors.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_do_ctors.o HAL/src/alt_do_ctors.c
+Compiling alt_do_dtors.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_do_dtors.o HAL/src/alt_do_dtors.c
+Compiling alt_ecc_fatal_entry.S...
+nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_ecc_fatal_entry.o HAL/src/alt_ecc_fatal_entry.S
+Compiling alt_ecc_fatal_exception.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_ecc_fatal_exception.o HAL/src/alt_ecc_fatal_exception.c
+Compiling alt_env_lock.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_env_lock.o HAL/src/alt_env_lock.c
+Compiling alt_environ.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_environ.o HAL/src/alt_environ.c
+Compiling alt_errno.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_errno.o HAL/src/alt_errno.c
+Compiling alt_exception_entry.S...
+nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_exception_entry.o HAL/src/alt_exception_entry.S
+Compiling alt_exception_muldiv.S...
+nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_exception_muldiv.o HAL/src/alt_exception_muldiv.S
+Compiling alt_exception_trap.S...
+nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_exception_trap.o HAL/src/alt_exception_trap.S
+Compiling alt_execve.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_execve.o HAL/src/alt_execve.c
+Compiling alt_exit.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_exit.o HAL/src/alt_exit.c
+Compiling alt_fcntl.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fcntl.o HAL/src/alt_fcntl.c
+Compiling alt_fd_lock.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fd_lock.o HAL/src/alt_fd_lock.c
+Compiling alt_fd_unlock.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fd_unlock.o HAL/src/alt_fd_unlock.c
+Compiling alt_find_dev.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_find_dev.o HAL/src/alt_find_dev.c
+Compiling alt_find_file.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_find_file.o HAL/src/alt_find_file.c
+Compiling alt_flash_dev.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_flash_dev.o HAL/src/alt_flash_dev.c
+Compiling alt_fork.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fork.o HAL/src/alt_fork.c
+Compiling alt_fs_reg.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fs_reg.o HAL/src/alt_fs_reg.c
+Compiling alt_fstat.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_fstat.o HAL/src/alt_fstat.c
+Compiling alt_get_fd.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_get_fd.o HAL/src/alt_get_fd.c
+Compiling alt_getchar.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_getchar.o HAL/src/alt_getchar.c
+Compiling alt_getpid.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_getpid.o HAL/src/alt_getpid.c
+Compiling alt_gettod.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_gettod.o HAL/src/alt_gettod.c
+Compiling alt_gmon.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_gmon.o HAL/src/alt_gmon.c
+Compiling alt_icache_flush.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_icache_flush.o HAL/src/alt_icache_flush.c
+Compiling alt_icache_flush_all.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_icache_flush_all.o HAL/src/alt_icache_flush_all.c
+Compiling alt_iic.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_iic.o HAL/src/alt_iic.c
+Compiling alt_iic_isr_register.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_iic_isr_register.o HAL/src/alt_iic_isr_register.c
+Compiling alt_instruction_exception_entry.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_instruction_exception_entry.o HAL/src/alt_instruction_exception_entry.c
+Compiling alt_instruction_exception_register.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_instruction_exception_register.o HAL/src/alt_instruction_exception_register.c
+Compiling alt_io_redirect.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_io_redirect.o HAL/src/alt_io_redirect.c
+Compiling alt_ioctl.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_ioctl.o HAL/src/alt_ioctl.c
+Compiling alt_irq_entry.S...
+nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_irq_entry.o HAL/src/alt_irq_entry.S
+Compiling alt_irq_handler.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_irq_handler.o HAL/src/alt_irq_handler.c
+Compiling alt_irq_register.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_irq_register.o HAL/src/alt_irq_register.c
+Compiling alt_irq_vars.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_irq_vars.o HAL/src/alt_irq_vars.c
+Compiling alt_isatty.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_isatty.o HAL/src/alt_isatty.c
+Compiling alt_kill.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_kill.o HAL/src/alt_kill.c
+Compiling alt_link.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_link.o HAL/src/alt_link.c
+Compiling alt_load.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_load.o HAL/src/alt_load.c
+Compiling alt_log_macro.S...
+nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_log_macro.o HAL/src/alt_log_macro.S
+Compiling alt_log_printf.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_log_printf.o HAL/src/alt_log_printf.c
+Compiling alt_lseek.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_lseek.o HAL/src/alt_lseek.c
+Compiling alt_main.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_main.o HAL/src/alt_main.c
+Compiling alt_malloc_lock.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_malloc_lock.o HAL/src/alt_malloc_lock.c
+Compiling alt_mcount.S...
+nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_mcount.o HAL/src/alt_mcount.S
+Compiling alt_open.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_open.o HAL/src/alt_open.c
+Compiling alt_printf.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_printf.o HAL/src/alt_printf.c
+Compiling alt_putchar.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_putchar.o HAL/src/alt_putchar.c
+Compiling alt_putcharbuf.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_putcharbuf.o HAL/src/alt_putcharbuf.c
+Compiling alt_putstr.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_putstr.o HAL/src/alt_putstr.c
+Compiling alt_read.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_read.o HAL/src/alt_read.c
+Compiling alt_release_fd.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_release_fd.o HAL/src/alt_release_fd.c
+Compiling alt_remap_cached.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_remap_cached.o HAL/src/alt_remap_cached.c
+Compiling alt_remap_uncached.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_remap_uncached.o HAL/src/alt_remap_uncached.c
+Compiling alt_rename.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_rename.o HAL/src/alt_rename.c
+Compiling alt_sbrk.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_sbrk.o HAL/src/alt_sbrk.c
+Compiling alt_settod.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_settod.o HAL/src/alt_settod.c
+Compiling alt_software_exception.S...
+nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/alt_software_exception.o HAL/src/alt_software_exception.S
+Compiling alt_stat.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_stat.o HAL/src/alt_stat.c
+Compiling alt_tick.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_tick.o HAL/src/alt_tick.c
+Compiling alt_times.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_times.o HAL/src/alt_times.c
+Compiling alt_uncached_free.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_uncached_free.o HAL/src/alt_uncached_free.c
+Compiling alt_uncached_malloc.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_uncached_malloc.o HAL/src/alt_uncached_malloc.c
+Compiling alt_unlink.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_unlink.o HAL/src/alt_unlink.c
+Compiling alt_usleep.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_usleep.o HAL/src/alt_usleep.c
+Compiling alt_wait.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_wait.o HAL/src/alt_wait.c
+Compiling alt_write.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/alt_write.o HAL/src/alt_write.c
+Compiling altera_nios2_gen2_irq.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/HAL/src/altera_nios2_gen2_irq.o HAL/src/altera_nios2_gen2_irq.c
+Compiling crt0.S...
+nios2-elf-gcc -MP -MMD -c   -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global    -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED  -Wa,-gdwarf2  -o obj/HAL/src/crt0.o HAL/src/crt0.S
+Compiling alt_sys_init.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/alt_sys_init.o alt_sys_init.c
+Compiling altera_avalon_jtag_uart_fd.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_jtag_uart_fd.o drivers/src/altera_avalon_jtag_uart_fd.c
+Compiling altera_avalon_jtag_uart_init.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_jtag_uart_init.o drivers/src/altera_avalon_jtag_uart_init.c
+Compiling altera_avalon_jtag_uart_ioctl.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_jtag_uart_ioctl.o drivers/src/altera_avalon_jtag_uart_ioctl.c
+Compiling altera_avalon_jtag_uart_read.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_jtag_uart_read.o drivers/src/altera_avalon_jtag_uart_read.c
+Compiling altera_avalon_jtag_uart_write.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_jtag_uart_write.o drivers/src/altera_avalon_jtag_uart_write.c
+Compiling altera_avalon_sysid_qsys.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_sysid_qsys.o drivers/src/altera_avalon_sysid_qsys.c
+Compiling altera_avalon_timer_sc.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_timer_sc.o drivers/src/altera_avalon_timer_sc.c
+Compiling altera_avalon_timer_ts.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_timer_ts.o drivers/src/altera_avalon_timer_ts.c
+Compiling altera_avalon_timer_vars.c...
+nios2-elf-gcc -xc -MP -MMD -c  -I./HAL/inc -I. -I./drivers/inc -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_USE_SMALL_DRIVERS -DALT_SINGLE_THREADED    -O0 -g -Wall  -mno-hw-div -mhw-mul -mno-hw-mulx -mgpopt=global   -o obj/drivers/src/altera_avalon_timer_vars.o drivers/src/altera_avalon_timer_vars.c
+Creating libhal_bsp.a...
+rm -f -f libhal_bsp.a
+nios2-elf-ar -src libhal_bsp.a obj/HAL/src/alt_alarm_start.o obj/HAL/src/alt_busy_sleep.o obj/HAL/src/alt_close.o obj/HAL/src/alt_dcache_flush.o obj/HAL/src/alt_dcache_flush_all.o obj/HAL/src/alt_dcache_flush_no_writeback.o obj/HAL/src/alt_dev.o obj/HAL/src/alt_dev_llist_insert.o obj/HAL/src/alt_dma_rxchan_open.o obj/HAL/src/alt_dma_txchan_open.o obj/HAL/src/alt_do_ctors.o obj/HAL/src/alt_do_dtors.o obj/HAL/src/alt_ecc_fatal_entry.o obj/HAL/src/alt_ecc_fatal_exception.o obj/HAL/src/alt_env_lock.o obj/HAL/src/alt_environ.o obj/HAL/src/alt_errno.o obj/HAL/src/alt_exception_entry.o obj/HAL/src/alt_exception_muldiv.o obj/HAL/src/alt_exception_trap.o obj/HAL/src/alt_execve.o obj/HAL/src/alt_exit.o obj/HAL/src/alt_fcntl.o obj/HAL/src/alt_fd_lock.o obj/HAL/src/alt_fd_unlock.o obj/HAL/src/alt_find_dev.o obj/HAL/src/alt_find_file.o obj/HAL/src/alt_flash_dev.o obj/HAL/src/alt_fork.o obj/HAL/src/alt_fs_reg.o obj/HAL/src/alt_fstat.o obj/HAL/src/alt_get_fd.o obj/HAL/src/alt_getchar.o obj/HAL/src/alt_getpid.o obj/HAL/src/alt_gettod.o obj/HAL/src/alt_gmon.o obj/HAL/src/alt_icache_flush.o obj/HAL/src/alt_icache_flush_all.o obj/HAL/src/alt_iic.o obj/HAL/src/alt_iic_isr_register.o obj/HAL/src/alt_instruction_exception_entry.o obj/HAL/src/alt_instruction_exception_register.o obj/HAL/src/alt_io_redirect.o obj/HAL/src/alt_ioctl.o obj/HAL/src/alt_irq_entry.o obj/HAL/src/alt_irq_handler.o obj/HAL/src/alt_irq_register.o obj/HAL/src/alt_irq_vars.o obj/HAL/src/alt_isatty.o obj/HAL/src/alt_kill.o obj/HAL/src/alt_link.o obj/HAL/src/alt_load.o obj/HAL/src/alt_log_macro.o obj/HAL/src/alt_log_printf.o obj/HAL/src/alt_lseek.o obj/HAL/src/alt_main.o obj/HAL/src/alt_malloc_lock.o obj/HAL/src/alt_mcount.o obj/HAL/src/alt_open.o obj/HAL/src/alt_printf.o obj/HAL/src/alt_putchar.o obj/HAL/src/alt_putcharbuf.o obj/HAL/src/alt_putstr.o obj/HAL/src/alt_read.o obj/HAL/src/alt_release_fd.o obj/HAL/src/alt_remap_cached.o obj/HAL/src/alt_remap_uncached.o obj/HAL/src/alt_rename.o obj/HAL/src/alt_sbrk.o obj/HAL/src/alt_settod.o obj/HAL/src/alt_software_exception.o obj/HAL/src/alt_stat.o obj/HAL/src/alt_tick.o obj/HAL/src/alt_times.o obj/HAL/src/alt_uncached_free.o obj/HAL/src/alt_uncached_malloc.o obj/HAL/src/alt_unlink.o obj/HAL/src/alt_usleep.o obj/HAL/src/alt_wait.o obj/HAL/src/alt_write.o obj/HAL/src/altera_nios2_gen2_irq.o obj/HAL/src/crt0.o obj/alt_sys_init.o obj/drivers/src/altera_avalon_jtag_uart_fd.o obj/drivers/src/altera_avalon_jtag_uart_init.o obj/drivers/src/altera_avalon_jtag_uart_ioctl.o obj/drivers/src/altera_avalon_jtag_uart_read.o obj/drivers/src/altera_avalon_jtag_uart_write.o obj/drivers/src/altera_avalon_sysid_qsys.o obj/drivers/src/altera_avalon_timer_sc.o obj/drivers/src/altera_avalon_timer_ts.o obj/drivers/src/altera_avalon_timer_vars.o
++ echo '[BSP' build 'complete]'
+[BSP build complete]
++ cd ../../
++ echo TRUE
+TRUE
++ nios2-app-generate-makefile --bsp-dir ./software/hellogrtos_bsp --app-dir ./software/hellogrtos --elf-name hellogrtos.elf --inc-rdir ./software/hellogrtos --src-rdir ./software/hellogrtos
+INFO: nios2-app-generate-makefile --bsp-dir ./software/hellogrtos_bsp --app-dir ./software/hellogrtos --elf-name hellogrtos.elf --inc-rdir ./software/hellogrtos --src-rdir ./software/hellogrtos 
+INFO: Generating application makefile
+SEVERE: No source files were specified for the creation of the application makefile.
+SEVERE: nios2-app-generate-makefile failed.
++ echo TRUE
+TRUE
++ cd ./software/hellogrtos
++ make clean
+make: *** No rule to make target `clean'.  Stop.
++ make all
+make: *** No rule to make target `all'.  Stop.
++ cd ../../
++ echo TRUE
+TRUE
++ cd ./software/hellogrtos
++ make mem_init_generate
+make: *** No rule to make target `mem_init_generate'.  Stop.
++ cd ../../
++ echo TRUE
+TRUE
++ quartus_cmd DE10_NANO_SoC_GHRD.qpf -c DE10_NANO_SoC_GHRD.qsf
+Info (290000): Processing of the Quartus Prime software Version 18.0.0 Build 614 04/24/2018 SJ Standard Edition started at time 07/14/2022 18:08:46
+Error (297009): Can't open project -- you do not have permission to write to all the files or create new files in the project's database directory
+------------------------------------------------
+{ {unable to open project: } {DE10_NANO_SoC_GHRD} {} } 
+    while executing
+"::quartus::pjc_tcl_project_open $path "
+    (procedure "::project::open" line 1)
+    invoked from within
+"project open $project_name"
+    (file "c:/intelfpga/18.0/quartus/common/tcl/internal/cmd_default.tcl" line 91)
+------------------------------------------------
++ echo TRUE
+TRUE
++ bash grtos_hps_bsp_create.sh DE10_NANO_SoC_GHRD e f software soc_system de10nano
++ echo TRUE
+TRUE
+++ date +%s
++ END=1657818527
++ echo 177
++ awk '{print "Total time elapsed: "int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'
+Total time elapsed: 0:2:57
++ read -n 1 -s -r -p 'Change SD to board and press any key to continue downloading nios software'
+Change SD to board and press any key to continue downloading nios software
