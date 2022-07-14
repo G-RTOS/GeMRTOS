@@ -153,9 +153,22 @@ fi
 # Copy the boards files if needed
 if [ -d ./misc//boards/${BOARD} ]; then
     rm -rf ./${BOARD}/misc/boards 2> ${error_log_file}
+    rm -rf ./${BOARD}/AvalonBridge
+    rm -rf ./${BOARD}/AvalonMonitor
+    rm -rf ./${BOARD}/GRTOS
+    rm -rf ./${BOARD}/GRTOS_Multiprocessor
     mkdir -p ./${BOARD}/misc/boards 2>> ${error_log_file}
-    cp -r ./misc//boards/${BOARD} ./${BOARD}/misc/boards/ 2>> ${error_log_file}
+    cp -r ./misc/boards/${BOARD} ./${BOARD}/misc/boards/ 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/misc/boards 2>> ${error_log_file}
+    cp -r ./misc/gemrtos_ips/AvalonBridge ./${BOARD}/AvalonBridge 2>> ${error_log_file}
+    cp -r ./misc/gemrtos_ips/AvalonMonitor ./${BOARD}/AvalonMonitor 2>> ${error_log_file}
+    cp -r ./misc/gemrtos_ips/GRTOS ./${BOARD}/GRTOS 2>> ${error_log_file}
+    cp -r ./misc/gemrtos_ips/GRTOS_Multiprocessor ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}
+
+    chmod 777 -R ./${BOARD}/AvalonBridge 2>> ${error_log_file}
+    chmod 777 -R ./${BOARD}/AvalonMonitor 2>> ${error_log_file}
+    chmod 777 -R ./${BOARD}/GRTOS 2>> ${error_log_file}
+    chmod 777 -R ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}    
 fi
 
 # Copy HPS creation for corresponding BOARDS
@@ -189,7 +202,7 @@ START=$(date +%s);
 # Open Qsys is argument is equal to al
 if [ "${EDIT_QSYS}" = "1" ]; then 
     # Open Qsys to modify the SOPC
-    qsys-edit ${QSYS_PRJ}.qsys --search-path=${GEM_IPS_DIR} 2>> ${error_log_file}
+    qsys-edit ${QSYS_PRJ}.qsys 2>> ${error_log_file}
 fi
 
 
@@ -213,11 +226,11 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
     rm -rf ./hps_isw_handoff 2>> ${error_log_file}
 
     # Generate the Qsys SOPC
-    qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores --search-path=${GEM_IPS_DIR} 2>> ${error_log_file}
-    qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG --search-path=${GEM_IPS_DIR} 2>> ${error_log_file}
+    qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores 2>> ${error_log_file}
+    qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG 2>> ${error_log_file}
 
     # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
-    qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl --search-path=${GEM_IPS_DIR} 2>> ${error_log_file}
+    qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl 2>> ${error_log_file}
 
     # Create and generate the BSP setting file
     bash grtos_nios_bsp_create.sh ./${SOFTWARE_DIR_NAME}/${BSP_NAME} 2>> ${error_log_file}
@@ -258,7 +271,7 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
 
 else
     # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
-    qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl --search-path=${GEM_IPS_DIR} 2>> ${error_log_file}
+    qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl 2>> ${error_log_file}
 
     # Create and generate the BSP setting file
     bash grtos_nios_bsp_create.sh ./${SOFTWARE_DIR_NAME}/${BSP_NAME} 2>> ${error_log_file}

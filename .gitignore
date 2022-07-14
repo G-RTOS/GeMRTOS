@@ -40,7 +40,6 @@ script.txt
 GeMRTOS/de10nano/grtos_nios_bsp_create.sh
 GeMRTOS/de10nano/grtos_hps_bsp_create.sh
 GeMRTOS/de10nano/new_script.txt
-GeMRTOS/de10nano/misc/boards/de10nano/boot/u-boot.scr
 GeMRTOS/de10nano/software/hellogrtos_bsp
 GeMRTOS/de10nano/misc
 GeMRTOS/de10nano/create_hps_bsp.sh
@@ -48,3 +47,7 @@ GeMRTOS/new_script.txt
 GeMRTOS/new_script.txt
 GeMRTOS/new_script.txt
 GeMRTOS/error_log.txt
+GeMRTOS/de10nano/AvalonBridge
+GeMRTOS/de10nano/AvalonMonitor
+GeMRTOS/de10nano/GRTOS
+GeMRTOS/de10nano/GRTOS_Multiprocessor
