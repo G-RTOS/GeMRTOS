@@ -149,9 +149,8 @@ fi
 # Copy the boards files if needed
 if [ -d ./misc//boards/${BOARD} ]; then
     rm -rf ./${BOARD}/misc/boards
-    mkdir -p ./${BOARD}/misc/boards
+    mkdir -m 777 -p ./${BOARD}/misc/boards
     cp -r ./misc//boards/${BOARD} ./${BOARD}/misc/boards/
-    chmod 0777 -R ./${BOARD}/misc/boards/
 fi
 
 # Copy HPS creation for corresponding BOARDS
@@ -165,8 +164,7 @@ cd ./${BOARD}
 
 # Remove all the BSP to create from scratch
 rm -rf ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
-mkdir ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
-chmod 0777 -R ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
+mkdir -m 777 -p ./${SOFTWARE_DIR_NAME}/${BSP_NAME}
 
 # Remove all the application files to create from scratch
 rm -rf ./${SOFTWARE_DIR_NAME}/${APP_NAME}/*.map
@@ -197,8 +195,7 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
 
     # Clean the previous Quartus compilation files
     rm -rf ./output_files
-    mkdir ./output_files
-    chmod 0777 -R ./output_files
+    mkdir -m 777 ./output_files
 
     # Remove previous qsys generation files
     rm -rf ./${QSYS_PRJ}
