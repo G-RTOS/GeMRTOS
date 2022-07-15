@@ -46,9 +46,7 @@ set fp [open "grtos_hps_bsp_create.sh" w+]
     puts $fp "#!> /bin/bash"
     puts $fp "# Automatically created from qsys-script with qsysscript.tcl"
     if { $generate_hps_bsp  == 1 } {
-        # puts $fp "quartus_cmd \$1.qpf -c \$1.qsf"
-        puts $fp "bash create_hps_bsp.sh \$2 \$3 \$4 \$5 \$1 \$6"
-        # puts $fp "bash create_hps_bsp.sh \$2 \$3"
+        puts $fp "bash create_hps_bsp.sh \$2 \$3 \$4 \$5 \$1 \$6 \$7"
     } else {
         puts $fp "echo \"No HPS module to produce\""
     }
