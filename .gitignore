@@ -51,3 +51,5 @@ GeMRTOS/de10nano/AvalonBridge
 GeMRTOS/de10nano/AvalonMonitor
 GeMRTOS/de10nano/GRTOS
 GeMRTOS/de10nano/GRTOS_Multiprocessor
+/GeMRTOS/error_log.txt
+

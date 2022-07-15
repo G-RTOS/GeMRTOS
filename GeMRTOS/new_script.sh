@@ -3,7 +3,7 @@
 
 # Get parameters from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 # bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -sd e -fat f --board de10nano
-# bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -gemdir ../gemrtos_ips -sd e -fat f --board de10nano -f -debug |& tee new_script.txt
+# bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -sd e -fat f --board de10nano -f -debug |& tee new_script.txt
 
 BSP_NAME=""                   #hellogrtos_bsp
 APP_NAME=""                   #hellogrtos
@@ -18,7 +18,6 @@ APP_SRC_DIR=""
 FULL_COMPILATION=0
 EDIT_QSYS=0
 DEBUG=0
-GEM_IPS_DIR="$"
 
 # Initialise the error log file in the current directory
 error_log_file=$(pwd)/error_log.txt
@@ -36,7 +35,6 @@ while [[ "$#" -gt 0 ]]; do
         -fat|--fat-volumne) FAT_VOLUME="$2"; shift ;;
         -idir|--inc-dir) APP_INCLUDE_DIR+=" --inc-rdir $2"; shift ;;
         -sdir|--src-dir) APP_SRC_DIR+=" --src-rdir $2"; shift ;;
-        -gemdir|--gemrtos-dir) GEM_IPS_DIR+=",$2/*/*"; shift ;;
         -f|--full-compilation) FULL_COMPILATION=1 ;;
         -e|--edit-qsys) EDIT_QSYS=1 ;;
         -debug) DEBUG=1 ;;
@@ -95,11 +93,6 @@ while [[ "$#" -gt 0 ]]; do
                    echo "    included to the application project. There may be as many -sdir as required";
                    echo "    Path relative to project directory";                   
                    echo " ";  
-                   echo "[-gemdir|--gemrtos-dir] <gemrtos_ips_directory>";
-                   echo "    Optional. If omitted, only the standard default path will be used.";
-                   echo "    <gemrtos_ips_directory> is the root directory containing the GEMRTOS IPs";
-                   echo "    Path relative to project directory";                   
-                   echo " ";
                    echo "[-h|--help]";
                    echo "    Optional. Display help for this tool.";
                    echo " "
@@ -144,7 +137,6 @@ if [ "${DEBUG}" = "1" ]; then
     echo "APP_SRC_DIR : ${APP_SRC_DIR}";
     echo "FULL_COMPILATION : ${FULL_COMPILATION}";
     echo "EDIT_QSYS : ${EDIT_QSYS}";
-    echo "GEM_IPS_DIR : ${GEM_IPS_DIR}";
 
     # Turn echo commands on with variable replacement (set +x turns the echo off)
     set -x
