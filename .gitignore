@@ -53,3 +53,19 @@ GeMRTOS/de10nano/GRTOS
 GeMRTOS/de10nano/GRTOS_Multiprocessor
 /GeMRTOS/error_log.txt
 
+GeMRTOS/error_log.txt
+GeMRTOS/bemicrosdk/.qsys_edit
+GeMRTOS/bemicrosdk/db
+GeMRTOS/bemicrosdk/AvalonBridge
+GeMRTOS/bemicrosdk/GRTOS
+GeMRTOS/bemicrosdk/grtos_hps_bsp_create.sh
+GeMRTOS/bemicrosdk/AvalonMonitor
+GeMRTOS/bemicrosdk/GRTOS_Multiprocessor
+GeMRTOS/bemicrosdk/grtos_nios_bsp_create.sh
+GeMRTOS/bemicrosdk/incremental_db
+GeMRTOS/bemicrosdk/output_files
+GeMRTOS/bemicrosdk/qsysgrtos
+GeMRTOS/bemicrosdk/qsysscript.tcl
+GeMRTOS/bemicrosdk/software/hellogemrtos/mem_init/
+GeMRTOS/bemicrosdk/software/hellogemrtos_bsp
+GeMRTOS/error_log.txt

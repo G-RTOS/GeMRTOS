@@ -749,7 +749,7 @@ void gk_START_KERNEL (void)
     /// Disable the interrupt (the last parameter (flags) is NULL). Values in system.h
     // fprintf(stderr, "[ OK ] Installing GRTOS Controller interrupt\n");
     alt_ic_isr_register((alt_u32) GRTOS_DRIVER_GRTOS_S_PROCESSOR1_IRQ_INTERRUPT_CONTROLLER_ID,
-                        (alt_u32) GRTOS_MULTIPROCESSOR_0_GRTOS_0_S_PROCESSOR1_IRQ,
+                        (alt_u32) GRTOS_DRIVER_GRTOS_S_PROCESSOR1_IRQ,
                         (alt_isr_func) gk_KERNEL_TIME_IRQ_HANDLER,
                         (void *) NULL,
                         (void *) NULL);

@@ -5,8 +5,8 @@
 # bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -sd e -fat f --board de10nano
 # bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -sd e -fat f --board de10nano -f -debug |& tee new_script.txt
 
-BSP_NAME=""                   #hellogrtos_bsp
-APP_NAME=""                   #hellogrtos
+BSP_NAME=""                   #hellogemrtos_bsp
+APP_NAME=""                   #hellogemrtos
 SOFTWARE_DIR_NAME="software"  #software
 QUARTUS_PRJ="0"               # DE10_NANO_SoC_GHRD
 QSYS_PRJ="0"                  #soc_system
@@ -18,6 +18,23 @@ APP_SRC_DIR=""
 FULL_COMPILATION=0
 EDIT_QSYS=0
 DEBUG=0
+
+# To run from command line for testing purposes
+# BSP_NAME="hellogemrtos_bsp"                   
+# APP_NAME="hellogemrtos"                   
+# SOFTWARE_DIR_NAME="software"  
+# QUARTUS_PRJ="grtosproject"               
+# QSYS_PRJ="qsysgrtos"                 
+# SD_VOLUME="0"                 
+# FAT_VOLUME="0"                
+# BOARD="bemicrosdk"
+# APP_INCLUDE_DIR=""
+# APP_SRC_DIR=""
+# FULL_COMPILATION=1
+# EDIT_QSYS=1
+
+
+
 
 # Initialise the error log file in the current directory
 error_log_file=$(pwd)/error_log.txt
@@ -143,24 +160,34 @@ if [ "${DEBUG}" = "1" ]; then
 fi
 
 # Copy the boards files if needed
-if [ -d ./misc//boards/${BOARD} ]; then
+if [ -d ./${BOARD} ]; then
+    # Update GeMRTOS IPs
     rm -rf ./${BOARD}/misc/boards 2> ${error_log_file}
-    rm -rf ./${BOARD}/AvalonBridge
-    rm -rf ./${BOARD}/AvalonMonitor
-    rm -rf ./${BOARD}/GRTOS
-    rm -rf ./${BOARD}/GRTOS_Multiprocessor
-    mkdir -p ./${BOARD}/misc/boards 2>> ${error_log_file}
-    cp -r ./misc/boards/${BOARD} ./${BOARD}/misc/boards/ 2>> ${error_log_file}
-    chmod 777 -R ./${BOARD}/misc/boards 2>> ${error_log_file}
+    rm -rf ./${BOARD}/AvalonBridge 2> ${error_log_file}
+    rm -rf ./${BOARD}/AvalonMonitor 2> ${error_log_file}
+    rm -rf ./${BOARD}/GRTOS 2> ${error_log_file}
+    rm -rf ./${BOARD}/GRTOS_Multiprocessor 2> ${error_log_file}
+    rm -rf ./${BOARD}/qsysscript.tcl 2> ${error_log_file}
     cp -r ./misc/gemrtos_ips/AvalonBridge ./${BOARD}/AvalonBridge 2>> ${error_log_file}
     cp -r ./misc/gemrtos_ips/AvalonMonitor ./${BOARD}/AvalonMonitor 2>> ${error_log_file}
     cp -r ./misc/gemrtos_ips/GRTOS ./${BOARD}/GRTOS 2>> ${error_log_file}
-    cp -r ./misc/gemrtos_ips/GRTOS_Multiprocessor ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}
-
+    cp -r ./misc/gemrtos_ips/GRTOS_Multiprocessor ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}}
+    cp -r ./misc/qsysscript.tcl ./${BOARD}/qsysscript.tcl 2>> ${error_log_file}}
+    chmod 777 -R ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/AvalonBridge 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/AvalonMonitor 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/GRTOS 2>> ${error_log_file}
-    chmod 777 -R ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}    
+    chmod 777 -R ./${BOARD}/qsysscript.tcl 2>> ${error_log_file}      
+    # Copy ¨HPS files if board is defined
+    if [ -d ./misc/boards/${BOARD} ]; then
+        mkdir -p ./${BOARD}/misc/boards 2>> ${error_log_file}
+        cp -r ./misc/boards/${BOARD} ./${BOARD}/misc/boards/ 2>> ${error_log_file}
+        chmod 777 -R ./${BOARD}/misc/boards 2>> ${error_log_file}
+    fi
+    # Copy the qxp file
+    rm -rf ./${BOARD}/GRTOS/grtos.qxp 2>> ${error_log_file}
+    cp -r ./misc/gemrtos_ips/boards/${BOARD}/grtos.qxp ./${BOARD}/GRTOS/ 2>> ${error_log_file}
+    chmod 777 -R ./${BOARD}/GRTOS/ 2>> ${error_log_file}
 fi
 
 # Copy HPS creation for corresponding BOARDS

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags=""
+   categories="System" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element GRTOS_Multiprocessor_1
+   {
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+   }
+   element clk_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+   element mddr_ctrl_0
+   {
+      datum _sortIndex
+      {
+         value = "2";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
+ <parameter name="device" value="EP4CE22F17C7" />
+ <parameter name="deviceFamily" value="Cyclone IV E" />
+ <parameter name="deviceSpeedGrade" value="7" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="hideFromIPCatalog" value="false" />
+ <parameter name="lockedInterfaceDefinition" value="" />
+ <parameter name="maxAdditionalLatency" value="1" />
+ <parameter name="projectName" value="grtosproject.qpf" />
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="0" />
+ <parameter name="testBenchDutName" value="" />
+ <parameter name="timeStamp" value="0" />
+ <parameter name="useTestBenchNamingPattern" value="false" />
+ <instanceScript></instanceScript>
+ <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
+ <interface
+   name="grtos_0_phy"
+   internal="GRTOS_Multiprocessor_1.grtos_0_phy"
+   type="conduit"
+   dir="end" />
+ <interface name="ram" internal="mddr_ctrl_0.mddr" type="conduit" dir="end" />
+ <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
+ <module
+   name="GRTOS_Multiprocessor_1"
+   kind="GRTOS_Multiprocessor"
+   version="1.0"
+   enabled="1">
+  <parameter name="AUTO_DEVICE" value="EP4CE22F17C7" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7" />
+  <parameter name="BridgeAddressWidth" value="26" />
+  <parameter name="CFrequency" value="50000000" />
+  <parameter name="CPreScale" value="31" />
+  <parameter name="ENABLE_HPS_MAP_ACCESS" value="false" />
+  <parameter name="ExtIRQs" value="20" />
+  <parameter name="NProcessors" value="4" />
+ </module>
+ <module name="clk_0" kind="clock_source" version="18.0" enabled="1">
+  <parameter name="clockFrequency" value="50000000" />
+  <parameter name="clockFrequencyKnown" value="true" />
+  <parameter name="inputClockFrequency" value="0" />
+  <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
+ <module name="mddr_ctrl_0" kind="mddr_ctrl" version="1.0" enabled="1">
+  <parameter name="pRefreshCount" value="780" />
+ </module>
+ <connection
+   kind="avalon"
+   version="18.0"
+   start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m1"
+   end="mddr_ctrl_0.avalon_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.0"
+   start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m2"
+   end="mddr_ctrl_0.avalon_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.0"
+   start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m3"
+   end="mddr_ctrl_0.avalon_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.0"
+   start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m4"
+   end="mddr_ctrl_0.avalon_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="clock"
+   version="18.0"
+   start="clk_0.clk"
+   end="GRTOS_Multiprocessor_1.clk" />
+ <connection
+   kind="clock"
+   version="18.0"
+   start="clk_0.clk"
+   end="GRTOS_Multiprocessor_1.clk_external_bus" />
+ <connection kind="clock" version="18.0" start="clk_0.clk" end="mddr_ctrl_0.clock" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="clk_0.clk_reset"
+   end="mddr_ctrl_0.clock_reset" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="clk_0.clk_reset"
+   end="GRTOS_Multiprocessor_1.reset" />
+ <connection
+   kind="reset"
+   version="18.0"
+   start="GRTOS_Multiprocessor_1.reset_grtos"
+   end="mddr_ctrl_0.clock_reset" />
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+ <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+</system>
