@@ -905,7 +905,8 @@ begin
         Almost_Full => i1_almost_full , 
         Full => i1_full );
     
-    i1_fifo_store <= '0' when i1_full = '1'  or R_CTRL(2) = '1' else '1' when  i1_address_prev /=  s1_address and  s1_read = '1' else 
+    i1_fifo_store <= '0' when i1_full = '1'  or R_CTRL(2) = '1' else 
+                     '1' when  i1_address_prev /=  s1_address and  s1_read = '1' else 
                      '0';
     i1_read_fifo <=  '1' when i1_empty = '0' and R_CTRL(2) = '1' else 
                      '1' when  i1_almost_full = '1' and R_CTRL(0) = '0' else 

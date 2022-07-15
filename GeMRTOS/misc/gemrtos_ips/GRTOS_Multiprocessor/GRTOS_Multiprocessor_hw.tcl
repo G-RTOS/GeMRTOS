@@ -274,7 +274,7 @@ proc compose { } {
     set_instance_parameter_value onchip_memory2_2 {initMemContent} {1}
     set_instance_parameter_value onchip_memory2_2 {initializationFileName} {GRTOS_Multiprocessor_0_onchip_memory2_2.hex}
     set_instance_parameter_value onchip_memory2_2 {instanceID} {NONE}
-    set_instance_parameter_value onchip_memory2_2 {memorySize} {262144.0}
+    set_instance_parameter_value onchip_memory2_2 {memorySize} {2048.0}
     set_instance_parameter_value onchip_memory2_2 {readDuringWriteMode} {DONT_CARE}
     set_instance_parameter_value onchip_memory2_2 {resetrequest_enabled} {1}
     set_instance_parameter_value onchip_memory2_2 {simAllowMRAMContentsFile} {0}

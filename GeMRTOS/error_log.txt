@@ -1,0 +1,442 @@
+2022.07.15.15:32:02 Info: Doing: <b>qsys-script --system-file=qsysgrtos.qsys --script=qsysscript.tcl</b>
+2022.07.15.15:32:20 Info: get_module_property NAME
+2022.07.15.15:32:20 Info: get_project_properties 
+2022.07.15.15:32:20 Info: get_instances 
+2022.07.15.15:32:20 Info: get_composed_instances GRTOS_Multiprocessor_1
+2022.07.15.15:32:20 Info: get_composed_instances clk_0
+2022.07.15.15:32:20 Info: get_composed_instances mddr_ctrl_0
++ nios2-bsp hal ./software/hellogemrtos_bsp qsysgrtos.sopcinfo --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0'
++ DEFAULT_IFS=' 	
+'
++ IFS=
++ SLASHPATH=/cygdrive/c/intelFPGA/18.0/nios2eds/sdk2/bin/nios2-bsp
++ PN=nios2-bsp
++ '[' -n 'C:\Windows\system32\cmd.exe' ']'
+++ which cygpath
++ '[' -n /usr/bin/cygpath ']'
++ _IS_CYGWIN=1
+++ cd /cygdrive/c/intelFPGA/18.0/nios2eds/sdk2/bin
++++ pwd
+++ echo /cygdrive/c/intelFPGA/18.0/nios2eds/sdk2/bin/nios2-bsp
++ _this_script=/cygdrive/c/intelFPGA/18.0/nios2eds/sdk2/bin/nios2-bsp
++ _ACDS_ROOT=/cygdrive/c/intelFPGA/18.0
++ unset SLASHPATH
++ unset _this_script
++ '[' '!' -d /cygdrive/c/intelFPGA/18.0/nios2eds ']'
++ '[' -z '' ']'
++ '[' '!' -d /cygdrive/c/intelFPGA/18.0/quartus ']'
++ '[' 1 = 1 ']'
+++ cygpath -m /cygdrive/c/intelFPGA/18.0
++ _ACDS_ROOT=C:/intelFPGA/18.0
++ unset _IS_CYGWIN
++ default_tcl=C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl
++ default_lwhal_tcl=C:/intelFPGA/18.0/nios2eds/sdk2/bin/lwhal-set-defaults.tcl
++ declare -a create_update_options
++ declare -a default_tcl_options
++ sopc_arg=
++ sopc_design_file=
++ log_fname=
++ first_log_fname=
++ second_log_fname=
++ trap cleanup EXIT
++ [[ hal = \-\-\h\e\l\p ]]
++ [[ hal = \-\-\e\x\t\e\n\d\e\d\-\h\e\l\p ]]
++ [[ 15 -lt 2 ]]
++ [[ -r C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl ]]
++ [[ -r C:/intelFPGA/18.0/nios2eds/sdk2/bin/lwhal-set-defaults.tcl ]]
++ bsp_type=hal
++ shift
++ bsp_dir=./software/hellogemrtos_bsp
++ shift
++ case $1 in
++ sopc_arg=qsysgrtos.sopcinfo
++ shift
++ [[ ! -d ./software/hellogemrtos_bsp ]]
++ [[ -n --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]=--cpu-name
++ shift
++ [[ -n GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]=GRTOS_Multiprocessor_1_nios2_qsys_1
++ shift
++ [[ -n --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ [[ 10 -lt 2 ]]
++ [[ set_setting hal.enable_reduced_device_drivers true = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='set_setting hal.enable_reduced_device_drivers true'
++ shift
++ [[ -n --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ [[ 8 -lt 2 ]]
++ [[ set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1'
++ shift
++ [[ -n --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ [[ 6 -lt 2 ]]
++ [[ set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0'
++ shift
++ [[ -n --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ [[ 4 -lt 2 ]]
++ [[ set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0'
++ shift
++ [[ -n --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ [[ 2 -lt 2 ]]
++ [[ add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0'
++ shift
++ [[ -n '' ]]
++ IFS=' 	
+'
+++ echo hal
+++ tr '[:upper:]' '[:lower:]'
++ '[' hal = lwhal ']'
++ echo 'nios2-bsp: Using C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl to set system-dependent settings.'
++ settings_pname=./software/hellogemrtos_bsp/settings.bsp
++ [[ -f ./software/hellogemrtos_bsp/settings.bsp ]]
++ echo 'nios2-bsp: Creating new BSP because ./software/hellogemrtos_bsp/settings.bsp doesn'\''t exist.'
++ set_sopc_design_file qsysgrtos.sopcinfo
++ local sopc_design_dir
++ [[ -f qsysgrtos.sopcinfo ]]
++ sopc_design_file=qsysgrtos.sopcinfo
++ [[ -r qsysgrtos.sopcinfo ]]
++ echo 'nios2-bsp: Running "nios2-bsp-create-settings --sopc qsysgrtos.sopcinfo --type hal --settings ./software/hellogemrtos_bsp/settings.bsp --bsp-dir ./software/hellogemrtos_bsp --script C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl  --cpu-name' GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0"'
++ nios2-bsp-create-settings --sopc qsysgrtos.sopcinfo --type hal --settings ./software/hellogemrtos_bsp/settings.bsp --bsp-dir ./software/hellogemrtos_bsp --script C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0
++ exit 0
++ cleanup
++ [[ -r '' ]]
++ [[ -r '' ]]
++ cygpath -m /cygdrive/c/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/software/hellogemrtos_bsp
++ echo '[BSP' clean 'complete]'
++ cygpath -m /cygdrive/c/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/software/hellogemrtos_bsp
+In file included from ./drivers/inc/grtos.h:43:0,
+                 from alt_sys_init.c:65:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+In file included from drivers/src/ext_isr.c:33:0:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+In file included from drivers/src/gemrtos_core.c:30:0:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+In file included from drivers/src/grtos_init.c:29:0:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+In file included from drivers/src/grtos_kernel.c:53:0:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+In file included from drivers/src/grtosuserfunctions.c:32:0:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+In file included from drivers/src/listfunctions.c:30:0:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+In file included from ./drivers/inc/grtos.h:43:0,
+                 from drivers/src/monitor.c:30:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+drivers/src/monitor.c: In function 'IsAListorNull':
+drivers/src/monitor.c:172:6: warning: unused variable 'lcb' [-Wunused-variable]
+  int lcb;
+      ^
+In file included from drivers/src/mq.c:31:0:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+In file included from drivers/src/sem.c:31:0:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+In file included from drivers/src/tasks.c:30:0:
+./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
++ echo '[BSP' build 'complete]'
++ cd ../hellogemrtos_bsp
++ pwd
++ echo /cygdrive/c/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/software/hellogemrtos_bsp
++ sed -e 's,^/cygdrive/\([a-zA-Z]\)/,\1:/,' -e 's,^/\([a-zA-Z]\)/,\1:/,'
++ echo '[hellogemrtos' clean 'complete]'
++ cd ../hellogemrtos_bsp
++ pwd
++ echo /cygdrive/c/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/software/hellogemrtos_bsp
++ sed -e 's,^/cygdrive/\([a-zA-Z]\)/,\1:/,' -e 's,^/\([a-zA-Z]\)/,\1:/,'
++ cygpath -m /cygdrive/c/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/software/hellogemrtos_bsp
++ echo '[BSP' build 'complete]'
+In file included from hello_world.c:12:0:
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
+    //  if (G_Running == G_TRUE) { \
+    ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
+     // if (G_Running == G_TRUE) { \
+     ^
+hello_world.c: In function 'task2':
+hello_world.c:74:14: warning: variable 'pbuffer' set but not used [-Wunused-but-set-variable]
+     GS_ECB  *pbuffer;
+              ^
++ bash -c 'nios2-stackreport --prefix nios2-elf- hellogemrtos.elf'
++ nios2-stackreport --prefix nios2-elf- hellogemrtos.elf
++ IFS=
++ FILEPATH=/cygdrive/c/intelFPGA/18.0/nios2eds/bin/nios2-stackreport
+++ cd /cygdrive/c/intelFPGA/18.0/nios2eds/bin
++++ pwd
+++ echo /cygdrive/c/intelFPGA/18.0/nios2eds/bin/nios2-stackreport
++ _this_script=/cygdrive/c/intelFPGA/18.0/nios2eds/bin/nios2-stackreport
+++ dirname /cygdrive/c/intelFPGA/18.0/nios2eds/bin/nios2-stackreport
++ _this_script_dir=/cygdrive/c/intelFPGA/18.0/nios2eds/bin
++ export SOPC_KIT_NIOS2=/cygdrive/c/intelFPGA/18.0/nios2eds
++ SOPC_KIT_NIOS2=/cygdrive/c/intelFPGA/18.0/nios2eds
++ . /cygdrive/c/intelFPGA/18.0/nios2eds/bin/sh_pl.sh --prefix nios2-elf- hellogemrtos.elf
++++ cd /cygdrive/c/intelFPGA/18.0/nios2eds
++++ pwd
+++ PERL5LIB=/cygdrive/c/intelFPGA/18.0/nios2eds/bin
+++ perl /cygdrive/c/intelFPGA/18.0/nios2eds/bin/nios2-stackreport.pl --prefix nios2-elf- hellogemrtos.elf
++ nios2-elf-objdump --disassemble --syms --all-header hellogemrtos.elf
++ echo '[hellogemrtos' build 'complete]'
+No parameter named JtagClock
+No parameter named JtagClock
++ cygpath=/bin/cygpath
++ elffile=NONE
++ jdi=AUTOMATIC
++ cpu_name=AUTOMATIC
++ debug=no
++ nios2_instance=AUTOMATIC
++ for ii in 0 1
++ mode=AUTOMATIC
++ cable=AUTOMATIC
++ device=AUTOMATIC
++ nios2_debug_core=yes
++ sidp=
++ id=
++ timestamp=
++ signal_pid=
++ wait=NONE
++ go=no
++ stop=no
++ reset_target=no
++ accept_bad_sysid=no
++ tcpport=none
++ tcpdebug=no
++ write_gmon=
++ thread_vars=NONE
++ fs2console=no
++ kitdir=
++ internal_nios2=
++ test xNONE = xNONE
++ configdir=
++ test 0 = 1
++ elffile=NONE
++ directory=.
++ ac_prev=
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ go=yes
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ reset_target=yes
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ test xNONE '!=' xNONE
++ test -x /bin/cygpath
+++ /bin/cygpath -u ./software/hellogemrtos/hellogemrtos.elf
++ ac_option=./software/hellogemrtos/hellogemrtos.elf
++ elffile=./software/hellogemrtos/hellogemrtos.elf
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
+++ echo --instance=0
+++ sed 's/[-_a-zA-Z0-9]*=//'
++ ac_optarg=0
++ case "$ac_option" in
++ nios2_instance=0
++ test -n ''
++ test -x /bin/cygpath
+++ /bin/cygpath -u .
++ directory=.
++ test x./software/hellogemrtos/hellogemrtos.elf '!=' xNONE
+++ echo ./software/hellogemrtos/hellogemrtos.elf
+++ cut -c1-1
++ test x. '!=' x/
++ elffile=././software/hellogemrtos/hellogemrtos.elf
++ for ii in 0 1
++ mode=AUTOMATIC
++ cable=AUTOMATIC
++ device=AUTOMATIC
++ nios2_debug_core=yes
++ sidp=
++ id=
++ timestamp=
++ signal_pid=
++ wait=NONE
++ go=no
++ stop=no
++ reset_target=no
++ accept_bad_sysid=no
++ tcpport=none
++ tcpdebug=no
++ write_gmon=
++ thread_vars=NONE
++ fs2console=no
++ kitdir=
++ internal_nios2=
++ test x././software/hellogemrtos/hellogemrtos.elf = xNONE
+++ dirname ././software/hellogemrtos/hellogemrtos.elf
++ configdir=././software/hellogemrtos
++ test 1 = 1
++ test x0 = xAUTOMATIC
++ elffile=NONE
++ directory=.
++ ac_prev=
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ go=yes
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ reset_target=yes
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ test xNONE '!=' xNONE
++ test -x /bin/cygpath
+++ /bin/cygpath -u ./software/hellogemrtos/hellogemrtos.elf
++ ac_option=./software/hellogemrtos/hellogemrtos.elf
++ elffile=./software/hellogemrtos/hellogemrtos.elf
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
+++ echo --instance=0
+++ sed 's/[-_a-zA-Z0-9]*=//'
++ ac_optarg=0
++ case "$ac_option" in
++ nios2_instance=0
++ test -n ''
++ test -x /bin/cygpath
+++ /bin/cygpath -u .
++ directory=.
++ test x./software/hellogemrtos/hellogemrtos.elf '!=' xNONE
+++ echo ./software/hellogemrtos/hellogemrtos.elf
+++ cut -c1-1
++ test x. '!=' x/
++ elffile=././software/hellogemrtos/hellogemrtos.elf
++ test xyes '!=' xyes
++ test xAUTOMATIC = xAUTOMATIC
++ mode=RAM
++ rc=20
++ case "$mode" in
++ test xyes = xyes
++ test xnone '!=' xnone
++ test xAUTOMATIC '!=' xAUTOMATIC
++ test xAUTOMATIC '!=' xAUTOMATIC
++ test x0 '!=' xAUTOMATIC
++ arglist=' --instance 0'
++ arglist2=' --instance=0'
++ test x '!=' x
++ test xno = xyes
++ test xNONE '!=' xNONE
++ test xyes = xyes
++ arglist=' --instance 0 --reset-target'
++ test xyes = xyes
++ arglist=' --instance 0 --reset-target --go'
++ test xno = xyes
++ test xnone '!=' xnone
++ arglist=' --instance 0 --reset-target --go --tcpport none'
++ test x '!=' x
++ test xNONE '!=' xNONE
++ test x././software/hellogemrtos/hellogemrtos.elf '!=' xNONE
++ test -x /bin/cygpath
+++ /bin/cygpath -m ././software/hellogemrtos/hellogemrtos.elf
++ elffile=software/hellogemrtos/hellogemrtos.elf
++ srecfile=software/hellogemrtos/hellogemrtos.elf.srec
++ nios2-elf-objcopy software/hellogemrtos/hellogemrtos.elf -O srec software/hellogemrtos/hellogemrtos.elf.srec
++ arglist=' --instance 0 --reset-target --go --tcpport none software/hellogemrtos/hellogemrtos.elf.srec'
++ test x = xyes
++ test xno = xyes
++ eval nios2-gdb-server --instance 0 --reset-target --go --tcpport none software/hellogemrtos/hellogemrtos.elf.srec
+++ nios2-gdb-server --instance 0 --reset-target --go --tcpport none software/hellogemrtos/hellogemrtos.elf.srec
++ rc=0
++ test xsoftware/hellogemrtos/hellogemrtos.elf.srec '!=' x
++ rm software/hellogemrtos/hellogemrtos.elf.srec
++ exit 0

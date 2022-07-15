@@ -3,7 +3,10 @@
 
 # Get parameters from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 # bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -sd e -fat f --board de10nano
-# bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -sd e -fat f --board de10nano -f -debug |& tee new_script.txt
+# FULL for DE10NANO
+# bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -sd e -fat f --board de10nano -e -f -debug |& tee new_script.txt
+# FULL fro BEMICRO SDK
+# bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr grtosproject -qsys qsysgrtos -dir software -sd e -fat f --board bemicrosdk -e -f -debug |& tee new_script.txt
 
 BSP_NAME=""                   #hellogemrtos_bsp
 APP_NAME=""                   #hellogemrtos
@@ -314,6 +317,13 @@ else
     END=$(date +%s);
     echo $((END-START)) | awk '{print "Total time elapsed: "int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'    
 fi
+
+if [ "${BOARD}" = "bemicrosdk" ]; then
+    nios2-configure-sof ./output_files/${QUARTUS_PRJ}.sof
+    # PARA DE10-NANO
+    # nios2-configure-sof -d 2 output_files/${QUARTUS_PRJ}.sof
+fi
+
 
 jtagconfig -n 2>> ${error_log_file}
 # from https://forum.trenz-electronic.de/index.php?topic=1228.0
