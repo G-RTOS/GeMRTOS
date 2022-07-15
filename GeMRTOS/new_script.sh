@@ -174,8 +174,8 @@ if [ -d ./${BOARD} ]; then
     cp -r ./misc/gemrtos_ips/AvalonBridge ./${BOARD}/AvalonBridge 2>> ${error_log_file}
     cp -r ./misc/gemrtos_ips/AvalonMonitor ./${BOARD}/AvalonMonitor 2>> ${error_log_file}
     cp -r ./misc/gemrtos_ips/GRTOS ./${BOARD}/GRTOS 2>> ${error_log_file}
-    cp -r ./misc/gemrtos_ips/GRTOS_Multiprocessor ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}}
-    cp -r ./misc/qsysscript.tcl ./${BOARD}/qsysscript.tcl 2>> ${error_log_file}}
+    cp -r ./misc/gemrtos_ips/GRTOS_Multiprocessor ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}
+    cp -r ./misc/qsysscript.tcl ./${BOARD}/qsysscript.tcl 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/AvalonBridge 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/AvalonMonitor 2>> ${error_log_file}

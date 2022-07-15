@@ -181,7 +181,11 @@ void gk_ENTRY_RST_HANDLER (void)
     NIOS2_WRITE_IENABLE (0);
 
     // IORD_GRTOS_RST_CLR is used to sequence the start of the processors
-    while (IORD_GRTOS_RST_CLR != GRTOS_CMD_PRC_ID - 1) ; 
+    while (IORD_GRTOS_RST_CLR != GRTOS_CMD_PRC_ID - 1);
+
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif    
     
     // This happens when processor ID-1 is in critical section G_NUMBER_OF_IDLE_PROCESSORS
     
