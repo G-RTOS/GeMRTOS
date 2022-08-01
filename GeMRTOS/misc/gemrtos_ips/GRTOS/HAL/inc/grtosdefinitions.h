@@ -142,7 +142,7 @@
  *  If 1, the HAL ISR are preserved in GRTOS (producing overhead)
  *  If 0, no ISR are preserved
  */
-#define G_GRTOS_PRESERVE_HAL_ISR 1
+#define G_GRTOS_PRESERVE_HAL_ISR 0
 
 /**
  *  G_DEBUG_PRINT_WHEN_PROCESSOR_GOES_IDLE

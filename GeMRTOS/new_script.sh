@@ -292,6 +292,11 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
     read -n 1 -s -r -p "Change SD to board and press any key to continue downloading nios ${SOFTWARE_DIR_NAME}"
 
 else
+
+    # Generate the Qsys SOPC
+    qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores 2>> ${error_log_file}
+    qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG 2>> ${error_log_file}
+    
     # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
     qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl 2>> ${error_log_file}
 
