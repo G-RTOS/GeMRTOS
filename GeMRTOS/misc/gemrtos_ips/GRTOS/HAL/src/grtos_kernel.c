@@ -167,7 +167,7 @@ void gk_ENTRY_RST_HANDLER (void)
     
 	asm ("rdctl	r2, cpuid"); 
 	asm ("addi r2, r2, -1"); 
-	asm ("muli r2, r2, -1000"); 
+	asm ("muli r2, r2, -2000"); 
 	asm ("add sp, sp, r2"); 
     
     /* Set up the global pointer. It is required for gcc compilation */
@@ -191,9 +191,7 @@ void gk_ENTRY_RST_HANDLER (void)
     
     if (GRTOS_CMD_PRC_ID  > G_NUMBER_OF_PCB - G_NUMBER_OF_IDLE_PROCESSORS) gk_RST_MONITOR_HANDLER(); 
 
-    GRTOS_USER_CRITICAL_SECTION_GET;        /// Enter in Critial Section
-    
-    IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);   // Enables the next processor to start    
+    GRTOS_USER_CRITICAL_SECTION_GET;        /// Enter in Critial Section 
 
     /// Include the processor in the GRTOS
     g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBState = GS_PCB_STATE_RUNNING;  // to set it to FREE
@@ -393,6 +391,12 @@ void  gk_KERNEL_TASK_START (void)
 	/// Enable Processor Interrupt
 	NIOS2_WRITE_IENABLE (1); 
     
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+    #endif
+    
+    IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);   // Enables the next processor to start
+
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
@@ -788,8 +792,6 @@ void gk_START_KERNEL (void)
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
-    
-    IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);           // Enables the next processor to start
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
