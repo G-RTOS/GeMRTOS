@@ -725,7 +725,7 @@ void gk_START_KERNEL (void)
     
     for (i=0; i<G_NUMBER_OF_PCB ; i++) {
         // sprintf(filename, "/dev/jtag_uart_%d", i+2);
-        sprintf(filename, "/dev/%s_jtag_uart_%d", GRTOS_DRIVER_SYSTEM_NAME, i+2);
+        sprintf(filename, "/dev/%s_jtag_uart_%d\0", GRTOS_DRIVER_SYSTEM_NAME, i+2);
         fpuart[i] = fopen (filename, "r+");  //Open file for reading and writing one for each processor starting in 2 (0 for stdio, 1 for stderr) 
     }
 

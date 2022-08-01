@@ -906,9 +906,9 @@ proc compose { } {
     
     # nios from debug and grtos
     for {set i 1} {$i <= $Processors} {incr i} {
-        if {$i != 1} {
-            add_connection nios2_qsys_1.debug_reset_request nios2_qsys_${i}.reset reset        
-        }        
+        # if {$i != 1} {
+        #     add_connection nios2_qsys_1.debug_reset_request nios2_qsys_${i}.reset reset        
+        # }        
         add_connection nios2_qsys_${i}.debug_reset_request nios2_qsys_${i}.reset reset
         add_connection grtos_0.slv_rst${i} nios2_qsys_${i}.reset reset    
     }
@@ -932,7 +932,7 @@ proc compose { } {
     add_connection grtos_0.slv_rst1 nios_avalon_monitor.reset reset
     add_connection nios2_qsys_1.debug_reset_request nios_avalon_monitor.reset reset
     
-    # onchip memoris from grtos
+    # onchip memories from grtos and debug
     add_connection grtos_0.slv_rst1 onchip_memory2_0.reset1 reset
     add_connection grtos_0.slv_rst1 onchip_memory2_1.reset1 reset
     add_connection grtos_0.slv_rst1 onchip_memory2_2.reset1 reset
@@ -940,7 +940,7 @@ proc compose { } {
     # Reset bridge from grtos
     add_connection grtos_0.slv_rst1 reset_bridge_1.in_reset reset
     
-    # Sysid from grtos
+    # Sysid from grtos and debug
     add_connection grtos_0.slv_rst1 sysid_qsys_0.reset reset
     
     # timer from grtos and debug
