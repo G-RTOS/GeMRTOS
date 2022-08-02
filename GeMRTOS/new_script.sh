@@ -228,7 +228,6 @@ if [ "${EDIT_QSYS}" = "1" ]; then
 fi
 
 
-
 generated=`stat -c "%Y" ${QSYS_PRJ}.qsys`
 compilated=`stat -c "%Y" ./output_files/${QUARTUS_PRJ}.sof`
 if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] || [ "${FULL_COMPILATION}" = "1" ]; then
@@ -293,9 +292,18 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
 
 else
 
-    # Generate the Qsys SOPC
-    qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores 2>> ${error_log_file}
-    qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG 2>> ${error_log_file}
+    # Check if a source file was modified to generate the system
+    # from https://stackoverflow.com/questions/4561895/how-to-recursively-find-the-latest-modified-file-in-a-directory
+    # agregar find ./misc/gemrtos_ips/ -type f -name "*.qxp" -o -name "*.vhd" para compilacion en quartus
+    newest_file=`find ../misc/gemrtos_ips/ -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2 -d " "`
+    newest_file_time=`stat -c "%Y" $newest_file`
+    if [ $newest_file_time -gt $generated ]; then
+    
+        # Generate the Qsys SOPC
+        qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores 2>> ${error_log_file}
+        qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG 2>> ${error_log_file}
+        
+    fi
     
     # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
     qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl 2>> ${error_log_file}

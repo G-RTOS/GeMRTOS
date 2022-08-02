@@ -75,7 +75,7 @@
   <parameter name="CPreScale" value="31" />
   <parameter name="ENABLE_HPS_MAP_ACCESS" value="false" />
   <parameter name="ExtIRQs" value="20" />
-  <parameter name="NProcessors" value="2" />
+  <parameter name="NProcessors" value="3" />
  </module>
  <module name="clk_0" kind="clock_source" version="18.0" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
@@ -99,6 +99,15 @@
    kind="avalon"
    version="18.0"
    start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m2"
+   end="mddr_ctrl_0.avalon_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.0"
+   start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m3"
    end="mddr_ctrl_0.avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />

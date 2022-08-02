@@ -72,3 +72,9 @@ GeMRTOS/error_log.txt
 GeMRTOS/bemicrosdk/new_script.txt
 GeMRTOS/error_log.txt}
 GeMRTOS/error_log.txt
+documentation/def/
+documentation/docbook/
+documentation/latex/
+documentation/xml/
+documentation/rtf/
+GeMRTOS/bemicrosdk/prueba.sh

@@ -14,10 +14,10 @@ create_driver grtos_driver
 set_sw_property hw_class_name grtos
 
 # Set UI display name
-set_sw_property display_name "GeMRTOS Controller 0.9.1"
+set_sw_property display_name "GeMRTOS Controller 0.9"
 
 # The version of this driver
-set_sw_property version 0.1
+set_sw_property version 0.9
 
 # This driver may be incompatible with versions of hardware less
 # than specified below. Updates to hardware and device drivers
@@ -109,17 +109,18 @@ add_sw_property include_source HAL/inc/sem.h
 add_sw_setting decimal_number system_h_define system.timer_task_priority OS_TIMER_TASK_PRIORITY 5 "Sets the priority of the software timer service/daemon task. See the FreeRTOS software timers page for a full description."
 
 
-
 #
 # GRTOS settings
 #
 
-add_sw_setting boolean_define_only system_h_define grtos.semaphore GRTOS_INCLUDE_SEMAPHORE 1 "Set to include semaphore support to GRTOS."
 
-add_sw_setting boolean system_h_define grtos.message_queue GRTOS_INCLUDE_MESSAGE_QUEUE 1 "Set to include semaphore support to GRTOS."
+# Only defines the parameter but no value is assigned
+add_sw_setting boolean_define_only system_h_define gemrtos.semaphore GRTOS_INCLUDE_SEMAPHORE 1 "Set to include semaphore support to GeMRTOS."
+
+add_sw_setting boolean system_h_define gemrtos.message_queue GRTOS_INCLUDE_MESSAGE_QUEUE 1 "Set to include message queue support to GeMRTOS."
 
 # set module_name [get_module_name]
-add_sw_setting unquoted_string system_h_define grtos.IORD_GRTOS_SMP GRTOS_IORD_GRTOS_SMP "command" "Sets the priority of the software timer service/daemon task. See the FreeRTOS software timers page for a full description."
+add_sw_setting unquoted_string system_h_define gemrtos.IORD_GRTOS_SMP GRTOS_IORD_GRTOS_SMP "command" "Sets the priority of the software timer service/daemon task. See the FreeRTOS software timers page for a full description."
 
 
 
