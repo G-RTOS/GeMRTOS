@@ -55,14 +55,16 @@ set_parameter_property NProcessors DESCRIPTION "Number of System Processors"
 set_parameter_property NProcessors HDL_PARAMETER false
 
 # Input frequency
-add_parameter CFrequency INTEGER 50000000 "Input clock frequency"
-set_parameter_property CFrequency DEFAULT_VALUE {50000000}
-set_parameter_property CFrequency DISPLAY_NAME "Input clock frquency"
-set_parameter_property CFrequency TYPE INTEGER
-set_parameter_property CFrequency UNITS {Hertz}
-set_parameter_property CFrequency ALLOWED_RANGES {1:500000000}
-set_parameter_property CFrequency DESCRIPTION "Input clock frequency"
+add_interface clk_processors clock sink
+set_interface_property clk_processors clockRate 0
+set_interface_property clk_processors ENABLED true
+    
+add_parameter CFrequency INTEGER  
+set_parameter_property CFrequency SYSTEM_INFO {CLOCK_RATE clk_processors}
+set_parameter_property CFrequency DISPLAY_NAME "Processor frequency"
+add_display_item "" CFrequency PARAMETER
 set_parameter_property CFrequency HDL_PARAMETER false
+
 
 # Clock Prescale
 add_parameter CPreScale INTEGER 31 "Time Prescaler"
@@ -106,7 +108,6 @@ set_parameter_property ENABLE_HPS_MAP_ACCESS HDL_PARAMETER false
 proc compose { } {
     # Parameters from GUI
     set Processors [get_parameter_value NProcessors]
-    set Frequency [get_parameter_value CFrequency]
     set PreScale [get_parameter_value CPreScale]
     set Bridge_Address_Width [get_parameter_value BridgeAddressWidth]
     set BaseAddress [expr {2**$Bridge_Address_Width}]
@@ -115,21 +116,13 @@ proc compose { } {
     
     # remove_dangling_connections
     
-    # Instances and instance parameters
-    # Clock Source
-    # add_instance clk_0 clock_source 18.0
-    # set_instance_parameter_value clk_0 {clockFrequency} $Frequency
-    # set_instance_parameter_value clk_0 {clockFrequencyKnown} {1}
-    # set_instance_parameter_value clk_0 {resetSynchronousEdges} {NONE}
-    
     # Internal clock for devices in GRTOS
     add_instance clock_bridge_0 altera_clock_bridge 18.0
-    set_instance_parameter_value clock_bridge_0 {EXPLICIT_CLOCK_RATE} $Frequency
     set_instance_parameter_value clock_bridge_0 {NUM_CLOCK_OUTPUTS} {1}
+
     
     # Internal clock for devices in GRTOS
     add_instance clock_bridge_external_bus altera_clock_bridge 18.0
-    # set_instance_parameter_value clock_bridge_external_bus {EXPLICIT_CLOCK_RATE} $Frequency
     set_instance_parameter_value clock_bridge_external_bus {NUM_CLOCK_OUTPUTS} {1}    
     
     add_instance reset_bridge_0 altera_reset_bridge 18.0
@@ -947,12 +940,12 @@ proc compose { } {
     add_connection grtos_0.slv_rst1 timer_0.reset reset
     add_connection nios2_qsys_1.debug_reset_request timer_0.reset reset
     
-    # #############################################
-    # Exported interfaces
-    # Input clock
-    add_interface clk clock sink
-    set_interface_property clk EXPORT_OF clock_bridge_0.in_clk
-    # set_interface_property clk EXPORT_OF clk_0.clk_in    
+    #  # #############################################
+    #  # Exported interfaces
+    #  # Input clock
+    #  add_interface clk_processors clock sink
+    set_interface_property clk_processors EXPORT_OF clock_bridge_0.in_clk
+    #  # set_interface_property clk_processors EXPORT_OF clk_0.clk_in    
     
     # Input clock for external bus
     add_interface clk_external_bus clock sink

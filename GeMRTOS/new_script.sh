@@ -288,7 +288,9 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
 
     END=$(date +%s);
     echo $((END-START)) | awk '{print "Total time elapsed: "int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'
-    read -n 1 -s -r -p "Change SD to board and press any key to continue downloading nios ${SOFTWARE_DIR_NAME}"
+    if [ "${BOARD}" = "de10nano" ]; then
+        read -n 1 -s -r -p "Change SD to board and press any key to continue downloading nios ${SOFTWARE_DIR_NAME}"
+    fi
 
 else
 
@@ -363,3 +365,6 @@ cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=5 2>> ${error_
 sleep 5s 2>> ${error_log_file}
 
 nios2-download --go -r ./${SOFTWARE_DIR_NAME}/${APP_NAME}/${APP_NAME}.elf --instance=0 2>> ${error_log_file}
+
+END=$(date +%s);
+echo $((END-START)) | awk '{print "Total time elapsed: "int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'
