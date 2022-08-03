@@ -67,12 +67,16 @@
    kind="GRTOS_Multiprocessor"
    version="1.0"
    enabled="1">
+  <parameter name="AUTO_CLK_EXTERNAL_BUS_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLK_EXTERNAL_BUS_RESET_DOMAIN" value="1" />
   <parameter name="AUTO_CLK_PROCESSORS_CLOCK_DOMAIN" value="1" />
   <parameter name="AUTO_CLK_PROCESSORS_RESET_DOMAIN" value="1" />
   <parameter name="AUTO_DEVICE" value="EP4CE22F17C7" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7" />
-  <parameter name="BridgeAddressWidth" value="26" />
+  <parameter name="AUTO_GRTOS_AVALON_BRIDGE_M1_ADDRESS_MAP"><![CDATA[<address-map><slave name='mddr_ctrl_0.avalon_slave' start='0x0' end='0x4000000' /></address-map>]]></parameter>
+  <parameter name="BUS_WIDTH" value="26" />
+  <parameter name="CEFrequency" value="50000000" />
   <parameter name="CFrequency" value="50000000" />
   <parameter name="CPreScale" value="31" />
   <parameter name="ENABLE_HPS_MAP_ACCESS" value="false" />

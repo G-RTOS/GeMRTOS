@@ -54,7 +54,8 @@ set_parameter_property NProcessors ALLOWED_RANGES {1 2 3 4 5 6 7 8 9 10 11 12 13
 set_parameter_property NProcessors DESCRIPTION "Number of System Processors"
 set_parameter_property NProcessors HDL_PARAMETER false
 
-# Input frequency
+# ############################################################################
+# Input clock for processors
 add_interface clk_processors clock sink
 set_interface_property clk_processors clockRate 0
 set_interface_property clk_processors ENABLED true
@@ -64,6 +65,30 @@ set_parameter_property CFrequency SYSTEM_INFO {CLOCK_RATE clk_processors}
 set_parameter_property CFrequency DISPLAY_NAME "Processor frequency"
 add_display_item "" CFrequency PARAMETER
 set_parameter_property CFrequency HDL_PARAMETER false
+
+# ############################################################################
+# Input clock for external bus
+add_interface clk_external_bus clock sink
+set_interface_property clk_external_bus clockRate 0
+set_interface_property clk_external_bus ENABLED true
+    
+add_parameter CEFrequency INTEGER  
+set_parameter_property CEFrequency SYSTEM_INFO {CLOCK_RATE clk_external_bus}
+set_parameter_property CEFrequency DISPLAY_NAME "External bus frequency"
+add_display_item "" CEFrequency PARAMETER
+set_parameter_property CEFrequency HDL_PARAMETER false
+
+# ############################################################################
+# Interface for processor 1 and getting the bus width for external memory 
+# registers
+add_interface grtos_avalon_bridge_m1 avalon start
+set_interface_property grtos_avalon_bridge_m1 ENABLED true
+
+add_parameter BUS_WIDTH INTEGER  
+set_parameter_property BUS_WIDTH SYSTEM_INFO {ADDRESS_WIDTH grtos_avalon_bridge_m1}
+set_parameter_property BUS_WIDTH DISPLAY_NAME "External bus width"
+add_display_item "" BUS_WIDTH PARAMETER
+set_parameter_property BUS_WIDTH HDL_PARAMETER false
 
 
 # Clock Prescale
@@ -77,14 +102,14 @@ set_parameter_property CPreScale DESCRIPTION "Time Scale division"
 set_parameter_property CPreScale HDL_PARAMETER false
 
 # Address Width of Avalon Bridge
-add_parameter BridgeAddressWidth INTEGER 26 "Address width of Avalon Bridge"
-set_parameter_property BridgeAddressWidth DEFAULT_VALUE 26
-set_parameter_property BridgeAddressWidth DISPLAY_NAME "Address width of Avalon Bridge"
-set_parameter_property BridgeAddressWidth TYPE INTEGER
-set_parameter_property BridgeAddressWidth UNITS None
-set_parameter_property BridgeAddressWidth ALLOWED_RANGES {1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27}
-set_parameter_property BridgeAddressWidth DESCRIPTION "Number of address bits for memory map addressing"
-set_parameter_property BridgeAddressWidth HDL_PARAMETER false
+# # add_parameter BridgeAddressWidth INTEGER 26 "Address width of Avalon Bridge"
+# # set_parameter_property BridgeAddressWidth DEFAULT_VALUE 26
+# # set_parameter_property BridgeAddressWidth DISPLAY_NAME "Address width of Avalon Bridge"
+# # set_parameter_property BridgeAddressWidth TYPE INTEGER
+# # set_parameter_property BridgeAddressWidth UNITS None
+# # set_parameter_property BridgeAddressWidth ALLOWED_RANGES {1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27}
+# # set_parameter_property BridgeAddressWidth DESCRIPTION "Number of address bits for memory map addressing"
+# # set_parameter_property BridgeAddressWidth HDL_PARAMETER false
 
 # Number of IRQ signal width of IRQ_BRIDGE
 add_parameter ExtIRQs INTEGER 20 "Number of external IRQs"
@@ -109,7 +134,9 @@ proc compose { } {
     # Parameters from GUI
     set Processors [get_parameter_value NProcessors]
     set PreScale [get_parameter_value CPreScale]
-    set Bridge_Address_Width [get_parameter_value BridgeAddressWidth]
+    # set Bridge_Address_Width [get_parameter_value BridgeAddressWidth]
+    set Bridge_Address_Width [get_parameter_value BUS_WIDTH]
+    
     set BaseAddress [expr {2**$Bridge_Address_Width}]
     set ExtInterrupts [get_parameter_value ExtIRQs]
     set IntInterrupts [expr {$Processors + 4}]
@@ -943,14 +970,10 @@ proc compose { } {
     #  # #############################################
     #  # Exported interfaces
     #  # Input clock
-    #  add_interface clk_processors clock sink
     set_interface_property clk_processors EXPORT_OF clock_bridge_0.in_clk
-    #  # set_interface_property clk_processors EXPORT_OF clk_0.clk_in    
     
     # Input clock for external bus
-    add_interface clk_external_bus clock sink
-    set_interface_property clk_external_bus EXPORT_OF clock_bridge_external_bus.in_clk
-    # set_interface_property clk EXPORT_OF clk_0.clk_in    
+    set_interface_property clk_external_bus EXPORT_OF clock_bridge_external_bus.in_clk  
     
     # External reset input
     add_interface reset reset sink
@@ -965,8 +988,9 @@ proc compose { } {
     for {set i 1} {$i <= $Processors} {incr i} {
         # add_interface grtos_avalon_bridge_1_m${i} avalon start
         # set_interface_property grtos_avalon_bridge_1_m${i} EXPORT_OF GRTOS_Avalon_Bridge_1.m${i}
-        
-        add_interface grtos_avalon_bridge_m${i} avalon start
+        if {$i != 1} {
+            add_interface grtos_avalon_bridge_m${i} avalon start
+        }
         set_interface_property grtos_avalon_bridge_m${i} EXPORT_OF mm_clock_crossing_bridge_pro_${i}.m0        
     }
     
