@@ -67,8 +67,8 @@
    kind="GRTOS_Multiprocessor"
    version="1.0"
    enabled="1">
-  <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="1" />
-  <parameter name="AUTO_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_CLK_PROCESSORS_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CLK_PROCESSORS_RESET_DOMAIN" value="1" />
   <parameter name="AUTO_DEVICE" value="EP4CE22F17C7" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7" />
@@ -119,12 +119,12 @@
    kind="clock"
    version="18.0"
    start="clk_0.clk"
-   end="GRTOS_Multiprocessor_1.clk" />
+   end="GRTOS_Multiprocessor_1.clk_external_bus" />
  <connection
    kind="clock"
    version="18.0"
    start="clk_0.clk"
-   end="GRTOS_Multiprocessor_1.clk_external_bus" />
+   end="GRTOS_Multiprocessor_1.clk_processors" />
  <connection kind="clock" version="18.0" start="clk_0.clk" end="mddr_ctrl_0.clock" />
  <connection
    kind="reset"
