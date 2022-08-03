@@ -36,7 +36,8 @@ set_module_property AUTHOR "Ricardo Cayssials"
 set_module_property EDITABLE true
 
 set_module_property COMPOSITION_CALLBACK compose
-
+set_module_property VALIDATION_CALLBACK validate
+set_module_property ELABORATION_CALLBACK elaborate
 set_module_property opaque_address_map false
 
 
@@ -112,23 +113,30 @@ set_parameter_property CPreScale HDL_PARAMETER false
 # # set_parameter_property BridgeAddressWidth HDL_PARAMETER false
 
 # Number of IRQ signal width of IRQ_BRIDGE
-add_parameter ExtIRQs INTEGER 20 "Number of external IRQs"
-set_parameter_property ExtIRQs DEFAULT_VALUE 20
-set_parameter_property ExtIRQs DISPLAY_NAME "Number of external IRQs"
-set_parameter_property ExtIRQs TYPE INTEGER
-set_parameter_property ExtIRQs UNITS None
-set_parameter_property ExtIRQs ALLOWED_RANGES {0:25}
-set_parameter_property ExtIRQs DESCRIPTION "Number of external IRQs"
-set_parameter_property ExtIRQs HDL_PARAMETER false
+# add_parameter ExtIRQs INTEGER 20 "Number of external IRQs"
+# set_parameter_property ExtIRQs DEFAULT_VALUE 20
+# set_parameter_property ExtIRQs DISPLAY_NAME "Number of external IRQs"
+# set_parameter_property ExtIRQs TYPE INTEGER
+# set_parameter_property ExtIRQs UNITS None
+# set_parameter_property ExtIRQs ALLOWED_RANGES {0:25}
+# set_parameter_property ExtIRQs DESCRIPTION "Number of external IRQs"
+# set_parameter_property ExtIRQs HDL_PARAMETER false
 
-add_parameter ENABLE_HPS_MAP_ACCESS BOOLEAN true
-# set_parameter_property ENABLE_HPS_MAP_ACCESS DEFAULT_VALUE 3
+add_parameter ENABLE_HPS_MAP_ACCESS BOOLEAN false
 set_parameter_property ENABLE_HPS_MAP_ACCESS DISPLAY_NAME "Enable HPS internal access"
 set_parameter_property ENABLE_HPS_MAP_ACCESS TYPE BOOLEAN
 set_parameter_property ENABLE_HPS_MAP_ACCESS UNITS None
-# set_parameter_property ENABLE_HPS_MAP_ACCESS ALLOWED_RANGES {1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32}
 set_parameter_property ENABLE_HPS_MAP_ACCESS DESCRIPTION "Enable Avalon MM slave for HPS to access internal memory addresses"
 set_parameter_property ENABLE_HPS_MAP_ACCESS HDL_PARAMETER false
+
+
+proc elaborate { } {
+
+}
+
+proc validate { } {
+
+}
 
 proc compose { } {
     # Parameters from GUI
@@ -138,7 +146,7 @@ proc compose { } {
     set Bridge_Address_Width [get_parameter_value BUS_WIDTH]
     
     set BaseAddress [expr {2**$Bridge_Address_Width}]
-    set ExtInterrupts [get_parameter_value ExtIRQs]
+    # set ExtInterrupts [get_parameter_value ExtIRQs]
     set IntInterrupts [expr {$Processors + 4}]
     
     # remove_dangling_connections
@@ -198,7 +206,8 @@ proc compose { } {
     # IRQ Bridge
     add_instance irq_bridge_0 altera_irq_bridge 18.0
     set_instance_parameter_value irq_bridge_0 {IRQ_N} {0}
-    set_instance_parameter_value irq_bridge_0 {IRQ_WIDTH} $ExtInterrupts
+    set Number_of_external_IRQ [expr {32 - $IntInterrupts}]
+    set_instance_parameter_value irq_bridge_0 {IRQ_WIDTH} ${Number_of_external_IRQ}
     # CLOCK and RESET
     add_connection clock_bridge_0.out_clk irq_bridge_0.clk clock
     add_connection reset_bridge_0.out_reset irq_bridge_0.clk_reset reset
@@ -892,7 +901,7 @@ proc compose { } {
  
     # ##########################################################
     # Interruptions from irq_bridge_0
-    for {set i $IntInterrupts} {$i < $IntInterrupts + $ExtInterrupts} {incr i} {
+    for {set i $IntInterrupts} {$i < 32} {incr i} {
         add_connection grtos_0.interrupt_receiver irq_bridge_0.sender[expr {$i - $IntInterrupts}]_irq interrupt
         set_connection_parameter_value grtos_0.interrupt_receiver/irq_bridge_0.sender[expr {$i - $IntInterrupts}]_irq irqNumber $i
 
