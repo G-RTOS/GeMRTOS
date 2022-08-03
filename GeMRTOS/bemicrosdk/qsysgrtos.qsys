@@ -78,7 +78,6 @@
   <parameter name="BUS_WIDTH" value="26" />
   <parameter name="CEFrequency" value="50000000" />
   <parameter name="CFrequency" value="50000000" />
-  <parameter name="CPreScale" value="31" />
   <parameter name="ENABLE_HPS_MAP_ACCESS" value="false" />
   <parameter name="NProcessors" value="3" />
  </module>

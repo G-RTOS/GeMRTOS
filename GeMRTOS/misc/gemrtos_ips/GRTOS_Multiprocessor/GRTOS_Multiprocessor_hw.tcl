@@ -93,14 +93,21 @@ set_parameter_property BUS_WIDTH HDL_PARAMETER false
 
 
 # Clock Prescale
-add_parameter CPreScale INTEGER 31 "Time Prescaler"
-set_parameter_property CPreScale DEFAULT_VALUE 31
-set_parameter_property CPreScale DISPLAY_NAME "Time Prescaler"
-set_parameter_property CPreScale TYPE INTEGER
-set_parameter_property CPreScale UNITS None
-set_parameter_property CPreScale ALLOWED_RANGES {1:1073741824}
-set_parameter_property CPreScale DESCRIPTION "Time Scale division"
-set_parameter_property CPreScale HDL_PARAMETER false
+# add_parameter CPreScale INTEGER 31 "Time Prescaler"
+# set_parameter_property CPreScale DEFAULT_VALUE 31
+# set_parameter_property CPreScale DISPLAY_NAME "Time Prescaler"
+# set_parameter_property CPreScale TYPE INTEGER
+# set_parameter_property CPreScale UNITS None
+# set_parameter_property CPreScale ALLOWED_RANGES {1:1073741824}
+# set_parameter_property CPreScale DESCRIPTION "Time Scale division"
+# set_parameter_property CPreScale HDL_PARAMETER false
+
+# add_parameter CPreScale INTEGER 15 
+# set_parameter_property CPreScale DISPLAY_NAME "Time prescaler"
+# add_display_item "" CPreScale PARAMETER
+# set_parameter_property CPreScale HDL_PARAMETER false
+
+
 
 # Address Width of Avalon Bridge
 # # add_parameter BridgeAddressWidth INTEGER 26 "Address width of Avalon Bridge"
@@ -131,7 +138,9 @@ set_parameter_property ENABLE_HPS_MAP_ACCESS HDL_PARAMETER false
 
 
 proc elaborate { } {
-
+    # set ClockFrequency [get_parameter_value CFrequency]
+    # set PreScale [ expr { $ClockFrequency / 10000000} ]
+    # set_parameter_value CPreScale ${PreScale}  
 }
 
 proc validate { } {
@@ -141,12 +150,12 @@ proc validate { } {
 proc compose { } {
     # Parameters from GUI
     set Processors [get_parameter_value NProcessors]
-    set PreScale [get_parameter_value CPreScale]
-    # set Bridge_Address_Width [get_parameter_value BridgeAddressWidth]
+    set ClockFrequency [get_parameter_value CFrequency]
+
+    set PreScale [ expr { $ClockFrequency / 10000000} ]
+
     set Bridge_Address_Width [get_parameter_value BUS_WIDTH]
-    
     set BaseAddress [expr {2**$Bridge_Address_Width}]
-    # set ExtInterrupts [get_parameter_value ExtIRQs]
     set IntInterrupts [expr {$Processors + 4}]
     
     # remove_dangling_connections
@@ -983,16 +992,7 @@ proc compose { } {
     
     # Input clock for external bus
     set_interface_property clk_external_bus EXPORT_OF clock_bridge_external_bus.in_clk  
-    
-    # External reset input
-    add_interface reset reset sink
-    set_interface_property reset EXPORT_OF reset_bridge_0.in_reset
-    # set_interface_property reset EXPORT_OF clk_0.clk_in_reset    
-    
-    # Output for leds
-    add_interface grtos_0_phy conduit end
-    set_interface_property grtos_0_phy EXPORT_OF grtos_0.phy
-    
+
     # Nios avalon masters
     for {set i 1} {$i <= $Processors} {incr i} {
         # add_interface grtos_avalon_bridge_1_m${i} avalon start
@@ -1002,6 +1002,15 @@ proc compose { } {
         }
         set_interface_property grtos_avalon_bridge_m${i} EXPORT_OF mm_clock_crossing_bridge_pro_${i}.m0        
     }
+     
+    # External reset input
+    add_interface reset reset sink
+    set_interface_property reset EXPORT_OF reset_bridge_0.in_reset
+    # set_interface_property reset EXPORT_OF clk_0.clk_in_reset    
+    
+    # Output for leds
+    add_interface grtos_0_phy conduit end
+    set_interface_property grtos_0_phy EXPORT_OF grtos_0.phy
     
     # External to IRQ Bridge
     add_interface grtos_dirg_input interrupt receiver
