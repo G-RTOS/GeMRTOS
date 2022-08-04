@@ -4,7 +4,7 @@
 /// \details Main file for definition
 /// \version 0.9a
 /// \date      Created on: Sep 16, 2013
-/// \bug   Describe found bugs here.
+/// \bug   None known
 /// \copyright Ricardo Cayssials 
 /// \copyright All rights reserved.
 /// \warning This product was produced by Ricardo Cayssials in the hope that it 
@@ -266,28 +266,6 @@ typedef union timepriority {
 //     unsigned long R_PRC_INT_STA;              // std_logic_vector(31 downto 0);  -- Processor Interrupt Status register    
 // 
 //     unsigned int R1_FRZ_TRG_ENB : 1;             //  -- Frozen trigger enabled
-//     unsigned int D_NXT_OCC_TM_HGH : 1;           // 
-//     unsigned int D_MTX_GRN : 1;                  // 
-//     unsigned int D_MTX_RLS : 1;                  //    
-//     unsigned int D_MTX_NXT_PRC : 1;              // 
-//     unsigned int D_MTX_RSV_SET : 1;              // 
-//     unsigned int D_MTX_RSV_CLR : 1;              // 
-//     unsigned int D_INT_PRC_PND_CLR : 1;          // 
-//     unsigned int D_FRZ_TM_HGH : 1;               // 
-//     unsigned int D_TM_PSC : 1;                   // 
-//     unsigned int D_FRZ_THR_HGH : 1;              // 
-//     unsigned int D_CTRL_SET : 1;                 // 
-//     unsigned int D_INT_ENB_SET : 1;              // 
-//     unsigned int D_INT_ENB_CLR : 1;              // 
-//     unsigned int D_LOW_PRC_SET : 1;              // 
-//     unsigned int D_NXT_TM_PRC_SET : 1;           // 
-//     unsigned int D_IRQ_ENB_SET : 1;              // 
-//     unsigned int D_IRQ_ENB_CLR : 1;              // 
-//     unsigned int D_TRG_INT_PRC : 1;              // 
-//     unsigned int D_MTX_SET_TM : 1;               // 
-//     unsigned int D_HLT_IDL_PRC_SET : 1;          // 
-//     unsigned int D_HLT_IDL_PRC_CLR : 1;          // 
-//     unsigned int D_RST_CLR : 1;                  // 
 //     unsigned int C1_IRQ_PND : 1;                 //    -- IRQ pendig flag    
 //     unsigned int C1_MTX_GRN : 1;                 //    -- Mutex is Granted to a processor flag     
 //     unsigned int R_EVN_TM_OCC : 1;               //    -- Time Event Occurred flag

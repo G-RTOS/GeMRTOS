@@ -35,10 +35,13 @@
 
 #define ADDR_SMP                0
 #define ADDR_TM_CNT_HGH         1
+
 #define ADDR_NXT_OCC_TM_HGH     3
+
+
 #define ADDR_MTX_GRN            6
 #define ADDR_MTX_RLS            7
-// #define ADRR_MTX_NXT_PRC        8
+
 #define ADDR_MTX_RSV_SET        9
 #define ADDR_MTX_RSV_CLR        10
 #define ADDR_INT_PRC_PND_CLR    11
@@ -49,6 +52,7 @@
 #define ADDR_FRZ_THR_HGH        16
 #define ADDR_CTRL               17
 #define ADDR_EVN_OCC            19
+
 #define ADDR_INT_ENB_SET        21
 #define ADD_INT_ENB_CLR         22
 #define ADDR_LOW_PRC_SET   		23

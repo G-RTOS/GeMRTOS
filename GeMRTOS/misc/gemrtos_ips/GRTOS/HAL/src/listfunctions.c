@@ -5,7 +5,7 @@
  *  \details This file contains thefuntion for list management.
  *  \version 0.9a
  *  \date      2015-2020
- *  \bug  Describe found bugs here.
+ *  \bug  None known
  *  \copyright Ricardo Cayssials  (rcayssials@gmail.com)
  *  \copyright All rights reserved.
  *  \copyright Copyright (c) 2013-2020
