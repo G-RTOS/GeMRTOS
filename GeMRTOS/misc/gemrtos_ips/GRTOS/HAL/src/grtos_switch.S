@@ -219,16 +219,16 @@ GRTOS_Start_Task:
 	/// Restore the Status from the stack as it was saved 
     /// sp = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer;
     /// *************************************************************************
-    rdctl	r4,cpuid     /* r4 = cpuid                                                                                 */
-    addi	r4,r4,-1     /* r4 = cpuid -1                                                                              */
+    rdctl	r4,cpuid                   /* r4 = cpuid                                                    */
+    addi	r4,r4,-1                   /* r4 = cpuid -1                                                 */
     
     movia  r5, gs_sizeof_G_PCBTbl
     ldw	r5,0(r5)
-    mul	r4, r4, r5       /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                                                          */
+    mul	r4, r4, r5                     /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                       */
     
-    movia	r5,gs_addressof_G_PCBTbl    /* r5 = &g_kcb.G_PCBTbl                                */
+    movia	r5,gs_addressof_G_PCBTbl   /* r5 = &g_kcb.G_PCBTbl                                          */
     ldw	r5,0(r5)
-    add	r4, r4, r5       /* r4 = &g_kcb.G_PCBTbl + sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                                              */
+    add	r4, r4, r5                     /* r4 = &g_kcb.G_PCBTbl + sizeof(g_kcb.G_PCBTbl) * (cpuid-1)     */
     
     movia r5, gs_offsetof_PCB_EXECTCB
     ldw	r5,0(r5)

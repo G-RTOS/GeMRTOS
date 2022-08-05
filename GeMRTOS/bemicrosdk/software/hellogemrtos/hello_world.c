@@ -248,7 +248,7 @@ GS_TCB *ptcb_array[G_MAX_NUMBER_OF_USER_TCB];
 
 int main()
 {
-    
+    printf("Hello World main\n");
     void   *mem = malloc(sizeof(INT32) * G_MAX_NUMBER_OF_USER_TCB * TASK_STACKSIZE + 31);
     generic_stk = (INT32 *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
     

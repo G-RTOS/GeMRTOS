@@ -180,8 +180,12 @@ void gk_ENTRY_RST_HANDLER (void)
     /// Disable the interrupts
     NIOS2_WRITE_IENABLE (0);
 
-    // IORD_GRTOS_RST_CLR is used to sequence the start of the processors
-    while (IORD_GRTOS_RST_CLR != GRTOS_CMD_PRC_ID - 1);
+    GRTOS_USER_CRITICAL_SECTION_GET;        /// Enter in Critial Section
+    
+    // IORD_GRTOS_RST_CLR is used to sequence the start of the processors  !!!!!!!!! no deberia estar por estar reseteado
+    // while (IORD_GRTOS_RST_CLR != GRTOS_CMD_PRC_ID - 1);
+
+
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
@@ -191,7 +195,7 @@ void gk_ENTRY_RST_HANDLER (void)
     
     if (GRTOS_CMD_PRC_ID  > G_NUMBER_OF_PCB - G_NUMBER_OF_IDLE_PROCESSORS) gk_RST_MONITOR_HANDLER(); 
 
-    GRTOS_USER_CRITICAL_SECTION_GET;        /// Enter in Critial Section 
+ 
 
     /// Include the processor in the GRTOS
     g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBState = GS_PCB_STATE_RUNNING;  // to set it to FREE

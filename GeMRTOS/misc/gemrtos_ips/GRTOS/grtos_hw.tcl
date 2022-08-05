@@ -166,6 +166,7 @@ add_interface_port s_Global slave_gRTOS_read read Input 1
 add_interface_port s_Global slave_gRTOS_write write Input 1
 add_interface_port s_Global slave_gRTOS_readdata readdata Output 32
 add_interface_port s_Global slave_gRTOS_writedata writedata Input 32
+add_interface_port s_Global slave_gRTOS_waitrequest waitrequest Output 1
 # add_interface_port s_Global slave_gRTOS_chipselect chipselect Input 1
 set_interface_assignment s_Global embeddedsw.configuration.isFlash 0
 set_interface_assignment s_Global embeddedsw.configuration.isMemoryDevice 0

@@ -253,7 +253,7 @@ proc compose { } {
     set_instance_parameter_value onchip_memory2_0 {initMemContent} {1}
     set_instance_parameter_value onchip_memory2_0 {initializationFileName} {GRTOS_Multiprocessor_0_onchip_memory2_0.hex}
     set_instance_parameter_value onchip_memory2_0 {instanceID} {NONE}
-    set_instance_parameter_value onchip_memory2_0 {memorySize} {2048.0}
+    set_instance_parameter_value onchip_memory2_0 {memorySize} {4096.0}
     set_instance_parameter_value onchip_memory2_0 {readDuringWriteMode} {DONT_CARE}
     set_instance_parameter_value onchip_memory2_0 {resetrequest_enabled} {1}
     set_instance_parameter_value onchip_memory2_0 {simAllowMRAMContentsFile} {0}
@@ -650,6 +650,26 @@ proc compose { } {
     set BaseAddress [expr {$BaseAddress + 0x40000}]
 
     
+    # Connection of onchip_memory2_0 at $BaseAddress span 0x800
+    add_connection master_0.master onchip_memory2_0.s1 avalon
+    set_connection_parameter_value master_0.master/onchip_memory2_0.s1 arbitrationPriority {1}
+    set_connection_parameter_value master_0.master/onchip_memory2_0.s1 baseAddress $BaseAddress
+    set_connection_parameter_value master_0.master/onchip_memory2_0.s1 defaultConnection {0}
+    for {set i 1} {$i <= $Processors} {incr i} {
+        add_connection nios_avalon_monitor.m$i onchip_memory2_0.s1 avalon
+        set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_0.s1 arbitrationPriority {1}
+        set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_0.s1 baseAddress $BaseAddress
+        set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_0.s1 defaultConnection {0}
+    }
+    # HPS internal access
+    if { [get_parameter_value ENABLE_HPS_MAP_ACCESS ] } {
+        add_connection mm_clock_crossing_bridge_0.m0 onchip_memory2_0.s1 avalon
+        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_0.s1 arbitrationPriority {1}
+        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_0.s1 baseAddress $BaseAddress
+        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_0.s1 defaultConnection {0}        
+    }
+    set BaseAddress [expr {$BaseAddress + 0x1000}]
+    
     # Connection of onchip_memory2_1 at $BaseAddress span 0x2000
     add_connection master_0.master onchip_memory2_1.s1 avalon
     set_connection_parameter_value master_0.master/onchip_memory2_1.s1 arbitrationPriority {1}
@@ -669,26 +689,7 @@ proc compose { } {
         set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_1.s1 defaultConnection {0}        
     }
     set BaseAddress [expr {$BaseAddress + 0x0800}]
-    
-    # Connection of onchip_memory2_0 at $BaseAddress span 0x800
-    add_connection master_0.master onchip_memory2_0.s1 avalon
-    set_connection_parameter_value master_0.master/onchip_memory2_0.s1 arbitrationPriority {1}
-    set_connection_parameter_value master_0.master/onchip_memory2_0.s1 baseAddress $BaseAddress
-    set_connection_parameter_value master_0.master/onchip_memory2_0.s1 defaultConnection {0}
-    for {set i 1} {$i <= $Processors} {incr i} {
-        add_connection nios_avalon_monitor.m$i onchip_memory2_0.s1 avalon
-        set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_0.s1 arbitrationPriority {1}
-        set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_0.s1 baseAddress $BaseAddress
-        set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_0.s1 defaultConnection {0}
-    }
-    # HPS internal access
-    if { [get_parameter_value ENABLE_HPS_MAP_ACCESS ] } {
-        add_connection mm_clock_crossing_bridge_0.m0 onchip_memory2_0.s1 avalon
-        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_0.s1 arbitrationPriority {1}
-        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_0.s1 baseAddress $BaseAddress
-        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_0.s1 defaultConnection {0}        
-    }
-    set BaseAddress [expr {$BaseAddress + 0x800}]
+
     
     # Connection of debug_mem_slave at $BaseAddress span 0x800 each
     for {set i 1} {$i <= $Processors} {incr i} {
