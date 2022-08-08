@@ -204,7 +204,22 @@ grtos_irq_entry:
 
     movia  r5, gs_sizeof_G_PCBTbl
     ldw	r5,0(r5)
-    mul	r4,r4,r5                        /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)             */
+    /// mul	r4, r4, r5                        /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)             */
+    
+    /// Multiplication rewritten for no-multipler processor compatibility
+    /// mul	r4, r4, r5                     /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                   */
+    mov r6, zero
+mul2:
+    beq r4, zero, out_mul2
+    add r6, r6, r5
+    addi r4, r4, -1
+    jmpi mul2
+out_mul2:
+    mov r4, r6    
+    
+    
+    
+    
     movia	r5,gs_addressof_G_PCBTbl    /* r5 = &g_kcb.G_PCBTbl                                */
     ldw	r5,0(r5)
     add	r4,r4,r5                        /* r4 = &g_kcb.G_PCBTbl + sizeof(g_kcb.G_PCBTbl) * (cpuid-1) */
@@ -230,7 +245,19 @@ Switch_to_idle:
 
     movia  r5, gs_sizeof_G_PCBTbl
     ldw	r5,0(r5)
-    mul	r4,r4,r5         /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)     */
+    /// mul	r4,r4,r5         /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)     */
+    
+    /// Multiplication rewritten for no-multipler processor compatibility
+    /// mul	r4, r4, r5                     /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                   */
+    mov r6, zero
+mul3:
+    beq r4, zero, out_mul3
+    add r6, r6, r5
+    addi r4, r4, -1
+    jmpi mul3
+out_mul3:
+    mov r4, r6    
+    
 
     movia	r5,gs_addressof_G_PCBTbl    /* r5 = &g_kcb.G_PCBTbl                                */
     ldw	r5,0(r5)
@@ -263,8 +290,19 @@ GRTOS_Start_Task:
     
     movia  r5, gs_sizeof_G_PCBTbl
     ldw	r5,0(r5)
-    mul	r4, r4, r5                     /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                       */
     
+    /// Multiplication rewritten for no-multipler processor compatibility
+    /// mul	r4, r4, r5                     /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                   */
+    mov r6, zero
+mul1:
+    beq r4, zero, out_mul1
+    add r6, r6, r5
+    addi r4, r4, -1
+    jmpi mul1
+out_mul1:
+    mov r4, r6
+
+
     movia	r5,gs_addressof_G_PCBTbl   /* r5 = &g_kcb.G_PCBTbl                                          */
     ldw	r5,0(r5)
     add	r4, r4, r5                     /* r4 = &g_kcb.G_PCBTbl + sizeof(g_kcb.G_PCBTbl) * (cpuid-1)     */

@@ -357,7 +357,8 @@ proc compose { } {
         set_instance_parameter_value nios2_qsys_${i} {debug_traceStorage} {onchip_trace}
         set_instance_parameter_value nios2_qsys_${i} {debug_traceType} {none}
         set_instance_parameter_value nios2_qsys_${i} {debug_triggerArming} {1}
-        set_instance_parameter_value nios2_qsys_${i} {dividerType} {no_div}
+        # set_instance_parameter_value nios2_qsys_${i} {dividerType} {no_div}
+        set_instance_parameter_value nios2_qsys_${i} {dividerType} {srt2}
         set_instance_parameter_value nios2_qsys_${i} {exceptionOffset} {32}
         set_instance_parameter_value nios2_qsys_${i} {exceptionSlave} {onchip_memory2_1.s1}
         set_instance_parameter_value nios2_qsys_${i} {fa_cache_line} {2}
@@ -369,7 +370,7 @@ proc compose { } {
         set_instance_parameter_value nios2_qsys_${i} {icache_ramBlockType} {Automatic}
         set_instance_parameter_value nios2_qsys_${i} {icache_size} {0}
         set_instance_parameter_value nios2_qsys_${i} {icache_tagramBlockType} {Automatic}
-        set_instance_parameter_value nios2_qsys_${i} {impl} {Fast}
+        set_instance_parameter_value nios2_qsys_${i} {impl} {Tiny}
         set_instance_parameter_value nios2_qsys_${i} {instruction_master_high_performance_paddr_base} {0}
         set_instance_parameter_value nios2_qsys_${i} {instruction_master_high_performance_paddr_size} {0.0}
         set_instance_parameter_value nios2_qsys_${i} {instruction_master_paddr_base} {0}
@@ -394,7 +395,7 @@ proc compose { } {
         set_instance_parameter_value nios2_qsys_${i} {mpu_numOfInstRegion} {8}
         set_instance_parameter_value nios2_qsys_${i} {mpu_useLimit} {0}
         set_instance_parameter_value nios2_qsys_${i} {mpx_enabled} {0}
-        set_instance_parameter_value nios2_qsys_${i} {mul_32_impl} {0}
+        set_instance_parameter_value nios2_qsys_${i} {mul_32_impl} {3}
         set_instance_parameter_value nios2_qsys_${i} {mul_64_impl} {0}
         set_instance_parameter_value nios2_qsys_${i} {mul_shift_choice} {0}
         set_instance_parameter_value nios2_qsys_${i} {ocimem_ramBlockType} {Automatic}
