@@ -394,7 +394,7 @@ proc compose { } {
         set_instance_parameter_value nios2_qsys_${i} {mpu_numOfInstRegion} {8}
         set_instance_parameter_value nios2_qsys_${i} {mpu_useLimit} {0}
         set_instance_parameter_value nios2_qsys_${i} {mpx_enabled} {0}
-        set_instance_parameter_value nios2_qsys_${i} {mul_32_impl} {2}
+        set_instance_parameter_value nios2_qsys_${i} {mul_32_impl} {0}
         set_instance_parameter_value nios2_qsys_${i} {mul_64_impl} {0}
         set_instance_parameter_value nios2_qsys_${i} {mul_shift_choice} {0}
         set_instance_parameter_value nios2_qsys_${i} {ocimem_ramBlockType} {Automatic}
@@ -412,7 +412,8 @@ proc compose { } {
         set_instance_parameter_value nios2_qsys_${i} {setting_HDLSimCachesCleared} {1}
         set_instance_parameter_value nios2_qsys_${i} {setting_activateMonitors} {1}
         set_instance_parameter_value nios2_qsys_${i} {setting_activateTestEndChecker} {0}
-        set_instance_parameter_value nios2_qsys_${i} {setting_activateTrace} {1}
+        # set_instance_parameter_value nios2_qsys_${i} {setting_activateTrace} {1}
+        set_instance_parameter_value nios2_qsys_${i} {setting_activateTrace} {0}
         set_instance_parameter_value nios2_qsys_${i} {setting_allow_break_inst} {0}
         set_instance_parameter_value nios2_qsys_${i} {setting_alwaysEncrypt} {1}
         set_instance_parameter_value nios2_qsys_${i} {setting_asic_add_scan_mode_input} {0}
@@ -449,7 +450,8 @@ proc compose { } {
         set_instance_parameter_value nios2_qsys_${i} {setting_shadowRegisterSets} {0}
         set_instance_parameter_value nios2_qsys_${i} {setting_showInternalSettings} {0}
         set_instance_parameter_value nios2_qsys_${i} {setting_showUnpublishedSettings} {0}
-        set_instance_parameter_value nios2_qsys_${i} {setting_support31bitdcachebypass} {0}
+        # set_instance_parameter_value nios2_qsys_${i} {setting_support31bitdcachebypass} {0}
+        set_instance_parameter_value nios2_qsys_${i} {setting_support31bitdcachebypass} {1}
         set_instance_parameter_value nios2_qsys_${i} {setting_tmr_output_disable} {0}
         set_instance_parameter_value nios2_qsys_${i} {setting_usedesignware} {0}
         set_instance_parameter_value nios2_qsys_${i} {shift_rot_impl} {1}
@@ -668,7 +670,11 @@ proc compose { } {
         set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_0.s1 baseAddress $BaseAddress
         set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_0.s1 defaultConnection {0}        
     }
+    # set MM_WIDTH [ SYSTEM_INFO {ADDRESS_WIDTH grtos_avalon_bridge_m1} ]
+    # set MM_SCOPE [expr {2**$MM_WIDTH}]
+    # set BaseAddress [expr {$BaseAddress + $MM_SCOPE}]
     set BaseAddress [expr {$BaseAddress + 0x1000}]
+
     
     # Connection of onchip_memory2_1 at $BaseAddress span 0x2000
     add_connection master_0.master onchip_memory2_1.s1 avalon

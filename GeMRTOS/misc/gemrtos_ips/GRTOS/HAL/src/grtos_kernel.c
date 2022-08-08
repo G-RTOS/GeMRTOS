@@ -156,31 +156,34 @@ volatile INT64 G_TASK_PERIOD_DEFAULT;          ///< \brief Default assignment fo
  *  \details This is executed when processor with ID != 0 are reset.
  *  A different stack is assigned to each processor
  */
-void gk_ENTRY_RST_HANDLER (void) __attribute__ ((section ("rstaux"))); 
+// void gk_ENTRY_RST_HANDLER (void) __attribute__ ((section ("rstaux"))); 
 void gk_ENTRY_RST_HANDLER (void)
 {
     // ##########################################
-    //__reset(); 
+    //__reset();    
     /// Set the Stack Pointer for each Processor
-	asm ("movhi sp, %hi(__alt_stack_pointer)"); 
-	asm ("ori sp, sp, %lo(__alt_stack_pointer)"); 
+// #	asm ("movhi sp, %hi(__alt_stack_pointer)"); 
+// #	asm ("ori sp, sp, %lo(__alt_stack_pointer)"); 
+// #    
+// #	asm ("rdctl	r2, cpuid"); 
+// #
+// #    asm ("addi r2, r2, -1"); 
+// #	asm ("muli r2, r2, -2000"); 
+// #	asm ("add sp, sp, r2"); 
+// #    
+// #    /* Set up the global pointer. It is required for gcc compilation */
+// #    // Otherwise, _gp may give an exception
+// #	asm ("movhi gp, %hi(_gp)"); 
+// #	asm ("ori gp, gp, %lo(_gp)"); 
     
-	asm ("rdctl	r2, cpuid"); 
-	asm ("addi r2, r2, -1"); 
-	asm ("muli r2, r2, -2000"); 
-	asm ("add sp, sp, r2"); 
-    
-    /* Set up the global pointer. It is required for gcc compilation */
-    // Otherwise, _gp may give an exception
-	asm ("movhi gp, %hi(_gp)"); 
-	asm ("ori gp, gp, %lo(_gp)"); 
+    GRTOS_USER_CRITICAL_SECTION_GET;        /// Enter in Critial Section     
     
     /// Disable processor interrupt
     NIOS2_WRITE_STATUS(0); 
     /// Disable the interrupts
     NIOS2_WRITE_IENABLE (0);
 
-    GRTOS_USER_CRITICAL_SECTION_GET;        /// Enter in Critial Section
+
     
     // IORD_GRTOS_RST_CLR is used to sequence the start of the processors  !!!!!!!!! no deberia estar por estar reseteado
     // while (IORD_GRTOS_RST_CLR != GRTOS_CMD_PRC_ID - 1);

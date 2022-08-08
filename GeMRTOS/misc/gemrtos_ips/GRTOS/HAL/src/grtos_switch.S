@@ -37,6 +37,46 @@
     .global Switch_to_idle
 
 
+/********************************************************************************/    
+    .globl grtos_start_rest_of_processors
+    .section rstaux, "xa"
+    /// .set noat
+grtos_start_rest_of_processors:    
+    /// ##########################################
+    /// __reset();    
+    /// Set the Stack Pointer for each Processor with cpuid greater than 1
+	movhi sp, %hi(__alt_stack_pointer) 
+	ori sp, sp, %lo(__alt_stack_pointer) 
+    
+/// version sin multiplicador por hardware
+    addi r3,zero, 0
+    /// CPUID is equal to or greater than 2
+    rdctl r2, cpuid
+    addi r2, r2, -1
+bucle:
+    addi r3, r3, -2000
+    addi r2, r2, -1
+    bne r2, zero, bucle
+    add sp, sp, r3
+
+///    Version con multiplicador por hardware
+///    /// change to temporary stack in case multiply is implemented by software
+///    addi sp, sp, -2000
+/// 	rdctl r2, cpuid 
+///    addi r2, r2, -1 
+/// 	muli r2, r2, -2000 
+/// 	add sp, sp, r2 
+    
+/// exit_reset:
+    /* Set up the global pointer. It is required for gcc compilation */
+    /// Otherwise, _gp may give an exception
+	movhi gp, %hi(_gp) 
+	ori gp, gp, %lo(_gp)
+    
+    call gk_ENTRY_RST_HANDLER
+/********************************************************************************/
+
+
 /// Interruption in http://www-ug.eecg.toronto.edu/msl/nios_interrupts.html
 
 /// THIS IS CALL FROM gk_KERNEL_TASK_SUSPEND_CURRENT WITH G_TCB_CURRENT
@@ -93,8 +133,7 @@ GRTOS_Suspend_Task:
     stwio sp, (r4)    
     
     jmpi Switch_to_idle
-    
-    
+
 
     .globl grtos_irq_entry
     .section .irq, "xa"
