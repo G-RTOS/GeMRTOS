@@ -55,6 +55,35 @@ set_parameter_property NProcessors ALLOWED_RANGES {1 2 3 4 5 6 7 8 9 10 11 12 13
 set_parameter_property NProcessors DESCRIPTION "Number of System Processors"
 set_parameter_property NProcessors HDL_PARAMETER false
 
+
+# ############################################################################
+# Processor version
+add_parameter Processor_type STRING "Nios II/f (full)" "Processor type"
+set_parameter_property Processor_type DISPLAY_NAME "Processor type"
+set_parameter_property Processor_type UNITS None
+set_parameter_property Processor_type ALLOWED_RANGES {"Nios II/e (economy)" "Nios II/f (full)"}
+set_parameter_property Processor_type HDL_PARAMETER false
+
+# ############################################################################
+# Processor table for future detail
+# add_parameter names STRING_LIST {"Nios II/e (economy)" "Nios II/f (full)"}
+# set_parameter_property names ALLOWED_RANGES {"Nios II/e (economy)" "Nios II/f (full)"}
+# add_parameter counts INTEGER_LIST
+# add_display_item "" myTable GROUP TABLE
+# add_display_item myTable names PARAMETER
+# add_display_item myTable counts PARAMETER
+
+
+# ############################################################################
+# Enable HPS interface
+add_parameter ENABLE_HPS_MAP_ACCESS BOOLEAN false
+set_parameter_property ENABLE_HPS_MAP_ACCESS DISPLAY_NAME "Enable HPS internal access"
+set_parameter_property ENABLE_HPS_MAP_ACCESS TYPE BOOLEAN
+set_parameter_property ENABLE_HPS_MAP_ACCESS UNITS None
+set_parameter_property ENABLE_HPS_MAP_ACCESS DESCRIPTION "Enable Avalon MM slave for HPS to access internal memory addresses"
+set_parameter_property ENABLE_HPS_MAP_ACCESS HDL_PARAMETER false
+
+
 # ############################################################################
 # Input clock for processors
 add_interface clk_processors clock sink
@@ -64,7 +93,8 @@ set_interface_property clk_processors ENABLED true
 add_parameter CFrequency INTEGER  
 set_parameter_property CFrequency SYSTEM_INFO {CLOCK_RATE clk_processors}
 set_parameter_property CFrequency DISPLAY_NAME "Processor frequency"
-add_display_item "" CFrequency PARAMETER
+set_parameter_property CFrequency UNITS Hertz
+add_display_item "Information" CFrequency PARAMETER
 set_parameter_property CFrequency HDL_PARAMETER false
 
 # ############################################################################
@@ -76,7 +106,8 @@ set_interface_property clk_external_bus ENABLED true
 add_parameter CEFrequency INTEGER  
 set_parameter_property CEFrequency SYSTEM_INFO {CLOCK_RATE clk_external_bus}
 set_parameter_property CEFrequency DISPLAY_NAME "External bus frequency"
-add_display_item "" CEFrequency PARAMETER
+set_parameter_property CEFrequency UNITS Hertz
+add_display_item "Information" CEFrequency PARAMETER
 set_parameter_property CEFrequency HDL_PARAMETER false
 
 # ############################################################################
@@ -88,24 +119,25 @@ set_interface_property grtos_avalon_bridge_m1 ENABLED true
 add_parameter BUS_WIDTH INTEGER  
 set_parameter_property BUS_WIDTH SYSTEM_INFO {ADDRESS_WIDTH grtos_avalon_bridge_m1}
 set_parameter_property BUS_WIDTH DISPLAY_NAME "External bus width"
-add_display_item "" BUS_WIDTH PARAMETER
+set_parameter_property BUS_WIDTH UNITS None
+add_display_item "Information" BUS_WIDTH PARAMETER
 set_parameter_property BUS_WIDTH HDL_PARAMETER false
 
+# Esternal memory span (derived from BUS_WIDTH)
+add_parameter EXTERNAL_MEMORY_SPAN INTEGER 4
+set_parameter_property EXTERNAL_MEMORY_SPAN DERIVED true
+set_parameter_property EXTERNAL_MEMORY_SPAN DISPLAY_NAME  "External Memory span"
+set_parameter_property EXTERNAL_MEMORY_SPAN UNITS None
+add_display_item "Information" EXTERNAL_MEMORY_SPAN PARAMETER
+set_parameter_property EXTERNAL_MEMORY_SPAN HDL_PARAMETER false
 
-# Clock Prescale
-# add_parameter CPreScale INTEGER 31 "Time Prescaler"
-# set_parameter_property CPreScale DEFAULT_VALUE 31
-# set_parameter_property CPreScale DISPLAY_NAME "Time Prescaler"
-# set_parameter_property CPreScale TYPE INTEGER
-# set_parameter_property CPreScale UNITS None
-# set_parameter_property CPreScale ALLOWED_RANGES {1:1073741824}
-# set_parameter_property CPreScale DESCRIPTION "Time Scale division"
-# set_parameter_property CPreScale HDL_PARAMETER false
-
-# add_parameter CPreScale INTEGER 15 
-# set_parameter_property CPreScale DISPLAY_NAME "Time prescaler"
-# add_display_item "" CPreScale PARAMETER
-# set_parameter_property CPreScale HDL_PARAMETER false
+# Esternal memory span (derived from BUS_WIDTH)
+add_parameter EXTERNAL_MEMORY_UNIT STRING ""
+set_parameter_property EXTERNAL_MEMORY_UNIT DERIVED true
+set_parameter_property EXTERNAL_MEMORY_UNIT DISPLAY_NAME  "External Memory unit"
+set_parameter_property EXTERNAL_MEMORY_UNIT UNITS None
+add_display_item "Information" EXTERNAL_MEMORY_UNIT PARAMETER
+set_parameter_property EXTERNAL_MEMORY_UNIT HDL_PARAMETER false
 
 
 
@@ -129,27 +161,38 @@ set_parameter_property BUS_WIDTH HDL_PARAMETER false
 # set_parameter_property ExtIRQs DESCRIPTION "Number of external IRQs"
 # set_parameter_property ExtIRQs HDL_PARAMETER false
 
-add_parameter ENABLE_HPS_MAP_ACCESS BOOLEAN false
-set_parameter_property ENABLE_HPS_MAP_ACCESS DISPLAY_NAME "Enable HPS internal access"
-set_parameter_property ENABLE_HPS_MAP_ACCESS TYPE BOOLEAN
-set_parameter_property ENABLE_HPS_MAP_ACCESS UNITS None
-set_parameter_property ENABLE_HPS_MAP_ACCESS DESCRIPTION "Enable Avalon MM slave for HPS to access internal memory addresses"
-set_parameter_property ENABLE_HPS_MAP_ACCESS HDL_PARAMETER false
-
-
 proc elaborate { } {
-    # set ClockFrequency [get_parameter_value CFrequency]
-    # set PreScale [ expr { $ClockFrequency / 10000000} ]
-    # set_parameter_value CPreScale ${PreScale}  
+
 }
 
 proc validate { } {
-
+    set bus_width [get_parameter_value BUS_WIDTH]
+    if { $bus_width == 0 } {
+        send_message error "External memory device should be connected to processor buses"
+    } 
+    if { $bus_width < 10 } {
+        set bus_width1 [expr 2**[get_parameter_value BUS_WIDTH]]
+        set_parameter_value EXTERNAL_MEMORY_SPAN ${bus_width1}
+        set_parameter_value EXTERNAL_MEMORY_UNIT "BYTES"
+    } elseif { $bus_width < 20 } {
+        set bus_width1 [expr (2**[get_parameter_value BUS_WIDTH]) / 1024]
+        set_parameter_value EXTERNAL_MEMORY_SPAN ${bus_width1}
+        set_parameter_value EXTERNAL_MEMORY_UNIT "KILOBYTES"
+    } elseif { $bus_width < 30 } {
+        set bus_width1 [expr (2**[get_parameter_value BUS_WIDTH]) / 1048576]
+        set_parameter_value EXTERNAL_MEMORY_SPAN ${bus_width1}
+        set_parameter_value EXTERNAL_MEMORY_UNIT "MEGABYTES"
+    } else {
+        set bus_width1 [expr (2**[get_parameter_value BUS_WIDTH]) / 1073741824]
+        set_parameter_value EXTERNAL_MEMORY_SPAN ${bus_width1}
+        set_parameter_value EXTERNAL_MEMORY_UNIT "GYGABYTES"
+    }
 }
 
 proc compose { } {
     # Parameters from GUI
     set Processors [get_parameter_value NProcessors]
+    set Type_of_Processor [get_parameter_value Processor_type]
     set ClockFrequency [get_parameter_value CFrequency]
 
     set PreScale [ expr { $ClockFrequency / 10000000} ]
@@ -157,6 +200,8 @@ proc compose { } {
     set Bridge_Address_Width [get_parameter_value BUS_WIDTH]
     set BaseAddress [expr {2**$Bridge_Address_Width}]
     set IntInterrupts [expr {$Processors + 4}]
+
+
     
     # remove_dangling_connections
     
@@ -225,9 +270,6 @@ proc compose { } {
     add_instance nios_avalon_monitor nios_avalon_monitor 13.0
     set_instance_parameter_value nios_avalon_monitor {ADDRESS_UNITS} {SYMBOLS}
     set_instance_parameter_value nios_avalon_monitor {ADDRESS_WIDTH} {27}
-    # set monitor_width [expr {$Bridge_Address_Width + 1}]
-    # set_instance_parameter_value nios_avalon_monitor {ADDRESS_WIDTH} $monitor_width
-    # set_instance_parameter_value nios_avalon_monitor {ADDRESS_WIDTH} {$Bridge_Address_Width + 1}
     set_instance_parameter_value nios_avalon_monitor {AVALON_DATA_FIFO_DEPTH} {32}
     set_instance_parameter_value nios_avalon_monitor {DATA_WIDTH} {32}
     set_instance_parameter_value nios_avalon_monitor {LINEWRAPBURSTS} {0}
@@ -298,34 +340,34 @@ proc compose { } {
     add_connection reset_bridge_0.out_reset onchip_memory2_1.reset1 reset    
 
     
-    # Memory for Code
-    add_instance onchip_memory2_2 altera_avalon_onchip_memory2 18.0
-    set_instance_parameter_value onchip_memory2_2 {allowInSystemMemoryContentEditor} {0}
-    set_instance_parameter_value onchip_memory2_2 {blockType} {AUTO}
-    set_instance_parameter_value onchip_memory2_2 {copyInitFile} {0}
-    set_instance_parameter_value onchip_memory2_2 {dataWidth} {32}
-    set_instance_parameter_value onchip_memory2_2 {dataWidth2} {32}
-    set_instance_parameter_value onchip_memory2_2 {dualPort} {0}
-    set_instance_parameter_value onchip_memory2_2 {ecc_enabled} {0}
-    set_instance_parameter_value onchip_memory2_2 {enPRInitMode} {0}
-    set_instance_parameter_value onchip_memory2_2 {enableDiffWidth} {0}
-    set_instance_parameter_value onchip_memory2_2 {initMemContent} {1}
-    set_instance_parameter_value onchip_memory2_2 {initializationFileName} {GRTOS_Multiprocessor_0_onchip_memory2_2.hex}
-    set_instance_parameter_value onchip_memory2_2 {instanceID} {NONE}
-    set_instance_parameter_value onchip_memory2_2 {memorySize} {2048.0}
-    set_instance_parameter_value onchip_memory2_2 {readDuringWriteMode} {DONT_CARE}
-    set_instance_parameter_value onchip_memory2_2 {resetrequest_enabled} {1}
-    set_instance_parameter_value onchip_memory2_2 {simAllowMRAMContentsFile} {0}
-    set_instance_parameter_value onchip_memory2_2 {simMemInitOnlyFilename} {0}
-    set_instance_parameter_value onchip_memory2_2 {singleClockOperation} {0}
-    set_instance_parameter_value onchip_memory2_2 {slave1Latency} {1}
-    set_instance_parameter_value onchip_memory2_2 {slave2Latency} {1}
-    set_instance_parameter_value onchip_memory2_2 {useNonDefaultInitFile} {0}
-    set_instance_parameter_value onchip_memory2_2 {useShallowMemBlocks} {0}
-    set_instance_parameter_value onchip_memory2_2 {writable} {1}
-    # CLOCK and RESET
-    add_connection clock_bridge_0.out_clk onchip_memory2_2.clk1 clock
-    add_connection reset_bridge_0.out_reset onchip_memory2_2.reset1 reset  
+    # # Memory for Code
+    # add_instance onchip_memory2_2 altera_avalon_onchip_memory2 18.0
+    # set_instance_parameter_value onchip_memory2_2 {allowInSystemMemoryContentEditor} {0}
+    # set_instance_parameter_value onchip_memory2_2 {blockType} {AUTO}
+    # set_instance_parameter_value onchip_memory2_2 {copyInitFile} {0}
+    # set_instance_parameter_value onchip_memory2_2 {dataWidth} {32}
+    # set_instance_parameter_value onchip_memory2_2 {dataWidth2} {32}
+    # set_instance_parameter_value onchip_memory2_2 {dualPort} {0}
+    # set_instance_parameter_value onchip_memory2_2 {ecc_enabled} {0}
+    # set_instance_parameter_value onchip_memory2_2 {enPRInitMode} {0}
+    # set_instance_parameter_value onchip_memory2_2 {enableDiffWidth} {0}
+    # set_instance_parameter_value onchip_memory2_2 {initMemContent} {1}
+    # set_instance_parameter_value onchip_memory2_2 {initializationFileName} {GRTOS_Multiprocessor_0_onchip_memory2_2.hex}
+    # set_instance_parameter_value onchip_memory2_2 {instanceID} {NONE}
+    # set_instance_parameter_value onchip_memory2_2 {memorySize} {2048.0}
+    # set_instance_parameter_value onchip_memory2_2 {readDuringWriteMode} {DONT_CARE}
+    # set_instance_parameter_value onchip_memory2_2 {resetrequest_enabled} {1}
+    # set_instance_parameter_value onchip_memory2_2 {simAllowMRAMContentsFile} {0}
+    # set_instance_parameter_value onchip_memory2_2 {simMemInitOnlyFilename} {0}
+    # set_instance_parameter_value onchip_memory2_2 {singleClockOperation} {0}
+    # set_instance_parameter_value onchip_memory2_2 {slave1Latency} {1}
+    # set_instance_parameter_value onchip_memory2_2 {slave2Latency} {1}
+    # set_instance_parameter_value onchip_memory2_2 {useNonDefaultInitFile} {0}
+    # set_instance_parameter_value onchip_memory2_2 {useShallowMemBlocks} {0}
+    # set_instance_parameter_value onchip_memory2_2 {writable} {1}
+    # # CLOCK and RESET
+    # add_connection clock_bridge_0.out_clk onchip_memory2_2.clk1 clock
+    # add_connection reset_bridge_0.out_reset onchip_memory2_2.reset1 reset  
 
     # Processors
     for {set i 1} {$i <= $Processors} {incr i} {
@@ -370,7 +412,12 @@ proc compose { } {
         set_instance_parameter_value nios2_qsys_${i} {icache_ramBlockType} {Automatic}
         set_instance_parameter_value nios2_qsys_${i} {icache_size} {0}
         set_instance_parameter_value nios2_qsys_${i} {icache_tagramBlockType} {Automatic}
-        set_instance_parameter_value nios2_qsys_${i} {impl} {Tiny}
+        if { $Type_of_Processor == "Nios II/e (economy)" } {
+            set_instance_parameter_value nios2_qsys_${i} {impl} {Tiny}
+        }
+        if { $Type_of_Processor == "Nios II/f (full)" } {
+            set_instance_parameter_value nios2_qsys_${i} {impl} {Fast}
+        }        
         set_instance_parameter_value nios2_qsys_${i} {instruction_master_high_performance_paddr_base} {0}
         set_instance_parameter_value nios2_qsys_${i} {instruction_master_high_performance_paddr_size} {0.0}
         set_instance_parameter_value nios2_qsys_${i} {instruction_master_paddr_base} {0}
@@ -632,25 +679,25 @@ proc compose { } {
         set_connection_parameter_value nios2_qsys_${i}.instruction_master/nios_avalon_monitor.s${i} defaultConnection {0}    
     }
 
-    # Connection of onchip_memory2_2 at $BaseAddress span 0x2000
-    add_connection master_0.master onchip_memory2_2.s1 avalon
-    set_connection_parameter_value master_0.master/onchip_memory2_2.s1 arbitrationPriority {1}
-    set_connection_parameter_value master_0.master/onchip_memory2_2.s1 baseAddress $BaseAddress
-    set_connection_parameter_value master_0.master/onchip_memory2_2.s1 defaultConnection {0}
-    for {set i 1} {$i <= $Processors} {incr i} {
-        add_connection nios_avalon_monitor.m$i onchip_memory2_2.s1 avalon
-        set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_2.s1 arbitrationPriority {1}
-        set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_2.s1 baseAddress $BaseAddress
-        set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_2.s1 defaultConnection {0}
-    }
-    # HPS internal access
-    if { [get_parameter_value ENABLE_HPS_MAP_ACCESS ] } {
-        add_connection mm_clock_crossing_bridge_0.m0 onchip_memory2_2.s1 avalon
-        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_2.s1 arbitrationPriority {1}
-        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_2.s1 baseAddress $BaseAddress
-        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_2.s1 defaultConnection {0}        
-    }
-    set BaseAddress [expr {$BaseAddress + 0x40000}]
+    # # Connection of onchip_memory2_2 at $BaseAddress span 0x2000
+    # add_connection master_0.master onchip_memory2_2.s1 avalon
+    # set_connection_parameter_value master_0.master/onchip_memory2_2.s1 arbitrationPriority {1}
+    # set_connection_parameter_value master_0.master/onchip_memory2_2.s1 baseAddress $BaseAddress
+    # set_connection_parameter_value master_0.master/onchip_memory2_2.s1 defaultConnection {0}
+    # for {set i 1} {$i <= $Processors} {incr i} {
+    #     add_connection nios_avalon_monitor.m$i onchip_memory2_2.s1 avalon
+    #     set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_2.s1 arbitrationPriority {1}
+    #     set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_2.s1 baseAddress $BaseAddress
+    #     set_connection_parameter_value nios_avalon_monitor.m${i}/onchip_memory2_2.s1 defaultConnection {0}
+    # }
+    # # HPS internal access
+    # if { [get_parameter_value ENABLE_HPS_MAP_ACCESS ] } {
+    #     add_connection mm_clock_crossing_bridge_0.m0 onchip_memory2_2.s1 avalon
+    #     set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_2.s1 arbitrationPriority {1}
+    #     set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_2.s1 baseAddress $BaseAddress
+    #     set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_2.s1 defaultConnection {0}        
+    # }
+    # set BaseAddress [expr {$BaseAddress + 0x40000}]
 
     
     # Connection of onchip_memory2_0 at $BaseAddress span 0x800
@@ -981,7 +1028,7 @@ proc compose { } {
     # onchip memories from grtos and debug
     add_connection grtos_0.slv_rst1 onchip_memory2_0.reset1 reset
     add_connection grtos_0.slv_rst1 onchip_memory2_1.reset1 reset
-    add_connection grtos_0.slv_rst1 onchip_memory2_2.reset1 reset
+    # add_connection grtos_0.slv_rst1 onchip_memory2_2.reset1 reset
     
     # Reset bridge from grtos
     add_connection grtos_0.slv_rst1 reset_bridge_1.in_reset reset
