@@ -156,9 +156,9 @@ BEGIN
      TXD_2 <= TXD_I(2);
      TXD_3 <= TXD_I(3);
 	  
-	 F_LED1 <= PBSW_N;
+	 -- F_LED1 <= PBSW_N;
      
-     F_LED0 <= reset_interno;
+     -- F_LED0 <= reset_interno;
 
 b2v_inst : qsysgrtos
 PORT MAP(clk_clk     => CLK_FPGA_50M,
@@ -206,8 +206,8 @@ PORT MAP(clk_clk     => CLK_FPGA_50M,
         ram_CAS_N => RAM_CAS_N,
         ram_LDM => RAM_LDM,
         ram_UDM => RAM_UDM,
-        grtos_0_phy_LED0 => reset_interno,
-        -- grtos_0_phy_LED1 => F_LED1,
+        grtos_0_phy_LED0 => F_LED0,
+        grtos_0_phy_LED1 => F_LED1,
         grtos_0_phy_LED2 => F_LED2,
         grtos_0_phy_LED3 => F_LED3,
         grtos_0_phy_LED4 => F_LED4,

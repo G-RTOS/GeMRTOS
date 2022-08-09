@@ -65,6 +65,23 @@ set_parameter_property Processor_type ALLOWED_RANGES {"Nios II/e (economy)" "Nio
 set_parameter_property Processor_type HDL_PARAMETER false
 
 # ############################################################################
+# Processor Instruction Cache
+add_parameter icache_size_parameter STRING "None" "Instruction cache size"
+set_parameter_property icache_size_parameter DISPLAY_NAME "Instruction cache size"
+set_parameter_property icache_size_parameter UNITS None
+set_parameter_property icache_size_parameter ALLOWED_RANGES {"None" "512 Bytes" "1 KB" "2 KB" "4 KB" "8 KB" "16 KB" "32 KB" "64 KB"}
+set_parameter_property icache_size_parameter HDL_PARAMETER false
+
+# ############################################################################
+# Processor Instruction Cache burst enable
+add_parameter icache_burst_parameter STRING "Disable" "Add burstcount signal to instruction_master"
+set_parameter_property icache_burst_parameter DISPLAY_NAME "Add burstcount signal to instruction_master"
+set_parameter_property icache_burst_parameter UNITS None
+set_parameter_property icache_burst_parameter ALLOWED_RANGES {"Enable" "Disable"}
+set_parameter_property icache_burst_parameter HDL_PARAMETER false
+
+
+# ############################################################################
 # Processor table for future detail
 # add_parameter names STRING_LIST {"Nios II/e (economy)" "Nios II/f (full)"}
 # set_parameter_property names ALLOWED_RANGES {"Nios II/e (economy)" "Nios II/f (full)"}
@@ -119,7 +136,7 @@ set_interface_property grtos_avalon_bridge_m1 ENABLED true
 add_parameter BUS_WIDTH INTEGER  
 set_parameter_property BUS_WIDTH SYSTEM_INFO {ADDRESS_WIDTH grtos_avalon_bridge_m1}
 set_parameter_property BUS_WIDTH DISPLAY_NAME "External bus width"
-set_parameter_property BUS_WIDTH UNITS None
+set_parameter_property BUS_WIDTH UNITS bits
 add_display_item "Information" BUS_WIDTH PARAMETER
 set_parameter_property BUS_WIDTH HDL_PARAMETER false
 
@@ -194,7 +211,8 @@ proc compose { } {
     set Processors [get_parameter_value NProcessors]
     set Type_of_Processor [get_parameter_value Processor_type]
     set ClockFrequency [get_parameter_value CFrequency]
-
+    set icache_size [get_parameter_value icache_size_parameter]
+    set icache_burst [get_parameter_value icache_burst_parameter]    
     set PreScale [ expr { $ClockFrequency / 10000000} ]
 
     set Bridge_Address_Width [get_parameter_value BUS_WIDTH]
@@ -407,10 +425,52 @@ proc compose { } {
         set_instance_parameter_value nios2_qsys_${i} {fa_cache_linesize} {0}
         set_instance_parameter_value nios2_qsys_${i} {flash_instruction_master_paddr_base} {0}
         set_instance_parameter_value nios2_qsys_${i} {flash_instruction_master_paddr_size} {0.0}
-        set_instance_parameter_value nios2_qsys_${i} {icache_burstType} {None}
+        if { $Type_of_Processor == "Nios II/f (full)" } {
+            # ################
+            if { $icache_burst == "Enable" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_burstType} {Sequential} 
+            }
+            if { $icache_burst == "Disable" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_burstType} {None} 
+            }
+        } else {
+            set_instance_parameter_value nios2_qsys_${i} {icache_burstType} {None}
+        }
         set_instance_parameter_value nios2_qsys_${i} {icache_numTCIM} {0}
         set_instance_parameter_value nios2_qsys_${i} {icache_ramBlockType} {Automatic}
-        set_instance_parameter_value nios2_qsys_${i} {icache_size} {0}
+        if { $Type_of_Processor == "Nios II/f (full)" } {
+            # #########
+            if { $icache_size == "None" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_size} {0}
+            }
+            if { $icache_size == "512 Bytes" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_size} {512}
+            }
+            if { $icache_size == "1 KB" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_size} {1024}
+            }
+            if { $icache_size == "2 KB" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_size} {2048}
+            }
+            if { $icache_size == "4 KB" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_size} {4096}
+            }
+            if { $icache_size == "8 KB" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_size} {8192}
+            }
+            if { $icache_size == "16 KB" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_size} {16384}
+            }
+            if { $icache_size == "32 KB" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_size} {32768}
+            }
+            if { $icache_size == "64 KB" } {
+                set_instance_parameter_value nios2_qsys_${i} {icache_size} {65536}
+            }
+            # #########
+        } else {
+            set_instance_parameter_value nios2_qsys_${i} {icache_size} {0}
+        }
         set_instance_parameter_value nios2_qsys_${i} {icache_tagramBlockType} {Automatic}
         if { $Type_of_Processor == "Nios II/e (economy)" } {
             set_instance_parameter_value nios2_qsys_${i} {impl} {Tiny}
@@ -442,7 +502,7 @@ proc compose { } {
         set_instance_parameter_value nios2_qsys_${i} {mpu_numOfInstRegion} {8}
         set_instance_parameter_value nios2_qsys_${i} {mpu_useLimit} {0}
         set_instance_parameter_value nios2_qsys_${i} {mpx_enabled} {0}
-        set_instance_parameter_value nios2_qsys_${i} {mul_32_impl} {3}
+        set_instance_parameter_value nios2_qsys_${i} {mul_32_impl} {2}
         set_instance_parameter_value nios2_qsys_${i} {mul_64_impl} {0}
         set_instance_parameter_value nios2_qsys_${i} {mul_shift_choice} {0}
         set_instance_parameter_value nios2_qsys_${i} {ocimem_ramBlockType} {Automatic}

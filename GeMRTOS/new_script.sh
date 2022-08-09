@@ -6,7 +6,7 @@
 # FULL for DE10NANO
 # bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr DE10_NANO_SoC_GHRD -qsys soc_system -dir software -sd e -fat f --board de10nano -e -f -debug |& tee new_script.txt
 # FULL fro BEMICRO SDK
-# bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr grtosproject -qsys qsysgrtos -dir software -sd e -fat f --board bemicrosdk -e -f -debug |& tee new_script.txt
+# bash new_script.sh -bsp hellogemrtos_bsp -app hellogemrtos -qpr grtosproject -qsys qsysgrtos -dir software -sd e -fat f --board bemicrosdk -debug -f -e |& tee new_script.txt
 
 BSP_NAME=""                   #hellogemrtos_bsp
 APP_NAME=""                   #hellogemrtos
@@ -171,11 +171,11 @@ if [ -d ./${BOARD} ]; then
     rm -rf ./${BOARD}/GRTOS 2> ${error_log_file}
     rm -rf ./${BOARD}/GRTOS_Multiprocessor 2> ${error_log_file}
     rm -rf ./${BOARD}/qsysscript.tcl 2> ${error_log_file}
-    cp -r ./misc/gemrtos_ips/AvalonBridge ./${BOARD}/AvalonBridge 2>> ${error_log_file}
-    cp -r ./misc/gemrtos_ips/AvalonMonitor ./${BOARD}/AvalonMonitor 2>> ${error_log_file}
-    cp -r ./misc/gemrtos_ips/GRTOS ./${BOARD}/GRTOS 2>> ${error_log_file}
-    cp -r ./misc/gemrtos_ips/GRTOS_Multiprocessor ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}
-    cp -r ./misc/qsysscript.tcl ./${BOARD}/qsysscript.tcl 2>> ${error_log_file}
+    cp -rpu ./misc/gemrtos_ips/AvalonBridge ./${BOARD}/AvalonBridge 2>> ${error_log_file}
+    cp -rpu ./misc/gemrtos_ips/AvalonMonitor ./${BOARD}/AvalonMonitor 2>> ${error_log_file}
+    cp -rpu ./misc/gemrtos_ips/GRTOS ./${BOARD}/GRTOS 2>> ${error_log_file}
+    cp -rpu ./misc/gemrtos_ips/GRTOS_Multiprocessor ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}
+    cp -rpu ./misc/qsysscript.tcl ./${BOARD}/qsysscript.tcl 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/GRTOS_Multiprocessor 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/AvalonBridge 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/AvalonMonitor 2>> ${error_log_file}
@@ -184,19 +184,19 @@ if [ -d ./${BOARD} ]; then
     # Copy ¨HPS files if board is defined
     if [ -d ./misc/boards/${BOARD} ]; then
         mkdir -p ./${BOARD}/misc/boards 2>> ${error_log_file}
-        cp -r ./misc/boards/${BOARD} ./${BOARD}/misc/boards/ 2>> ${error_log_file}
+        cp -rpu ./misc/boards/${BOARD} ./${BOARD}/misc/boards/ 2>> ${error_log_file}
         chmod 777 -R ./${BOARD}/misc/boards 2>> ${error_log_file}
     fi
     # Copy the qxp file
     rm -rf ./${BOARD}/GRTOS/grtos.qxp 2>> ${error_log_file}
-    cp -r ./misc/gemrtos_ips/boards/${BOARD}/grtos.qxp ./${BOARD}/GRTOS/ 2>> ${error_log_file}
+    cp -rpu ./misc/gemrtos_ips/boards/${BOARD}/grtos.qxp ./${BOARD}/GRTOS/ 2>> ${error_log_file}
     chmod 777 -R ./${BOARD}/GRTOS/ 2>> ${error_log_file}
 fi
 
 # Copy HPS creation for corresponding BOARDS
 if [ "${BOARD}" = "de10nano" ]; then
     rm -rf ./${BOARD}/create_hps_bsp.sh 2>> ${error_log_file}
-    cp ./misc/create_hps_bsp.sh ./${BOARD}/ 2>> ${error_log_file}
+    cp -pu ./misc/create_hps_bsp.sh ./${BOARD}/ 2>> ${error_log_file}
     chmod 777 ./${BOARD}/create_hps_bsp.sh
 fi
 

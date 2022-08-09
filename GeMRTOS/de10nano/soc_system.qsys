@@ -358,15 +358,20 @@
    kind="GRTOS_Multiprocessor"
    version="1.0"
    enabled="1">
+  <parameter name="AUTO_CLK_EXTERNAL_BUS_CLOCK_DOMAIN" value="7" />
+  <parameter name="AUTO_CLK_EXTERNAL_BUS_RESET_DOMAIN" value="7" />
+  <parameter name="AUTO_CLK_PROCESSORS_CLOCK_DOMAIN" value="8" />
+  <parameter name="AUTO_CLK_PROCESSORS_RESET_DOMAIN" value="8" />
   <parameter name="AUTO_DEVICE" value="5CSEBA6U23I7" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7" />
-  <parameter name="BridgeAddressWidth" value="26" />
+  <parameter name="AUTO_GRTOS_AVALON_BRIDGE_M1_ADDRESS_MAP"><![CDATA[<address-map><slave name='hps_0_axi_sdram.axi_slave0' start='0x0' end='0x4000000' /></address-map>]]></parameter>
+  <parameter name="BUS_WIDTH" value="26" />
+  <parameter name="CEFrequency" value="120000000" />
   <parameter name="CFrequency" value="20000000" />
-  <parameter name="CPreScale" value="31" />
   <parameter name="ENABLE_HPS_MAP_ACCESS" value="true" />
-  <parameter name="ExtIRQs" value="10" />
   <parameter name="NProcessors" value="4" />
+  <parameter name="Processor_type" value="Nios II/e (economy)" />
  </module>
  <module
    name="ILC"
@@ -1417,11 +1422,6 @@
    version="18.0"
    start="pll_0.outclk1"
    end="mm_bridge_0.clk" />
- <connection
-   kind="clock"
-   version="18.0"
-   start="pll_0.outclk1"
-   end="GRTOS_Multiprocessor_0.clk" />
  <connection kind="clock" version="18.0" start="pll_0.outclk1" end="jtag_uart.clk" />
  <connection
    kind="clock"
@@ -1431,6 +1431,11 @@
  <connection kind="clock" version="18.0" start="pll_0.outclk1" end="dipsw_pio.clk" />
  <connection kind="clock" version="18.0" start="pll_0.outclk1" end="led_pio.clk" />
  <connection kind="clock" version="18.0" start="pll_0.outclk1" end="ILC.clk" />
+ <connection
+   kind="clock"
+   version="18.0"
+   start="pll_0.outclk1"
+   end="GRTOS_Multiprocessor_0.clk_processors" />
  <connection
    kind="clock"
    version="18.0"
