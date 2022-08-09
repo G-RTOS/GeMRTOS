@@ -32,6 +32,7 @@ set_module_property NAME nios_avalon_monitor
 set_module_property VERSION 13.0
 set_module_property HIDE_FROM_SOPC true 
 set_module_property GROUP gRTOS
+set_module_property INTERNAL true
 set_module_property AUTHOR "Ricardo Cayssials"
 set_module_property DISPLAY_NAME "Nios II Avalon monitor module"
 set_module_property TOP_LEVEL_HDL_FILE avalon_monitor.vhd

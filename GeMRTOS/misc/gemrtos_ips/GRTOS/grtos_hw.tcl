@@ -23,7 +23,7 @@ package require -exact qsys 13.0
 set_module_property DESCRIPTION "gRTOS Qsys Component"
 set_module_property NAME grtos
 set_module_property VERSION 1.0
-set_module_property INTERNAL false
+set_module_property INTERNAL true
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property GROUP gRTOS
 set_module_property AUTHOR "Ricardo Cayssials"
