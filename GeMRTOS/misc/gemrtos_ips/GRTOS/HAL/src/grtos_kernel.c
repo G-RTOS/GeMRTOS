@@ -26,30 +26,6 @@
 *                                                                             *
 ******************************************************************************/
 
-
-// #include <io.h>
-// 
-// #include <stdio.h>
-// #include <stdarg.h>
-// #include <string.h>
-// #include <fcntl.h>
-// #include <stdlib.h>
-// #include <unistd.h>
-// 
-// #include "sys/alt_dev.h"
-// #include "sys/alt_sys_init.h"
-// #include "sys/alt_irq.h"
-// #include "sys/alt_dev.h"
-// 
-// #include "os/alt_hooks.h"
-// 
-// #include "priv/alt_file.h"
-// #include "alt_types.h"
-// 
-// #include "system.h"
-// 
-// #include "sys/alt_log_printf.h"
-
 #include <grtosdefinitions.h>
 #include <grtos.h>
 
@@ -120,8 +96,6 @@ volatile INT32 GRTOS_MutexRequestRegisterAddress __attribute__((aligned(4)));
 volatile INT32 GRTOS_InterruptEnableRegisterAddress __attribute__((aligned(4)));
 volatile INT32 GRTOS_InterruptDisableRegisterAddress __attribute__((aligned(4)));
 
-
-
 volatile INT32  G_Running __attribute__((aligned(4)));  ///< \brief Flag indicating Scheduler is enabled: G_TRUE or G_FALSE
 volatile INT32  G_Running = G_FALSE; 
 
@@ -143,9 +117,6 @@ volatile INT64 G_TASK_PRIORITY_DEFAULT;        ///< \brief Default assignment fo
 volatile INT64 G_TASK_PERIOD_DEFAULT;          ///< \brief Default assignment for Task Period
 
 
-
-
-
 /***********************************************************************************
 ***********************   *************
 ***********************************************************************************/
@@ -153,55 +124,34 @@ volatile INT64 G_TASK_PERIOD_DEFAULT;          ///< \brief Default assignment fo
 /**gk_ENTRY_RST_HANDLER
  *  \brief 
  *  GRTOS RESET FUNCTIONS FOR NOT ID=1 PROCESSORS
- *  \details This is executed when processor with ID != 0 are reset.
- *  A different stack is assigned to each processor
+ *  \details This is executed when processor with ID != 1 are reset.
+ *  A different stack is assigned to each processor in the 
+ *  grtos_start_rest_of_processors function in the rstaux section
  */
 // void gk_ENTRY_RST_HANDLER (void) __attribute__ ((section ("rstaux"))); 
 void gk_ENTRY_RST_HANDLER (void)
 {
-    // ##########################################
-    //__reset();    
-    /// Set the Stack Pointer for each Processor
-// #	asm ("movhi sp, %hi(__alt_stack_pointer)"); 
-// #	asm ("ori sp, sp, %lo(__alt_stack_pointer)"); 
-// #    
-// #	asm ("rdctl	r2, cpuid"); 
-// #
-// #    asm ("addi r2, r2, -1"); 
-// #	asm ("muli r2, r2, -2000"); 
-// #	asm ("add sp, sp, r2"); 
-// #    
-// #    /* Set up the global pointer. It is required for gcc compilation */
-// #    // Otherwise, _gp may give an exception
-// #	asm ("movhi gp, %hi(_gp)"); 
-// #	asm ("ori gp, gp, %lo(_gp)"); 
-    
-    GRTOS_USER_CRITICAL_SECTION_GET;        /// Enter in Critial Section     
+    /// Called from grtos_start_rest_of_processors
     
     /// Disable processor interrupt
     NIOS2_WRITE_STATUS(0); 
     /// Disable the interrupts
     NIOS2_WRITE_IENABLE (0);
 
-
-    
-    // IORD_GRTOS_RST_CLR is used to sequence the start of the processors  !!!!!!!!! no deberia estar por estar reseteado
-    // while (IORD_GRTOS_RST_CLR != GRTOS_CMD_PRC_ID - 1);
-
+    GRTOS_USER_CRITICAL_SECTION_GET;        /// Enter in Critial Section  
 
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif    
-    
-    // This happens when processor ID-1 is in critical section G_NUMBER_OF_IDLE_PROCESSORS
-    
+
+    // G_NUMBER_OF_IDLE_PROCESSORS is the number of processors wanted to be in idle state forever
+    // They are sent to the gk_RST_MONITOR_HANDLER in order to left them out of the system runtime
     if (GRTOS_CMD_PRC_ID  > G_NUMBER_OF_PCB - G_NUMBER_OF_IDLE_PROCESSORS) gk_RST_MONITOR_HANDLER(); 
 
- 
 
     /// Include the processor in the GRTOS
-    g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBState = GS_PCB_STATE_RUNNING;  // to set it to FREE
+    g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBState = GS_PCB_STATE_RUNNING;  
 	g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBID = GRTOS_CMD_PRC_ID ; 
     g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB;
     gk_LCBFPL_Link(GRTOS_CMD_PRC_ID);
@@ -816,11 +766,8 @@ void gk_START_KERNEL (void)
     /* IT IS NEVER EXECUTED                             */
     /****************************************************/
     /****************************************************/
-    asm("movhi r2, %hi(g_kcb.G_PCBTbl)");
-    asm("movia r2, g_kcb.G_PCBTbl");
-    // G_TCB_CURRENT = (GS_STK) &g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer;
 	while(1);
-        
+
 }
 
 OPTIMEZE_RESTORE

@@ -52,7 +52,7 @@ void gk_MONITOR_FIFO_SAMPLE (int data)
 
 void gk_RST_MONITOR_HANDLER (void)
 {
-    IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);
+    IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);   // Enables the next processor to start
     while(1)
     {
 

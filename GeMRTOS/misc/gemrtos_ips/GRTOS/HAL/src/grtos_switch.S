@@ -26,7 +26,7 @@
 *                                                                             *
 ******************************************************************************/
 
-// #include <system.h>
+#include <system.h>
 
 
     .global gk_ENTRY_SIGNAL_RETURN
@@ -35,6 +35,10 @@
 	.global gk_ENTRY_BAD_TASK_RETURN
 	.global GRTOS_Return_from_Signal
     .global Switch_to_idle
+    /// .global NIOS2_ICACHE_SIZE
+    /// .global NIOS2_ICACHE_LINE_SIZE
+    /// .global NIOS2_DCACHE_SIZE
+    /// .global NIOS2_DCACHE_LINE_SIZE
 
 
 /********************************************************************************/    
@@ -45,27 +49,60 @@ grtos_start_rest_of_processors:
     /// ##########################################
     /// __reset();    
     /// Set the Stack Pointer for each Processor with cpuid greater than 1
+    /// equal to __alt_stack_pointer - (cpuid - 1) * 2000
 	movhi sp, %hi(__alt_stack_pointer) 
 	ori sp, sp, %lo(__alt_stack_pointer) 
-    
-/// version sin multiplicador por hardware
-    addi r3,zero, 0
-    /// CPUID is equal to or greater than 2
+
+    /// Multiplication rewritten for no-multipler processor compatibility
     rdctl r2, cpuid
     addi r2, r2, -1
-bucle:
+    mov r3, zero
+mul0:
+    beq r2, zero, out_mul0
     addi r3, r3, -2000
     addi r2, r2, -1
-    bne r2, zero, bucle
-    add sp, sp, r3
+    jmpi mul0
+out_mul0:
+    add sp, sp, r3 
+
+    /// From Nios III Software Developer Handbook
+    /// Initialize the Instruction cache just in case
+    mov r4, r0
+    movhi r5, %hi(NIOS2_ICACHE_SIZE)
+    ori r5, r5, %lo(NIOS2_ICACHE_SIZE)
+icache_init_loop:
+    initi r4
+    addi r4, r4, NIOS2_ICACHE_LINE_SIZE
+    bltu r4, r5, icache_init_loop    
+    
+    /// Initialize the Data cache just in case
+    mov r4, r0
+    movhi r5, %hi(NIOS2_DCACHE_SIZE)
+    ori r5, r5, %lo(NIOS2_DCACHE_SIZE)
+dcache_init_loop:
+    initd 0(r4)
+    addi r4, r4, NIOS2_DCACHE_LINE_SIZE
+    bltu r4, r5, dcache_init_loop    
+
+    
+/// /// version sin multiplicador por hardware
+///     addi r3,zero, 0
+///     /// CPUID is equal to or greater than 2
+///     rdctl r2, cpuid
+///     addi r2, r2, -1
+/// bucle:
+///     addi r3, r3, -2000
+///     addi r2, r2, -1
+///     bne r2, zero, bucle
+///     add sp, sp, r3
 
 ///    Version con multiplicador por hardware
 ///    /// change to temporary stack in case multiply is implemented by software
 ///    addi sp, sp, -2000
-/// 	rdctl r2, cpuid 
+///    rdctl r2, cpuid 
 ///    addi r2, r2, -1 
-/// 	muli r2, r2, -2000 
-/// 	add sp, sp, r2 
+///    muli r2, r2, -2000 
+///    add sp, sp, r2 
     
 /// exit_reset:
     /* Set up the global pointer. It is required for gcc compilation */

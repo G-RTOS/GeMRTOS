@@ -248,8 +248,12 @@ GS_TCB *ptcb_array[G_MAX_NUMBER_OF_USER_TCB];
 
 int main()
 {
-    printf("Hello World main\n");
-    printf("Clock frequency= %d MHz\n", (int)IORD_GRTOS_CLOCK_FREQUENCY);
+    printf("GeMRTOS\n");
+    printf("Processors = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
+    printf("Clock frequency= %d MHz\n", (int)GRTOS_DRIVER_GRTOSFREQUENCY);
+    printf("Clock prescale= %d\n", (int)GRTOS_DRIVER_PRESCALE);
+   
+    
     
     void   *mem = malloc(sizeof(INT32) * G_MAX_NUMBER_OF_USER_TCB * TASK_STACKSIZE + 31);
     generic_stk = (INT32 *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
