@@ -32,7 +32,7 @@ set_module_property VERSION 1.0
 set_module_property GROUP gRTOS
 set_module_property DESCRIPTION "GRTOS Multiprocessor system"
 set_module_property AUTHOR "Ricardo Cayssials"
-
+set_module_property INSTANTIATE_IN_SYSTEM_MODULE true
 set_module_property EDITABLE true
 
 set_module_property COMPOSITION_CALLBACK compose
@@ -157,7 +157,6 @@ add_display_item "Information" EXTERNAL_MEMORY_UNIT PARAMETER
 set_parameter_property EXTERNAL_MEMORY_UNIT HDL_PARAMETER false
 
 
-
 # Address Width of Avalon Bridge
 # # add_parameter BridgeAddressWidth INTEGER 26 "Address width of Avalon Bridge"
 # # set_parameter_property BridgeAddressWidth DEFAULT_VALUE 26
@@ -177,6 +176,11 @@ set_parameter_property EXTERNAL_MEMORY_UNIT HDL_PARAMETER false
 # set_parameter_property ExtIRQs ALLOWED_RANGES {0:25}
 # set_parameter_property ExtIRQs DESCRIPTION "Number of external IRQs"
 # set_parameter_property ExtIRQs HDL_PARAMETER false
+
+
+
+
+
 
 proc elaborate { } {
 
@@ -204,6 +208,7 @@ proc validate { } {
         set_parameter_value EXTERNAL_MEMORY_SPAN ${bus_width1}
         set_parameter_value EXTERNAL_MEMORY_UNIT "GYGABYTES"
     }
+
 }
 
 proc compose { } {
@@ -218,7 +223,6 @@ proc compose { } {
     set Bridge_Address_Width [get_parameter_value BUS_WIDTH]
     set BaseAddress [expr {2**$Bridge_Address_Width}]
     set IntInterrupts [expr {$Processors + 4}]
-
 
     
     # remove_dangling_connections
@@ -245,8 +249,20 @@ proc compose { } {
     
     # GRTOS Controller
     add_instance grtos_0 grtos 1.0
-    set_instance_parameter_value grtos_0 {NProcessors} $Processors
+    set_instance_parameter_value grtos_0 {NProcessors} [get_parameter_value NProcessors]
     set_instance_parameter_value grtos_0 {PreScale} $PreScale
+    # ######################
+    set_instance_parameter_value grtos_0 {PROCESSOR_TYPE} [get_parameter_value Processor_type]
+    set_instance_parameter_value grtos_0 {INSTRUCTION_CACHE_SIZE} [get_parameter_value icache_size_parameter]
+    set_instance_parameter_value grtos_0 {INSTRUCTION_CACHE_BURST} [get_parameter_value icache_burst_parameter]
+    set_instance_parameter_value grtos_0 {ENABLE_HPS_MAP_ACCESS} [get_parameter_value ENABLE_HPS_MAP_ACCESS]
+    set_instance_parameter_value grtos_0 {NIOS_CLOCK_FREQUENCY} [get_parameter_value CFrequency]
+    set_instance_parameter_value grtos_0 {BUS_CLOCK_FREQUENCY} [get_parameter_value CEFrequency]
+    set_instance_parameter_value grtos_0 {BUS_WIDTH} [get_parameter_value BUS_WIDTH]
+    set_instance_parameter_value grtos_0 {EXTERNAL_MEMORY_SPAN} [get_parameter_value EXTERNAL_MEMORY_SPAN]
+    set_instance_parameter_value grtos_0 {EXTERNAL_MEMORY_UNIT} [get_parameter_value EXTERNAL_MEMORY_UNIT]
+    # ######################
+    
     # CLOCK and RESET
     add_connection clock_bridge_0.out_clk grtos_0.clock_reset clock
     add_connection reset_bridge_0.out_reset grtos_0.clock_reset_reset reset

@@ -83,6 +83,33 @@ set_parameter_property PreScale ALLOWED_RANGES {1:1073741824}
 set_parameter_property PreScale DESCRIPTION "Time Scale division"
 set_parameter_property PreScale HDL_PARAMETER false
 
+add_parameter PROCESSOR_TYPE STRING "" "Processor type"
+set_parameter_property PROCESSOR_TYPE HDL_PARAMETER false
+
+add_parameter INSTRUCTION_CACHE_SIZE STRING "None" "Instruction cache size"
+set_parameter_property INSTRUCTION_CACHE_SIZE HDL_PARAMETER false
+
+add_parameter INSTRUCTION_CACHE_BURST STRING "Disable" "Add burstcount signal to instruction_master"
+set_parameter_property INSTRUCTION_CACHE_BURST HDL_PARAMETER false
+
+add_parameter ENABLE_HPS_MAP_ACCESS BOOLEAN false
+set_parameter_property ENABLE_HPS_MAP_ACCESS HDL_PARAMETER false
+
+add_parameter NIOS_CLOCK_FREQUENCY INTEGER
+set_parameter_property NIOS_CLOCK_FREQUENCY HDL_PARAMETER false
+
+add_parameter BUS_CLOCK_FREQUENCY INTEGER 
+set_parameter_property BUS_CLOCK_FREQUENCY HDL_PARAMETER false
+
+add_parameter BUS_WIDTH INTEGER
+set_parameter_property BUS_WIDTH HDL_PARAMETER false
+
+add_parameter EXTERNAL_MEMORY_SPAN INTEGER 4
+set_parameter_property EXTERNAL_MEMORY_SPAN HDL_PARAMETER false
+
+add_parameter EXTERNAL_MEMORY_UNIT STRING ""
+set_parameter_property EXTERNAL_MEMORY_UNIT HDL_PARAMETER false
+
 # 
 # display items
 # 
@@ -217,15 +244,30 @@ set_module_property VALIDATION_CALLBACK validate
 set_module_property ELABORATION_CALLBACK elaborate 
  
 proc validate {} {
- set_module_assignment embeddedsw.CMacro.NPROCESSORS [get_parameter_value NProcessors]
- set_module_assignment embeddedsw.CMacro.PRESCALE [get_parameter_value PreScale]
- set_module_assignment embeddedsw.CMacro.GRTOSFREQUENCY [get_parameter_value GRTOS_CLOCK_FREQUENCY]
- set_module_assignment embeddedsw.CMacro.GRTOSINTERRUPTS [get_parameter_value GRTOS_INTERRUPTS]
- set_module_assignment embeddedsw.CMacro.GRTOSCLOCKRESETINFO [get_parameter_value GRTOS_CLOCK_RESET_INFO]
- set_module_assignment embeddedsw.CMacro.GRTOSGENERATIONID [get_parameter_value GRTOS_GENERATION_ID]
- 
- set j 2
- #set_module_assignment embeddedsw.CMacro.PROPIERTIES [get_interface_properties slv_irq4] 
+  set_module_assignment embeddedsw.CMacro.NPROCESSORS [get_parameter_value NProcessors]
+  set_module_assignment embeddedsw.CMacro.PRESCALE [get_parameter_value PreScale]
+  set_module_assignment embeddedsw.CMacro.GRTOSFREQUENCY [get_parameter_value GRTOS_CLOCK_FREQUENCY]
+  set_module_assignment embeddedsw.CMacro.GRTOSINTERRUPTS [get_parameter_value GRTOS_INTERRUPTS]
+  set_module_assignment embeddedsw.CMacro.GRTOSCLOCKRESETINFO [get_parameter_value GRTOS_CLOCK_RESET_INFO]
+  set_module_assignment embeddedsw.CMacro.GRTOSGENERATIONID [get_parameter_value GRTOS_GENERATION_ID]
+  
+  # #########################
+  set_module_assignment embeddedsw.CMacro.PROCESSOR_TYPE [get_parameter_value PROCESSOR_TYPE]
+  set_module_assignment embeddedsw.CMacro.INSTRUCTION_CACHE_SIZE [get_parameter_value INSTRUCTION_CACHE_SIZE]
+  set_module_assignment embeddedsw.CMacro.INSTRUCTION_CACHE_BURST [get_parameter_value INSTRUCTION_CACHE_BURST]
+  set_module_assignment embeddedsw.CMacro.ENABLE_HPS_MAP_ACCESS [get_parameter_value ENABLE_HPS_MAP_ACCESS]
+  set_module_assignment embeddedsw.CMacro.NIOS_CLOCK_FREQUENCY [get_parameter_value NIOS_CLOCK_FREQUENCY]
+  set_module_assignment embeddedsw.CMacro.BUS_CLOCK_FREQUENCY [get_parameter_value BUS_CLOCK_FREQUENCY]
+  set_module_assignment embeddedsw.CMacro.BUS_WIDTH [get_parameter_value BUS_WIDTH]
+  set_module_assignment embeddedsw.CMacro.EXTERNAL_MEMORY_SPAN [get_parameter_value EXTERNAL_MEMORY_SPAN]
+  set_module_assignment embeddedsw.CMacro.EXTERNAL_MEMORY_UNIT [get_parameter_value EXTERNAL_MEMORY_UNIT]
+  # #########################
+  
+  
+  
+  
+  set j 2
+  #set_module_assignment embeddedsw.CMacro.PROPIERTIES [get_interface_properties slv_irq4] 
  
   # EIC port identification for BSP tools
   set_interface_assignment s_Global embeddedsw.configuration.isInterruptControllerReceiver 1

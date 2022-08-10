@@ -1,240 +1,240 @@
-2022.08.10.09:28:55 Info: Doing: qsys-edit --1=qsysgrtos.qsys
-2022.08.10.09:30:07 Info: Starting to upgrade the IP cores in the Platform Designer system 
-2022.08.10.09:30:07 Info: Finished upgrading the ip cores
-2022.08.10.09:30:23 Info: Saving generation log to C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/qsysgrtos_generation.rpt
-2022.08.10.09:30:23 Info: Starting: <b>Create HDL design files for synthesis</b>
-2022.08.10.09:30:23 Info: qsys-generate C:\GeMRTOS\GeMRTOS\GeMRTOS\bemicrosdk\qsysgrtos.qsys --synthesis=VERILOG --output-directory=C:\GeMRTOS\GeMRTOS\GeMRTOS\bemicrosdk\qsysgrtos\synthesis --family="Cyclone IV E" --part=EP4CE22F17C7
-2022.08.10.09:30:23 Info: Loading bemicrosdk/qsysgrtos.qsys
-2022.08.10.09:30:23 Info: Reading input file
-2022.08.10.09:30:23 Info: Adding GRTOS_Multiprocessor_1 [GRTOS_Multiprocessor 1.0]
-2022.08.10.09:30:23 Info: Parameterizing module GRTOS_Multiprocessor_1
-2022.08.10.09:30:23 Info: Adding clk_0 [clock_source 18.0]
-2022.08.10.09:30:23 Info: Parameterizing module clk_0
-2022.08.10.09:30:23 Info: Adding mddr_ctrl_0 [mddr_ctrl 1.0]
-2022.08.10.09:30:23 Info: Parameterizing module mddr_ctrl_0
-2022.08.10.09:30:23 Info: Building connections
-2022.08.10.09:30:23 Info: Parameterizing connections
-2022.08.10.09:30:23 Info: Validating
-2022.08.10.09:30:28 Info: Done reading input file
-2022.08.10.09:30:31 Info: qsysgrtos.GRTOS_Multiprocessor_1.jtag_uart_0: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
-2022.08.10.09:30:31 Info: qsysgrtos.GRTOS_Multiprocessor_1.jtag_uart_1: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
-2022.08.10.09:30:31 Info: qsysgrtos.GRTOS_Multiprocessor_1.jtag_uart_2: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
-2022.08.10.09:30:31 Info: qsysgrtos.GRTOS_Multiprocessor_1.jtag_uart_3: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
-2022.08.10.09:30:31 Info: qsysgrtos.GRTOS_Multiprocessor_1.jtag_uart_4: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
-2022.08.10.09:30:31 Info: qsysgrtos.GRTOS_Multiprocessor_1.sysid_qsys_0: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
-2022.08.10.09:30:31 Info: qsysgrtos.GRTOS_Multiprocessor_1.sysid_qsys_0: Time stamp will be automatically updated when this component is generated.
-2022.08.10.09:30:32 Info: qsysgrtos: Generating <b>qsysgrtos</b> "<b>qsysgrtos</b>" for QUARTUS_SYNTH
-2022.08.10.09:30:53 Info: GRTOS_Multiprocessor_1: "<b>qsysgrtos</b>" instantiated <b>GRTOS_Multiprocessor</b> "<b>GRTOS_Multiprocessor_1</b>"
-2022.08.10.09:30:54 Info: mddr_ctrl_0: "<b>qsysgrtos</b>" instantiated <b>mddr_ctrl</b> "<b>mddr_ctrl_0</b>"
-2022.08.10.09:30:55 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
-2022.08.10.09:30:55 Info: mm_interconnect_0: "<b>qsysgrtos</b>" instantiated <b>altera_mm_interconnect</b> "<b>mm_interconnect_0</b>"
-2022.08.10.09:30:55 Info: irq_mapper: "<b>qsysgrtos</b>" instantiated <b>altera_irq_mapper</b> "<b>irq_mapper</b>"
-2022.08.10.09:30:55 Info: rst_controller: "<b>qsysgrtos</b>" instantiated <b>altera_reset_controller</b> "<b>rst_controller</b>"
-2022.08.10.09:30:55 Info: grtos_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>grtos</b> "<b>grtos_0</b>"
-2022.08.10.09:30:55 Info: irq_bridge_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_irq_bridge</b> "<b>irq_bridge_0</b>"
-2022.08.10.09:30:55 Info: nios_avalon_monitor: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>nios_avalon_monitor</b> "<b>nios_avalon_monitor</b>"
-2022.08.10.09:30:55 Info: onchip_memory2_0: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_0'
-2022.08.10.09:30:55 Info: onchip_memory2_0:   Generation command is [exec C:/intelfpga/18.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga/18.0/quartus/bin64/perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_0 --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0008_onchip_memory2_0_gen/ --quartus_dir=C:/intelfpga/18.0/quartus --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0008_onchip_memory2_0_gen//qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_0_component_configuration.pl  --do_build_sim=0  ]
-2022.08.10.09:30:56 Info: onchip_memory2_0: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_0'
-2022.08.10.09:30:56 Info: onchip_memory2_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_onchip_memory2</b> "<b>onchip_memory2_0</b>"
-2022.08.10.09:30:56 Info: onchip_memory2_1: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_1'
-2022.08.10.09:30:56 Info: onchip_memory2_1:   Generation command is [exec C:/intelfpga/18.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga/18.0/quartus/bin64/perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_1 --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0009_onchip_memory2_1_gen/ --quartus_dir=C:/intelfpga/18.0/quartus --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0009_onchip_memory2_1_gen//qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_1_component_configuration.pl  --do_build_sim=0  ]
-2022.08.10.09:30:56 Info: onchip_memory2_1: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_1'
-2022.08.10.09:30:56 Info: onchip_memory2_1: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_onchip_memory2</b> "<b>onchip_memory2_1</b>"
-2022.08.10.09:30:56 Info: nios2_qsys_1: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_nios2_gen2</b> "<b>nios2_qsys_1</b>"
-2022.08.10.09:30:56 Info: nios2_qsys_2: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_nios2_gen2</b> "<b>nios2_qsys_2</b>"
-2022.08.10.09:30:57 Info: nios2_qsys_3: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_nios2_gen2</b> "<b>nios2_qsys_3</b>"
-2022.08.10.09:30:57 Info: jtag_uart_0: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_jtag_uart_0'
-2022.08.10.09:30:57 Info: jtag_uart_0:   Generation command is [exec C:/intelfpga/18.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga/18.0/quartus/bin64/perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=qsysgrtos_GRTOS_Multiprocessor_1_jtag_uart_0 --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0010_jtag_uart_0_gen/ --quartus_dir=C:/intelfpga/18.0/quartus --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0010_jtag_uart_0_gen//qsysgrtos_GRTOS_Multiprocessor_1_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
-2022.08.10.09:30:57 Info: jtag_uart_0: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_jtag_uart_0'
-2022.08.10.09:30:57 Info: jtag_uart_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_jtag_uart</b> "<b>jtag_uart_0</b>"
-2022.08.10.09:30:57 Info: master_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_jtag_avalon_master</b> "<b>master_0</b>"
-2022.08.10.09:30:57 Info: GRTOS_Avalon_Bridge_1: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>GRTOS_Avalon_Bridge</b> "<b>GRTOS_Avalon_Bridge_1</b>"
-2022.08.10.09:30:57 Info: sysid_qsys_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_sysid_qsys</b> "<b>sysid_qsys_0</b>"
-2022.08.10.09:30:57 Info: timer_0: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_timer_0'
-2022.08.10.09:30:57 Info: timer_0:   Generation command is [exec C:/intelFPGA/18.0/quartus/bin64//perl/bin/perl.exe -I C:/intelFPGA/18.0/quartus/bin64//perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer -- C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer/generate_rtl.pl --name=qsysgrtos_GRTOS_Multiprocessor_1_timer_0 --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0012_timer_0_gen/ --quartus_dir=C:/intelfpga/18.0/quartus --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0012_timer_0_gen//qsysgrtos_GRTOS_Multiprocessor_1_timer_0_component_configuration.pl  --do_build_sim=0  ]
-2022.08.10.09:30:58 Info: timer_0: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_timer_0'
-2022.08.10.09:30:58 Info: timer_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_timer</b> "<b>timer_0</b>"
-2022.08.10.09:30:58 Info: mm_clock_crossing_bridge_pro_1: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_mm_clock_crossing_bridge</b> "<b>mm_clock_crossing_bridge_pro_1</b>"
-2022.08.10.09:30:58 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
-2022.08.10.09:30:59 Info: mm_interconnect_3: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_mm_interconnect</b> "<b>mm_interconnect_3</b>"
-2022.08.10.09:31:00 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:00 Info: mm_interconnect_4: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_mm_interconnect</b> "<b>mm_interconnect_4</b>"
-2022.08.10.09:31:01 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:02 Info: mm_interconnect_5: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_mm_interconnect</b> "<b>mm_interconnect_5</b>"
-2022.08.10.09:31:07 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:07 Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:07 Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:08 Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:08 Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:08 Info: avalon_st_adapter_005: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:08 Info: avalon_st_adapter_006: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:08 Info: avalon_st_adapter_007: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:08 Info: avalon_st_adapter_008: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:09 Info: avalon_st_adapter_009: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:09 Info: avalon_st_adapter_010: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:09 Info: avalon_st_adapter_011: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:09 Info: avalon_st_adapter_012: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:09 Info: avalon_st_adapter_013: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:09 Info: avalon_st_adapter_014: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:10 Info: avalon_st_adapter_015: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:10 Info: avalon_st_adapter_016: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:10 Info: avalon_st_adapter_017: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:10 Info: avalon_st_adapter_018: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:10 Info: avalon_st_adapter_019: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:10 Info: avalon_st_adapter_020: Inserting error_adapter: error_adapter_0
-2022.08.10.09:31:14 Info: mm_interconnect_6: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_mm_interconnect</b> "<b>mm_interconnect_6</b>"
-2022.08.10.09:31:14 Info: irq_mapper: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_irq_mapper</b> "<b>irq_mapper</b>"
-2022.08.10.09:31:14 Info: irq_mapper_001: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_irq_mapper</b> "<b>irq_mapper_001</b>"
-2022.08.10.09:31:14 Info: irq_mapper_002: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_irq_mapper</b> "<b>irq_mapper_002</b>"
-2022.08.10.09:31:14 Info: GRTOS_Multiprocessor_1_grtos_avalon_bridge_m1_translator: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_master_translator</b> "<b>GRTOS_Multiprocessor_1_grtos_avalon_bridge_m1_translator</b>"
-2022.08.10.09:31:14 Info: mddr_ctrl_0_avalon_slave_translator: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_slave_translator</b> "<b>mddr_ctrl_0_avalon_slave_translator</b>"
-2022.08.10.09:31:14 Info: GRTOS_Multiprocessor_1_grtos_avalon_bridge_m1_agent: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_master_agent</b> "<b>GRTOS_Multiprocessor_1_grtos_avalon_bridge_m1_agent</b>"
-2022.08.10.09:31:14 Info: mddr_ctrl_0_avalon_slave_agent: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_slave_agent</b> "<b>mddr_ctrl_0_avalon_slave_agent</b>"
-2022.08.10.09:31:14 Info: mddr_ctrl_0_avalon_slave_agent_rsp_fifo: "<b>mm_interconnect_0</b>" instantiated <b>altera_avalon_sc_fifo</b> "<b>mddr_ctrl_0_avalon_slave_agent_rsp_fifo</b>"
-2022.08.10.09:31:14 Info: router: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_router</b> "<b>router</b>"
-2022.08.10.09:31:14 Info: router_003: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_router</b> "<b>router_003</b>"
-2022.08.10.09:31:14 Info: cmd_demux: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux</b>"
-2022.08.10.09:31:14 Info: cmd_mux: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux</b>"
-2022.08.10.09:31:14 Info: rsp_demux: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>rsp_demux</b>"
-2022.08.10.09:31:14 Info: rsp_mux: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux</b>"
-2022.08.10.09:31:14 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:14 Info: avalon_st_adapter: "<b>mm_interconnect_0</b>" instantiated <b>altera_avalon_st_adapter</b> "<b>avalon_st_adapter</b>"
-2022.08.10.09:31:14 Info: cpu: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_1_cpu'
-2022.08.10.09:31:14 Info: cpu:   Generation command is [exec C:/intelFPGA/18.0/quartus/bin64//eperlcmd.exe -I C:/intelFPGA/18.0/quartus/bin64//perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_1_cpu --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0028_cpu_gen/ --quartus_bindir=C:/intelFPGA/18.0/quartus/bin64/ --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0028_cpu_gen//qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_1_cpu_processor_configuration.pl  --do_build_sim=0  ]
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:15 (*) Starting Nios II generation
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:15 (*)   Checking for plaintext license.
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:15 (*)   Plaintext license not found.
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:15 (*)   Checking for encrypted license (non-evaluation).
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:16 (*)   Encrypted license found.  SOF will not be time-limited.
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:16 (*)   Elaborating CPU configuration settings
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:16 (*)   Creating all objects for CPU
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:16 (*)     Testbench
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:16 (*)     Instruction decoding
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:16 (*)       Instruction fields
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:16 (*)       Instruction decodes
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:16 (*)       Signals for RTL simulation waveforms
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:16 (*)       Instruction controls
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:17 (*)     Pipeline frontend
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:17 (*)     Pipeline backend
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:19 (*)   Generating RTL from CPU objects
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:20 (*)   Creating encrypted RTL
-2022.08.10.09:31:21 Info: cpu: # 2022.08.10 13:31:21 (*) Done Nios II generation
-2022.08.10.09:31:21 Info: cpu: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_1_cpu'
-2022.08.10.09:31:21 Info: cpu: "<b>nios2_qsys_1</b>" instantiated <b>altera_nios2_gen2_unit</b> "<b>cpu</b>"
-2022.08.10.09:31:21 Info: cpu: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_2_cpu'
-2022.08.10.09:31:21 Info: cpu:   Generation command is [exec C:/intelFPGA/18.0/quartus/bin64//eperlcmd.exe -I C:/intelFPGA/18.0/quartus/bin64//perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_2_cpu --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0029_cpu_gen/ --quartus_bindir=C:/intelFPGA/18.0/quartus/bin64/ --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0029_cpu_gen//qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_2_cpu_processor_configuration.pl  --do_build_sim=0  ]
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:22 (*) Starting Nios II generation
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:22 (*)   Checking for plaintext license.
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:22 (*)   Plaintext license not found.
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:22 (*)   Checking for encrypted license (non-evaluation).
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:23 (*)   Encrypted license found.  SOF will not be time-limited.
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:23 (*)   Elaborating CPU configuration settings
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:23 (*)   Creating all objects for CPU
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:23 (*)     Testbench
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:23 (*)     Instruction decoding
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:23 (*)       Instruction fields
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:23 (*)       Instruction decodes
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:24 (*)       Signals for RTL simulation waveforms
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:24 (*)       Instruction controls
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:24 (*)     Pipeline frontend
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:24 (*)     Pipeline backend
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:26 (*)   Generating RTL from CPU objects
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:27 (*)   Creating encrypted RTL
-2022.08.10.09:31:28 Info: cpu: # 2022.08.10 13:31:28 (*) Done Nios II generation
-2022.08.10.09:31:28 Info: cpu: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_2_cpu'
-2022.08.10.09:31:28 Info: cpu: "<b>nios2_qsys_2</b>" instantiated <b>altera_nios2_gen2_unit</b> "<b>cpu</b>"
-2022.08.10.09:31:28 Info: cpu: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_3_cpu'
-2022.08.10.09:31:28 Info: cpu:   Generation command is [exec C:/intelFPGA/18.0/quartus/bin64//eperlcmd.exe -I C:/intelFPGA/18.0/quartus/bin64//perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_3_cpu --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0030_cpu_gen/ --quartus_bindir=C:/intelFPGA/18.0/quartus/bin64/ --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1715190727774134880.dir/0030_cpu_gen//qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_3_cpu_processor_configuration.pl  --do_build_sim=0  ]
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:29 (*) Starting Nios II generation
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:29 (*)   Checking for plaintext license.
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:29 (*)   Plaintext license not found.
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:29 (*)   Checking for encrypted license (non-evaluation).
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:30 (*)   Encrypted license found.  SOF will not be time-limited.
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:30 (*)   Elaborating CPU configuration settings
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:30 (*)   Creating all objects for CPU
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:30 (*)     Testbench
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:30 (*)     Instruction decoding
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:30 (*)       Instruction fields
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:30 (*)       Instruction decodes
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:30 (*)       Signals for RTL simulation waveforms
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:30 (*)       Instruction controls
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:30 (*)     Pipeline frontend
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:31 (*)     Pipeline backend
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:32 (*)   Generating RTL from CPU objects
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:34 (*)   Creating encrypted RTL
-2022.08.10.09:31:35 Info: cpu: # 2022.08.10 13:31:35 (*) Done Nios II generation
-2022.08.10.09:31:35 Info: cpu: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_3_cpu'
-2022.08.10.09:31:35 Info: cpu: "<b>nios2_qsys_3</b>" instantiated <b>altera_nios2_gen2_unit</b> "<b>cpu</b>"
-2022.08.10.09:31:35 Info: jtag_phy_embedded_in_jtag_master: "<b>master_0</b>" instantiated <b>altera_jtag_dc_streaming</b> "<b>jtag_phy_embedded_in_jtag_master</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_std_synchronizer_nocut.v</b>
-2022.08.10.09:31:35 Info: timing_adt: "<b>master_0</b>" instantiated <b>timing_adapter</b> "<b>timing_adt</b>"
-2022.08.10.09:31:35 Info: b2p: "<b>master_0</b>" instantiated <b>altera_avalon_st_bytes_to_packets</b> "<b>b2p</b>"
-2022.08.10.09:31:35 Info: p2b: "<b>master_0</b>" instantiated <b>altera_avalon_st_packets_to_bytes</b> "<b>p2b</b>"
-2022.08.10.09:31:35 Info: transacto: "<b>master_0</b>" instantiated <b>altera_avalon_packets_to_master</b> "<b>transacto</b>"
-2022.08.10.09:31:35 Info: b2p_adapter: "<b>master_0</b>" instantiated <b>channel_adapter</b> "<b>b2p_adapter</b>"
-2022.08.10.09:31:35 Info: p2b_adapter: "<b>master_0</b>" instantiated <b>channel_adapter</b> "<b>p2b_adapter</b>"
-2022.08.10.09:31:35 Info: router: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_router</b> "<b>router</b>"
-2022.08.10.09:31:35 Info: router_002: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_router</b> "<b>router_002</b>"
-2022.08.10.09:31:35 Info: nios_avalon_monitor_s1_burst_adapter: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_burst_adapter</b> "<b>nios_avalon_monitor_s1_burst_adapter</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_avalon_st_pipeline_stage.sv</b>
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_avalon_st_pipeline_base.v</b>
-2022.08.10.09:31:35 Info: cmd_demux: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux</b>"
-2022.08.10.09:31:35 Info: cmd_mux: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:35 Info: rsp_demux: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>rsp_demux</b>"
-2022.08.10.09:31:35 Info: rsp_mux: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:35 Info: router: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router</b>"
-2022.08.10.09:31:35 Info: router_001: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_001</b>"
-2022.08.10.09:31:35 Info: router_002: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_002</b>"
-2022.08.10.09:31:35 Info: router_003: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_003</b>"
-2022.08.10.09:31:35 Info: router_004: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_004</b>"
-2022.08.10.09:31:35 Info: router_005: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_005</b>"
-2022.08.10.09:31:35 Info: router_010: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_010</b>"
-2022.08.10.09:31:35 Info: router_011: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_011</b>"
-2022.08.10.09:31:35 Info: router_012: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_012</b>"
-2022.08.10.09:31:35 Info: router_020: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_020</b>"
-2022.08.10.09:31:35 Info: router_021: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_021</b>"
-2022.08.10.09:31:35 Info: router_023: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_023</b>"
-2022.08.10.09:31:35 Info: router_024: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_024</b>"
-2022.08.10.09:31:35 Info: master_0_master_limiter: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_traffic_limiter</b> "<b>master_0_master_limiter</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_avalon_sc_fifo.v</b>
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_avalon_st_pipeline_base.v</b>
-2022.08.10.09:31:35 Info: cmd_demux: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux</b>"
-2022.08.10.09:31:35 Info: cmd_demux_001: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux_001</b>"
-2022.08.10.09:31:35 Info: cmd_demux_002: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux_002</b>"
-2022.08.10.09:31:35 Info: cmd_demux_004: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux_004</b>"
-2022.08.10.09:31:35 Info: cmd_mux: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:35 Info: cmd_mux_005: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux_005</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:35 Info: cmd_mux_006: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux_006</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:35 Info: cmd_mux_018: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux_018</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:35 Info: rsp_demux: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>rsp_demux</b>"
-2022.08.10.09:31:35 Info: rsp_demux_005: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>rsp_demux_005</b>"
-2022.08.10.09:31:35 Info: rsp_demux_018: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>rsp_demux_018</b>"
-2022.08.10.09:31:35 Info: rsp_mux: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:35 Info: rsp_mux_001: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux_001</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:35 Info: rsp_mux_002: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux_002</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:35 Info: rsp_mux_004: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux_004</b>"
-2022.08.10.09:31:35 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
-2022.08.10.09:31:35 Info: error_adapter_0: "<b>avalon_st_adapter</b>" instantiated <b>error_adapter</b> "<b>error_adapter_0</b>"
-2022.08.10.09:31:35 Info: qsysgrtos: Done "<b>qsysgrtos</b>" with 86 modules, 150 files
-2022.08.10.09:31:37 Info: qsys-generate succeeded.
-2022.08.10.09:31:37 Info: Finished: <b>Create HDL design files for synthesis</b>
-2022.08.10.09:31:37 Info: Doing: <b>qsys-script --system-file=qsysgrtos.qsys --script=qsysscript.tcl</b>
-2022.08.10.09:31:55 Info: get_module_property NAME
-2022.08.10.09:31:55 Info: get_project_properties 
-2022.08.10.09:31:55 Info: get_instances 
-2022.08.10.09:31:55 Info: get_composed_instances GRTOS_Multiprocessor_1
-2022.08.10.09:31:55 Info: get_composed_instances clk_0
-2022.08.10.09:31:55 Info: get_composed_instances mddr_ctrl_0
+2022.08.10.14:51:13 Info: Doing: qsys-edit --1=qsysgrtos.qsys
+2022.08.10.14:52:15 Info: Starting to upgrade the IP cores in the Platform Designer system 
+2022.08.10.14:52:15 Info: Finished upgrading the ip cores
+2022.08.10.14:52:34 Info: Saving generation log to C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/qsysgrtos_generation.rpt
+2022.08.10.14:52:34 Info: Starting: <b>Create HDL design files for synthesis</b>
+2022.08.10.14:52:34 Info: qsys-generate C:\GeMRTOS\GeMRTOS\GeMRTOS\bemicrosdk\qsysgrtos.qsys --synthesis=VERILOG --output-directory=C:\GeMRTOS\GeMRTOS\GeMRTOS\bemicrosdk\qsysgrtos\synthesis --family="Cyclone IV E" --part=EP4CE22F17C7
+2022.08.10.14:52:34 Info: Loading bemicrosdk/qsysgrtos.qsys
+2022.08.10.14:52:35 Info: Reading input file
+2022.08.10.14:52:35 Info: Adding GRTOS_Multiprocessor_1 [GRTOS_Multiprocessor 1.0]
+2022.08.10.14:52:35 Info: Parameterizing module GRTOS_Multiprocessor_1
+2022.08.10.14:52:35 Info: Adding clk_0 [clock_source 18.0]
+2022.08.10.14:52:35 Info: Parameterizing module clk_0
+2022.08.10.14:52:35 Info: Adding mddr_ctrl_0 [mddr_ctrl 1.0]
+2022.08.10.14:52:35 Info: Parameterizing module mddr_ctrl_0
+2022.08.10.14:52:35 Info: Building connections
+2022.08.10.14:52:35 Info: Parameterizing connections
+2022.08.10.14:52:35 Info: Validating
+2022.08.10.14:52:40 Info: Done reading input file
+2022.08.10.14:52:44 Info: qsysgrtos.GRTOS_Multiprocessor_1.jtag_uart_0: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.08.10.14:52:44 Info: qsysgrtos.GRTOS_Multiprocessor_1.jtag_uart_1: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.08.10.14:52:44 Info: qsysgrtos.GRTOS_Multiprocessor_1.jtag_uart_2: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.08.10.14:52:44 Info: qsysgrtos.GRTOS_Multiprocessor_1.jtag_uart_3: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.08.10.14:52:44 Info: qsysgrtos.GRTOS_Multiprocessor_1.jtag_uart_4: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+2022.08.10.14:52:44 Info: qsysgrtos.GRTOS_Multiprocessor_1.sysid_qsys_0: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+2022.08.10.14:52:44 Info: qsysgrtos.GRTOS_Multiprocessor_1.sysid_qsys_0: Time stamp will be automatically updated when this component is generated.
+2022.08.10.14:52:45 Info: qsysgrtos: Generating <b>qsysgrtos</b> "<b>qsysgrtos</b>" for QUARTUS_SYNTH
+2022.08.10.14:53:08 Info: GRTOS_Multiprocessor_1: "<b>qsysgrtos</b>" instantiated <b>GRTOS_Multiprocessor</b> "<b>GRTOS_Multiprocessor_1</b>"
+2022.08.10.14:53:09 Info: mddr_ctrl_0: "<b>qsysgrtos</b>" instantiated <b>mddr_ctrl</b> "<b>mddr_ctrl_0</b>"
+2022.08.10.14:53:10 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:10 Info: mm_interconnect_0: "<b>qsysgrtos</b>" instantiated <b>altera_mm_interconnect</b> "<b>mm_interconnect_0</b>"
+2022.08.10.14:53:10 Info: irq_mapper: "<b>qsysgrtos</b>" instantiated <b>altera_irq_mapper</b> "<b>irq_mapper</b>"
+2022.08.10.14:53:10 Info: rst_controller: "<b>qsysgrtos</b>" instantiated <b>altera_reset_controller</b> "<b>rst_controller</b>"
+2022.08.10.14:53:10 Info: grtos_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>grtos</b> "<b>grtos_0</b>"
+2022.08.10.14:53:10 Info: irq_bridge_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_irq_bridge</b> "<b>irq_bridge_0</b>"
+2022.08.10.14:53:10 Info: nios_avalon_monitor: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>nios_avalon_monitor</b> "<b>nios_avalon_monitor</b>"
+2022.08.10.14:53:10 Info: onchip_memory2_0: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_0'
+2022.08.10.14:53:10 Info: onchip_memory2_0:   Generation command is [exec C:/intelfpga/18.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga/18.0/quartus/bin64/perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_0 --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0008_onchip_memory2_0_gen/ --quartus_dir=C:/intelfpga/18.0/quartus --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0008_onchip_memory2_0_gen//qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_0_component_configuration.pl  --do_build_sim=0  ]
+2022.08.10.14:53:11 Info: onchip_memory2_0: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_0'
+2022.08.10.14:53:11 Info: onchip_memory2_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_onchip_memory2</b> "<b>onchip_memory2_0</b>"
+2022.08.10.14:53:11 Info: onchip_memory2_1: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_1'
+2022.08.10.14:53:11 Info: onchip_memory2_1:   Generation command is [exec C:/intelfpga/18.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga/18.0/quartus/bin64/perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_1 --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0009_onchip_memory2_1_gen/ --quartus_dir=C:/intelfpga/18.0/quartus --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0009_onchip_memory2_1_gen//qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_1_component_configuration.pl  --do_build_sim=0  ]
+2022.08.10.14:53:11 Info: onchip_memory2_1: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_onchip_memory2_1'
+2022.08.10.14:53:11 Info: onchip_memory2_1: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_onchip_memory2</b> "<b>onchip_memory2_1</b>"
+2022.08.10.14:53:11 Info: nios2_qsys_1: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_nios2_gen2</b> "<b>nios2_qsys_1</b>"
+2022.08.10.14:53:12 Info: nios2_qsys_2: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_nios2_gen2</b> "<b>nios2_qsys_2</b>"
+2022.08.10.14:53:12 Info: nios2_qsys_3: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_nios2_gen2</b> "<b>nios2_qsys_3</b>"
+2022.08.10.14:53:12 Info: jtag_uart_0: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_jtag_uart_0'
+2022.08.10.14:53:12 Info: jtag_uart_0:   Generation command is [exec C:/intelfpga/18.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga/18.0/quartus/bin64/perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=qsysgrtos_GRTOS_Multiprocessor_1_jtag_uart_0 --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0010_jtag_uart_0_gen/ --quartus_dir=C:/intelfpga/18.0/quartus --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0010_jtag_uart_0_gen//qsysgrtos_GRTOS_Multiprocessor_1_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
+2022.08.10.14:53:12 Info: jtag_uart_0: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_jtag_uart_0'
+2022.08.10.14:53:12 Info: jtag_uart_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_jtag_uart</b> "<b>jtag_uart_0</b>"
+2022.08.10.14:53:12 Info: master_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_jtag_avalon_master</b> "<b>master_0</b>"
+2022.08.10.14:53:12 Info: GRTOS_Avalon_Bridge_1: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>GRTOS_Avalon_Bridge</b> "<b>GRTOS_Avalon_Bridge_1</b>"
+2022.08.10.14:53:12 Info: sysid_qsys_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_sysid_qsys</b> "<b>sysid_qsys_0</b>"
+2022.08.10.14:53:12 Info: timer_0: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_timer_0'
+2022.08.10.14:53:12 Info: timer_0:   Generation command is [exec C:/intelFPGA/18.0/quartus/bin64//perl/bin/perl.exe -I C:/intelFPGA/18.0/quartus/bin64//perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer -- C:/intelfpga/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer/generate_rtl.pl --name=qsysgrtos_GRTOS_Multiprocessor_1_timer_0 --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0012_timer_0_gen/ --quartus_dir=C:/intelfpga/18.0/quartus --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0012_timer_0_gen//qsysgrtos_GRTOS_Multiprocessor_1_timer_0_component_configuration.pl  --do_build_sim=0  ]
+2022.08.10.14:53:13 Info: timer_0: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_timer_0'
+2022.08.10.14:53:13 Info: timer_0: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_timer</b> "<b>timer_0</b>"
+2022.08.10.14:53:13 Info: mm_clock_crossing_bridge_pro_1: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_avalon_mm_clock_crossing_bridge</b> "<b>mm_clock_crossing_bridge_pro_1</b>"
+2022.08.10.14:53:14 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:14 Info: mm_interconnect_3: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_mm_interconnect</b> "<b>mm_interconnect_3</b>"
+2022.08.10.14:53:15 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:15 Info: mm_interconnect_4: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_mm_interconnect</b> "<b>mm_interconnect_4</b>"
+2022.08.10.14:53:16 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:16 Info: mm_interconnect_5: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_mm_interconnect</b> "<b>mm_interconnect_5</b>"
+2022.08.10.14:53:22 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:22 Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:22 Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:22 Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:23 Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:23 Info: avalon_st_adapter_005: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:23 Info: avalon_st_adapter_006: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:23 Info: avalon_st_adapter_007: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:23 Info: avalon_st_adapter_008: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:23 Info: avalon_st_adapter_009: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:24 Info: avalon_st_adapter_010: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:24 Info: avalon_st_adapter_011: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:24 Info: avalon_st_adapter_012: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:24 Info: avalon_st_adapter_013: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:24 Info: avalon_st_adapter_014: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:24 Info: avalon_st_adapter_015: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:25 Info: avalon_st_adapter_016: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:25 Info: avalon_st_adapter_017: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:25 Info: avalon_st_adapter_018: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:25 Info: avalon_st_adapter_019: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:25 Info: avalon_st_adapter_020: Inserting error_adapter: error_adapter_0
+2022.08.10.14:53:30 Info: mm_interconnect_6: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_mm_interconnect</b> "<b>mm_interconnect_6</b>"
+2022.08.10.14:53:30 Info: irq_mapper: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_irq_mapper</b> "<b>irq_mapper</b>"
+2022.08.10.14:53:30 Info: irq_mapper_001: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_irq_mapper</b> "<b>irq_mapper_001</b>"
+2022.08.10.14:53:30 Info: irq_mapper_002: "<b>GRTOS_Multiprocessor_1</b>" instantiated <b>altera_irq_mapper</b> "<b>irq_mapper_002</b>"
+2022.08.10.14:53:30 Info: GRTOS_Multiprocessor_1_grtos_avalon_bridge_m1_translator: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_master_translator</b> "<b>GRTOS_Multiprocessor_1_grtos_avalon_bridge_m1_translator</b>"
+2022.08.10.14:53:30 Info: mddr_ctrl_0_avalon_slave_translator: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_slave_translator</b> "<b>mddr_ctrl_0_avalon_slave_translator</b>"
+2022.08.10.14:53:30 Info: GRTOS_Multiprocessor_1_grtos_avalon_bridge_m1_agent: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_master_agent</b> "<b>GRTOS_Multiprocessor_1_grtos_avalon_bridge_m1_agent</b>"
+2022.08.10.14:53:30 Info: mddr_ctrl_0_avalon_slave_agent: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_slave_agent</b> "<b>mddr_ctrl_0_avalon_slave_agent</b>"
+2022.08.10.14:53:30 Info: mddr_ctrl_0_avalon_slave_agent_rsp_fifo: "<b>mm_interconnect_0</b>" instantiated <b>altera_avalon_sc_fifo</b> "<b>mddr_ctrl_0_avalon_slave_agent_rsp_fifo</b>"
+2022.08.10.14:53:30 Info: router: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_router</b> "<b>router</b>"
+2022.08.10.14:53:30 Info: router_003: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_router</b> "<b>router_003</b>"
+2022.08.10.14:53:30 Info: cmd_demux: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux</b>"
+2022.08.10.14:53:30 Info: cmd_mux: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux</b>"
+2022.08.10.14:53:30 Info: rsp_demux: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>rsp_demux</b>"
+2022.08.10.14:53:30 Info: rsp_mux: "<b>mm_interconnect_0</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux</b>"
+2022.08.10.14:53:30 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:30 Info: avalon_st_adapter: "<b>mm_interconnect_0</b>" instantiated <b>altera_avalon_st_adapter</b> "<b>avalon_st_adapter</b>"
+2022.08.10.14:53:30 Info: cpu: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_1_cpu'
+2022.08.10.14:53:30 Info: cpu:   Generation command is [exec C:/intelFPGA/18.0/quartus/bin64//eperlcmd.exe -I C:/intelFPGA/18.0/quartus/bin64//perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_1_cpu --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0028_cpu_gen/ --quartus_bindir=C:/intelFPGA/18.0/quartus/bin64/ --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0028_cpu_gen//qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_1_cpu_processor_configuration.pl  --do_build_sim=0  ]
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:31 (*) Starting Nios II generation
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:31 (*)   Checking for plaintext license.
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:31 (*)   Plaintext license not found.
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:31 (*)   Checking for encrypted license (non-evaluation).
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:32 (*)   Encrypted license found.  SOF will not be time-limited.
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:32 (*)   Elaborating CPU configuration settings
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:32 (*)   Creating all objects for CPU
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:32 (*)     Testbench
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:32 (*)     Instruction decoding
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:32 (*)       Instruction fields
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:32 (*)       Instruction decodes
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:33 (*)       Signals for RTL simulation waveforms
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:33 (*)       Instruction controls
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:33 (*)     Pipeline frontend
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:33 (*)     Pipeline backend
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:35 (*)   Generating RTL from CPU objects
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:37 (*)   Creating encrypted RTL
+2022.08.10.14:53:38 Info: cpu: # 2022.08.10 18:53:38 (*) Done Nios II generation
+2022.08.10.14:53:38 Info: cpu: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_1_cpu'
+2022.08.10.14:53:38 Info: cpu: "<b>nios2_qsys_1</b>" instantiated <b>altera_nios2_gen2_unit</b> "<b>cpu</b>"
+2022.08.10.14:53:38 Info: cpu: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_2_cpu'
+2022.08.10.14:53:38 Info: cpu:   Generation command is [exec C:/intelFPGA/18.0/quartus/bin64//eperlcmd.exe -I C:/intelFPGA/18.0/quartus/bin64//perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_2_cpu --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0029_cpu_gen/ --quartus_bindir=C:/intelFPGA/18.0/quartus/bin64/ --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0029_cpu_gen//qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_2_cpu_processor_configuration.pl  --do_build_sim=0  ]
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:39 (*) Starting Nios II generation
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:39 (*)   Checking for plaintext license.
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:39 (*)   Plaintext license not found.
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:39 (*)   Checking for encrypted license (non-evaluation).
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:40 (*)   Encrypted license found.  SOF will not be time-limited.
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:40 (*)   Elaborating CPU configuration settings
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:40 (*)   Creating all objects for CPU
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:40 (*)     Testbench
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:40 (*)     Instruction decoding
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:40 (*)       Instruction fields
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:40 (*)       Instruction decodes
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:41 (*)       Signals for RTL simulation waveforms
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:41 (*)       Instruction controls
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:41 (*)     Pipeline frontend
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:41 (*)     Pipeline backend
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:43 (*)   Generating RTL from CPU objects
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:45 (*)   Creating encrypted RTL
+2022.08.10.14:53:46 Info: cpu: # 2022.08.10 18:53:46 (*) Done Nios II generation
+2022.08.10.14:53:46 Info: cpu: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_2_cpu'
+2022.08.10.14:53:46 Info: cpu: "<b>nios2_qsys_2</b>" instantiated <b>altera_nios2_gen2_unit</b> "<b>cpu</b>"
+2022.08.10.14:53:46 Info: cpu: Starting RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_3_cpu'
+2022.08.10.14:53:46 Info: cpu:   Generation command is [exec C:/intelFPGA/18.0/quartus/bin64//eperlcmd.exe -I C:/intelFPGA/18.0/quartus/bin64//perl/lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.0/quartus/sopc_builder/bin -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- C:/intelfpga/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_3_cpu --dir=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0030_cpu_gen/ --quartus_bindir=C:/intelFPGA/18.0/quartus/bin64/ --verilog --config=C:/intelFPGA/18.0/embedded/host_tools/cygwin/tmp/alt9214_1072043922562862106.dir/0030_cpu_gen//qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_3_cpu_processor_configuration.pl  --do_build_sim=0  ]
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:46 (*) Starting Nios II generation
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:46 (*)   Checking for plaintext license.
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:47 (*)   Plaintext license not found.
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:47 (*)   Checking for encrypted license (non-evaluation).
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:47 (*)   Encrypted license found.  SOF will not be time-limited.
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:47 (*)   Elaborating CPU configuration settings
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:48 (*)   Creating all objects for CPU
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:48 (*)     Testbench
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:48 (*)     Instruction decoding
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:48 (*)       Instruction fields
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:48 (*)       Instruction decodes
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:48 (*)       Signals for RTL simulation waveforms
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:48 (*)       Instruction controls
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:48 (*)     Pipeline frontend
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:49 (*)     Pipeline backend
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:51 (*)   Generating RTL from CPU objects
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:52 (*)   Creating encrypted RTL
+2022.08.10.14:53:53 Info: cpu: # 2022.08.10 18:53:53 (*) Done Nios II generation
+2022.08.10.14:53:53 Info: cpu: Done RTL generation for module 'qsysgrtos_GRTOS_Multiprocessor_1_nios2_qsys_3_cpu'
+2022.08.10.14:53:53 Info: cpu: "<b>nios2_qsys_3</b>" instantiated <b>altera_nios2_gen2_unit</b> "<b>cpu</b>"
+2022.08.10.14:53:53 Info: jtag_phy_embedded_in_jtag_master: "<b>master_0</b>" instantiated <b>altera_jtag_dc_streaming</b> "<b>jtag_phy_embedded_in_jtag_master</b>"
+2022.08.10.14:53:53 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_std_synchronizer_nocut.v</b>
+2022.08.10.14:53:53 Info: timing_adt: "<b>master_0</b>" instantiated <b>timing_adapter</b> "<b>timing_adt</b>"
+2022.08.10.14:53:53 Info: b2p: "<b>master_0</b>" instantiated <b>altera_avalon_st_bytes_to_packets</b> "<b>b2p</b>"
+2022.08.10.14:53:53 Info: p2b: "<b>master_0</b>" instantiated <b>altera_avalon_st_packets_to_bytes</b> "<b>p2b</b>"
+2022.08.10.14:53:53 Info: transacto: "<b>master_0</b>" instantiated <b>altera_avalon_packets_to_master</b> "<b>transacto</b>"
+2022.08.10.14:53:53 Info: b2p_adapter: "<b>master_0</b>" instantiated <b>channel_adapter</b> "<b>b2p_adapter</b>"
+2022.08.10.14:53:53 Info: p2b_adapter: "<b>master_0</b>" instantiated <b>channel_adapter</b> "<b>p2b_adapter</b>"
+2022.08.10.14:53:53 Info: router: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_router</b> "<b>router</b>"
+2022.08.10.14:53:53 Info: router_002: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_router</b> "<b>router_002</b>"
+2022.08.10.14:53:53 Info: nios_avalon_monitor_s1_burst_adapter: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_burst_adapter</b> "<b>nios_avalon_monitor_s1_burst_adapter</b>"
+2022.08.10.14:53:53 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_avalon_st_pipeline_stage.sv</b>
+2022.08.10.14:53:53 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_avalon_st_pipeline_base.v</b>
+2022.08.10.14:53:53 Info: cmd_demux: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux</b>"
+2022.08.10.14:53:53 Info: cmd_mux: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux</b>"
+2022.08.10.14:53:53 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:53 Info: rsp_demux: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>rsp_demux</b>"
+2022.08.10.14:53:53 Info: rsp_mux: "<b>mm_interconnect_3</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux</b>"
+2022.08.10.14:53:53 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:53 Info: router: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router</b>"
+2022.08.10.14:53:53 Info: router_001: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_001</b>"
+2022.08.10.14:53:53 Info: router_002: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_002</b>"
+2022.08.10.14:53:53 Info: router_003: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_003</b>"
+2022.08.10.14:53:53 Info: router_004: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_004</b>"
+2022.08.10.14:53:53 Info: router_005: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_005</b>"
+2022.08.10.14:53:54 Info: router_010: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_010</b>"
+2022.08.10.14:53:54 Info: router_011: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_011</b>"
+2022.08.10.14:53:54 Info: router_012: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_012</b>"
+2022.08.10.14:53:54 Info: router_020: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_020</b>"
+2022.08.10.14:53:54 Info: router_021: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_021</b>"
+2022.08.10.14:53:54 Info: router_023: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_023</b>"
+2022.08.10.14:53:54 Info: router_024: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_router</b> "<b>router_024</b>"
+2022.08.10.14:53:54 Info: master_0_master_limiter: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_traffic_limiter</b> "<b>master_0_master_limiter</b>"
+2022.08.10.14:53:54 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_avalon_sc_fifo.v</b>
+2022.08.10.14:53:54 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_avalon_st_pipeline_base.v</b>
+2022.08.10.14:53:54 Info: cmd_demux: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux</b>"
+2022.08.10.14:53:54 Info: cmd_demux_001: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux_001</b>"
+2022.08.10.14:53:54 Info: cmd_demux_002: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux_002</b>"
+2022.08.10.14:53:54 Info: cmd_demux_004: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>cmd_demux_004</b>"
+2022.08.10.14:53:54 Info: cmd_mux: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux</b>"
+2022.08.10.14:53:54 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:54 Info: cmd_mux_005: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux_005</b>"
+2022.08.10.14:53:54 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:54 Info: cmd_mux_006: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux_006</b>"
+2022.08.10.14:53:54 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:54 Info: cmd_mux_018: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>cmd_mux_018</b>"
+2022.08.10.14:53:54 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:54 Info: rsp_demux: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>rsp_demux</b>"
+2022.08.10.14:53:54 Info: rsp_demux_005: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>rsp_demux_005</b>"
+2022.08.10.14:53:54 Info: rsp_demux_018: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_demultiplexer</b> "<b>rsp_demux_018</b>"
+2022.08.10.14:53:54 Info: rsp_mux: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux</b>"
+2022.08.10.14:53:54 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:54 Info: rsp_mux_001: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux_001</b>"
+2022.08.10.14:53:54 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:54 Info: rsp_mux_002: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux_002</b>"
+2022.08.10.14:53:54 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:54 Info: rsp_mux_004: "<b>mm_interconnect_6</b>" instantiated <b>altera_merlin_multiplexer</b> "<b>rsp_mux_004</b>"
+2022.08.10.14:53:54 Info: Reusing file <b>C:/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/qsysgrtos/synthesis/submodules/altera_merlin_arbitrator.sv</b>
+2022.08.10.14:53:54 Info: error_adapter_0: "<b>avalon_st_adapter</b>" instantiated <b>error_adapter</b> "<b>error_adapter_0</b>"
+2022.08.10.14:53:54 Info: qsysgrtos: Done "<b>qsysgrtos</b>" with 86 modules, 150 files
+2022.08.10.14:53:55 Info: qsys-generate succeeded.
+2022.08.10.14:53:55 Info: Finished: <b>Create HDL design files for synthesis</b>
+2022.08.10.14:53:56 Info: Doing: <b>qsys-script --system-file=qsysgrtos.qsys --script=qsysscript.tcl</b>
+2022.08.10.14:54:15 Info: get_module_property NAME
+2022.08.10.14:54:15 Info: get_project_properties 
+2022.08.10.14:54:15 Info: get_instances 
+2022.08.10.14:54:15 Info: get_composed_instances GRTOS_Multiprocessor_1
+2022.08.10.14:54:15 Info: get_composed_instances clk_0
+2022.08.10.14:54:15 Info: get_composed_instances mddr_ctrl_0
 + nios2-bsp hal ./software/hellogemrtos_bsp qsysgrtos.sopcinfo --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0'
 + DEFAULT_IFS=' 	
 '
@@ -480,7 +480,7 @@ hello_world.c:188:14: warning: unused variable 'pbuffer' [-Wunused-variable]
      GS_ECB  *pbuffer;
               ^
 hello_world.c: In function 'main':
-hello_world.c:264:13: warning: unused variable 'ptcb1' [-Wunused-variable]
+hello_world.c:277:13: warning: unused variable 'ptcb1' [-Wunused-variable]
      GS_TCB *ptcb1;
              ^
 + bash -c 'nios2-stackreport --prefix nios2-elf- hellogemrtos.elf'

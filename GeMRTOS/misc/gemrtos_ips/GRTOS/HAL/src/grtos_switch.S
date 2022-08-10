@@ -254,9 +254,6 @@ mul2:
 out_mul2:
     mov r4, r6    
     
-    
-    
-    
     movia	r5,gs_addressof_G_PCBTbl    /* r5 = &g_kcb.G_PCBTbl                                */
     ldw	r5,0(r5)
     add	r4,r4,r5                        /* r4 = &g_kcb.G_PCBTbl + sizeof(g_kcb.G_PCBTbl) * (cpuid-1) */

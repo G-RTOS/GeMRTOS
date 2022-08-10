@@ -249,10 +249,23 @@ GS_TCB *ptcb_array[G_MAX_NUMBER_OF_USER_TCB];
 int main()
 {
     printf("GeMRTOS\n");
-    printf("Processors = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
-    printf("Clock frequency= %d MHz\n", (int)GRTOS_DRIVER_GRTOSFREQUENCY);
-    printf("Clock prescale= %d\n", (int)GRTOS_DRIVER_PRESCALE);
+    printf("Processors      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
+    printf("Clock frequency = %d MHz\n", (int)GRTOS_DRIVER_GRTOSFREQUENCY);
+    printf("Clock prescaler = %d\n", (int)GRTOS_DRIVER_PRESCALE);
    
+    printf("Interrupts      = %#010x\n", (int)GRTOS_DRIVER_GRTOSINTERRUPTS);  
+    printf("Generation ID   = %d\n", (int)GRTOS_DRIVER_GRTOSGENERATIONID);
+    printf("Processor type  = %s\n", GRTOS_DRIVER_PROCESSOR_TYPE);
+    printf("ICache size     = %s\n", GRTOS_DRIVER_INSTRUCTION_CACHE_SIZE);
+    printf("ICache Burst    = %s\n", GRTOS_DRIVER_INSTRUCTION_CACHE_BURST);
+    printf("HSP Access      = %s\n", GRTOS_DRIVER_ENABLE_HPS_MAP_ACCESS);
+    printf("Processor rate  = %d\n", (int)GRTOS_DRIVER_NIOS_CLOCK_FREQUENCY);
+    printf("Bus rate        = %d\n", (int)GRTOS_DRIVER_BUS_CLOCK_FREQUENCY);
+    printf("Address width   = %d\n", (int)GRTOS_DRIVER_BUS_WIDTH);
+    printf("Program memory  = %d %s\n", (int)GRTOS_DRIVER_EXTERNAL_MEMORY_SPAN, GRTOS_DRIVER_EXTERNAL_MEMORY_UNIT);
+
+    
+    
     
     
     void   *mem = malloc(sizeof(INT32) * G_MAX_NUMBER_OF_USER_TCB * TASK_STACKSIZE + 31);

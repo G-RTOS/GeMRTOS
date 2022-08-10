@@ -50,9 +50,39 @@ proc generate { args } {
 
     set module_name [get_module_name]
     set NPROCESSORS [ get_module_assignment "embeddedsw.CMacro.NPROCESSORS" ]
-    add_module_systemh_line $module_name $NPROCESSORS
-    add_class_systemh_line [ string toupper "NPROCESSORS" ] $NPROCESSORS
 
+    # #########################
+    add_module_systemh_line $module_name [ get_module_assignment "embeddedsw.CMacro.NPROCESSORS" ]
+    add_module_systemh_line $module_name [ get_module_assignment "embeddedsw.CMacro.PRESCALE" ]
+    add_module_systemh_line $module_name [ get_module_assignment "embeddedsw.CMacro.GRTOSFREQUENCY" ]
+    add_module_systemh_line $module_name [ get_module_assignment "embeddedsw.CMacro.GRTOSINTERRUPTS" ]    
+    add_module_systemh_line $module_name [ get_module_assignment "embeddedsw.CMacro.GRTOSGENERATIONID" ]
+    add_module_systemh_line $module_name \"[ get_module_assignment "embeddedsw.CMacro.PROCESSOR_TYPE" ]\"
+    add_module_systemh_line $module_name \"[ get_module_assignment "embeddedsw.CMacro.INSTRUCTION_CACHE_SIZE" ]\"
+    add_module_systemh_line $module_name \"[ get_module_assignment "embeddedsw.CMacro.INSTRUCTION_CACHE_BURST" ]\"
+    add_module_systemh_line $module_name \"[ get_module_assignment "embeddedsw.CMacro.ENABLE_HPS_MAP_ACCESS" ]\"
+    add_module_systemh_line $module_name [ get_module_assignment "embeddedsw.CMacro.NIOS_CLOCK_FREQUENCY" ]
+    add_module_systemh_line $module_name [ get_module_assignment "embeddedsw.CMacro.BUS_CLOCK_FREQUENCY" ]
+    add_module_systemh_line $module_name [ get_module_assignment "embeddedsw.CMacro.BUS_WIDTH" ]
+    add_module_systemh_line $module_name [ get_module_assignment "embeddedsw.CMacro.EXTERNAL_MEMORY_SPAN" ]
+    add_module_systemh_line $module_name \"[ get_module_assignment "embeddedsw.CMacro.EXTERNAL_MEMORY_UNIT" ]\"
+    
+    add_class_systemh_line [ string toupper "NPROCESSORS" ] [ get_module_assignment "embeddedsw.CMacro.NPROCESSORS" ]
+    add_class_systemh_line [ string toupper "PRESCALE" ] [ get_module_assignment "embeddedsw.CMacro.PRESCALE" ]
+    add_class_systemh_line [ string toupper "GRTOSFREQUENCY" ] [ get_module_assignment "embeddedsw.CMacro.GRTOSFREQUENCY" ]
+    add_class_systemh_line [ string toupper "GRTOSINTERRUPTS" ] [ get_module_assignment "embeddedsw.CMacro.GRTOSINTERRUPTS" ]    
+    add_class_systemh_line [ string toupper "GRTOSGENERATIONID" ] [ get_module_assignment "embeddedsw.CMacro.GRTOSGENERATIONID" ]
+    add_class_systemh_line [ string toupper "PROCESSOR_TYPE" ] \"[ get_module_assignment "embeddedsw.CMacro.PROCESSOR_TYPE" ]\"
+    add_class_systemh_line [ string toupper "INSTRUCTION_CACHE_SIZE" ] \"[ get_module_assignment "embeddedsw.CMacro.INSTRUCTION_CACHE_SIZE" ]\"
+    add_class_systemh_line [ string toupper "INSTRUCTION_CACHE_BURST" ] \"[ get_module_assignment "embeddedsw.CMacro.INSTRUCTION_CACHE_BURST" ]\"
+    add_class_systemh_line [ string toupper "ENABLE_HPS_MAP_ACCESS" ] \"[ get_module_assignment "embeddedsw.CMacro.ENABLE_HPS_MAP_ACCESS" ]\"
+    add_class_systemh_line [ string toupper "NIOS_CLOCK_FREQUENCY" ] [ get_module_assignment "embeddedsw.CMacro.NIOS_CLOCK_FREQUENCY" ]
+    add_class_systemh_line [ string toupper "BUS_CLOCK_FREQUENCY" ] [ get_module_assignment "embeddedsw.CMacro.BUS_CLOCK_FREQUENCY" ]
+    add_class_systemh_line [ string toupper "BUS_WIDTH" ] [ get_module_assignment "embeddedsw.CMacro.BUS_WIDTH" ]
+    add_class_systemh_line [ string toupper "EXTERNAL_MEMORY_SPAN" ] [ get_module_assignment "embeddedsw.CMacro.EXTERNAL_MEMORY_SPAN" ]
+    add_class_systemh_line [ string toupper "EXTERNAL_MEMORY_UNIT" ] \"[ get_module_assignment "embeddedsw.CMacro.EXTERNAL_MEMORY_UNIT" ]\"
+    # #########################
+    
     set grtos_system_name [string map {_grtos_0 ""} $module_name]
     set grtos_on_chip_memory1 ${grtos_system_name}_onchip_memory2_0
     
@@ -67,7 +97,6 @@ proc generate { args } {
     
     for {set i 1} {$i <= $NPROCESSORS} {incr i} {
         add_class_systemh_line GRTOS_PROCESSOR_BASE${i} [ string toupper ${grtos_system_name}_GRTOS_0_S_PROCESSOR${i}_BASE  ]
-    
     }
     
     set list (int*)[ string toupper ${grtos_system_name}_GRTOS_0_S_PROCESSOR1_BASE  ]
@@ -75,18 +104,7 @@ proc generate { args } {
         set list ${list},(int*)[ string toupper ${grtos_system_name}_GRTOS_0_S_PROCESSOR${i}_BASE  ]
     }
     add_class_systemh_line GRTOS_PROCESSOR_BASE (int*\[\])\{${list}\}
-    
-    set PRESCALE [ get_module_assignment "embeddedsw.CMacro.PRESCALE" ]
-    add_module_systemh_line $module_name $PRESCALE
-    add_class_systemh_line [ string toupper "PRESCALE" ] $PRESCALE
  
-    set GRTOSFREQUENCY [ get_module_assignment "embeddedsw.CMacro.GRTOSFREQUENCY" ]
-    add_module_systemh_line $module_name $GRTOSFREQUENCY
-    add_class_systemh_line [ string toupper "GRTOSFREQUENCY" ] $GRTOSFREQUENCY 
-    
-    set GRTOSINTERRUPTS [ get_module_assignment "embeddedsw.CMacro.GRTOSINTERRUPTS" ]
-    add_module_systemh_line $module_name $GRTOSINTERRUPTS
-    add_class_systemh_line [ string toupper "GRTOSINTERRUPTS" ] $GRTOSINTERRUPTS     
     
     # Get BSP generate directory path
     set bsp_dir [lindex $args 1]
