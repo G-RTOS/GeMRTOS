@@ -37,9 +37,16 @@ OPTIMEZE_CODE(3)
 
 #include <inttypes.h>
 
-
-GS_TCB *gk_Get_TCB(void)
+/**gk_TCB_GetFree
+ *  \brief Creates a TCB and returns its pointer
+ *  Returns a pointer to a Free TCB, NULL if it is not a TCB available
+ *  \return A pointer to the TCB or NULL if no TCB is available
+ *  \relates Task
+ */ 
+GS_TCB *gk_TCB_GetFree(void)
 {
+    SAMPLE_FUNCTION_BEGIN(36)
+    
     g_kcb.KCB_NUMBER_OF_TCBs++;
     // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102
     void *mem = malloc(sizeof(GS_TCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
@@ -48,7 +55,7 @@ GS_TCB *gk_Get_TCB(void)
     /// INITIALIZE THE TCB STRUCTURE
     ptcb->BLOCK_HASH           = (unsigned int) ptcb + 1;
     ptcb->malloc_address       = mem;
-    ptcb->TCBState             = G_TASK_STATE_FREE; 
+    // ptcb->TCBState             = G_TASK_STATE_FREE; 
     ptcb->TCB_NextTCBAEL       = (struct gs_ecb *) 0; 
     ptcb->TCB_NextTCBASL       = (struct gs_scb *) 0; 
     ptcb->TCB_NextTCBPSL       = (struct gs_scb *) 0; 
@@ -70,10 +77,17 @@ GS_TCB *gk_Get_TCB(void)
     ptcb->TCB_AssocPCB         = 0; 
     ptcb->TCB_INTNumber        = -1; 
     ptcb->TCB_RDY_LCB_Index    = (GS_LCB *) G_TASK_LCB_DEFAULT; 
-    ptcb->TCB_Abort_w_Deadline = G_FALSE;         
+    ptcb->TCB_Abort_w_Deadline = G_FALSE;
+    ptcb->TCBState             = G_TASK_STATE_UNLINKED;
 
+#if G_DEBUG_WHILEFOREVER_ENABLE == 1
+	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
+#endif
+
+    SAMPLE_FUNCTION_END(36)
     return ptcb;
 }
+
 
 /**gk_ECB_GetFree
  *  \brief  Returns a pointer to a Free ECB, NULL if there is not ECB available
@@ -82,7 +96,6 @@ GS_TCB *gk_Get_TCB(void)
  *  \relates Event
  */ 
 GS_ECB *gk_ECB_GetFree(void)
-// GS_ECB * gk_Get_ECB(void)
 {
     SAMPLE_FUNCTION_BEGIN(1)
     
@@ -121,10 +134,10 @@ GS_ECB *gk_ECB_GetFree(void)
  *  \brief 
  *  Unlinks an RCB from the RCBFL list and returns its pointer or NULL if no free RCB is available
  *  \return Pointer to the RCB or NULL when no RCB available
+ *  \todo ystem signal should be implmented when no free RCB is available
  *  \relates Resource
  */
 G_RCB *gk_RCB_GetFree(void)
-// G_RCB *gk_Get_RCB(void)
 {
     SAMPLE_FUNCTION_BEGIN(19)
     
@@ -155,7 +168,6 @@ G_RCB *gk_RCB_GetFree(void)
  *  \relates Signal
  */
 GS_SCB *gk_SCB_GetFree(void)
-// GS_SCB *gk_Get_SCB(void)
 {
     SAMPLE_FUNCTION_BEGIN(26)
     g_kcb.KCB_NUMBER_OF_SCBs++;
@@ -181,10 +193,10 @@ GS_SCB *gk_SCB_GetFree(void)
  *  \brief 
  *  Gets the pointer of a free RRDS from the free list
  *  \return Pointer to RRDS, or NULL if no free RRDS are available
+ *  \todo System signal should be implmented when no free RRDS is available
  *  \relates RRDS
  */ 
 GS_RRDS *gk_RRDS_GetFree(void)
-// GS_RRDS *gk_Get_RRDS(void)
 {
     SAMPLE_FUNCTION_BEGIN(48)
     g_kcb.KCB_NUMBER_OF_RRDSs++;
@@ -204,6 +216,13 @@ GS_RRDS *gk_RRDS_GetFree(void)
     return prrds;
 }
 
+/**gk_Get_LCB
+ *  \brief Creates a LCB and returns its pointer
+ *  \return Ponter to the LCB created
+ *  \todo System signal should be implmented when no free LCB is available
+ *  \todo Rewrite all the LCB support
+ *  \relates Core
+ */
 GS_LCB *gk_Get_LCB(void)
 {
     g_kcb.KCB_NUMBER_OF_LCBs++;
@@ -223,13 +242,12 @@ GS_LCB *gk_Get_LCB(void)
 }
 
 
-
-
 /**gk_Create_PCBs
  *  \brief Reservs system memory to store the Processor Control Blocks of the system (PCB)
  *  \param [in] Nmbr_TCB Number of user PCBs desired to create (Interrupt and system PCB are added by the function)
  *  \return G_TRUE when successful, G_FALSE otherwise
  *  \todo Include into the KCB
+ *  \todo System signal should be implmented when no free PCB is available
  *  \relates Core
  */
 INT32 gk_Create_PCBs(int Nmbr_PCB)

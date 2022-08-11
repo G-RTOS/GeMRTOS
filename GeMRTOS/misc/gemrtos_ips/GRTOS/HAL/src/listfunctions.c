@@ -41,37 +41,6 @@ OPTIMEZE_CODE(3)
  *                    gRTOS SUPPORT FUNCTIONS
  * *********************************************************************************
  ***********************************************************************************/
- 
-// /**gk_ECB_GetFree
-//  *  \brief  Returns a pointer to a Free ECB, NULL if there is not ECB available
-//   * \return pointer to a Free ECB, NULL if there is not ECB available
-//  *  \todo System signal should be implmented when no free ECB is available
-//  *  \relates Event
-//  */ 
-// GS_ECB *gk_ECB_GetFree(void)
-// {
-//     SAMPLE_FUNCTION_BEGIN(1)
-//     GS_ECB *pevent =  gk_Get_ECB();
-// 
-// 	// if (pevent != (struct gs_ecb *) 0){
-// 		// pevent->ECB_NextECBAEL = (struct gs_ecb *) 0;
-// 		// pevent->ECB_AssocTCB = (struct gs_tcb *) 0;
-// 		// pevent->ECB_NextECBASL = (struct gs_scb *) 0;
-// 		// pevent->ECB_RRDS = (struct gs_rrds *) 0;
-// 	    // pevent->ECB_PrevTCBAEL = (struct gs_ecb *) 0;
-// 	    // pevent->ECB_NextTCBAEL = (struct gs_ecb *) 0;
-// 	    // pevent->ECB_PrevECB = (struct gs_ecb *) 0;
-// 	    // pevent->ECB_NextECB = (struct gs_ecb *) 0;
-// 	    // pevent->ECBValue.i64 = G_LOWEST_PRIORITY;
-// 		// pevent->ECBState = GS_ECB_STATE_UNLINKED;
-// 	// }
-//     
-// #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-// 	if (pevent == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER;
-// #endif
-//     SAMPLE_FUNCTION_END(1)
-// 	return(pevent);
-// }
 
 /**gk_ECBAEL_Link
  *  \brief 
@@ -159,8 +128,6 @@ INT32 gk_ECBAEL_Remove(GS_ECB *pevent)
     SAMPLE_FUNCTION_END(3)
 	return(retorno);
 }
- 
-
  
 /**gk_ECBASL_Link
  *  \brief 
@@ -718,7 +685,6 @@ INT32 gk_LCBFPL_Link(int processorID)
     return(G_TRUE);
 } 
 
-
 /**gk_LCBFPL_Unlink
  *  \brief 
  *  Unlinks a PCB from the LCB Free Processor List
@@ -738,7 +704,6 @@ INT32 gk_LCBFPL_Unlink(int processorID)
 	if (processorID < 1 || processorID > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER;
 #endif
 
-
     if (ppcb->PCBState != GS_PCB_STATE_RUNNING) {
         if (plcb->LCB_NextLCBFPL == ppcb) { /* It is the first element */
             plcb->LCB_NextLCBFPL = ppcb->PCB_NextPCB;
@@ -753,7 +718,6 @@ INT32 gk_LCBFPL_Unlink(int processorID)
     SAMPLE_FUNCTION_END(15)
     return(G_TRUE);
 }
-
 
 /**gk_RCBASL_Link
  *  \brief 
@@ -1212,31 +1176,6 @@ INT32 gk_SCBFL_Link(GS_SCB *psignal)
 }
 
 
-// /**gk_SCB_GetFree
-//  *  \brief 
-//  *  Unlinks a SCB from free list and return its pointer
-//  *  \return Pointer to the SCB or NULL if no free SCB is available 
-//  *  \relates Signal
-//  */
-// GS_SCB *gk_SCB_GetFree(void)
-// {
-//     SAMPLE_FUNCTION_BEGIN(26)
-// 	GS_SCB *psignal;
-// 
-//     psignal = gk_Get_SCB();
-// 
-// #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-// 	if (psignal == (struct gs_scb *) 0) G_DEBUG_WHILEFOREVER;
-// #endif
-// 
-// 	if (psignal != (struct gs_scb *) 0){
-// 		psignal->SCBState = G_SCB_STATE_UNLINKED;
-// 	}
-//     SAMPLE_FUNCTION_END(26)
-// 	return(psignal);
-// }
-
-
 /**gk_SCB_Copy
  *  \brief 
  *  Returns a pointer to a SCB with same values that psignal. Used when an associated signal has to be copied for pending list.
@@ -1565,41 +1504,6 @@ INT32 gk_TCBFL_Link(GS_TCB *ptcb)
     return(G_TRUE);
 }
 
-/**gk_TCB_GetFree
- *  \brief 
- *  Returns a pointer to a Free TCB, NULL if it is not a TCB available
- *  \return A pointer to the TCB or NULL if no TCB is available
- *  \relates Task
- */ 
-GS_TCB *gk_TCB_GetFree(void)
-{
-    SAMPLE_FUNCTION_BEGIN(36)
-	GS_TCB *ptcb;
-
-	G_DEBUG_VERBOSE
-
-	// ptcb = g_kcb.KCB_NextTCBFL;
-    ptcb = gk_Get_TCB();
-
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (ptcb->TCBState != G_TASK_STATE_FREE || ptcb == (struct gs_tcb *) 0) G_DEBUG_WHILEFOREVER;
-#endif
-
-	if (ptcb != (struct gs_tcb *) 0){
-	    ptcb->TCBState = G_TASK_STATE_UNLINKED;
-	    // g_kcb.KCB_NextTCBFL = (struct gs_tcb *) ptcb->TCB_NextTCB;
-        
-        ptcb->TCB_AssocPCB   = 0;                      /// It is not assigned at the beginnig
-
-        ptcb->TCB_NextTCBAEL = (struct gs_ecb *) 0;    /* No associated events  */
-        ptcb->TCB_NextTCB    = (struct gs_tcb *) 0;    /* Task not linked       */
-        ptcb->TCB_PrevTCB    = (struct gs_tcb *) 0;
-        ptcb->TCB_NextTCBPSL = (struct gs_scb *) 0;    /* No pending signal     */
-	}
-    SAMPLE_FUNCTION_END(36)
-	return(ptcb);
-}
 
 /**gk_TCBPSL_Link
  *  \brief 
@@ -2196,28 +2100,6 @@ INT32 gk_RRDSFL_Link(GS_RRDS *prrds)
     SAMPLE_FUNCTION_END(47)
     return(G_TRUE);
 }
-
-// /**gk_RRDS_GetFree
-//  *  \brief 
-//  *  Gets the pointer of a free RRDS from the free list
-//  *  \return Pointer to RRDS, or NULL if no free RRDS are available
-//  *  \relates RRDS
-//  */ 
-// GS_RRDS *gk_RRDS_GetFree(void)
-// {
-//     SAMPLE_FUNCTION_BEGIN(48)
-// 	GS_RRDS *prrds;
-// 
-//     prrds = gk_Get_RRDS();
-//     
-// 	if (prrds != (struct gs_rrds *) 0)	{
-//         prrds->RRDS_NextSCB = (struct gs_scb *) 0;
-//         prrds->RRDS_NextRRDS = (struct gs_rrds *) 0;
-//         // prrds->RRDS_RCB_Data = (void *) 0;
-//     }
-//     SAMPLE_FUNCTION_END(48)
-// 	return(prrds);
-// }
 
 /**gk_RRDSASL_Link
  *  \brief 

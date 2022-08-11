@@ -64,7 +64,6 @@ void gk_RST_MONITOR_HANDLER (void)
         //     fclose (fp); PRINT_DEBUG_LINE
         // }
     }
-
 }
 
 
@@ -78,7 +77,6 @@ INT32 TCB_IsValid(GS_TCB *ptcb)
     if (ptcb->BLOCK_HASH == (unsigned int) ptcb + 1) return(G_TRUE);
     return(G_FALSE);
 }
-
 
 INT32 PCB_IsValid(GS_PCB *ppcb)
 {
