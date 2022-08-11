@@ -75,8 +75,17 @@ GS_TCB *gk_Get_TCB(void)
     return ptcb;
 }
 
-GS_ECB * gk_Get_ECB(void)
+/**gk_ECB_GetFree
+ *  \brief  Returns a pointer to a Free ECB, NULL if there is not ECB available
+  * \return pointer to a Free ECB, NULL if there is not ECB available
+ *  \todo System signal should be implmented when no free ECB is available
+ *  \relates Event
+ */ 
+GS_ECB *gk_ECB_GetFree(void)
+// GS_ECB * gk_Get_ECB(void)
 {
+    SAMPLE_FUNCTION_BEGIN(1)
+    
     g_kcb.KCB_NUMBER_OF_ECBs++;;
     // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102    
     void *mem = malloc(sizeof(GS_ECB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
@@ -84,24 +93,41 @@ GS_ECB * gk_Get_ECB(void)
 
     pecb->BLOCK_HASH     = (unsigned int) pecb + 2;
     pecb->malloc_address = mem;    
-    pecb->ECBState       = GS_ECB_STATE_FREE; 
+    // pecb->ECBState       = GS_ECB_STATE_FREE; 
     pecb->ECB_NextECBAEL = (struct gs_ecb *) 0; 
     pecb->ECB_NextECBASL = (struct gs_scb *) 0; 
     pecb->ECBType        = G_ECB_TYPE_NOT_SPECIFIED; 
-    pecb->ECBValue.i64   = G_LOWEST_PRIORITY -1; 
+    // pecb->ECBValue.i64   = G_LOWEST_PRIORITY -1; 
     pecb->ECB_NextECB    = (struct gs_ecb *) 0; 
     pecb->ECB_PrevECB    = (struct gs_ecb *) 0; 
     pecb->ECB_AssocTCB   = (struct gs_tcb *) 0; 
     pecb->ECB_AssocRCB   = (struct g_rcb *) 0; 
     pecb->ECB_NextTCBAEL = (struct gs_ecb *) 0; 
     pecb->ECB_PrevTCBAEL = (struct gs_ecb *) 0; 
-    pecb->ECB_RRDS       = (struct gs_rrds *) 0;     
+    pecb->ECB_RRDS       = (struct gs_rrds *) 0;
+    pecb->ECBValue.i64   = G_LOWEST_PRIORITY;
+    pecb->ECBState       = GS_ECB_STATE_UNLINKED;
+    
+    SAMPLE_FUNCTION_END(1)
+
+#if G_DEBUG_WHILEFOREVER_ENABLE == 1
+	if (pecb == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER;
+#endif
     
     return pecb;
 }  
 
-G_RCB *gk_Get_RCB(void)
+/**gk_RCB_GetFree
+ *  \brief 
+ *  Unlinks an RCB from the RCBFL list and returns its pointer or NULL if no free RCB is available
+ *  \return Pointer to the RCB or NULL when no RCB available
+ *  \relates Resource
+ */
+G_RCB *gk_RCB_GetFree(void)
+// G_RCB *gk_Get_RCB(void)
 {
+    SAMPLE_FUNCTION_BEGIN(19)
+    
     g_kcb.KCB_NUMBER_OF_RCBs++;;
     void *mem = malloc(sizeof(G_RCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
     G_RCB  *prcb = (G_RCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
@@ -109,12 +135,15 @@ G_RCB *gk_Get_RCB(void)
 
     prcb->BLOCK_HASH     = (unsigned int) prcb + 3;
     prcb->malloc_address = mem;  
-    prcb->RCBType        = GK_RCB_TYPE_FREE; 
+    // prcb->RCBType        = GK_RCB_TYPE_FREE; 
     prcb->RCBState       = GK_RCB_STATE_UNDEFINED; 
     prcb->RCBCount       = (INT32) 0; 
     prcb->RCB_NextRCBASL = (struct gs_scb *) 0; 
     prcb->RCB_NextRCBGEL = (struct gs_ecb *) 0; 
     prcb->RCB_NextRCBWEL = (struct gs_ecb *) 0;
+    prcb->RCBType = GK_RCB_TYPE_UNUSED;
+    
+    SAMPLE_FUNCTION_END(19)
 
     return prcb;
 }

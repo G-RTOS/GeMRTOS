@@ -79,8 +79,8 @@
   <parameter name="CEFrequency" value="50000000" />
   <parameter name="CFrequency" value="50000000" />
   <parameter name="ENABLE_HPS_MAP_ACCESS" value="false" />
-  <parameter name="NProcessors" value="5" />
-  <parameter name="Processor_type" value="Nios II/e (economy)" />
+  <parameter name="NProcessors" value="3" />
+  <parameter name="Processor_type" value="Nios II/f (full)" />
   <parameter name="icache_burst_parameter" value="Enable" />
   <parameter name="icache_size_parameter" value="2 KB" />
  </module>
@@ -115,24 +115,6 @@
    kind="avalon"
    version="18.0"
    start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m3"
-   end="mddr_ctrl_0.avalon_slave">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
-   kind="avalon"
-   version="18.0"
-   start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m4"
-   end="mddr_ctrl_0.avalon_slave">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
-   kind="avalon"
-   version="18.0"
-   start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m5"
    end="mddr_ctrl_0.avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />

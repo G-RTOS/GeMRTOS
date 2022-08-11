@@ -252,7 +252,6 @@ int main()
     printf("Processors      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
     printf("Clock frequency = %d MHz\n", (int)GRTOS_DRIVER_GRTOSFREQUENCY);
     printf("Clock prescaler = %d\n", (int)GRTOS_DRIVER_PRESCALE);
-   
     printf("Interrupts      = %#010x\n", (int)GRTOS_DRIVER_GRTOSINTERRUPTS);  
     printf("Generation ID   = %d\n", (int)GRTOS_DRIVER_GRTOSGENERATIONID);
     printf("Processor type  = %s\n", GRTOS_DRIVER_PROCESSOR_TYPE);
@@ -263,10 +262,6 @@ int main()
     printf("Bus rate        = %d\n", (int)GRTOS_DRIVER_BUS_CLOCK_FREQUENCY);
     printf("Address width   = %d\n", (int)GRTOS_DRIVER_BUS_WIDTH);
     printf("Program memory  = %d %s\n", (int)GRTOS_DRIVER_EXTERNAL_MEMORY_SPAN, GRTOS_DRIVER_EXTERNAL_MEMORY_UNIT);
-
-    
-    
-    
     
     void   *mem = malloc(sizeof(INT32) * G_MAX_NUMBER_OF_USER_TCB * TASK_STACKSIZE + 31);
     generic_stk = (INT32 *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
@@ -290,24 +285,17 @@ int main()
             task_sampling_enable[i] = 0;
             
             /** TASK 2 **/
-            ptcb_array[i] = gu_GetTask((void *)        task_generic,                       ///< Pointer to the beginning of the task code
-                               (void *)        i,                                  ///< Pointer to the argument of the first call
-                               // (void *)        &generic_stk[i][TASK_STACKSIZE-4],  ///< Botton of the Stack of the Task
-                               (void *)        generic_stk + sizeof(INT32) * ((i * TASK_STACKSIZE) + (TASK_STACKSIZE-4)),  ///< Botton of the Stack of the Task
-                               (unsigned int)  TASK_STACKSIZE);                    /// Size of the stack in words
+            ptcb_array[i] = gu_GetTask((void *) task_generic,                       ///< Pointer to the beginning of the task code
+                                       (void *) i,                                  ///< Pointer to the argument of the first call
+                                       (void *) generic_stk + sizeof(INT32) * ((i * TASK_STACKSIZE) + (TASK_STACKSIZE-4)),  ///< Botton of the Stack of the Task
+                                       (unsigned int)  TASK_STACKSIZE);             /// Size of the stack in words
                                
             if (ptcb_array[i] != (void *) 0)
             {
                 generic_task_tcbs[i] = ptcb_array[i];
                 generic_task_index[i] = i;
                 
-                // if (i != 0) {
-                //     USER_TCB_execution_time[i] = 0;
-                // } else {
-                //     USER_TCB_execution_time[i] = 1;
-                // }
                 USER_TCB_execution_time[i] = 0;
-                
                 
                 gu_SetTaskType(ptcb_array[i], G_TASK_TYPE_PERIODIC);
                 // gu_SetTaskList(ptcb_array[i], (struct gs_lcb *) 0);

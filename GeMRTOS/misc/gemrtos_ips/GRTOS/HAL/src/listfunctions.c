@@ -42,35 +42,36 @@ OPTIMEZE_CODE(3)
  * *********************************************************************************
  ***********************************************************************************/
  
-/**gk_ECB_GetFree
- *  \brief  Returns a pointer to a Free ECB, NULL if there is not ECB available
-  * \return pointer to a Free ECB, NULL if there is not ECB available
- *  \todo System signal should be implmented when no free ECB is available
- *  \relates Event
- */ 
-GS_ECB *gk_ECB_GetFree(void)
-{
-    SAMPLE_FUNCTION_BEGIN(1)
-    GS_ECB *pevent =  gk_Get_ECB();
-
-	if (pevent != (struct gs_ecb *) 0){
-		pevent->ECB_NextECBAEL = (struct gs_ecb *) 0;
-		pevent->ECB_AssocTCB = (struct gs_tcb *) 0;
-		pevent->ECB_NextECBASL = (struct gs_scb *) 0;
-		pevent->ECB_RRDS = (struct gs_rrds *) 0;
-	    pevent->ECB_PrevTCBAEL = (struct gs_ecb *) 0;
-	    pevent->ECB_NextTCBAEL = (struct gs_ecb *) 0;
-	    pevent->ECB_PrevECB = (struct gs_ecb *) 0;
-	    pevent->ECB_NextECB = (struct gs_ecb *) 0;
-	    pevent->ECBValue.i64 = G_LOWEST_PRIORITY;
-		pevent->ECBState = GS_ECB_STATE_UNLINKED;
-	}
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (pevent == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER;
-#endif
-    SAMPLE_FUNCTION_END(1)
-	return(pevent);
-}
+// /**gk_ECB_GetFree
+//  *  \brief  Returns a pointer to a Free ECB, NULL if there is not ECB available
+//   * \return pointer to a Free ECB, NULL if there is not ECB available
+//  *  \todo System signal should be implmented when no free ECB is available
+//  *  \relates Event
+//  */ 
+// GS_ECB *gk_ECB_GetFree(void)
+// {
+//     SAMPLE_FUNCTION_BEGIN(1)
+//     GS_ECB *pevent =  gk_Get_ECB();
+// 
+// 	// if (pevent != (struct gs_ecb *) 0){
+// 		// pevent->ECB_NextECBAEL = (struct gs_ecb *) 0;
+// 		// pevent->ECB_AssocTCB = (struct gs_tcb *) 0;
+// 		// pevent->ECB_NextECBASL = (struct gs_scb *) 0;
+// 		// pevent->ECB_RRDS = (struct gs_rrds *) 0;
+// 	    // pevent->ECB_PrevTCBAEL = (struct gs_ecb *) 0;
+// 	    // pevent->ECB_NextTCBAEL = (struct gs_ecb *) 0;
+// 	    // pevent->ECB_PrevECB = (struct gs_ecb *) 0;
+// 	    // pevent->ECB_NextECB = (struct gs_ecb *) 0;
+// 	    // pevent->ECBValue.i64 = G_LOWEST_PRIORITY;
+// 		// pevent->ECBState = GS_ECB_STATE_UNLINKED;
+// 	// }
+//     
+// #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+// 	if (pevent == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER;
+// #endif
+//     SAMPLE_FUNCTION_END(1)
+// 	return(pevent);
+// }
 
 /**gk_ECBAEL_Link
  *  \brief 
@@ -892,23 +893,23 @@ INT32 gk_RCBFL_Link(G_RCB *presource)
     return(G_TRUE);
 }
 
-/**gk_RCB_GetFree
- *  \brief 
- *  Unlinks an RCB from the RCBFL list and returns its pointer or NULL if no free RCB is available
- *  \return Pointer to the RCB or NULL when no RCB available
- *  \relates Resource
- */
-G_RCB *gk_RCB_GetFree(void)
-{
-    SAMPLE_FUNCTION_BEGIN(19)
-
-    G_RCB *presource = gk_Get_RCB();
-	if (presource != (G_RCB *) 0) {
-        presource->RCBType = GK_RCB_TYPE_UNUSED;
-    }
-    SAMPLE_FUNCTION_END(19)
-	return(presource);
-}
+// /**gk_RCB_GetFree
+//  *  \brief 
+//  *  Unlinks an RCB from the RCBFL list and returns its pointer or NULL if no free RCB is available
+//  *  \return Pointer to the RCB or NULL when no RCB available
+//  *  \relates Resource
+//  */
+// G_RCB *gk_RCB_GetFree(void)
+// {
+//     SAMPLE_FUNCTION_BEGIN(19)
+// 
+//     G_RCB *presource = gk_Get_RCB();
+// 	if (presource != (G_RCB *) 0) {
+//         presource->RCBType = GK_RCB_TYPE_UNUSED;
+//     }
+//     SAMPLE_FUNCTION_END(19)
+// 	return(presource);
+// }
 
 /**gk_TASK_RELEASE
  *  \brief 
