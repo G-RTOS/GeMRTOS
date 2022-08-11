@@ -148,9 +148,16 @@ G_RCB *gk_RCB_GetFree(void)
     return prcb;
 }
 
-
-GS_SCB *gk_Get_SCB(void)
+/**gk_SCB_GetFree
+ *  \brief 
+ *  Unlinks a SCB from free list and return its pointer
+ *  \return Pointer to the SCB or NULL if no free SCB is available 
+ *  \relates Signal
+ */
+GS_SCB *gk_SCB_GetFree(void)
+// GS_SCB *gk_Get_SCB(void)
 {
+    SAMPLE_FUNCTION_BEGIN(26)
     g_kcb.KCB_NUMBER_OF_SCBs++;
     
     void *mem = malloc(sizeof(GS_SCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
@@ -159,13 +166,27 @@ GS_SCB *gk_Get_SCB(void)
     pscb->BLOCK_HASH     = (unsigned int) pscb + 4;
     pscb->malloc_address = mem;  
     pscb->SCBState       = G_SCB_STATE_FREE;
-
+    pscb->SCBState       = G_SCB_STATE_UNLINKED;
+    
+    SAMPLE_FUNCTION_END(26)
+    
+#if G_DEBUG_WHILEFOREVER_ENABLE == 1
+	if (pscb == (struct gs_scb *) 0) G_DEBUG_WHILEFOREVER;
+#endif    
+    
     return pscb;
 }    
-    
-
-GS_RRDS *gk_Get_RRDS(void)
+  
+/**gk_RRDS_GetFree
+ *  \brief 
+ *  Gets the pointer of a free RRDS from the free list
+ *  \return Pointer to RRDS, or NULL if no free RRDS are available
+ *  \relates RRDS
+ */ 
+GS_RRDS *gk_RRDS_GetFree(void)
+// GS_RRDS *gk_Get_RRDS(void)
 {
+    SAMPLE_FUNCTION_BEGIN(48)
     g_kcb.KCB_NUMBER_OF_RRDSs++;
     void *mem = malloc(sizeof(GS_RRDS) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
     GS_RRDS  *prrds = (GS_RRDS  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
@@ -179,6 +200,7 @@ GS_RRDS *gk_Get_RRDS(void)
     prrds->RRDS_NextSCB  = (struct gs_scb  *) 0;
     prrds->RRDS_AsocECB  = (struct gs_ecb  *) 0;    
     
+    SAMPLE_FUNCTION_END(48)
     return prrds;
 }
 

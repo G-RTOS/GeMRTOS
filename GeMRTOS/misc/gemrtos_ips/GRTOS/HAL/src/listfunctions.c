@@ -1212,29 +1212,29 @@ INT32 gk_SCBFL_Link(GS_SCB *psignal)
 }
 
 
-/**gk_SCB_GetFree
- *  \brief 
- *  Unlinks a SCB from free list and return its pointer
- *  \return Pointer to the SCB or NULL if no free SCB is available 
- *  \relates Signal
- */
-GS_SCB *gk_SCB_GetFree(void)
-{
-    SAMPLE_FUNCTION_BEGIN(26)
-	GS_SCB *psignal;
-
-    psignal = gk_Get_SCB();
-
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal == (struct gs_scb *) 0) G_DEBUG_WHILEFOREVER;
-#endif
-
-	if (psignal != (struct gs_scb *) 0){
-		psignal->SCBState = G_SCB_STATE_UNLINKED;
-	}
-    SAMPLE_FUNCTION_END(26)
-	return(psignal);
-}
+// /**gk_SCB_GetFree
+//  *  \brief 
+//  *  Unlinks a SCB from free list and return its pointer
+//  *  \return Pointer to the SCB or NULL if no free SCB is available 
+//  *  \relates Signal
+//  */
+// GS_SCB *gk_SCB_GetFree(void)
+// {
+//     SAMPLE_FUNCTION_BEGIN(26)
+// 	GS_SCB *psignal;
+// 
+//     psignal = gk_Get_SCB();
+// 
+// #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+// 	if (psignal == (struct gs_scb *) 0) G_DEBUG_WHILEFOREVER;
+// #endif
+// 
+// 	if (psignal != (struct gs_scb *) 0){
+// 		psignal->SCBState = G_SCB_STATE_UNLINKED;
+// 	}
+//     SAMPLE_FUNCTION_END(26)
+// 	return(psignal);
+// }
 
 
 /**gk_SCB_Copy
@@ -2197,27 +2197,27 @@ INT32 gk_RRDSFL_Link(GS_RRDS *prrds)
     return(G_TRUE);
 }
 
-/**gk_RRDS_GetFree
- *  \brief 
- *  Gets the pointer of a free RRDS from the free list
- *  \return Pointer to RRDS, or NULL if no free RRDS are available
- *  \relates RRDS
- */ 
-GS_RRDS *gk_RRDS_GetFree(void)
-{
-    SAMPLE_FUNCTION_BEGIN(48)
-	GS_RRDS *prrds;
-
-    prrds = gk_Get_RRDS();
-    
-	if (prrds != (struct gs_rrds *) 0)	{
-        prrds->RRDS_NextSCB = (struct gs_scb *) 0;
-        prrds->RRDS_NextRRDS = (struct gs_rrds *) 0;
-        // prrds->RRDS_RCB_Data = (void *) 0;
-    }
-    SAMPLE_FUNCTION_END(48)
-	return(prrds);
-}
+// /**gk_RRDS_GetFree
+//  *  \brief 
+//  *  Gets the pointer of a free RRDS from the free list
+//  *  \return Pointer to RRDS, or NULL if no free RRDS are available
+//  *  \relates RRDS
+//  */ 
+// GS_RRDS *gk_RRDS_GetFree(void)
+// {
+//     SAMPLE_FUNCTION_BEGIN(48)
+// 	GS_RRDS *prrds;
+// 
+//     prrds = gk_Get_RRDS();
+//     
+// 	if (prrds != (struct gs_rrds *) 0)	{
+//         prrds->RRDS_NextSCB = (struct gs_scb *) 0;
+//         prrds->RRDS_NextRRDS = (struct gs_rrds *) 0;
+//         // prrds->RRDS_RCB_Data = (void *) 0;
+//     }
+//     SAMPLE_FUNCTION_END(48)
+// 	return(prrds);
+// }
 
 /**gk_RRDSASL_Link
  *  \brief 

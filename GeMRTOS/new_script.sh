@@ -297,8 +297,10 @@ else
     # Check if a source file was modified to generate the system
     # from https://stackoverflow.com/questions/4561895/how-to-recursively-find-the-latest-modified-file-in-a-directory
     # agregar find ./misc/gemrtos_ips/ -type f -name "*.qxp" -o -name "*.vhd" para compilacion en quartus
-    newest_file=`find ../misc/gemrtos_ips/ -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2 -d " "`
+    newest_file=`find ../misc/gemrtos_ips/ -type f -name "*.qxp" -o -name "*.vhd" -o -name "*.qsys" -o -name "*.tcl" -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2 -d " "`
     newest_file_time=`stat -c "%Y" $newest_file`
+    generated=`stat -c "%Y" ${QSYS_PRJ}.sopcinfo`
+    
     if [ $newest_file_time -gt $generated ]; then
     
         # Generate the Qsys SOPC
@@ -307,9 +309,15 @@ else
         
     fi
     
-    # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
-    qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl 2>> ${error_log_file}
-
+    newest_file=`find ../misc/gemrtos_ips/ -type f -name "${QSYS_PRJ}.qsys" -o -name "qsysscript.tcl" -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2 -d " "`
+    newest_file_time=`stat -c "%Y" $newest_file`
+    generated=`stat -c "%Y" grtos_nios_bsp_create.sh`
+    
+    if [ $newest_file_time -gt $generated ]; then    
+        # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
+        qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl 2>> ${error_log_file}
+    fi
+    
     # Create and generate the BSP setting file
     bash grtos_nios_bsp_create.sh ./${SOFTWARE_DIR_NAME}/${BSP_NAME} 2>> ${error_log_file}
     # Execute something like: nios2-bsp hal ./software/hellogrtos_bsp soc_system.sopcinfo --cpu-name GRTOS_Multiprocessor_0_nios2_qsys_1 --cmd "set_setting hal.enable_reduced_device_drivers true" --cmd "set_setting hal.stderr GRTOS_Multiprocessor_0_jtag_uart_1" --cmd "set_setting hal.stdin GRTOS_Multiprocessor_0_jtag_uart_0"  --cmd "set_setting hal.stdout GRTOS_Multiprocessor_0_jtag_uart_0" --cmd "add_section_mapping rstaux GRTOS_Multiprocessor_0_onchip_memory2_0" 
