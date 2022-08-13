@@ -31,16 +31,10 @@
 #ifndef GEMRTOS_CORE_API_H_
 #define GEMRTOS_CORE_API_H_
 
-// GS_TCB *gk_TCB_GetFree(void);
-
-GS_ECB *gk_Get_ECB(void);
-G_RCB  *gk_Get_RCB(void);
-GS_SCB *gk_Get_SCB(void);
-GS_RRDS *gk_Get_RRDS(void);
-GS_LCB *gk_Get_LCB(void);
 
 
-INT32 gk_Create_PCBs(int Nmbr_PCB);
+
+
 
 
 

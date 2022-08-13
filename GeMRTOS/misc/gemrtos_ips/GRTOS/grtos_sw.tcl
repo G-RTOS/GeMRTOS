@@ -75,7 +75,7 @@ add_sw_property asm_source HAL/src/grtos_switch.S
 # Include files
 add_sw_property include_source inc/grtos_regs.h
 add_sw_property include_source HAL/inc/gemrtos_core.h
-add_sw_property include_source HAL/inc/gemrtos_core_api.h
+# add_sw_property include_source HAL/inc/gemrtos_core_api.h
 add_sw_property include_source HAL/inc/grtos.h
 add_sw_property include_source HAL/inc/grtosdefinitions.h
 add_sw_property include_source HAL/inc/grtosuserapi.h

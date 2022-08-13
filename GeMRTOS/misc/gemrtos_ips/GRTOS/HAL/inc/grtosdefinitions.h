@@ -259,7 +259,6 @@ typedef union timepriority {
 //     unsigned long R_MSK_0;                    // std_logic_vector(31 downto 0);  -- Bit Selected in write date (base 0)
 //     unsigned long R_MSK_1;                    // std_logic_vector(31 downto 0);  -- Bit Selected in write date (base 1)	
 //     unsigned long R_MTX_PRC_GRN;              // std_logic_vector(31 downto 0);  -- Storage the processor ID that holds the mutex
-//     unsigned long R_MTX_NXT_PRC;              // std_logic_vector(31 downto 0);  -- Register that store the next ID to grant the critical section  
 //     unsigned long C_MTX_PRC_GRN_BIT;          // std_logic_vector(31 downto 0);  -- Bit decoder logic of granted processor
 //     unsigned long R_MTX_RSV_PRC;              // std_logic_vector(31 downto 0);  -- Processor Mutex Request Register
 //     unsigned long R_MTX_RSV_PRC_LOWEST_INDEX; // std_logic_vector(31 downto 0);  -- Processor requesting mutex with lowest index
@@ -409,6 +408,8 @@ typedef union timepriority {
 
 
 /// \brief GRTOS_CMD_HALT_PROCESSOR puts the processor in halt mode
+/// The first command enable the IDLE state for the processor and the second read the first 
+/// address of the processor bus because it is in waitrequest until next interrupt
 /// \todo Describe better and related with GRTOS controller
 #define GRTOS_CMD_HALT_PROCESSOR \
         GRTOS_CMD_HLT_IDL_PRC; \
@@ -482,9 +483,7 @@ typedef union timepriority {
 #define GRTOS_USER_CRITICAL_SECTION_SET_RELEASE_TIME(time) IOWR_GRTOS_MTX_SET_TM(time);
 
 #include <gemrtos_core.h>
-#include <gemrtos_core_api.h>
-
-
+// #include <gemrtos_core_api.h>
 
 
 /*
@@ -741,7 +740,6 @@ void gk_RST_MONITOR_HANDLER (void);
 /*  SYSTEM TASKS                                               */
 /***************************************************************/
 void gk_ENTRY_SIGNAL_RETURN(void);
-INT64 GRTOS_CMD_HLT_ACT_CNT_GET();
 void gk_CODE_IDLE_TASK(void* pdata);
 void taskISR0(void* pdata);
 void taskISR1(void* pdata);
