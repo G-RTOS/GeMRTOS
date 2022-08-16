@@ -550,6 +550,7 @@ extern volatile INT64 G_TASK_PERIOD_DEFAULT;
 /* INTERNAL SYSTEM FUNCTIONS                                   */
 /***************************************************************/
 void    GRTOS_CMD_TM_CNT_GET(int *ptime);
+INT64 GRTOS_CMD_SYS_MUTEX_TIME(void);
 INT64   GRTOS_now(void);
 int     GetMaximumMutexExecutionTime(void);
 INT32     gk_TCBLowerPriorityThanTCB(GS_TCB *ptcb1, GS_TCB *ptcb2);

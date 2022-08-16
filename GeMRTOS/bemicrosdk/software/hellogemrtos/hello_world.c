@@ -222,6 +222,7 @@ void task_generic(void* pdata)
     if (USER_TCB_execution_time[(int) pdata] == (int) 0) {
         // printf("T %d, P %d, I %d\n",(int) ((int) pdata & 0xFFFF) , gu_Get_CPU_ID(),(int) task_invocation_number[(int) pdata]);
         printf("T %d", ((int) pdata) );
+        printf("; Mutex time      = %llx\n", (unsigned long long) GRTOS_CMD_SYS_MUTEX_TIME()); 
     }
     // printf("Proc: %d, ", gu_Get_CPU_ID());
     // printf("y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
@@ -262,6 +263,10 @@ int main()
     printf("Bus rate        = %d\n", (int)GRTOS_DRIVER_BUS_CLOCK_FREQUENCY);
     printf("Address width   = %d\n", (int)GRTOS_DRIVER_BUS_WIDTH);
     printf("Program memory  = %d %s\n", (int)GRTOS_DRIVER_EXTERNAL_MEMORY_SPAN, GRTOS_DRIVER_EXTERNAL_MEMORY_UNIT);
+    
+    
+    
+    
     
     void   *mem = malloc(sizeof(INT32) * G_MAX_NUMBER_OF_USER_TCB * TASK_STACKSIZE + 31);
     generic_stk = (INT32 *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
