@@ -205,6 +205,8 @@ void gk_ENTRY_IRQ_HANDLER (void)
                 gk_KERNEL_TIME_IRQ_HANDLER();   /// Time Event happened
                 break;
             case EVN_CODE_FROZEN:
+                GRTOS_CMD_FRZ_EVN_CLR;
+                fprintf(stderr,"[ MESSAGE ] FROZEN EVENT . Proc: %d\n", GRTOS_CMD_PRC_ID);
                 gk_KERNEL_FROZEN_IRQ_HANDLER(); /// Frozen Event happened
                 break;
             default: 

@@ -56,7 +56,8 @@
 /**
  * Structure Definitions
  */
-typedef unsigned long  INT32;       /* Unsigned 32 bit quantity      */
+// typedef unsigned long  INT32;       /* Unsigned 32 bit quantity      */
+typedef unsigned INT32;       /* Unsigned 32 bit quantity      */
 typedef unsigned int   GS_STK;       /* Type to Stack Pointers        */
 
 typedef unsigned long long gt_time;
@@ -148,6 +149,7 @@ INT32    gu_get_halt_status(void);
 INT32    gu_get_irq_status(void);
 INT32    gu_get_reserved_mutex_processor(void);
 gt_time gu_get_now(void);
+gt_time gu_get_frozen_threshold(void);
 
 // *************************************************** //
 // *************************************************** //

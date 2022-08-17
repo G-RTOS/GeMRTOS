@@ -770,7 +770,45 @@ gt_time gu_get_now(void)
 	gt_time status;
     GRTOS_USER_CRITICAL_SECTION_GET;
         G_DEBUG_VERBOSE    
-	    GRTOS_CMD_TM_CNT_GET((int *) &status);
+	    // GRTOS_CMD_TM_CNT_GET((int *) &status);
+        status = (gt_time) GRTOS_now();
+	GRTOS_CMD_CRITICAL_SECTION_RELEASE;
+	return(status);
+}
+
+/**gu_get_frozen_threshold
+ *  \brief Returns the value in the frozen threshold register (R_FRZ_TM_THR)
+ *  
+ *  \return the value in the frozen threshold register (R_FRZ_TM_THR)
+ *  
+ *  \details FOr use in user mode
+ *  \todo
+ *  \relates Time
+ */
+gt_time gu_get_frozen_threshold(void)
+{
+	gt_time status;
+    GRTOS_USER_CRITICAL_SECTION_GET;
+        G_DEBUG_VERBOSE    
+	    // GRTOS_CMD_TM_CNT_GET((int *) &status);
+        status = (gt_time) GRTOS_CMD_FRZ_TM_THR_GET();
+	GRTOS_CMD_CRITICAL_SECTION_RELEASE;
+	return(status);
+}
+
+
+
+/**gu_get_mutex_time
+ *  \brief 
+ *  Return the time the mutex is granted in system time units 
+ *  \relates Miscellaneous
+ */
+gt_time gu_get_mutex_time(void)
+{
+	gt_time status;
+    GRTOS_USER_CRITICAL_SECTION_GET;
+        G_DEBUG_VERBOSE    
+        status = (gt_time) GRTOS_CMD_SYS_MUTEX_TIME();
 	GRTOS_CMD_CRITICAL_SECTION_RELEASE;
 	return(status);
 }
@@ -907,8 +945,8 @@ void gk_RESOURCE_ECB_KILL_CALLBACK(GS_ECB *pevent)
  */
 void gk_FROZEN_CALLBACK(void)
 {
-    fprintf(stderr,"[ MESSAGE ] FROZEN REACHED \n");
-    G_DEBUG_WHILEFOREVER;   // Remove when frozen strategy is implemented
+    fprintf(stderr,"[ MESSAGE ] FROZEN REACHED . Proc: %d\n", GRTOS_CMD_PRC_ID);
+    // G_DEBUG_WHILEFOREVER;   // Remove when frozen strategy is implemented
 }
 
 OPTIMEZE_RESTORE
