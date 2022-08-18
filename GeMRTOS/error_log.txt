@@ -164,10 +164,10 @@ In file included from drivers/src/grtos_kernel.c:29:0:
      // if (G_Running == G_TRUE) { \
      ^
 drivers/src/grtos_kernel.c: In function 'gk_START_KERNEL':
-drivers/src/grtos_kernel.c:709:27: warning: embedded '\0' in format [-Wformat-contains-nul]
+drivers/src/grtos_kernel.c:706:27: warning: embedded '\0' in format [-Wformat-contains-nul]
          sprintf(filename, "/dev/%s_jtag_uart_%d\0", GRTOS_DRIVER_SYSTEM_NAME, i+2);
                            ^
-drivers/src/grtos_kernel.c:709:27: warning: embedded '\0' in format [-Wformat-contains-nul]
+drivers/src/grtos_kernel.c:706:27: warning: embedded '\0' in format [-Wformat-contains-nul]
 In file included from drivers/src/grtosuserfunctions.c:32:0:
 ./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
     //  if (G_Running == G_TRUE) { \

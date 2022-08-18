@@ -150,7 +150,7 @@
  *  when 1: message is printed when proessor goes to IDLE
  *  when 0: no message is printed
  */
-#define G_DEBUG_PRINT_WHEN_PROCESSOR_GOES_IDLE 0
+#define G_DEBUG_PRINT_WHEN_PROCESSOR_GOES_IDLE 1
 
 /**
  * G_DEBUG_WHILEFOREVER_ENABLE

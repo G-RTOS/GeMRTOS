@@ -63,7 +63,7 @@ void  gk_INIT_IRQ (void)
                                  (INT64) G_ISR_PRIORITY,         ///< Priority of the task when it is executing
                                  (INT64) G_TASK_PERIOD_DEFAULT,            ///< Deadline of the task
                                  (INT64) G_TASK_PERIOD_DEFAULT,              ///< Period of the task
-                                 (GS_LCB *) G_TASK_LCB_DEFAULT,        /*!< number of the ready list that should be inserted */
+                                 (GS_LCB *) G_TASK_LCB_DEFAULT,        /*!< pointer of the ready list that should be inserted */
                                  (int) G_TRUE,     /*!< True when task is aborted when deadline */
                                  (INT64) G_ISR_PRIORITY,
                                  (int) i);  

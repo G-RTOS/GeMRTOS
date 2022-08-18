@@ -214,7 +214,7 @@ void gk_ENTRY_IRQ_HANDLER (void)
                     if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER; 
                 #endif
                         
-                gk_ECBTL_Unlink((GS_ECB *)pevent);     /* Delete the EVENT from Time Waiting Event List     */
+                gk_ECBTL_Unlink((GS_ECB *)pevent);     /* Unlink the EVENT from Time Waiting Event List     */
                 
                 // Call the TIME_CALLBACK funtion to resolve according to the event type
                 gk_TIME_CALLBACK((GS_ECB *) pevent);
@@ -605,9 +605,6 @@ void gk_INIT_KERNEL(void)
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
     fprintf(stderr,"[ MESSAGE ] INITIALIZE THE LCB LIST\n");    
 #endif
-  	/// INITIALIZE THE LCB LIST
-    gk_LCBL_Link((GS_LCB *) G_TASK_LCB_DEFAULT);
-
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
     fprintf(stderr,"[ MESSAGE ] INITIALIZE THE TIMED EVENT LIST\n");    

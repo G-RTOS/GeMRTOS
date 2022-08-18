@@ -232,11 +232,14 @@ GS_LCB *gk_Get_LCB(void)
     plcb->BLOCK_HASH      = (unsigned int) plcb + 6;
     plcb->malloc_address  = mem;    
     
-    plcb->LCB_NextTCBRUNL = (struct gs_tcb *) 0;    /* Pointer to the TCB list of running tasks */
+    plcb->LCB_NextTCBRUNL = (struct gs_tcb *) 0;        /* Pointer to the TCB list of running tasks */
     plcb->LCBRunPriority  = (INT64) G_LOWEST_PRIORITY;  /* It is because it is empty*/
-    plcb->LCB_NextTCBRDYL = (struct gs_tcb *) 0; 	  /* Pointer to the TCB of the Highest Priority Task */
-    plcb->LCB_NextLCBFPL  = (struct gs_pcb *) 0;  /*!< Next free processor for this list */
+    plcb->LCB_NextTCBRDYL = (struct gs_tcb *) 0; 	   /* Pointer to the TCB of the Highest Priority Task */
+    plcb->LCB_NextLCBFPL  = (struct gs_pcb *) 0;       /*!< Next free processor for this list */
     plcb->LCBState        = GS_LCB_STATE_UNLINKED;     
+    
+    // Link to the LCBL linked list
+    gk_LCBL_Link((GS_LCB *) plcb);
 
     return plcb;
 }
