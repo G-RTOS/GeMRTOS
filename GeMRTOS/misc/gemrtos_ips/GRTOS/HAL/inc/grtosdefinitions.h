@@ -728,14 +728,14 @@ GS_TCB *gk_CreateTask(void *TaskCode,
 INT32 gk_TASK_STK_Init(GS_TCB *ptcb);
 // void gk_TASK_TCB_Init (GS_TCB *ptcb);
 // void gk_INIT_IRQ(void);
-void gk_KERNEL_TIME_IRQ_HANDLER (void);
+// void gk_KERNEL_TIME_IRQ_HANDLER (void);
 void gk_TIME_CALLBACK(GS_ECB *event);
 void gk_RESOURCE_ECB_KILL_CALLBACK(GS_ECB *pevent);
 void gk_FROZEN_CALLBACK(void);
 void gk_INIT_KERNEL(void);
 void gk_KERNEL_TASK_COMPLETE(void);
 void GRTOS_Task_GetPendingSCB(void);
-void gk_KERNEL_FROZEN_IRQ_HANDLER(void);
+// void gk_KERNEL_FROZEN_IRQ_HANDLER(void);
 void gk_RST_MONITOR_HANDLER (void);
 
 

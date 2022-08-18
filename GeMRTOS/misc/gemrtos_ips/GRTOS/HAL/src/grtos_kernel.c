@@ -178,7 +178,9 @@ void gk_ENTRY_RST_HANDLER (void)
 // void gk_ENTRY_IRQ_HANDLER (void) __attribute__ ((section (".exceptions"))); 
 void gk_ENTRY_IRQ_HANDLER (void)
 {
-	unsigned int event_code; 
+	unsigned int event_code;
+    GS_ECB *pevent;
+    GS_TCB *ptcb; 
     
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if ((alt_irq_pending() != 1) && (alt_irq_pending() != 0)) G_DEBUG_WHILEFOREVER;   // Only interrupt from GRTOS supported
@@ -202,12 +204,28 @@ void gk_ENTRY_IRQ_HANDLER (void)
 	{
         switch (event_code) {
             case EVN_CODE_TIMED:
-                gk_KERNEL_TIME_IRQ_HANDLER();   /// Time Event happened
+                pevent = g_kcb.KCB_NextECBTL; 
+                /// Time Event happened
+                // gk_KERNEL_TIME_IRQ_HANDLER();  
+                #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+                    ptcb   = pevent->ECB_AssocTCB; 
+                    if ((ECB_IsValid(pevent) != G_TRUE) || (pevent == (struct gs_ecb *) 0)) G_DEBUG_WHILEFOREVER; 
+                    if ((TCB_IsValid(ptcb) != G_TRUE) || (ptcb == (struct gs_tcb *) 0)) G_DEBUG_WHILEFOREVER; 
+                    if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER; 
+                #endif
+                        
+                gk_ECBTL_Unlink((GS_ECB *)pevent);     /* Delete the EVENT from Time Waiting Event List     */
+                
+                // Call the TIME_CALLBACK funtion to resolve according to the event type
+                gk_TIME_CALLBACK((GS_ECB *) pevent);
                 break;
             case EVN_CODE_FROZEN:
                 GRTOS_CMD_FRZ_EVN_CLR;
-                fprintf(stderr,"[ MESSAGE ] FROZEN EVENT . Proc: %d\n", GRTOS_CMD_PRC_ID);
-                gk_KERNEL_FROZEN_IRQ_HANDLER(); /// Frozen Event happened
+                // fprintf(stderr,"[ MESSAGE ] FROZEN EVENT . Proc: %d\n", GRTOS_CMD_PRC_ID);
+                // Calls the gk_FROZEN_CALLBACK() routine in grtosfunctions.c file where 
+                // user may inplement frozen mode strategy
+                gk_FROZEN_CALLBACK();
+                // gk_KERNEL_FROZEN_IRQ_HANDLER(); /// Frozen Event happened
                 break;
             default: 
                 event_code--;  /// An External IRQ happened: IRQ = event_code, IRQ index = event_code - 1
@@ -280,39 +298,39 @@ void gk_ENTRY_SIGNAL_RETURN(void)
 	GRTOS_CMD_CRITICAL_SECTION_GET;  	/// Get into critical section
 }
  
-/**gk_KERNEL_FROZEN_IRQ_HANDLER
- *  \brief Frozen mode handler
- *  \details Calls the gk_FROZEN_CALLBACK() routine in grtosfunctions.c file where 
- *  user may inplement frozen mode strategy
- *  \relates Time
- */ 
-void gk_KERNEL_FROZEN_IRQ_HANDLER(void) {
-    GRTOS_CMD_FRZ_EVN_CLR;  // The Frozen event should be cleared
-    gk_FROZEN_CALLBACK();
-}
+// /**gk_KERNEL_FROZEN_IRQ_HANDLER
+//  *  \brief Frozen mode handler
+//  *  \details Calls the gk_FROZEN_CALLBACK() routine in grtosfunctions.c file where 
+//  *  user may inplement frozen mode strategy
+//  *  \relates Time
+//  */ 
+// void gk_KERNEL_FROZEN_IRQ_HANDLER(void) {
+//     // GRTOS_CMD_FRZ_EVN_CLR;  // The Frozen event should be cleared
+//     gk_FROZEN_CALLBACK();
+// }
 
-/**gk_KERNEL_TIME_IRQ_HANDLER
- *  \brief Executes the ISR for timed events from GRTOS
- *  \details Calls the gk_TIME_CALLBACK funtion to resolve according to the event type
- */
-// void gk_KERNEL_TIME_IRQ_HANDLER (void) __attribute__ ((section (".exceptions"))); 
-void gk_KERNEL_TIME_IRQ_HANDLER (void)
-{
-	GS_ECB *pevent = g_kcb.KCB_NextECBTL; 
-
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	GS_TCB *ptcb;     
-    ptcb   = pevent->ECB_AssocTCB; 
-	if ((ECB_IsValid(pevent) != G_TRUE) || (pevent == (struct gs_ecb *) 0)) G_DEBUG_WHILEFOREVER; 
-	if ((TCB_IsValid(ptcb) != G_TRUE) || (ptcb == (struct gs_tcb *) 0)) G_DEBUG_WHILEFOREVER; 
-    if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER; 
-#endif
-        
-    gk_ECBTL_Unlink((GS_ECB *)pevent);     /* Delete the EVENT from Time Waiting Event List     */
-    
-    // Call the TIME_CALLBACK funtion to resolve according to the event type
-    gk_TIME_CALLBACK((GS_ECB *) pevent);
-}
+// /**gk_KERNEL_TIME_IRQ_HANDLER
+//  *  \brief Executes the ISR for timed events from GRTOS
+//  *  \details Calls the gk_TIME_CALLBACK funtion to resolve according to the event type
+//  */
+// // void gk_KERNEL_TIME_IRQ_HANDLER (void) __attribute__ ((section (".exceptions"))); 
+// void gk_KERNEL_TIME_IRQ_HANDLER (void)
+// {
+// 	GS_ECB *pevent = g_kcb.KCB_NextECBTL; 
+// 
+// #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+// 	GS_TCB *ptcb;     
+//     ptcb   = pevent->ECB_AssocTCB; 
+// 	if ((ECB_IsValid(pevent) != G_TRUE) || (pevent == (struct gs_ecb *) 0)) G_DEBUG_WHILEFOREVER; 
+// 	if ((TCB_IsValid(ptcb) != G_TRUE) || (ptcb == (struct gs_tcb *) 0)) G_DEBUG_WHILEFOREVER; 
+//     if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER; 
+// #endif
+//         
+//     gk_ECBTL_Unlink((GS_ECB *)pevent);     /* Delete the EVENT from Time Waiting Event List     */
+//     
+//     // Call the TIME_CALLBACK funtion to resolve according to the event type
+//     gk_TIME_CALLBACK((GS_ECB *) pevent);
+// }
 
 
 /**gk_KERNEL_TASK_START
@@ -715,11 +733,12 @@ void gk_START_KERNEL (void)
     /// Install the GRTOS Controller interrupt device driver and
     /// Disable the interrupt (the last parameter (flags) is NULL). Values in system.h
     // fprintf(stderr, "[ OK ] Installing GRTOS Controller interrupt\n");
-    alt_ic_isr_register((alt_u32) GRTOS_DRIVER_GRTOS_S_PROCESSOR1_IRQ_INTERRUPT_CONTROLLER_ID,
-                        (alt_u32) GRTOS_DRIVER_GRTOS_S_PROCESSOR1_IRQ,
-                        (alt_isr_func) gk_KERNEL_TIME_IRQ_HANDLER,
-                        (void *) NULL,
-                        (void *) NULL);
+    // # alt_ic_isr_register((alt_u32) GRTOS_DRIVER_GRTOS_S_PROCESSOR1_IRQ_INTERRUPT_CONTROLLER_ID,
+    // #                     (alt_u32) GRTOS_DRIVER_GRTOS_S_PROCESSOR1_IRQ,
+    // #                     // (alt_isr_func) gk_KERNEL_TIME_IRQ_HANDLER,
+    // #                     (alt_isr_func) gk_ENTRY_IRQ_HANDLER,
+    // #                     (void *) NULL,
+    // #                     (void *) NULL);
                         
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
