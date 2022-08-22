@@ -128,13 +128,17 @@ add_display_item "Information" CEFrequency PARAMETER
 set_parameter_property CEFrequency HDL_PARAMETER false
 
 # ############################################################################
+# External reset input
+add_interface reset_in reset sink
+
+# ############################################################################
 # Interface for processor 1 and getting the bus width for external memory 
 # registers
-add_interface grtos_avalon_bridge_m1 avalon start
-set_interface_property grtos_avalon_bridge_m1 ENABLED true
+add_interface gemrtos_avalon_processor_m1 avalon start
+set_interface_property gemrtos_avalon_processor_m1 ENABLED true
 
 add_parameter BUS_WIDTH INTEGER  
-set_parameter_property BUS_WIDTH SYSTEM_INFO {ADDRESS_WIDTH grtos_avalon_bridge_m1}
+set_parameter_property BUS_WIDTH SYSTEM_INFO {ADDRESS_WIDTH gemrtos_avalon_processor_m1}
 set_parameter_property BUS_WIDTH DISPLAY_NAME "External bus width"
 set_parameter_property BUS_WIDTH UNITS bits
 add_display_item "Information" BUS_WIDTH PARAMETER
@@ -1122,28 +1126,27 @@ proc compose { } {
     # Input clock for external bus
     set_interface_property clk_external_bus EXPORT_OF clock_bridge_external_bus.in_clk  
 
+    # External reset input
+    set_interface_property reset_in EXPORT_OF reset_bridge_0.in_reset
+    # set_interface_property reset EXPORT_OF clk_0.clk_in_reset   
+
     # Nios avalon masters
     for {set i 1} {$i <= $Processors} {incr i} {
         # add_interface grtos_avalon_bridge_1_m${i} avalon start
         # set_interface_property grtos_avalon_bridge_1_m${i} EXPORT_OF GRTOS_Avalon_Bridge_1.m${i}
         if {$i != 1} {
-            add_interface grtos_avalon_bridge_m${i} avalon start
+            add_interface gemrtos_avalon_processor_m${i} avalon start
         }
-        set_interface_property grtos_avalon_bridge_m${i} EXPORT_OF mm_clock_crossing_bridge_pro_${i}.m0        
+        set_interface_property gemrtos_avalon_processor_m${i} EXPORT_OF mm_clock_crossing_bridge_pro_${i}.m0        
     }
-     
-    # External reset input
-    add_interface reset reset sink
-    set_interface_property reset EXPORT_OF reset_bridge_0.in_reset
-    # set_interface_property reset EXPORT_OF clk_0.clk_in_reset    
-    
+ 
     # Output for leds
-    add_interface grtos_0_phy conduit end
-    set_interface_property grtos_0_phy EXPORT_OF grtos_0.phy
+    add_interface gemrtos_phy conduit end
+    set_interface_property gemrtos_phy EXPORT_OF grtos_0.phy
     
     # External to IRQ Bridge
-    add_interface grtos_dirg_input interrupt receiver
-    set_interface_property grtos_dirg_input EXPORT_OF irq_bridge_0.receiver_irq
+    add_interface gemrtos_dirq_input interrupt receiver
+    set_interface_property gemrtos_dirq_input EXPORT_OF irq_bridge_0.receiver_irq
     
     # External reset output
     add_interface reset_grtos reset source

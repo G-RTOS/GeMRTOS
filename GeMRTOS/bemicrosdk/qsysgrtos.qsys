@@ -57,7 +57,7 @@
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
  <interface
    name="grtos_0_phy"
-   internal="GRTOS_Multiprocessor_1.grtos_0_phy"
+   internal="GRTOS_Multiprocessor_1.gemrtos_phy"
    type="conduit"
    dir="end" />
  <interface name="ram" internal="mddr_ctrl_0.mddr" type="conduit" dir="end" />
@@ -74,7 +74,7 @@
   <parameter name="AUTO_DEVICE" value="EP4CE22F17C7" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7" />
-  <parameter name="AUTO_GRTOS_AVALON_BRIDGE_M1_ADDRESS_MAP"><![CDATA[<address-map><slave name='mddr_ctrl_0.avalon_slave' start='0x0' end='0x4000000' /></address-map>]]></parameter>
+  <parameter name="AUTO_GEMRTOS_AVALON_PROCESSOR_M1_ADDRESS_MAP"><![CDATA[<address-map><slave name='mddr_ctrl_0.avalon_slave' start='0x0' end='0x4000000' /></address-map>]]></parameter>
   <parameter name="BUS_WIDTH" value="26" />
   <parameter name="CEFrequency" value="50000000" />
   <parameter name="CFrequency" value="50000000" />
@@ -96,7 +96,7 @@
  <connection
    kind="avalon"
    version="18.0"
-   start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m1"
+   start="GRTOS_Multiprocessor_1.gemrtos_avalon_processor_m1"
    end="mddr_ctrl_0.avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
@@ -105,7 +105,7 @@
  <connection
    kind="avalon"
    version="18.0"
-   start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m2"
+   start="GRTOS_Multiprocessor_1.gemrtos_avalon_processor_m2"
    end="mddr_ctrl_0.avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
@@ -114,7 +114,7 @@
  <connection
    kind="avalon"
    version="18.0"
-   start="GRTOS_Multiprocessor_1.grtos_avalon_bridge_m3"
+   start="GRTOS_Multiprocessor_1.gemrtos_avalon_processor_m3"
    end="mddr_ctrl_0.avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
@@ -140,7 +140,7 @@
    kind="reset"
    version="18.0"
    start="clk_0.clk_reset"
-   end="GRTOS_Multiprocessor_1.reset" />
+   end="GRTOS_Multiprocessor_1.reset_in" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
