@@ -35,11 +35,6 @@
 	.global gk_ENTRY_BAD_TASK_RETURN
 	.global GRTOS_Return_from_Signal
     .global Switch_to_idle
-    /// .global NIOS2_ICACHE_SIZE
-    /// .global NIOS2_ICACHE_LINE_SIZE
-    /// .global NIOS2_DCACHE_SIZE
-    /// .global NIOS2_DCACHE_LINE_SIZE
-
 
 /********************************************************************************/    
     .globl grtos_start_rest_of_processors
@@ -85,26 +80,6 @@ dcache_init_loop:
     bltu r4, r5, dcache_init_loop    
 
     
-/// /// version sin multiplicador por hardware
-///     addi r3,zero, 0
-///     /// CPUID is equal to or greater than 2
-///     rdctl r2, cpuid
-///     addi r2, r2, -1
-/// bucle:
-///     addi r3, r3, -2000
-///     addi r2, r2, -1
-///     bne r2, zero, bucle
-///     add sp, sp, r3
-
-///    Version con multiplicador por hardware
-///    /// change to temporary stack in case multiply is implemented by software
-///    addi sp, sp, -2000
-///    rdctl r2, cpuid 
-///    addi r2, r2, -1 
-///    muli r2, r2, -2000 
-///    add sp, sp, r2 
-    
-/// exit_reset:
     /* Set up the global pointer. It is required for gcc compilation */
     /// Otherwise, _gp may give an exception
 	movhi gp, %hi(_gp) 
@@ -112,7 +87,6 @@ dcache_init_loop:
     
     call gk_ENTRY_RST_HANDLER
 /********************************************************************************/
-
 
 /// Interruption in http://www-ug.eecg.toronto.edu/msl/nios_interrupts.html
 
@@ -241,16 +215,15 @@ grtos_irq_entry:
 
     movia  r5, gs_sizeof_G_PCBTbl
     ldw	r5,0(r5)
-    /// mul	r4, r4, r5                        /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)             */
     
     /// Multiplication rewritten for no-multipler processor compatibility
-    /// mul	r4, r4, r5                     /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                   */
+    /// mul	r4, r4, r5                     /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)             */
     mov r6, zero
-mul2:
     beq r4, zero, out_mul2
+mul2:    
     add r6, r6, r5
     addi r4, r4, -1
-    jmpi mul2
+    bne r4, zero, mul2
 out_mul2:
     mov r4, r6    
     
@@ -279,20 +252,18 @@ Switch_to_idle:
 
     movia  r5, gs_sizeof_G_PCBTbl
     ldw	r5,0(r5)
-    /// mul	r4,r4,r5         /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)     */
     
     /// Multiplication rewritten for no-multipler processor compatibility
     /// mul	r4, r4, r5                     /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                   */
     mov r6, zero
-mul3:
     beq r4, zero, out_mul3
+mul3:
     add r6, r6, r5
     addi r4, r4, -1
-    jmpi mul3
+    bne r4, zero, mul3
 out_mul3:
     mov r4, r6    
     
-
     movia	r5,gs_addressof_G_PCBTbl    /* r5 = &g_kcb.G_PCBTbl                                */
     ldw	r5,0(r5)
     add	r4,r4,r5         /* r4 = &g_kcb.G_PCBTbl + sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                                              */
@@ -328,14 +299,13 @@ GRTOS_Start_Task:
     /// Multiplication rewritten for no-multipler processor compatibility
     /// mul	r4, r4, r5                     /* r4 = sizeof(g_kcb.G_PCBTbl) * (cpuid-1)                   */
     mov r6, zero
-mul1:
     beq r4, zero, out_mul1
+mul1:
     add r6, r6, r5
     addi r4, r4, -1
-    jmpi mul1
+    bne r4, zero, mul1
 out_mul1:
     mov r4, r6
-
 
     movia	r5,gs_addressof_G_PCBTbl   /* r5 = &g_kcb.G_PCBTbl                                          */
     ldw	r5,0(r5)
@@ -351,9 +321,6 @@ out_mul1:
     add	r4, r4, r5       /* r4 = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB + offsetof(struct gs_tcb, TCB_StackPointer) */ 
     ldwio sp, (r4)    
     /// *************************************************************************
-    
-    /// movia r4, G_TCB_NEXT
-    /// ldwio sp, (r4)
     
     // Jump to Skip_Mutex to avoid get mutex again
 	jmpi GRTOS_Skip_Mutex

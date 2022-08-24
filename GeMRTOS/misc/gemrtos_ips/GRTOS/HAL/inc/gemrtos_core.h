@@ -171,9 +171,9 @@ struct gs_pcb {
 };
 
 /// PCBState valid values
-#define  GS_PCB_STATE_NOTRUNNING           1u    ///< \brief It is NOTRUNNING at starting time                                  \ingroup PCBState
-#define  GS_PCB_STATE_RUNNING              2u    ///< \brief It is RUNNING when executing a main list task (LCB[0])             \ingroup PCBState 
-#define  GS_PCB_STATE_FREE                 3u    ///< \brief It is FREE when not executing a main list task                     \ingroup PCBState
+#define  GS_PCB_STATE_NOTRUNNING           1u    ///< \brief It is NOTRUNNING at starting time                      \ingroup PCBState
+#define  GS_PCB_STATE_RUNNING              2u    ///< \brief It is RUNNING when executing a main list task (LCB[0]) \ingroup PCBState 
+#define  GS_PCB_STATE_FREE                 3u    ///< \brief It is FREE when not executing a main list task         \ingroup PCBState
 
 
 #include <mq.h>
@@ -195,7 +195,7 @@ struct T_MESSAGE_RESOURCE {
 /**
  *  \todo Check if gs_mcb structure is required
  */
-struct gs_mcb {              /** MESSAGE CONTROL BLOCK                        */
+struct gs_mcb {                      /** MESSAGE CONTROL BLOCK                        */
     INT32         MCBState;          /** State of the Queue: UNUSED, FREE, LINKED       */
     INT32         MCBCount;          /** Number of task to deliver the message         */
 	struct gs_mcb *MCB_NextMCB;      /** Link to next queue control block in list of free blocks */
