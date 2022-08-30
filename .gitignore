@@ -81,3 +81,4 @@ GeMRTOS/bemicrosdk/prueba.sh
 GeMRTOS/bemicrosdk/software/hellogemrtos/.cproject
 GeMRTOS/bemicrosdk/software/hellogemrtos/.project
 GeMRTOS/bemicrosdk/software/hellogemrtos/.settings/language.settings.xml
+GeMRTOS/bemicrosdk/software/hellogemrtos/Makefile

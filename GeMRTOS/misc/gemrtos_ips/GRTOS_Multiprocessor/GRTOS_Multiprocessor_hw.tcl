@@ -782,6 +782,11 @@ proc compose { } {
     
     # Connection of debug_mem_slave at $BaseAddress span 0x800 each
     for {set i 1} {$i <= $Processors} {incr i} {
+        add_connection master_0.master nios2_qsys_${i}.debug_mem_slave avalon
+        set_connection_parameter_value master_0.master/nios2_qsys_${i}.debug_mem_slave arbitrationPriority {1}
+        set_connection_parameter_value master_0.master/nios2_qsys_${i}.debug_mem_slave baseAddress $BaseAddress
+        set_connection_parameter_value master_0.master/nios2_qsys_${i}.debug_mem_slave defaultConnection {0}
+    
         add_connection nios_avalon_monitor.m${i} nios2_qsys_${i}.debug_mem_slave avalon
         set_connection_parameter_value nios_avalon_monitor.m${i}/nios2_qsys_${i}.debug_mem_slave arbitrationPriority {1}
         set_connection_parameter_value nios_avalon_monitor.m${i}/nios2_qsys_${i}.debug_mem_slave baseAddress $BaseAddress
@@ -906,7 +911,7 @@ proc compose { } {
     # Connection of nios_avalon_monitor.s_Global avalon at $BaseAddress span 0x100 
     add_connection master_0.master nios_avalon_monitor.s_Global avalon
     set_connection_parameter_value master_0.master/nios_avalon_monitor.s_Global arbitrationPriority {1}
-    set_connection_parameter_value master_0.master/nios_avalon_monitor.s_Global baseAddress {0x08004200}
+    set_connection_parameter_value master_0.master/nios_avalon_monitor.s_Global baseAddress $BaseAddress
     set_connection_parameter_value master_0.master/nios_avalon_monitor.s_Global defaultConnection {0}
     for {set i 1} {$i <= $Processors} {incr i} {
         add_connection nios_avalon_monitor.m${i} nios_avalon_monitor.s_Global avalon
@@ -926,6 +931,10 @@ proc compose { } {
     
     
     # Connection of timer_0.s1 avalon at $BaseAddress span 0x20 
+    add_connection master_0.master timer_0.s1 avalon
+    set_connection_parameter_value master_0.master/timer_0.s1 arbitrationPriority {1}
+    set_connection_parameter_value master_0.master/timer_0.s1 baseAddress $BaseAddress
+    set_connection_parameter_value master_0.master/timer_0.s1 defaultConnection {0}    
     for {set i 1} {$i <= $Processors} {incr i} {
         add_connection nios_avalon_monitor.m${i} timer_0.s1 avalon
         set_connection_parameter_value nios_avalon_monitor.m${i}/timer_0.s1 arbitrationPriority {1}
@@ -996,7 +1005,12 @@ proc compose { } {
     
     # Connection of jtag_uart_0.avalon_jtag_slave at $BaseAddress span 0x8 each for the NProcessors 
     for {set j 0} {$j <= $Processors + 1} {incr j} {
+        add_connection master_0.master jtag_uart_${j}.avalon_jtag_slave avalon
+        set_connection_parameter_value master_0.master/jtag_uart_${j}.avalon_jtag_slave arbitrationPriority {1}
+        set_connection_parameter_value master_0.master/jtag_uart_${j}.avalon_jtag_slave baseAddress $BaseAddress
+        set_connection_parameter_value master_0.master/jtag_uart_${j}.avalon_jtag_slave defaultConnection {0}     
         for {set i 1} {$i <= $Processors} {incr i} {
+ 
             add_connection nios_avalon_monitor.m${i} jtag_uart_${j}.avalon_jtag_slave avalon
             set_connection_parameter_value nios_avalon_monitor.m${i}/jtag_uart_${j}.avalon_jtag_slave arbitrationPriority {1}
             set_connection_parameter_value nios_avalon_monitor.m${i}/jtag_uart_${j}.avalon_jtag_slave baseAddress $BaseAddress
@@ -1013,6 +1027,10 @@ proc compose { } {
     }
     
     # Connection of jtag_uart_0.avalon_jtag_slave at $BaseAddress span 0x8 
+    add_connection master_0.master sysid_qsys_0.control_slave avalon
+    set_connection_parameter_value master_0.master/sysid_qsys_0.control_slave arbitrationPriority {1}
+    set_connection_parameter_value master_0.master/sysid_qsys_0.control_slave baseAddress $BaseAddress
+    set_connection_parameter_value master_0.master/sysid_qsys_0.control_slave defaultConnection {0}
     for {set i 1} {$i <= $Processors} {incr i} {
         add_connection nios_avalon_monitor.m${i} sysid_qsys_0.control_slave avalon
         set_connection_parameter_value nios_avalon_monitor.m${i}/sysid_qsys_0.control_slave arbitrationPriority {1}
@@ -1029,7 +1047,13 @@ proc compose { } {
     set BaseAddress [expr {$BaseAddress + 0x8}]
     
     # Connection of GRTOS_Avalon_Bridge_1. at {0x00000000} span given by address_width
+    add_connection master_0.master GRTOS_Avalon_Bridge_1.s1 avalon
+    set_connection_parameter_value master_0.master/GRTOS_Avalon_Bridge_1.s1 arbitrationPriority {1}
+    set_connection_parameter_value master_0.master/GRTOS_Avalon_Bridge_1.s1 baseAddress {0x0000}
+    set_connection_parameter_value master_0.master/GRTOS_Avalon_Bridge_1.s1 defaultConnection {0}    
     for {set i 1} {$i <= $Processors} {incr i} {
+
+    
         add_connection nios_avalon_monitor.m${i} GRTOS_Avalon_Bridge_1.s${i} avalon
         set_connection_parameter_value nios_avalon_monitor.m${i}/GRTOS_Avalon_Bridge_1.s${i} arbitrationPriority {1}
         set_connection_parameter_value nios_avalon_monitor.m${i}/GRTOS_Avalon_Bridge_1.s${i} baseAddress {0x0000}
