@@ -637,6 +637,7 @@ proc compose { } {
     # CLOCK and RESET
     add_connection clock_bridge_0.out_clk master_0.clk clock
     add_connection reset_bridge_0.out_reset master_0.clk_reset reset
+    add_connection master_0.master_reset grtos_0.clock_reset_reset reset
     
     # GRTOS Avalon Bridge
     set Ports $Processors
