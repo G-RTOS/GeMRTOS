@@ -78,3 +78,6 @@ documentation/latex/
 documentation/xml/
 documentation/rtf/
 GeMRTOS/bemicrosdk/prueba.sh
+GeMRTOS/bemicrosdk/software/hellogemrtos/.cproject
+GeMRTOS/bemicrosdk/software/hellogemrtos/.project
+GeMRTOS/bemicrosdk/software/hellogemrtos/.settings/language.settings.xml

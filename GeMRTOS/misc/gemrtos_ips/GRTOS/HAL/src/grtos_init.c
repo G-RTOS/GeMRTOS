@@ -135,7 +135,7 @@ void gk_CODE_IDLE_TASK(void* pdata)
 	while(1)
     {
         #if G_DEBUG_PRINT_WHEN_PROCESSOR_GOES_IDLE == 1
-            fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "I ");
+            fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "I\n");
         #endif
         GRTOS_CMD_HALT_PROCESSOR; // Put the procesor in HALT mode 
     }
