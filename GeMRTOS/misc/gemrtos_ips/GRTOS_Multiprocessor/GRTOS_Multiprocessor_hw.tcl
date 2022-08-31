@@ -184,8 +184,6 @@ set_parameter_property EXTERNAL_MEMORY_UNIT HDL_PARAMETER false
 
 
 
-
-
 proc elaborate { } {
 
 }
@@ -884,9 +882,12 @@ proc compose { } {
         set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_0.s1 baseAddress $BaseAddress
         set_connection_parameter_value mm_clock_crossing_bridge_0.m0/onchip_memory2_0.s1 defaultConnection {0}        
     }
-    set BaseAddress [expr {$BaseAddress + 0x0200}]
-    # set BaseAddress [expr {$BaseAddress + 0x1000}]
-
+    set ancho [get_instance_interface_properties onchip_memory2_0 s1 ]
+    send_message Warning $ancho
+    set ancho [get_instance_interface_property onchip_memory2_0 s1 addressSpan ]
+    send_message Warning "Span of onchip_memory2_0 is $ancho"    
+    # set BaseAddress [expr {$BaseAddress + 0x0200}]
+    set BaseAddress [expr {$BaseAddress + $ancho}]
 
     # Connection of grtos_0.s_Global avalon at $BaseAddress span 0x200 
     add_connection master_0.master grtos_0.s_Global avalon
@@ -916,14 +917,16 @@ proc compose { } {
     for {set i 1} {$i <= $Processors} {incr i} {
         add_connection nios_avalon_monitor.m${i} nios_avalon_monitor.s_Global avalon
         set_connection_parameter_value nios_avalon_monitor.m${i}/nios_avalon_monitor.s_Global arbitrationPriority {1}
-        set_connection_parameter_value nios_avalon_monitor.m${i}/nios_avalon_monitor.s_Global baseAddress $BaseAddress
+        set address_base [ get_connection_parameter_value master_0.master/nios_avalon_monitor.s_Global baseAddress ]
+        set_connection_parameter_value nios_avalon_monitor.m${i}/nios_avalon_monitor.s_Global baseAddress $address_base
         set_connection_parameter_value nios_avalon_monitor.m${i}/nios_avalon_monitor.s_Global defaultConnection {0}
     }
     # HPS internal access
     if { [get_parameter_value ENABLE_HPS_MAP_ACCESS ] } {
         add_connection mm_clock_crossing_bridge_0.m0 nios_avalon_monitor.s_Global avalon
         set_connection_parameter_value mm_clock_crossing_bridge_0.m0/nios_avalon_monitor.s_Global arbitrationPriority {1}
-        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/nios_avalon_monitor.s_Global baseAddress $BaseAddress
+        set address_base [ get_connection_parameter_value master_0.master/nios_avalon_monitor.s_Global baseAddress ]
+        set_connection_parameter_value mm_clock_crossing_bridge_0.m0/nios_avalon_monitor.s_Global baseAddress $address_base
         set_connection_parameter_value mm_clock_crossing_bridge_0.m0/nios_avalon_monitor.s_Global defaultConnection {0}        
     }    
     set BaseAddress [expr {$BaseAddress + 0x100}]
@@ -938,7 +941,8 @@ proc compose { } {
     for {set i 1} {$i <= $Processors} {incr i} {
         add_connection nios_avalon_monitor.m${i} timer_0.s1 avalon
         set_connection_parameter_value nios_avalon_monitor.m${i}/timer_0.s1 arbitrationPriority {1}
-        set_connection_parameter_value nios_avalon_monitor.m${i}/timer_0.s1 baseAddress $BaseAddress
+        set address_base [ get_connection_parameter_value master_0.master/timer_0.s1 baseAddress ]
+        set_connection_parameter_value nios_avalon_monitor.m${i}/timer_0.s1 baseAddress $address_base
         set_connection_parameter_value nios_avalon_monitor.m${i}/timer_0.s1 defaultConnection {0}    
     }
     # HPS internal access
@@ -957,16 +961,19 @@ proc compose { } {
         set_connection_parameter_value grtos_0.dummy_master/grtos_0.s_processor${i} baseAddress $BaseAddress
         set_connection_parameter_value grtos_0.dummy_master/grtos_0.s_processor${i} defaultConnection {0}
         
+        # The processor 1 connects to all the ports
         if {$i != 1} {
             add_connection nios_avalon_monitor.m1 grtos_0.s_processor$i avalon
             set_connection_parameter_value nios_avalon_monitor.m1/grtos_0.s_processor${i} arbitrationPriority {1}
-            set_connection_parameter_value nios_avalon_monitor.m1/grtos_0.s_processor${i} baseAddress $BaseAddress
+            set address_base [ get_connection_parameter_value grtos_0.dummy_master/grtos_0.s_processor${i} baseAddress ]
+            set_connection_parameter_value nios_avalon_monitor.m1/grtos_0.s_processor${i} baseAddress $address_base
             set_connection_parameter_value nios_avalon_monitor.m1/grtos_0.s_processor${i} defaultConnection {0}        
         } 
 
         add_connection nios_avalon_monitor.m$i grtos_0.s_processor$i avalon
         set_connection_parameter_value nios_avalon_monitor.m${i}/grtos_0.s_processor${i} arbitrationPriority {1}
-        set_connection_parameter_value nios_avalon_monitor.m${i}/grtos_0.s_processor${i} baseAddress $BaseAddress
+        set address_base [ get_connection_parameter_value grtos_0.dummy_master/grtos_0.s_processor${i} baseAddress ]
+        set_connection_parameter_value nios_avalon_monitor.m${i}/grtos_0.s_processor${i} baseAddress $address_base
         set_connection_parameter_value nios_avalon_monitor.m${i}/grtos_0.s_processor${i} defaultConnection {0}
         
         # HPS internal access
@@ -1013,7 +1020,8 @@ proc compose { } {
  
             add_connection nios_avalon_monitor.m${i} jtag_uart_${j}.avalon_jtag_slave avalon
             set_connection_parameter_value nios_avalon_monitor.m${i}/jtag_uart_${j}.avalon_jtag_slave arbitrationPriority {1}
-            set_connection_parameter_value nios_avalon_monitor.m${i}/jtag_uart_${j}.avalon_jtag_slave baseAddress $BaseAddress
+            set address_base [ get_connection_parameter_value master_0.master/jtag_uart_${j}.avalon_jtag_slave baseAddress ]
+            set_connection_parameter_value nios_avalon_monitor.m${i}/jtag_uart_${j}.avalon_jtag_slave baseAddress $address_base
             set_connection_parameter_value nios_avalon_monitor.m${i}/jtag_uart_${j}.avalon_jtag_slave defaultConnection {0}        
         }
         # HPS internal access
@@ -1034,7 +1042,8 @@ proc compose { } {
     for {set i 1} {$i <= $Processors} {incr i} {
         add_connection nios_avalon_monitor.m${i} sysid_qsys_0.control_slave avalon
         set_connection_parameter_value nios_avalon_monitor.m${i}/sysid_qsys_0.control_slave arbitrationPriority {1}
-        set_connection_parameter_value nios_avalon_monitor.m${i}/sysid_qsys_0.control_slave baseAddress $BaseAddress
+        set address_base [ get_connection_parameter_value master_0.master/sysid_qsys_0.control_slave baseAddress ]
+        set_connection_parameter_value nios_avalon_monitor.m${i}/sysid_qsys_0.control_slave baseAddress $address_base
         set_connection_parameter_value nios_avalon_monitor.m${i}/sysid_qsys_0.control_slave defaultConnection {0}    
     }
     # HPS internal access
@@ -1043,7 +1052,8 @@ proc compose { } {
     #     set_connection_parameter_value mm_clock_crossing_bridge_0.m0/sysid_qsys_0.control_slave arbitrationPriority {1}
     #     set_connection_parameter_value mm_clock_crossing_bridge_0.m0/sysid_qsys_0.control_slave baseAddress $BaseAddress
     #     set_connection_parameter_value mm_clock_crossing_bridge_0.m0/sysid_qsys_0.control_slave defaultConnection {0}        
-    # }       
+    # } 
+    
     set BaseAddress [expr {$BaseAddress + 0x8}]
     
     # Connection of GRTOS_Avalon_Bridge_1. at {0x00000000} span given by address_width
@@ -1052,8 +1062,6 @@ proc compose { } {
     set_connection_parameter_value master_0.master/GRTOS_Avalon_Bridge_1.s1 baseAddress {0x0000}
     set_connection_parameter_value master_0.master/GRTOS_Avalon_Bridge_1.s1 defaultConnection {0}    
     for {set i 1} {$i <= $Processors} {incr i} {
-
-    
         add_connection nios_avalon_monitor.m${i} GRTOS_Avalon_Bridge_1.s${i} avalon
         set_connection_parameter_value nios_avalon_monitor.m${i}/GRTOS_Avalon_Bridge_1.s${i} arbitrationPriority {1}
         set_connection_parameter_value nios_avalon_monitor.m${i}/GRTOS_Avalon_Bridge_1.s${i} baseAddress {0x0000}
