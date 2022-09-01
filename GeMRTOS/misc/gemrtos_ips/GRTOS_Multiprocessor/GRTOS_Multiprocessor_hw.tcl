@@ -979,6 +979,49 @@ proc compose { } {
         # set BaseAddress [expr {$BaseAddress + 0x20}]
     }
 
+
+# ######################################## 01/09/2022
+    # Connection of grtos_0.s_processor_monitor$i at $BaseAddress span 0x8 each 
+    for {set i 1} {$i <= $Processors} {incr i} {
+        add_connection master_0.master grtos_0.s_processor_monitor$i avalon
+        set_connection_parameter_value master_0.master/grtos_0.s_processor_monitor${i} arbitrationPriority {1}
+        set_connection_parameter_value master_0.master/grtos_0.s_processor_monitor${i} baseAddress $BaseAddress
+        set_connection_parameter_value master_0.master/grtos_0.s_processor_monitor${i} defaultConnection {0}
+        
+        # The processor 1 connects to all the ports
+        if {$i != 1} {
+            add_connection nios_avalon_monitor.m1 grtos_0.s_processor_monitor$i avalon
+            set_connection_parameter_value nios_avalon_monitor.m1/grtos_0.s_processor_monitor${i} arbitrationPriority {1}
+            set address_base [ get_connection_parameter_value master_0.master/grtos_0.s_processor_monitor${i} baseAddress ]
+            set_connection_parameter_value nios_avalon_monitor.m1/grtos_0.s_processor_monitor${i} baseAddress $address_base
+            set_connection_parameter_value nios_avalon_monitor.m1/grtos_0.s_processor_monitor${i} defaultConnection {0}        
+        } 
+
+        add_connection nios_avalon_monitor.m$i grtos_0.s_processor_monitor$i avalon
+        set_connection_parameter_value nios_avalon_monitor.m${i}/grtos_0.s_processor_monitor${i} arbitrationPriority {1}
+        set address_base [ get_connection_parameter_value master_0.master/grtos_0.s_processor_monitor${i} baseAddress ]
+        set_connection_parameter_value nios_avalon_monitor.m${i}/grtos_0.s_processor_monitor${i} baseAddress $address_base
+        set_connection_parameter_value nios_avalon_monitor.m${i}/grtos_0.s_processor_monitor${i} defaultConnection {0}
+        
+        # HPS internal access does not require acces to idle port
+        if { [get_parameter_value ENABLE_HPS_MAP_ACCESS ] } {
+            add_connection mm_clock_crossing_bridge_0.m0 grtos_0.s_processor_monitor${i} avalon
+            set_connection_parameter_value mm_clock_crossing_bridge_0.m0/grtos_0.s_processor_monitor${i} arbitrationPriority {1}
+            set address_base [ get_connection_parameter_value master_0.master/grtos_0.s_processor_monitor${i} baseAddress ]
+            set_connection_parameter_value mm_clock_crossing_bridge_0.m0/grtos_0.s_processor_monitor${i} baseAddress $address_base
+            set_connection_parameter_value mm_clock_crossing_bridge_0.m0/grtos_0.s_processor_monitor${i} defaultConnection {0}        
+        }   
+        set ancho [get_instance_interface_property grtos_0 s_processor_monitor${i} addressSpan ]
+        send_message Warning "Span of grtos_0 s_processor_monitor${i} is $ancho, base address is $BaseAddress"
+        set BaseAddress [expr {$BaseAddress + max(0x8, $ancho)}]          
+        # set BaseAddress [expr {$BaseAddress + 0x20}]
+    }
+
+# ######################################## 01/09/2022
+
+
+
+
 # ########################################
 # Lugar anterior de grtos_monitor
 #    # Connection of grtos_0.s_processor_monitor at $BaseAddress span 0x8  

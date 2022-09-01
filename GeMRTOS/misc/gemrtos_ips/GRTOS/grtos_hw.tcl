@@ -332,6 +332,44 @@ set Processors [get_parameter_value NProcessors]
         set_interface_assignment s_processor$i embeddedsw.configuration.isMemoryDevice 0
         set_interface_assignment s_processor$i embeddedsw.configuration.isNonVolatileStorage 0
         set_interface_assignment s_processor$i embeddedsw.configuration.isPrintableDevice 0
+        
+        # ########################################## 01/09/2022
+        # 
+        # connection point monitor for processors in grtos 
+        #         
+        add_interface s_processor_monitor$i avalon end
+        set_interface_property s_processor_monitor$i addressUnits WORDS
+        set_interface_property s_processor_monitor$i associatedClock clock_reset
+        set_interface_property s_processor_monitor$i associatedReset clock_reset_reset
+        set_interface_property s_processor_monitor$i bitsPerSymbol 8
+        set_interface_property s_processor_monitor$i burstOnBurstBoundariesOnly false
+        set_interface_property s_processor_monitor$i burstcountUnits WORDS
+        set_interface_property s_processor_monitor$i explicitAddressSpan 0
+        set_interface_property s_processor_monitor$i holdTime 0
+        set_interface_property s_processor_monitor$i linewrapBursts false
+        set_interface_property s_processor_monitor$i maximumPendingReadTransactions 0
+        set_interface_property s_processor_monitor$i readLatency 0
+        set_interface_property s_processor_monitor$i readWaitStates 0
+        set_interface_property s_processor_monitor$i readWaitTime 0
+        set_interface_property s_processor_monitor$i setupTime 0
+        set_interface_property s_processor_monitor$i timingUnits Cycles
+        set_interface_property s_processor_monitor$i writeWaitTime 0
+        set_interface_property s_processor_monitor$i ENABLED true
+
+        add_interface_port s_processor_monitor$i slave_processor_monitor_address$i address Input 1
+        add_interface_port s_processor_monitor$i slave_processor_monitor_read$i read Input 1
+        add_interface_port s_processor_monitor$i slave_processor_monitor_write$i write Input 1
+        add_interface_port s_processor_monitor$i slave_processor_monitor_readdata$i readdata Output 32
+        add_interface_port s_processor_monitor$i slave_processor_monitor_writedata$i writedata Input 32
+        # add_interface_port s_processor_monitor$i slave_processor_chipselect$i chipselect Input 1
+        add_interface_port s_processor_monitor$i slave_processor_monitor_waitrequest$i waitrequest Output 1 
+        set_interface_assignment s_processor_monitor$i embeddedsw.configuration.isFlash 0
+        set_interface_assignment s_processor_monitor$i embeddedsw.configuration.isMemoryDevice 0
+        set_interface_assignment s_processor_monitor$i embeddedsw.configuration.isNonVolatileStorage 0
+        set_interface_assignment s_processor_monitor$i embeddedsw.configuration.isPrintableDevice 0        
+        
+        # ########################################## 01/09/2022        
+        
         # ##########################################
         # 
         # connection point slv_rst(1)
