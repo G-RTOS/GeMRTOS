@@ -356,7 +356,7 @@ set Processors [get_parameter_value NProcessors]
         set_interface_property s_processor_monitor$i writeWaitTime 0
         set_interface_property s_processor_monitor$i ENABLED true
 
-        add_interface_port s_processor_monitor$i slave_processor_monitor_address$i address Input 1
+        add_interface_port s_processor_monitor$i slave_processor_monitor_address$i address Input 3
         add_interface_port s_processor_monitor$i slave_processor_monitor_read$i read Input 1
         add_interface_port s_processor_monitor$i slave_processor_monitor_write$i write Input 1
         add_interface_port s_processor_monitor$i slave_processor_monitor_readdata$i readdata Output 32
