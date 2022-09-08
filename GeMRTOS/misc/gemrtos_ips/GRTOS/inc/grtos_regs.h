@@ -38,7 +38,7 @@
 
 #define ADDR_NXT_OCC_TM_HGH     3
 #define ADDR_SYS_MUTEX_TIME_HGH 4
-
+#define C_SYS_TM                5
 #define ADDR_MTX_GRN            6
 #define ADDR_MTX_RLS            7
 
@@ -74,7 +74,7 @@
 #define IORD_GRTOS_SMP                           IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP)
 #define IORD_GRTOS_TM_CNT_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TM_CNT_HGH)
 #define IORD_GRTOS_SYS_MUTEX_TIME_HGH            IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SYS_MUTEX_TIME_HGH)
-
+#define IORD_GRTOS_SYS_TM_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SYS_TM)
 #define IORD_GRTOS_MTX_RQS                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_GRN)
 #define IORD_GRTOS_ELP_TM_CNT                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_ELP_TM_CNT)
 #define IORD_GRTOS_FRZ_TM_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH)
