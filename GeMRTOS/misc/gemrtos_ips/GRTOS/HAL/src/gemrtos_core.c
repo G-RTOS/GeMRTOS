@@ -79,6 +79,13 @@ GS_TCB *gk_TCB_GetFree(void)
     ptcb->TCB_RDY_LCB_Index    = (GS_LCB *) G_TASK_LCB_DEFAULT; 
     ptcb->TCB_Abort_w_Deadline = G_FALSE;
     ptcb->TCBState             = G_TASK_STATE_UNLINKED;
+    
+    /// TCBs linked list for debugging
+    ptcb->TCB_NEXT_TCBs = g_kcb.KCB_ROOT_TCBs;
+    if (g_kcb.KCB_ROOT_TCBs != (struct gs_tcb *) 0) g_kcb.KCB_ROOT_TCBs->TCB_PREV_TCBs = ptcb;
+    ptcb->TCB_PREV_TCBs = (struct gs_tcb *) 0;
+    g_kcb.KCB_ROOT_TCBs = (struct gs_tcb *) ptcb;
+
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
@@ -121,6 +128,12 @@ GS_ECB *gk_ECB_GetFree(void)
     pecb->ECBValue.i64   = G_LOWEST_PRIORITY;
     pecb->ECBState       = GS_ECB_STATE_UNLINKED;
     
+    /// TCBs linked list for debugging
+    pecb->ECB_NEXT_ECBs = g_kcb.KCB_ROOT_ECBs;
+    if (g_kcb.KCB_ROOT_ECBs != (struct gs_ecb *) 0) g_kcb.KCB_ROOT_ECBs->ECB_PREV_ECBs = pecb;
+    pecb->ECB_PREV_ECBs = (struct gs_ecb *) 0;
+    g_kcb.KCB_ROOT_ECBs = (struct gs_ecb *) pecb;    
+    
     SAMPLE_FUNCTION_END(1)
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
@@ -156,6 +169,12 @@ G_RCB *gk_RCB_GetFree(void)
     prcb->RCB_NextRCBWEL = (struct gs_ecb *) 0;
     prcb->RCBType = GK_RCB_TYPE_UNUSED;
     
+    /// TCBs linked list for debugging
+    // prcb->RCB_NEXT_RCBs = g_kcb.KCB_ROOT_RCBs;
+    // if (g_kcb.KCB_ROOT_RCBs != (struct g_rcb *) 0) g_kcb.KCB_ROOT_RCBs->RCB_PREV_RCBs = (struct g_rcb *) prcb;
+    // prcb->RCB_PREV_RCBs = (struct g_rcb *) 0;
+    // g_kcb.KCB_ROOT_RCBs = (struct g_rcb *) prcb;    
+    
     SAMPLE_FUNCTION_END(19)
 
     return prcb;
@@ -179,6 +198,13 @@ GS_SCB *gk_SCB_GetFree(void)
     pscb->malloc_address = mem;  
     pscb->SCBState       = G_SCB_STATE_FREE;
     pscb->SCBState       = G_SCB_STATE_UNLINKED;
+    
+    /// TCBs linked list for debugging
+    pscb->SCB_NEXT_SCBs = g_kcb.KCB_ROOT_SCBs;
+    if (g_kcb.KCB_ROOT_SCBs != (struct gs_scb *) 0) g_kcb.KCB_ROOT_SCBs->SCB_PREV_SCBs = pscb;
+    pscb->SCB_PREV_SCBs = (struct gs_scb *) 0;
+    g_kcb.KCB_ROOT_SCBs = (struct gs_scb *) pscb;
+
     
     SAMPLE_FUNCTION_END(26)
     
@@ -212,6 +238,12 @@ GS_RRDS *gk_RRDS_GetFree(void)
     prrds->RRDS_NextSCB  = (struct gs_scb  *) 0;
     prrds->RRDS_AsocECB  = (struct gs_ecb  *) 0;    
     
+    /// TCBs linked list for debugging
+    prrds->RRDS_NEXT_RRDSs = g_kcb.KCB_ROOT_RRDSs;
+    if (g_kcb.KCB_ROOT_RRDSs != (struct gs_rrds *) 0) g_kcb.KCB_ROOT_RRDSs->RRDS_PREV_RRDSs = prrds;
+    prrds->RRDS_PREV_RRDSs = (struct gs_rrds *) 0;
+    g_kcb.KCB_ROOT_RRDSs = (struct gs_rrds *) prrds;    
+    
     SAMPLE_FUNCTION_END(48)
     return prrds;
 }
@@ -221,6 +253,7 @@ GS_RRDS *gk_RRDS_GetFree(void)
  *  \return Ponter to the LCB created
  *  \todo System signal should be implmented when no free LCB is available
  *  \todo Rewrite all the LCB support
+ *  \todo Write the destroy LCB structure
  *  \relates Core
  */
 GS_LCB *gk_Get_LCB(void)
@@ -237,6 +270,13 @@ GS_LCB *gk_Get_LCB(void)
     plcb->LCB_NextTCBRDYL = (struct gs_tcb *) 0; 	   /* Pointer to the TCB of the Highest Priority Task */
     plcb->LCB_NextLCBFPL  = (struct gs_pcb *) 0;       /*!< Next free processor for this list */
     plcb->LCBState        = GS_LCB_STATE_UNLINKED;     
+
+    /// LCBs linked list for debugging
+    plcb->LCB_NEXT_LCBs = g_kcb.KCB_ROOT_LCBs;
+    if (g_kcb.KCB_ROOT_LCBs != (struct gs_lcb *) 0) g_kcb.KCB_ROOT_LCBs->LCB_PREV_LCBs = plcb;
+    plcb->LCB_PREV_LCBs = (struct gs_lcb *) 0;
+    g_kcb.KCB_ROOT_LCBs = (struct gs_lcb *) plcb;
+
     
     // Link to the LCBL linked list
     gk_LCBL_Link((GS_LCB *) plcb);

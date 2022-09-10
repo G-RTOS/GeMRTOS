@@ -332,6 +332,11 @@ INT32 gk_ECBFL_Link(GS_ECB *pevent)
 	if (pevent->ECBState != GS_ECB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
 
+    /// TCBs linked list for debugging
+    if (g_kcb.KCB_ROOT_ECBs != (struct gs_ecb *) pevent) pevent->ECB_PREV_ECBs->ECB_NEXT_ECBs = pevent->ECB_NEXT_ECBs;
+    else g_kcb.KCB_ROOT_ECBs = pevent->ECB_NEXT_ECBs;
+    if (pevent->ECB_NEXT_ECBs != (struct gs_ecb *) 0) pevent->ECB_NEXT_ECBs->ECB_PREV_ECBs = pevent->ECB_PREV_ECBs; 
+
     free(pevent->malloc_address);
     g_kcb.KCB_NUMBER_OF_ECBs-- ;
     
@@ -850,6 +855,11 @@ INT32 gk_RCBFL_Link(G_RCB *presource)
 	if (presource->RCBType != GK_RCB_TYPE_UNUSED) G_DEBUG_WHILEFOREVER;
 #endif
 
+    /// RCBs linked list for debugging
+    if (g_kcb.KCB_ROOT_RCBs != (struct g_rcb *) presource) presource->RCB_PREV_RCBs->RCB_NEXT_RCBs = presource->RCB_NEXT_RCBs;
+    else g_kcb.KCB_ROOT_RCBs = presource->RCB_NEXT_RCBs;
+    if (presource->RCB_NEXT_RCBs != (struct g_rcb *) 0) presource->RCB_NEXT_RCBs->RCB_PREV_RCBs = presource->RCB_PREV_RCBs; 
+
     free(presource->malloc_address);
     g_kcb.KCB_NUMBER_OF_RCBs--; 
     
@@ -1167,6 +1177,11 @@ INT32 gk_SCBFL_Link(GS_SCB *psignal)
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (psignal->SCBState != G_SCB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
+
+    /// SCBs linked list for debugging
+    if (g_kcb.KCB_ROOT_SCBs != (struct gs_scb *) psignal) psignal->SCB_PREV_SCBs->SCB_NEXT_SCBs = psignal->SCB_NEXT_SCBs;
+    else g_kcb.KCB_ROOT_SCBs = psignal->SCB_NEXT_SCBs;
+    if (psignal->SCB_NEXT_SCBs != (struct gs_scb *) 0) psignal->SCB_NEXT_SCBs->SCB_PREV_SCBs = psignal->SCB_PREV_SCBs; 
 
     free(psignal->malloc_address);
     g_kcb.KCB_NUMBER_OF_SCBs--; 
@@ -1495,8 +1510,15 @@ INT32 gk_TCBFL_Link(GS_TCB *ptcb)
 	/* Remove the links from TCB        */
     gk_TCB_List_Unlink(ptcb);
 
+    /// TCBs linked list for debugging
+    if (g_kcb.KCB_ROOT_TCBs != (struct gs_tcb *) ptcb) ptcb->TCB_PREV_TCBs->TCB_NEXT_TCBs = ptcb->TCB_NEXT_TCBs;
+    else g_kcb.KCB_ROOT_TCBs = ptcb->TCB_NEXT_TCBs;
+    if (ptcb->TCB_NEXT_TCBs != (struct gs_tcb *) 0) ptcb->TCB_NEXT_TCBs->TCB_PREV_TCBs = ptcb->TCB_PREV_TCBs;        
+
+    /// freed the structure
     free(ptcb->malloc_address);
     g_kcb.KCB_NUMBER_OF_TCBs--; 
+
     
 	G_DEBUG_VERBOSE
 
@@ -2092,7 +2114,12 @@ INT32 gk_RRDSFL_Link(GS_RRDS *prrds)
 	}
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
     fprintf(stderr,"[ MESSAGE ] Insert the RRDS in the Free RRDS List\n");    
-#endif     
+#endif
+
+    /// TCBs linked list for debugging
+    if (g_kcb.KCB_ROOT_RRDSs != (struct gs_tcb *) prrds) prrds->RRDS_PREV_RRDSs->RRDS_NEXT_RRDSs = prrds->RRDS_NEXT_RRDSs;
+    else g_kcb.KCB_ROOT_RRDSs = prrds->RRDS_NEXT_RRDSs;
+    if (prrds->RRDS_NEXT_RRDSs != (struct gs_tcb *) 0) prrds->RRDS_NEXT_RRDSs->RRDS_PREV_RRDSs = prrds->RRDS_PREV_RRDSs; 
     
     free(prrds->malloc_address);
     g_kcb.KCB_NUMBER_OF_RRDSs-- ;

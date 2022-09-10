@@ -561,6 +561,14 @@ void gk_INIT_KERNEL(void)
     g_kcb.KCB_NUMBER_OF_SCBs  = 0; 
     g_kcb.KCB_NUMBER_OF_RRDSs = 0;   
 
+    g_kcb.KCB_ROOT_TCBs   = (struct gs_tcb  *) 0;
+    g_kcb.KCB_ROOT_ECBs   = (struct gs_ecb  *) 0;
+    g_kcb.KCB_ROOT_RCBs   = (struct g_rcb   *) 0;
+    g_kcb.KCB_ROOT_LCBs   = (struct gs_lcb  *) 0;
+    g_kcb.KCB_ROOT_SCBs   = (struct gs_scb  *) 0;
+    g_kcb.KCB_ROOT_RRDSs  = (struct gs_rrds *) 0;
+
+
     // volatile INT32   G_ISR_STACK[ALT_NIRQ][G_ISR_STACKSIZE] __attribute__((aligned(4)));  
     void   *mem1 = malloc(sizeof(INT32) * ALT_NIRQ * G_ISR_STACKSIZE + 31);
     g_kcb.G_ISR_STACK = (INT32 *) (((uintptr_t)mem1+15) & ~ (uintptr_t)0x0F);    

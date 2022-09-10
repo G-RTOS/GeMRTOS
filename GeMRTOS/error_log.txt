@@ -164,10 +164,10 @@ In file included from drivers/src/grtos_kernel.c:29:0:
      // if (G_Running == G_TRUE) { \
      ^
 drivers/src/grtos_kernel.c: In function 'gk_START_KERNEL':
-drivers/src/grtos_kernel.c:706:27: warning: embedded '\0' in format [-Wformat-contains-nul]
+drivers/src/grtos_kernel.c:714:27: warning: embedded '\0' in format [-Wformat-contains-nul]
          sprintf(filename, "/dev/%s_jtag_uart_%d\0", GRTOS_DRIVER_SYSTEM_NAME, i+2);
                            ^
-drivers/src/grtos_kernel.c:706:27: warning: embedded '\0' in format [-Wformat-contains-nul]
+drivers/src/grtos_kernel.c:714:27: warning: embedded '\0' in format [-Wformat-contains-nul]
 In file included from drivers/src/grtosuserfunctions.c:32:0:
 ./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
     //  if (G_Running == G_TRUE) { \
@@ -182,6 +182,20 @@ In file included from drivers/src/listfunctions.c:30:0:
 ./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
      // if (G_Running == G_TRUE) { \
      ^
+drivers/src/listfunctions.c: In function 'gk_RCBFL_Link':
+drivers/src/listfunctions.c:860:30: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+     else g_kcb.KCB_ROOT_RCBs = presource->RCB_NEXT_RCBs;
+                              ^
+drivers/src/listfunctions.c:861:34: warning: comparison of distinct pointer types lacks a cast
+     if (presource->RCB_NEXT_RCBs != (struct g_rcb *) 0) presource->RCB_NEXT_RCBs->RCB_PREV_RCBs = presource->RCB_PREV_RCBs; 
+                                  ^
+drivers/src/listfunctions.c: In function 'gk_RRDSFL_Link':
+drivers/src/listfunctions.c:2120:30: warning: comparison of distinct pointer types lacks a cast
+     if (g_kcb.KCB_ROOT_RRDSs != (struct gs_tcb *) prrds) prrds->RRDS_PREV_RRDSs->RRDS_NEXT_RRDSs = prrds->RRDS_NEXT_RRDSs;
+                              ^
+drivers/src/listfunctions.c:2122:32: warning: comparison of distinct pointer types lacks a cast
+     if (prrds->RRDS_NEXT_RRDSs != (struct gs_tcb *) 0) prrds->RRDS_NEXT_RRDSs->RRDS_PREV_RRDSs = prrds->RRDS_PREV_RRDSs; 
+                                ^
 In file included from ./drivers/inc/grtos.h:43:0,
                  from drivers/src/monitor.c:30:
 ./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]

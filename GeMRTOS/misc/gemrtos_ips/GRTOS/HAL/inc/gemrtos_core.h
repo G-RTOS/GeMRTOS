@@ -58,8 +58,12 @@ struct gs_ecb {
     struct gs_ecb  *ECB_NextTCBAEL;    ///< \brief Pointer to the next event of the same task            
     struct gs_ecb  *ECB_PrevTCBAEL;    ///< \brief Pointer to the previous event of the same task        
     struct gs_ecb  *ECB_NextECBAEL;    ///< \brief Pointer to the event associated with this (ie timeout)
-    struct gs_scb  *ECB_NextECBASL;    ///< \brief Pointer to the Linked list of signals                 
-    struct gs_rrds *ECB_RRDS;          ///< \brief Pointer to the resource request structure or MCB      
+    struct gs_scb  *ECB_NextECBASL;    ///< \brief Pointer to the Linked list of signals
+    struct gs_rrds *ECB_RRDS;          ///< \brief Pointer to the resource request structure or MCB
+    
+    /// Fields for debugging
+    struct gs_ecb  *ECB_NEXT_ECBs;     ///< \brief Pointer to next TCB structure. Used for debugging purposes.
+    struct gs_ecb  *ECB_PREV_ECBs;     ///< \brief Pointer to previous TCB structure. Used for debugging purposes.
 };
 
 /// ECBState valid values
@@ -108,7 +112,7 @@ struct gs_kcb {
     INT32             KCB_NUMBER_OF_RCBs;    ///< \brief Number of RCB in the system 
     INT32             KCB_NUMBER_OF_LCBs;    ///< \brief Number of LCB in the system 
     INT32             KCB_NUMBER_OF_SCBs;    ///< \brief Number of SCB in the system 
-    INT32             KCB_NUMBER_OF_RRDSs;      ///< \brief Number of RRDS in the system 
+    INT32             KCB_NUMBER_OF_RRDSs;   ///< \brief Number of RRDS in the system 
     
     /// IDLE and ISR tasks 
     // volatile INT32   G_ISR_STACK[ALT_NIRQ][G_ISR_STACKSIZE] __attribute__((aligned(4)));           ///< \brief Array of STACKS for ISR tasks
@@ -116,6 +120,13 @@ struct gs_kcb {
     volatile INT32   *G_ISR_STACK;
     volatile GS_STK  *G_IDLE_STACK;
     
+    /// roots for linked list of data structures
+    struct gs_tcb    *KCB_ROOT_TCBs;        ///< \brief pointer to the first TCB structure. Used for debugging purposes.
+    struct gs_ecb    *KCB_ROOT_ECBs;        ///< \brief pointer to the first ECB structure. Used for debugging purposes.
+    struct g_rcb     *KCB_ROOT_RCBs;        ///< \brief pointer to the first RCB structure. Used for debugging purposes.
+    struct gs_lcb    *KCB_ROOT_LCBs;        ///< \brief pointer to the first LCB structure. Used for debugging purposes.
+    struct gs_scb    *KCB_ROOT_SCBs;        ///< \brief pointer to the first SCB structure. Used for debugging purposes.    
+    struct gs_rrds   *KCB_ROOT_RRDSs;       ///< \brief pointer to the first RRDS structure. Used for debugging purposes.    
 };
 
 //*************************************************************************************************
@@ -139,7 +150,11 @@ struct gs_lcb {
 	struct gs_tcb  *LCB_NextTCBRDYL;	 ///< \brief Pointer to the TCB of the Highest Priority Task 
 	struct gs_lcb  *LCB_NextLCBL;       ///< \brief Pointer to the next list ordered by priority 
 	struct gs_lcb  *LCB_PrevLCBL;       ///< \brief Pointer to the next list ordered by priority 
-	struct gs_pcb  *LCB_NextLCBFPL;     ///< \brief Next free processor for this list 
+	struct gs_pcb  *LCB_NextLCBFPL;     ///< \brief Next free processor for this list
+    
+    /// Fields for debugging
+    struct gs_lcb  *LCB_NEXT_LCBs;     ///< \brief Pointer to next LCB structure. Used for debugging purposes.
+    struct gs_lcb  *LCB_PREV_LCBs;     ///< \brief Pointer to previous LCB structure. Used for debugging purposes.    
 };
 
 /** State of the List Control Block */
@@ -240,6 +255,11 @@ struct g_rgb{
         struct gs_ecb *RCB_NextRCBGEL;        ///< \brief Pointer to the linked highest priority event
         struct g_rcb  *RCB_NextRCB;           ///< \brief Pointer to link resources in free list
         struct gs_scb *RCB_NextRCBASL;        ///< \brief Pointer to the Linked list of signals
+        
+    
+        /// Fields for debugging
+        struct g_rgb *RCB_NEXT_RCBs;     ///< \brief Pointer to next RCB structure. Used for debugging purposes.
+        struct g_rgb *RCB_PREV_RCBs;     ///< \brief Pointer to previous RCB structure. Used for debugging purposes.
     };    
     union {
         struct T_SEMAPHORE_RESOURCE semaphore;         ///< \brief is the semaphore resource structure
@@ -280,7 +300,11 @@ struct gs_rrds {
             void           *malloc_address;      ///< \brief Pointer memory address of the malloc block                            
             struct gs_rrds *RRDS_NextRRDS;       ///< \brief Pointer to the next RRDS structure                    
             struct gs_scb  *RRDS_NextSCB;        ///< \brief Pointer to the Linked list of signals 
-            struct gs_ecb  *RRDS_AsocECB;        ///< \brief Pointer to ECB the RRDS is linked to 
+            struct gs_ecb  *RRDS_AsocECB;        ///< \brief Pointer to ECB the RRDS is linked to
+            
+            /// Fields for debugging
+            struct gs_rrds  *RRDS_NEXT_RRDSs;     ///< \brief Pointer to next RRDS structure. Used for debugging purposes.
+            struct gs_rrds  *RRDS_PREV_RRDSs;     ///< \brief Pointer to previous RRDS structure. Used for debugging purposes.            
     };
     union {
         struct {         
@@ -314,7 +338,11 @@ struct gs_scb {
     void          *SCB_TaskArg;             ///< \brief Pointer to the argument of the signal 
     struct        gs_scb *SCB_NextSCB;      ///< \brief Pointer to the next SCB linked
     struct        gs_scb *SCB_NextSCBAPSL;  ///< \brief Pointer to the next pending SCB lined
-    void          *SCB_AssocXCB;            ///< \brief Pointer to the data structure root of the SCBASL 
+    void          *SCB_AssocXCB;            ///< \brief Pointer to the data structure root of the SCBASL
+    
+    /// Fields for debugging
+    struct gs_scb  *SCB_NEXT_SCBs;     ///< \brief Pointer to next SCB structure. Used for debugging purposes.
+    struct gs_scb  *SCB_PREV_SCBs;     ///< \brief Pointer to previous SCB structure. Used for debugging purposes.    
 };
 
 // SCBState gruop
@@ -374,6 +402,10 @@ struct gs_tcb
 	int TCB_Abort_w_Deadline;             ///< \brief True if task should be aborted when deadline, false otherwise
     struct gs_tcb *TCB_NextISRTCB;        ///< \brief Pointer to the next TCB for the same ISR (when task is a ISR)
     struct gs_tcb *TCB_PrevISRTCB;        ///< \brief Pointer to the previous TCB for the same ISR (when task is a ISR)
+    
+    /// Fields for debugging
+    struct gs_tcb  *TCB_NEXT_TCBs;     ///< \brief Pointer to next TCB structure. Used for debugging purposes.
+    struct gs_tcb  *TCB_PREV_TCBs;     ///< \brief Pointer to previous TCB structure. Used for debugging purposes.         
 };
 
 // TCBState gruop
