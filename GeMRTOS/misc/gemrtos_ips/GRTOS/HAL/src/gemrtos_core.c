@@ -170,10 +170,13 @@ G_RCB *gk_RCB_GetFree(void)
     prcb->RCBType = GK_RCB_TYPE_UNUSED;
     
     /// TCBs linked list for debugging
-    // prcb->RCB_NEXT_RCBs = g_kcb.KCB_ROOT_RCBs;
-    // if (g_kcb.KCB_ROOT_RCBs != (struct g_rcb *) 0) g_kcb.KCB_ROOT_RCBs->RCB_PREV_RCBs = (struct g_rcb *) prcb;
-    // prcb->RCB_PREV_RCBs = (struct g_rcb *) 0;
-    // g_kcb.KCB_ROOT_RCBs = (struct g_rcb *) prcb;    
+    prcb->RCB_NEXT_RCBs = g_kcb.KCB_ROOT_RCBs;
+    if (g_kcb.KCB_ROOT_RCBs != (struct g_rcb *) 0) {
+        G_RCB *presource = (G_RCB *) g_kcb.KCB_ROOT_RCBs;
+        presource->RCB_PREV_RCBs = (struct g_rcb *) prcb;
+    }
+    prcb->RCB_PREV_RCBs = (struct g_rcb *) 0;
+    g_kcb.KCB_ROOT_RCBs = (struct g_rcb *) prcb;    
     
     SAMPLE_FUNCTION_END(19)
 

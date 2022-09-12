@@ -149,6 +149,16 @@ In file included from drivers/src/gemrtos_core.c:30:0:
 ./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
      // if (G_Running == G_TRUE) { \
      ^
+drivers/src/gemrtos_core.c: In function 'gk_RCB_GetFree':
+drivers/src/gemrtos_core.c:173:25: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+     prcb->RCB_NEXT_RCBs = g_kcb.KCB_ROOT_RCBs;
+                         ^
+drivers/src/gemrtos_core.c:176:34: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+         presource->RCB_PREV_RCBs = (struct g_rcb *) prcb;
+                                  ^
+drivers/src/gemrtos_core.c:178:25: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+     prcb->RCB_PREV_RCBs = (struct g_rcb *) 0;
+                         ^
 In file included from drivers/src/grtos_init.c:29:0:
 ./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
     //  if (G_Running == G_TRUE) { \
