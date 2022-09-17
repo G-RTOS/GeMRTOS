@@ -256,7 +256,6 @@ struct g_rgb{
         struct g_rcb  *RCB_NextRCB;           ///< \brief Pointer to link resources in free list
         struct gs_scb *RCB_NextRCBASL;        ///< \brief Pointer to the Linked list of signals
         
-    
         /// Fields for debugging
         struct g_rgb *RCB_NEXT_RCBs;     ///< \brief Pointer to next RCB structure. Used for debugging purposes.
         struct g_rgb *RCB_PREV_RCBs;     ///< \brief Pointer to previous RCB structure. Used for debugging purposes.
