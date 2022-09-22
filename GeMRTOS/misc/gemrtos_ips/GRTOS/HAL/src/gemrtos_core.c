@@ -79,6 +79,9 @@ GS_TCB *gk_TCB_GetFree(void)
     ptcb->TCB_RDY_LCB_Index    = (GS_LCB *) G_TASK_LCB_DEFAULT; 
     ptcb->TCB_Abort_w_Deadline = G_FALSE;
     ptcb->TCBState             = G_TASK_STATE_UNLINKED;
+    ptcb->TCB_NextISRTCB       = (struct gs_tcb *) 0;
+    ptcb->TCB_PrevISRTCB       = (struct gs_tcb *) 0;
+    
     
     /// TCBs linked list for debugging
     ptcb->TCB_NEXT_TCBs = g_kcb.KCB_ROOT_TCBs;

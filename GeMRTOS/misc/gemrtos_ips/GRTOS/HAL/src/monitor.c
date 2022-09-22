@@ -74,6 +74,7 @@ void gk_RST_MONITOR_HANDLER (void)
  */
 INT32 TCB_IsValid(GS_TCB *ptcb)
 {
+    if (ptcb == (GS_TCB *) 0) return(G_TRUE);
     if (ptcb->BLOCK_HASH == (unsigned int) ptcb + 1) return(G_TRUE);
     return(G_FALSE);
 }
@@ -106,6 +107,7 @@ INT32 PCB_IsValid(GS_PCB *ppcb)
  */
 INT32 ECB_IsValid(GS_ECB *pevent)
 {
+    if (pevent == (GS_ECB *) 0) return(G_TRUE);
     if (pevent->BLOCK_HASH == (unsigned int) pevent + 2) return(G_TRUE);
     return(G_FALSE);
 }
@@ -122,6 +124,7 @@ INT32 ECB_IsValid(GS_ECB *pevent)
  */ 
 INT32 SCB_IsValid(GS_SCB *pscb)
 {
+    if (pscb == (GS_SCB *) 0) return(G_TRUE);
     if (pscb->BLOCK_HASH == (unsigned int) pscb + 4) return(G_TRUE);
     return(G_FALSE);
 }
@@ -137,6 +140,7 @@ INT32 SCB_IsValid(GS_SCB *pscb)
  */ 
 INT32 RCB_IsValid(void *prcb)
 {
+    if (prcb == (void *) 0) return(G_TRUE);
     if (((G_RCB *) prcb)->BLOCK_HASH == (unsigned int) prcb + 3) return(G_TRUE);
     return(G_FALSE);
 }
@@ -152,6 +156,7 @@ INT32 RCB_IsValid(void *prcb)
  */ 
 INT32 RRDS_IsValid(GS_RRDS *prrds)
 {
+    if (prrds == (GS_RRDS *) 0) return(G_TRUE);
     if (prrds->BLOCK_HASH == (unsigned int) prrds + 5) return(G_TRUE);
     return(G_FALSE);
 }

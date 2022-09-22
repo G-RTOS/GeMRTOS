@@ -150,13 +150,13 @@ In file included from drivers/src/gemrtos_core.c:30:0:
      // if (G_Running == G_TRUE) { \
      ^
 drivers/src/gemrtos_core.c: In function 'gk_RCB_GetFree':
-drivers/src/gemrtos_core.c:173:25: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+drivers/src/gemrtos_core.c:176:25: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
      prcb->RCB_NEXT_RCBs = g_kcb.KCB_ROOT_RCBs;
                          ^
-drivers/src/gemrtos_core.c:176:34: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+drivers/src/gemrtos_core.c:179:34: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
          presource->RCB_PREV_RCBs = (struct g_rcb *) prcb;
                                   ^
-drivers/src/gemrtos_core.c:178:25: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+drivers/src/gemrtos_core.c:181:25: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
      prcb->RCB_PREV_RCBs = (struct g_rcb *) 0;
                          ^
 In file included from drivers/src/grtos_init.c:29:0:
@@ -215,7 +215,7 @@ In file included from ./drivers/inc/grtos.h:43:0,
      // if (G_Running == G_TRUE) { \
      ^
 drivers/src/monitor.c: In function 'IsAListorNull':
-drivers/src/monitor.c:170:6: warning: unused variable 'lcb' [-Wunused-variable]
+drivers/src/monitor.c:175:6: warning: unused variable 'lcb' [-Wunused-variable]
   int lcb;
       ^
 In file included from drivers/src/mq.c:31:0:
