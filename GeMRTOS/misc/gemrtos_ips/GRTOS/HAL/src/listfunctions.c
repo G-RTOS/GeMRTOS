@@ -2405,7 +2405,7 @@ INT32 gk_SetNextTimeProcessor(void)
 {
 	SAMPLE_FUNCTION_BEGIN(56)
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) 00) G_DEBUG_WHILEFOREVER;
+        if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER;
         if (g_kcb.KCB_NextECBTL->ECB_AssocTCB == (GS_TCB *)0 &&
             g_kcb.KCB_NextECBTL->ECBType != (INT32) G_ECB_TYPE_LASTEST_TIME) G_DEBUG_WHILEFOREVER;
         if (g_kcb.KCB_NextECBTL->ECB_AssocTCB->TCB_AssocPCB > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER;

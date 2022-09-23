@@ -139,14 +139,18 @@ INT32 gk_MQ_read_consumer(GS_RRDS *pbuffer_consumer)
     G_RCB *prcb_queue = pbuffer_consumer->RRDS_AsocECB->ECB_AssocRCB;
     INT32 cons_cur_byte = pbuffer_consumer->queue_buffer.BUFFER_RCB_index_rcb_buffer;
     GS_RRDS *ppad = (GS_RRDS *) prcb_queue->queue.MQ_Next_PAD;
-    
-    while (cons_cur_byte > ppad->queue_pad.PAD_start_index_rcb_buffer + ppad->queue_pad.PAD_message_length &&
-             ppad == (GS_RRDS *) 0) {
-        ppad = ppad->RRDS_NextRRDS;
-    }    
+
     if (ppad == (GS_RRDS *) 0) {
         return G_FALSE;
     }
+    
+    while (cons_cur_byte > ppad->queue_pad.PAD_start_index_rcb_buffer + ppad->queue_pad.PAD_message_length ) {
+        if (ppad == (GS_RRDS *) 0) {
+            return G_FALSE;
+        }
+        ppad = ppad->RRDS_NextRRDS;
+    }    
+
     sender_last_byte = ppad->queue_pad.PAD_start_index_rcb_buffer + ppad->queue_pad.PAD_message_length;    
     
     

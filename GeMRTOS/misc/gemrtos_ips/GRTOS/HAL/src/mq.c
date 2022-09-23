@@ -148,7 +148,6 @@ INT32 gk_MQ_send(G_RCB  *prcb, void *pmsg, INT32 msg_length, gt_time timeout) {
                 GRTOS_CMD_CRITICAL_SECTION_RELEASE;
                 return G_FALSE;
             }
-        
         }
         
         
