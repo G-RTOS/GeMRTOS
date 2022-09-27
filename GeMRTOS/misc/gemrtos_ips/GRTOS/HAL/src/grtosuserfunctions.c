@@ -337,16 +337,16 @@ INT32 gu_StartTaskwithOffset(struct gs_tcb *ptcb, unsigned int hours, unsigned i
                 }
                 else
                 {
-                    gk_TCBWL_Link(ptcb, G_TASK_STATE_WAITING_COMPLETED);
+                    gk_TCBWL_Link(ptcb, G_TCBState_WAITING_COMPLETED);
                 }
                 pevent = gk_ECB_GetFree();
                 pevent->ECBValue.i64 = (INT64) ticks;
-                pevent->ECBType = (INT32) G_ECB_TYPE_PERIODIC;
+                pevent->ECBType = (INT32) G_ECBType_PERIODIC;
                 gk_TCBAEL_Link(pevent, ptcb);
                 gk_ECBTL_Link(pevent);
                 break;
             // case G_TASK_TYPE_ISR:
-            //     gk_TCBWL_Link(ptcb, G_TASK_STATE_WAITING_COMPLETED);
+            //     gk_TCBWL_Link(ptcb, G_TCBState_WAITING_COMPLETED);
             //     break;
             // case G_TASK_TYPE_IDLE:
             //     gk_TCBRDYL_Link(ptcb);  /* Insert Task in Ready List                */
@@ -472,7 +472,7 @@ INT32 gu_TASK_Sleep_Time(gt_time ticks)
 
 	pevent->ECBValue.i64 = GRTOS_now() + ticks;
 
-	pevent->ECBType = (INT32) G_ECB_TYPE_OSTimeDly;
+	pevent->ECBType = (INT32) G_ECBType_OSTimeDly;
     gk_TCBAEL_Link(pevent, ptcbcurrent);
 	gk_ECBTL_Link(pevent);
 
@@ -597,35 +597,35 @@ GS_SCB *gu_signal_create(INT32 Type, INT32 Priority, void *pxcb, void *Signal_Co
 		case 1:
 		case 2:
 			gk_KCBASL_Link(pscb);
-			pscb->SCBState = G_SCB_STATE_IN_KCB;
+			pscb->SCBState = G_SCBState_IN_KCB;
 			break;
 
 		// Types for ECB
 		case 3:
 			gk_ECBASL_Link((GS_ECB *)pxcb, pscb);
-			pscb->SCBState = G_SCB_STATE_IN_ECB;
+			pscb->SCBState = G_SCBState_IN_ECB;
 			break;
 
 		// Types for TCB
-		case G_SCB_TCB_ABORTED:
+		case G_SCBType_TCB_ABORTED:
 			gk_TCBASL_Link((GS_TCB *)pxcb, pscb);
-			pscb->SCBState = G_SCB_STATE_IN_TCB;
+			pscb->SCBState = G_SCBState_IN_TCB;
 			break;
 
 		// Types for RCB
 		case 5:
 			gk_RCBASL_Link((G_RCB *)pxcb, pscb);
-			pscb->SCBState = G_SCB_STATE_IN_RCB;
+			pscb->SCBState = G_SCBState_IN_RCB;
 			break;
 
 		// Types for PCB
 		//case 6:
-		//	pscb->SCBState = G_SCB_STATE_IN_PCB;
+		//	pscb->SCBState = G_SCBState_IN_PCB;
 		//	break;
 
 		// Types for LCB
 		//case 7:
-		//	pscb->SCBState = G_SCB_STATE_IN_LCB;
+		//	pscb->SCBState = G_SCBState_IN_LCB;
 		//	break;
 	}
     GRTOS_CMD_CRITICAL_SECTION_RELEASE;
@@ -662,35 +662,35 @@ INT32 gu_signal_destroy(GS_SCB *pscb)
 			case 1:
 			case 2:
 				gk_KCBASL_Unlink((GS_SCB *) pscb);
-				pscb->SCBState = G_SCB_STATE_UNLINKED;
+				pscb->SCBState = G_SCBState_UNLINKED;
 				break;
 
 			// Types for ECB
 			case 3:
 				gk_ECBASL_Unlink((GS_ECB *)pxcb, (GS_SCB *) pscb);
-				pscb->SCBState = G_SCB_STATE_UNLINKED;
+				pscb->SCBState = G_SCBState_UNLINKED;
 				break;
 
 			// Types for TCB
 			case 4:
 				gk_TCBASL_Unlink((GS_TCB *)pxcb, (GS_SCB *) pscb);
-				pscb->SCBState = G_SCB_STATE_UNLINKED;
+				pscb->SCBState = G_SCBState_UNLINKED;
 				break;
 
 			// Types for RCB
 			case 5:
 				gk_RCBASL_Unlink((G_RCB *)pxcb, (GS_SCB *) pscb);
-				pscb->SCBState = G_SCB_STATE_UNLINKED;
+				pscb->SCBState = G_SCBState_UNLINKED;
 				break;
 
 			// Types for PCB
 			//case 6:
-			//	pscb->SCBState = G_SCB_STATE_UNLINKED;
+			//	pscb->SCBState = G_SCBState_UNLINKED;
 			//	break;
 
 			// Types for LCB
 			//case 7:
-			//	pscb->SCBState = G_SCB_STATE_UNLINKED;
+			//	pscb->SCBState = G_SCBState_UNLINKED;
 			//	break;
 		}
 		gk_SCBFL_Link((GS_SCB *) pscb);
@@ -854,7 +854,7 @@ void gk_TIME_CALLBACK(GS_ECB *pevent)
     /* PROCESS ACCORDING TO THE TYPE OF THE EVENT     */
     switch (pevent->ECBType)
     {
-        case G_ECB_TYPE_OSTimeDly:  /* It is a Delay Event ****************************************************/
+        case G_ECBType_OSTimeDly:  /* It is a Delay Event ****************************************************/
             /* Task Should be inserted in REady List if it is not waiting more events */
             if (gk_TASK_IS_BLOCKED(ptcb) == G_FALSE)
             {
@@ -870,7 +870,7 @@ void gk_TIME_CALLBACK(GS_ECB *pevent)
             }
             break; 
 
-        case G_ECB_TYPE_PERIODIC:  /* It is a Periodic Release of the task */
+        case G_ECBType_PERIODIC:  /* It is a Periodic Release of the task */
 
             gk_TCBAEL_Unlink(pevent);  // Preserve the Periodic event to remove the rest of events for a clean release
             
@@ -883,24 +883,24 @@ void gk_TIME_CALLBACK(GS_ECB *pevent)
             gk_ECBTL_Link(pevent);                 
             break; 
 
-        case G_ECB_TYPE_TIMEOUT_SEM_WAITING:
+        case G_ECBType_TIMEOUT_SEM_WAITING:
             /* It is the timeout of a waiting event *************************************/
             gk_timeout_ECB_SEM_wait(pevent);
             break; 
 
-        case G_ECB_TYPE_TIMEOUT_SEM_GRANTED:
+        case G_ECBType_TIMEOUT_SEM_GRANTED:
             gk_timeout_ECB_SEM_post(pevent);         
             break; 
             
-        case G_ECB_STATE_MESSAGE_SEND_WAIT:
+        case G_ECBType_MESSAGE_SEND_WAIT:
             gk_timeout_ECB_MQ_send(pevent);
             break;
             
-        case G_ECB_STATE_MESSAGE_CONSUME_WAIT:
+        case G_ECBType_MESSAGE_CONSUME_WAIT:
             gk_timeout_ECB_MQ_consume(pevent);                
             break;
             
-        case G_ECB_TYPE_LASTEST_TIME:
+        case G_ECBType_LASTEST_TIME:
             /* The end of the times */
             G_DEBUG_WHILEFOREVER;
             
@@ -919,17 +919,17 @@ void gk_RESOURCE_ECB_KILL_CALLBACK(GS_ECB *pevent)
 {
     switch (pevent->ECBType)
     {
-        case G_ECB_TYPE_SEM_GRANTED:
-        case G_ECB_TYPE_TIMEOUT_SEM_GRANTED:  
+        case G_ECBType_SEM_GRANTED:
+        case G_ECBType_TIMEOUT_SEM_GRANTED:  
             gk_SEM_granted_kill((GS_ECB *) pevent);
             break;
             
-        case G_ECB_TYPE_SEM_WAITING:
-        case G_ECB_TYPE_TIMEOUT_SEM_WAITING:  
+        case G_ECBType_SEM_WAITING:
+        case G_ECBType_TIMEOUT_SEM_WAITING:  
             gk_SEM_waiting_kill((GS_ECB *)pevent);
             break;
             
-        case G_ECB_TYPE_QUEUE_CONSUME:
+        case G_ECBType_QUEUE_CONSUME:
             gk_QUEUE_granted_kill((GS_ECB *) pevent);
             break;
         default:

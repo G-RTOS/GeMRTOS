@@ -39,8 +39,8 @@ G_RCB  *gu_queue_create(void *pbuffer, INT32 buffer_length)
     GRTOS_USER_CRITICAL_SECTION_GET;
         prcb = gk_RCB_GetFree();
         if (prcb != (G_RCB *) 0) {
-            prcb->queue.common_resource.RCBState = GK_RCB_STATE_QUEUE;
-            prcb->queue.common_resource.RCBType = (INT32) GK_RCB_TYPE_QUEUE;
+            prcb->queue.common_resource.RCBState = GK_RCBState_QUEUE;
+            prcb->queue.common_resource.RCBType = (INT32) GK_RCBType_QUEUE;
 	        prcb->queue.common_resource.RCBPriority.i64 = (INT64) G_LOWEST_PRIORITY - (INT64) 100;
 	        prcb->queue.common_resource.RCBGrantedPriority.i64 = (INT64) G_LOWEST_PRIORITY - (INT64) 100;
 	        prcb->queue.common_resource.RCBWaitingTimeout.i64 = (INT64) G_LATEST_TIME - (INT64) 100;
@@ -77,7 +77,7 @@ G_RCB  *gu_queue_consume(G_RCB  *presource, void *pbuffer, INT32 buffer_length, 
             return (GS_ECB *) 0;
         }
 
-        pevent->ECBType  = G_ECB_TYPE_QUEUE_CONSUME;
+        pevent->ECBType  = G_ECBType_QUEUE_CONSUME;
         pevent->ECB_RRDS = prrds_buffer;
         prrds_buffer->RRDS_AsocECB = pevent;
 
@@ -209,7 +209,7 @@ INT32 gk_MQ_read_consumer(GS_RRDS *pbuffer_consumer)
         
         
         pevent = pbuffer_consumer->RRDS_AsocECB;
-        if (pevent->ECBType == G_ECB_STATE_MESSAGE_CONSUME_WAIT) {
+        if (pevent->ECBType == G_ECBType_MESSAGE_CONSUME_WAIT) {
             ptcb = pevent->ECB_AssocTCB;
             peventtime = pevent->ECB_NextECBAEL;            
             gk_ECBTL_Unlink(peventtime);

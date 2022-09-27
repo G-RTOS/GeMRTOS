@@ -151,7 +151,7 @@ void gk_ENTRY_RST_HANDLER (void)
 
 
     /// Include the processor in the GRTOS
-    g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBState = GS_PCB_STATE_RUNNING;  
+    g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBState = GS_PCBState_RUNNING;  
 	g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBID = GRTOS_CMD_PRC_ID ; 
     g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB;
     gk_LCBFPL_Link(GRTOS_CMD_PRC_ID);
@@ -251,11 +251,11 @@ void gk_ENTRY_IRQ_HANDLER (void)
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcbto) != G_TRUE) G_DEBUG_WHILEFOREVER; 
 	if (TCB_IsValid(ptcbfrom) != G_TRUE && ptcbfrom != (struct gs_tcb *) 0) G_DEBUG_WHILEFOREVER; 
-	if (ptcbto->TCBState != G_TASK_STATE_READY && ptcbto->TCBState != G_TASK_STATE_RUNNING) G_DEBUG_WHILEFOREVER; 
+	if (ptcbto->TCBState != G_TCBState_READY && ptcbto->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; 
 #endif
 
 	if (ptcbfrom != ptcbto) {
-		if (ptcbfrom->TCBState == G_TASK_STATE_RUNNING){
+		if (ptcbfrom->TCBState == G_TCBState_RUNNING){
 			gk_TCB_Unlink(ptcbfrom); 
 			gk_TCBRDYL_Link(ptcbfrom); 
 		}
@@ -346,7 +346,7 @@ void  gk_KERNEL_TASK_START (void)
     
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcbtostart) != G_TRUE) G_DEBUG_WHILEFOREVER; 
-	if (ptcbtostart->TCBState != G_TASK_STATE_READY) G_DEBUG_WHILEFOREVER; 
+	if (ptcbtostart->TCBState != G_TCBState_READY) G_DEBUG_WHILEFOREVER; 
 #endif
 
 	/// Change State to Running
@@ -405,12 +405,12 @@ void  gk_KERNEL_TASK_COMPLETE(void)
 	NIOS2_READ_SP(StackPointer); 
 	if ((int) StackPointer > (int) ptcbtostart->TCB_StackBottom) G_DEBUG_WHILEFOREVER; 
 	if ((int) StackPointer < (int) ptcbtostart->TCB_StackTop - 300) G_DEBUG_WHILEFOREVER; 
-    if (ptcbtostart->TCBState != G_TASK_STATE_RUNNING) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
+    if (ptcbtostart->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
 #endif
 
 	gk_TCB_Unlink(ptcbtostart); 
 
-	gk_TCBWL_Link(ptcbtostart, G_TASK_STATE_WAITING_COMPLETED);  /// Restore TCB to waiting list
+	gk_TCBWL_Link(ptcbtostart, G_TCBState_WAITING_COMPLETED);  /// Restore TCB to waiting list
 
 	/// If task is an ISR, then enable it for next request 
 	if (ptcbtostart->TCBType == G_TASK_TYPE_ISR) {
@@ -422,7 +422,7 @@ void  gk_KERNEL_TASK_COMPLETE(void)
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if ((TCB_IsValid(ptcbtostart) != G_TRUE) || (ptcbtostart == (struct gs_tcb *) 0)) G_DEBUG_WHILEFOREVER; 
-	if (ptcbtostart->TCBState != G_TASK_STATE_READY) G_DEBUG_WHILEFOREVER; 
+	if (ptcbtostart->TCBState != G_TCBState_READY) G_DEBUG_WHILEFOREVER; 
 #endif
 
 	gk_TCBRDYL_Unlink(ptcbtostart); 
@@ -452,13 +452,13 @@ void  gk_KERNEL_TASK_COMPLETE(void)
 void gk_KERNEL_TASK_SUSPEND(GS_TCB *ptcb)
 {
 	/* if not running nor ready, then nothing to do */
-	if (ptcb->TCBState != G_TASK_STATE_READY && ptcb->TCBState != G_TASK_STATE_RUNNING)
+	if (ptcb->TCBState != G_TCBState_READY && ptcb->TCBState != G_TCBState_RUNNING)
 	{
 		if (ptcb != gk_PCB_GetCurrentTCB()) {
 			gk_KERNEL_TASK_SUSPEND_CURRENT();  /* Suspend the current task */
 		} else {
 			/* Check current task state */
-			if (ptcb->TCBState == G_TASK_STATE_RUNNING){
+			if (ptcb->TCBState == G_TCBState_RUNNING){
 				/* task is running, interrupt processor */
                 // j = ptcb->TCB_AssocPCB; 
                 // fprintf(stderr, "[ OK ] Processor %d trigger proc %d in %s, %d\n", GRTOS_CMD_PRC_ID, j, __FUNCTION__,__LINE__);
@@ -467,7 +467,7 @@ void gk_KERNEL_TASK_SUSPEND(GS_TCB *ptcb)
 			/* Unlink the task from ready or running */
 			gk_TCB_Unlink(ptcb); 
 			/* Link the task to the waiting list */
-			gk_TCBWL_Link(ptcb, G_TASK_STATE_WAITING); 
+			gk_TCBWL_Link(ptcb, G_TCBState_WAITING); 
 		}
 	}
 }
@@ -486,14 +486,14 @@ void gk_KERNEL_TASK_SUSPEND_CURRENT(void)
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcbfrom) != G_TRUE || ptcbfrom == (GS_TCB *) 0) G_DEBUG_WHILEFOREVER; 
-	if (ptcbfrom->TCBState != G_TASK_STATE_RUNNING) G_DEBUG_WHILEFOREVER; 
+	if (ptcbfrom->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; 
 #endif
 
     // Assembler code reads this variable to storage the sp register
     G_TCB_CURRENT = (GS_STK) &g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer;
     
     gk_TCBRUNL_Unlink(ptcbfrom); 
-	gk_TCBWL_Link(ptcbfrom, G_TASK_STATE_WAITING); 
+	gk_TCBWL_Link(ptcbfrom, G_TCBState_WAITING); 
 
 	/* Suspend current task and execute next ready */
 	GRTOS_Suspend_Task(); 
@@ -632,8 +632,8 @@ void gk_INIT_KERNEL(void)
 	g_kcb.KCB_NextECBTL->ECB_PrevECB = (struct gs_ecb *) 0; 
 	g_kcb.KCB_NextECBTL->ECB_NextECB = (struct gs_ecb *) 0; 
 	g_kcb.KCB_NextECBTL->ECB_NextECBASL = (struct gs_scb *) 0; 
-	g_kcb.KCB_NextECBTL->ECBType = (INT32) G_ECB_TYPE_LASTEST_TIME; 
-	g_kcb.KCB_NextECBTL->ECBState = GS_ECB_STATE_WAITING_TIME; 
+	g_kcb.KCB_NextECBTL->ECBType = (INT32) G_ECBType_LASTEST_TIME; 
+	g_kcb.KCB_NextECBTL->ECBState = GS_ECBState_WAITING_TIME; 
 
 	/// Initialize Processor Structures creating IDLE TCBs
 	for (i = 0;  i < G_NUMBER_OF_PCB;  i++) {
@@ -658,7 +658,7 @@ void gk_INIT_KERNEL(void)
         gk_TASK_STK_Init(g_kcb.G_PCBTbl[i].PCB_IDLETCB);    
         gk_TCBRDYL_Link(g_kcb.G_PCBTbl[i].PCB_IDLETCB);  /* Insert Task in Ready List          */
         
-		g_kcb.G_PCBTbl[i].PCBState = GS_PCB_STATE_NOTRUNNING; 
+		g_kcb.G_PCBTbl[i].PCBState = GS_PCBState_NOTRUNNING; 
 		 
         g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_AssocPCB = i + 1;
 		g_kcb.G_PCBTbl[i].PCB_EXECTCB = g_kcb.G_PCBTbl[i].PCB_IDLETCB; 
@@ -711,7 +711,7 @@ void gk_START_KERNEL (void)
     
     for (i=0; i<G_NUMBER_OF_PCB ; i++) {
         // sprintf(filename, "/dev/jtag_uart_%d", i+2);
-        sprintf(filename, "/dev/%s_jtag_uart_%d\0", GRTOS_DRIVER_SYSTEM_NAME, i+2);
+        sprintf(filename, "/dev/%s_jtag_uart_%d", GRTOS_DRIVER_SYSTEM_NAME, i+2);
         fpuart[i] = fopen (filename, "r+");  //Open file for reading and writing one for each processor starting in 2 (0 for stdio, 1 for stderr) 
     }
 
@@ -761,7 +761,7 @@ void gk_START_KERNEL (void)
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
     
-	g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBState = GS_PCB_STATE_RUNNING;  // to set it to FREE
+	g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBState = GS_PCBState_RUNNING;  // to set it to FREE
 	g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCBID = GRTOS_CMD_PRC_ID ; PRINT_DEBUG_LINE
     g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB;
     gk_LCBFPL_Link(GRTOS_CMD_PRC_ID);

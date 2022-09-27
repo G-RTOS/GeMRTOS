@@ -181,12 +181,12 @@ INT32 IsAListorNull(GS_LCB *plcb)
 
 INT32 TCBState_Valid(unsigned int tcbstate)
 {
-    if (tcbstate == G_TASK_STATE_WAITING_COMPLETED) return G_TRUE;
-    if (tcbstate == G_TASK_STATE_READY) return G_TRUE;
-    if (tcbstate == G_TASK_STATE_RUNNING) return G_TRUE;
-    if (tcbstate == G_TASK_STATE_FREE) return G_TRUE;
-    if (tcbstate == G_TASK_STATE_UNLINKED) return G_TRUE;    
-    if (tcbstate == G_TASK_STATE_WAITING) return G_TRUE;  
+    if (tcbstate == G_TCBState_WAITING_COMPLETED) return G_TRUE;
+    if (tcbstate == G_TCBState_READY) return G_TRUE;
+    if (tcbstate == G_TCBState_RUNNING) return G_TRUE;
+    if (tcbstate == G_TCBState_FREE) return G_TRUE;
+    if (tcbstate == G_TCBState_UNLINKED) return G_TRUE;    
+    if (tcbstate == G_TCBState_WAITING) return G_TRUE;  
     return G_FALSE;
 }
 
@@ -202,24 +202,24 @@ INT32 TCBType_Valid(unsigned int tcbtype)
 
 INT32 ECBState_Valid(unsigned int ecbstate)
 {
-    if (ecbstate == GS_ECB_STATE_GRANTED_RESOURCE) return G_TRUE;
-    if (ecbstate == GS_ECB_STATE_WAITING_RESOURCE) return G_TRUE;
-    if (ecbstate == GS_ECB_STATE_FREE) return G_TRUE;
-    if (ecbstate == GS_ECB_STATE_WAITING_TIME) return G_TRUE;
-    if (ecbstate == GS_ECB_STATE_UNLINKED) return G_TRUE;    
+    if (ecbstate == GS_ECBState_GRANTED_RESOURCE) return G_TRUE;
+    if (ecbstate == GS_ECBState_WAITING_RESOURCE) return G_TRUE;
+    if (ecbstate == GS_ECBState_FREE) return G_TRUE;
+    if (ecbstate == GS_ECBState_WAITING_TIME) return G_TRUE;
+    if (ecbstate == GS_ECBState_UNLINKED) return G_TRUE;    
     return G_FALSE;
 }
 
 INT32 ECBType_Valid(unsigned int ecbtype)
 {
-    if (ecbtype == G_ECB_TYPE_OSTimeDly) return G_TRUE;
-    if (ecbtype == G_ECB_TYPE_PERIODIC) return G_TRUE;
-    if (ecbtype == G_ECB_TYPE_LASTEST_TIME) return G_TRUE;
-    if (ecbtype == G_ECB_TYPE_TIMEOUT_SEM_GRANTED) return G_TRUE;
-    if (ecbtype == G_ECB_TYPE_TIMEOUT_SEM_WAITING) return G_TRUE;
-    if (ecbtype == G_ECB_TYPE_SEM_GRANTED) return G_TRUE;
-    if (ecbtype == G_ECB_TYPE_SEM_WAITING) return G_TRUE;
-    if (ecbtype == G_ECB_TYPE_NOT_SPECIFIED) return G_TRUE;    
+    if (ecbtype == G_ECBType_OSTimeDly) return G_TRUE;
+    if (ecbtype == G_ECBType_PERIODIC) return G_TRUE;
+    if (ecbtype == G_ECBType_LASTEST_TIME) return G_TRUE;
+    if (ecbtype == G_ECBType_TIMEOUT_SEM_GRANTED) return G_TRUE;
+    if (ecbtype == G_ECBType_TIMEOUT_SEM_WAITING) return G_TRUE;
+    if (ecbtype == G_ECBType_SEM_GRANTED) return G_TRUE;
+    if (ecbtype == G_ECBType_SEM_WAITING) return G_TRUE;
+    if (ecbtype == G_ECBType_NOT_SPECIFIED) return G_TRUE;    
     return G_FALSE;
 }
 
@@ -231,9 +231,9 @@ INT32 PCBID_Valid(int pcbid)
 
 INT32 PCBState_Valid(int pcbstate)
 {
-    if (pcbstate == GS_PCB_STATE_NOTRUNNING) return G_TRUE;
-    if (pcbstate == GS_PCB_STATE_RUNNING) return G_TRUE;
-    if (pcbstate == GS_PCB_STATE_FREE) return G_TRUE;       
+    if (pcbstate == GS_PCBState_NOTRUNNING) return G_TRUE;
+    if (pcbstate == GS_PCBState_RUNNING) return G_TRUE;
+    if (pcbstate == GS_PCBState_FREE) return G_TRUE;       
     return G_FALSE;
 }
 
@@ -245,8 +245,8 @@ INT32 PCBType_Valid(int pcbtype)
 
 INT32 LCBState_IsValid(INT32 lcbstate)
 {
-    if (lcbstate == GS_LCB_STATE_LINKED) return G_TRUE;
-    if (lcbstate == GS_LCB_STATE_UNLINKED) return G_TRUE;  
+    if (lcbstate == GS_LCBState_LINKED) return G_TRUE;
+    if (lcbstate == GS_LCBState_UNLINKED) return G_TRUE;  
     return G_FALSE;    
 }
 

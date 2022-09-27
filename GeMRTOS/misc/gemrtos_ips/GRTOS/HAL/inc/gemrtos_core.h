@@ -67,26 +67,26 @@ struct gs_ecb {
 };
 
 /// ECBState valid values
-#define  GS_ECB_STATE_GRANTED_RESOURCE            1u      ///< \brief State event for Resource GRANTED       \ingroup ECBState
-#define  GS_ECB_STATE_WAITING_RESOURCE            2u      ///< \brief State event for Resource WAITING       \ingroup ECBState
-#define  GS_ECB_STATE_FREE                        3u      ///< \brief State for FREE event                   \ingroup ECBState
-#define  GS_ECB_STATE_WAITING_TIME                4u      ///< \brief State for TIMED EVENT                  \ingroup ECBState
-#define  GS_ECB_STATE_UNLINKED                    5u      ///< \brief State for UNLINKED event               \ingroup ECBState
+#define  GS_ECBState_GRANTED_RESOURCE            1u      ///< \brief State event for Resource GRANTED       \ingroup ECBState
+#define  GS_ECBState_WAITING_RESOURCE            2u      ///< \brief State event for Resource WAITING       \ingroup ECBState
+#define  GS_ECBState_FREE                        3u      ///< \brief State for FREE event                   \ingroup ECBState
+#define  GS_ECBState_WAITING_TIME                4u      ///< \brief State for TIMED EVENT                  \ingroup ECBState
+#define  GS_ECBState_UNLINKED                    5u      ///< \brief State for UNLINKED event               \ingroup ECBState
 
 /// ECBType valid values
-#define  G_ECB_TYPE_OSTimeDly                   21u       ///< \brief Type for delay event                                  \ingroup ECBType
-#define  G_ECB_TYPE_PERIODIC                    22u       ///< \brief Type for PERIODIC event                               \ingroup ECBType
-#define  G_ECB_TYPE_LASTEST_TIME	            23u       ///< \brief Type for LASTEST TIME event at the end of time list   \ingroup ECBType
-#define  G_ECB_TYPE_TIMEOUT_SEM_GRANTED         24u       ///< \brief Type for timeout granted semaphore                    \ingroup ECBType
-#define  G_ECB_TYPE_TIMEOUT_SEM_WAITING         25u       ///< \brief Type for timeout waiting semaphore                    \ingroup ECBType
-#define  G_ECB_TYPE_SEM_GRANTED                 28u       ///< \brief Type for semaphore granted event                      \ingroup ECBType
-#define  G_ECB_TYPE_SEM_WAITING                 29u       ///< \brief Type for semaphore waiting event                      \ingroup ECBType
-#define  G_ECB_TYPE_NOT_SPECIFIED               30u       ///< \brief Type for UNSPECIFIED event                            \ingroup ECBType
-#define  G_ECB_TYPE_QUEUE_CONSUME               31u       ///< \brief Type for MESSAGE QUEUE consume event                  \ingroup ECBType
-#define  G_ECB_STATE_MESSAGE_CONSUME_WAIT       33u       ///< \brief Type for WAITING TIMEOUT of MQ consumer               \ingroup ECBType
-#define  G_ECB_STATE_MESSAGE_CONSUME_EXPIRED    34u       ///< \brief Type for MQ consumer when waiting timeout expired     \ingroup ECBType
-#define  G_ECB_STATE_MESSAGE_SEND_EXPIRED       35u       ///< \brief Type for WAITING TIMEOUT of MQ sender                 \ingroup ECBType
-#define  G_ECB_STATE_MESSAGE_SEND_WAIT          36u       ///< \brief Type for MQ sender when waiting timeout expired       \ingroup ECBType
+#define  G_ECBType_OSTimeDly                   21u       ///< \brief Type for delay event                                  \ingroup ECBType
+#define  G_ECBType_PERIODIC                    22u       ///< \brief Type for PERIODIC event                               \ingroup ECBType
+#define  G_ECBType_LASTEST_TIME	               23u       ///< \brief Type for LASTEST TIME event at the end of time list   \ingroup ECBType
+#define  G_ECBType_TIMEOUT_SEM_GRANTED         24u       ///< \brief Type for timeout granted semaphore                    \ingroup ECBType
+#define  G_ECBType_TIMEOUT_SEM_WAITING         25u       ///< \brief Type for timeout waiting semaphore                    \ingroup ECBType
+#define  G_ECBType_SEM_GRANTED                 28u       ///< \brief Type for semaphore granted event                      \ingroup ECBType
+#define  G_ECBType_SEM_WAITING                 29u       ///< \brief Type for semaphore waiting event                      \ingroup ECBType
+#define  G_ECBType_NOT_SPECIFIED               30u       ///< \brief Type for UNSPECIFIED event                            \ingroup ECBType
+#define  G_ECBType_QUEUE_CONSUME               31u       ///< \brief Type for MESSAGE QUEUE consume event                  \ingroup ECBType
+#define  G_ECBType_MESSAGE_CONSUME_WAIT        33u       ///< \brief Type for WAITING TIMEOUT of MQ consumer               \ingroup ECBType
+#define  G_ECBType_MESSAGE_CONSUME_EXPIRED     34u       ///< \brief Type for MQ consumer when waiting timeout expired     \ingroup ECBType
+#define  G_ECBType_MESSAGE_SEND_EXPIRED        35u       ///< \brief Type for WAITING TIMEOUT of MQ sender                 \ingroup ECBType
+#define  G_ECBType_MESSAGE_SEND_WAIT           36u       ///< \brief Type for MQ sender when waiting timeout expired       \ingroup ECBType
 
 
 //*************************************************************************************************
@@ -160,8 +160,8 @@ struct gs_lcb {
 };
 
 /** State of the List Control Block */
-#define  GS_LCB_STATE_LINKED                        1u  ///< \brief State LINKED for LIST                      \ingroup PCBState
-#define  GS_LCB_STATE_UNLINKED                      2u  ///< \brief State UNLINKED for LIST                    \ingroup PCBState
+#define  GS_LCBState_LINKED                        1u  ///< \brief State LINKED for LIST                      \ingroup PCBState
+#define  GS_LCBState_UNLINKED                      2u  ///< \brief State UNLINKED for LIST                    \ingroup PCBState
 
 
 //*************************************************************************************************
@@ -188,9 +188,9 @@ struct gs_pcb {
 };
 
 /// PCBState valid values
-#define  GS_PCB_STATE_NOTRUNNING           1u    ///< \brief It is NOTRUNNING at starting time                      \ingroup PCBState
-#define  GS_PCB_STATE_RUNNING              2u    ///< \brief It is RUNNING when executing a main list task (LCB[0]) \ingroup PCBState 
-#define  GS_PCB_STATE_FREE                 3u    ///< \brief It is FREE when not executing a main list task         \ingroup PCBState
+#define  GS_PCBState_NOTRUNNING           1u    ///< \brief It is NOTRUNNING at starting time                      \ingroup PCBState
+#define  GS_PCBState_RUNNING              2u    ///< \brief It is RUNNING when executing a main list task (LCB[0]) \ingroup PCBState 
+#define  GS_PCBState_FREE                 3u    ///< \brief It is FREE when not executing a main list task         \ingroup PCBState
 
 
 #include <mq.h>
@@ -224,9 +224,9 @@ struct gs_mcb {                      /** MESSAGE CONTROL BLOCK                  
 };
 
 /// MCBState valid values
-#define  GK_MCB_STATE_UNLINKED   2u
-#define  GK_MCB_STATE_FREE       3u
-#define  GK_MCB_STATE_LINKED     4u
+#define  GK_MCBState_UNLINKED   2u
+#define  GK_MCBState_FREE       3u
+#define  GK_MCBState_LINKED     4u
 
 
 extern struct T_QUEUE_RESOURCE     queue;
@@ -270,17 +270,17 @@ struct g_rgb{
 };
 
 /// RCBState valid values                     
-#define  GK_RCB_STATE_SEM           3u        ///< \brief State SEM for semaphore of the RCB    \ingroup RCBState 
-#define  GK_RCB_STATE_MQ            4u        ///< \brief State MQ for MESSAGE QUEUE of the RCB \ingroup RCBState
-#define  GK_RCB_STATE_UNDEFINED     5u        ///< \brief State UNDEFINED of the RCB            \ingroup RCBState
-#define  GK_RCB_STATE_QUEUE         6u        ///< \brief State QUEUE for QUEUE of the RCB      \ingroup RCBState
+#define  GK_RCBState_SEM           3u        ///< \brief State SEM for semaphore of the RCB    \ingroup RCBState 
+#define  GK_RCBState_MQ            4u        ///< \brief State MQ for MESSAGE QUEUE of the RCB \ingroup RCBState
+#define  GK_RCBState_UNDEFINED     5u        ///< \brief State UNDEFINED of the RCB            \ingroup RCBState
+#define  GK_RCBState_QUEUE         6u        ///< \brief State QUEUE for QUEUE of the RCB      \ingroup RCBState
 
 /// RCBType valid values
-#define  GK_RCB_TYPE_UNUSED         1u        ///< \brief Type UNUSED of the RCB               \ingroup RCBState 
-#define  GK_RCB_TYPE_FREE           2u        ///< \brief Type FREE of the RCB                 \ingroup RCBState
-#define  GK_RCB_TYPE_SEM            3u        ///< \brief Type SEM for semaphore of the RCB    \ingroup RCBState
-#define  GK_RCB_TYPE_MQ             4u        ///< \brief Type MQ for MESSAGE QUEUE of the RCB \ingroup RCBState
-#define  GK_RCB_TYPE_QUEUE          5u        ///< \brief Type QUEUE for QUEUE of the RCB      \ingroup RCBState
+#define  GK_RCBType_UNUSED         1u        ///< \brief Type UNUSED of the RCB               \ingroup RCBState 
+#define  GK_RCBType_FREE           2u        ///< \brief Type FREE of the RCB                 \ingroup RCBState
+#define  GK_RCBType_SEM            3u        ///< \brief Type SEM for semaphore of the RCB    \ingroup RCBState
+#define  GK_RCBType_MQ             4u        ///< \brief Type MQ for MESSAGE QUEUE of the RCB \ingroup RCBState
+#define  GK_RCBType_QUEUE          5u        ///< \brief Type QUEUE for QUEUE of the RCB      \ingroup RCBState
 
 
 //*************************************************************************************************
@@ -348,21 +348,21 @@ struct gs_scb {
 
 // SCBState gruop
 /// \brief SCBState is state of the SCB
-#define  G_SCB_STATE_FREE          1u         ///< \brief State FREE of the SCB        \ingroup SCBState
-#define  G_SCB_STATE_IN_KCB        2u         ///< \brief State SCB linked to KCB      \ingroup SCBState 
-#define  G_SCB_STATE_IN_ECB        3u         ///< \brief State SCB linked to ECB      \ingroup SCBState
-#define  G_SCB_STATE_IN_TCB        4u         ///< \brief State SCB linked to TCB      \ingroup SCBState
-#define  G_SCB_STATE_IN_RCB        5u         ///< \brief State SCB linked to RCB      \ingroup SCBState
-#define  G_SCB_STATE_IN_PCB        6u         ///< \brief State SCB linked to PCB      \ingroup SCBState
-#define  G_SCB_STATE_IN_LCB        7u         ///< \brief State SCB linked to LCB      \ingroup SCBState
-#define  G_SCB_STATE_UNLINKED      8u         ///< \brief State UNLINKED               \ingroup SCBState
-#define  G_SCB_STATE_PENDING       9u         ///< \brief State PENDING                \ingroup SCBState
-#define  G_SCB_STATE_EXECUTING    10u         ///< \brief State EXECUTING              \ingroup SCBState
+#define  G_SCBState_FREE          1u         ///< \brief State FREE of the SCB        \ingroup SCBState
+#define  G_SCBState_IN_KCB        2u         ///< \brief State SCB linked to KCB      \ingroup SCBState 
+#define  G_SCBState_IN_ECB        3u         ///< \brief State SCB linked to ECB      \ingroup SCBState
+#define  G_SCBState_IN_TCB        4u         ///< \brief State SCB linked to TCB      \ingroup SCBState
+#define  G_SCBState_IN_RCB        5u         ///< \brief State SCB linked to RCB      \ingroup SCBState
+#define  G_SCBState_IN_PCB        6u         ///< \brief State SCB linked to PCB      \ingroup SCBState
+#define  G_SCBState_IN_LCB        7u         ///< \brief State SCB linked to LCB      \ingroup SCBState
+#define  G_SCBState_UNLINKED      8u         ///< \brief State UNLINKED               \ingroup SCBState
+#define  G_SCBState_PENDING       9u         ///< \brief State PENDING                \ingroup SCBState
+#define  G_SCBState_EXECUTING    10u         ///< \brief State EXECUTING              \ingroup SCBState
 
 // SCBType group
 /// \brief SCBType valid values 
 /// \todo Define the rest of SCB types
-#define G_SCB_TCB_ABORTED          1000u      ///< TYPE "Periodic task aborted when released before deadline"      \ingroup SCBType
+#define G_SCBType_TCB_ABORTED          1000u      ///< TYPE "Periodic task aborted when released before deadline"      \ingroup SCBType
 
 
 //*************************************************************************************************
@@ -413,12 +413,12 @@ struct gs_tcb
 /// \details The TCBState is according to bits (starts in bit 0): bit 1 -> WAITING, 2 ->READY, 3 -> RUNNING, 4 ->FREE, 5->UNLINKED
 #define  GRTOS_TASK_STATE_WAITING(ptcb)  ((ptcb->TCBState >> 1) & 1) ///< Returns True if task is waiting  \ingroup TCBState
 
-#define  G_TASK_STATE_WAITING_COMPLETED           2u   ///< \brief State WAITING, task COMPLETED     \ingroup TCBState 
-#define  G_TASK_STATE_WAITING                   258u   ///< \brief State WAITING, but NOT COMPLETED  \ingroup TCBState
-#define  G_TASK_STATE_READY                       4u   ///< \brief State READY                       \ingroup TCBState
-#define  G_TASK_STATE_RUNNING                     8u   ///< \brief State RUNNING                     \ingroup TCBState
-#define  G_TASK_STATE_FREE                       16u   ///< \def G_TASK_STATE_FREE \brief State FREE                        \ingroup TCBState
-#define  G_TASK_STATE_UNLINKED                   32u   ///< \brief State UNLINKED                    \ingroup TCBState
+#define  G_TCBState_WAITING_COMPLETED           2u   ///< \brief State WAITING, task COMPLETED     \ingroup TCBState 
+#define  G_TCBState_WAITING                   258u   ///< \brief State WAITING, but NOT COMPLETED  \ingroup TCBState
+#define  G_TCBState_READY                       4u   ///< \brief State READY                       \ingroup TCBState
+#define  G_TCBState_RUNNING                     8u   ///< \brief State RUNNING                     \ingroup TCBState
+#define  G_TCBState_FREE                       16u   ///< \def G_TCBState_FREE \brief State FREE                        \ingroup TCBState
+#define  G_TCBState_UNLINKED                   32u   ///< \brief State UNLINKED                    \ingroup TCBState
 
 
 /// Core functions definitions

@@ -55,7 +55,7 @@ GS_TCB *gk_TCB_GetFree(void)
     /// INITIALIZE THE TCB STRUCTURE
     ptcb->BLOCK_HASH           = (unsigned int) ptcb + 1;
     ptcb->malloc_address       = mem;
-    // ptcb->TCBState             = G_TASK_STATE_FREE; 
+    // ptcb->TCBState             = G_TCBState_FREE; 
     ptcb->TCB_NextTCBAEL       = (struct gs_ecb *) 0; 
     ptcb->TCB_NextTCBASL       = (struct gs_scb *) 0; 
     ptcb->TCB_NextTCBPSL       = (struct gs_scb *) 0; 
@@ -78,7 +78,7 @@ GS_TCB *gk_TCB_GetFree(void)
     ptcb->TCB_INTNumber        = -1; 
     ptcb->TCB_RDY_LCB_Index    = (GS_LCB *) G_TASK_LCB_DEFAULT; 
     ptcb->TCB_Abort_w_Deadline = G_FALSE;
-    ptcb->TCBState             = G_TASK_STATE_UNLINKED;
+    ptcb->TCBState             = G_TCBState_UNLINKED;
     ptcb->TCB_NextISRTCB       = (struct gs_tcb *) 0;
     ptcb->TCB_PrevISRTCB       = (struct gs_tcb *) 0;
     
@@ -116,10 +116,10 @@ GS_ECB *gk_ECB_GetFree(void)
 
     pecb->BLOCK_HASH     = (unsigned int) pecb + 2;
     pecb->malloc_address = mem;    
-    // pecb->ECBState       = GS_ECB_STATE_FREE; 
+    // pecb->ECBState       = GS_ECBState_FREE; 
     pecb->ECB_NextECBAEL = (struct gs_ecb *) 0; 
     pecb->ECB_NextECBASL = (struct gs_scb *) 0; 
-    pecb->ECBType        = G_ECB_TYPE_NOT_SPECIFIED; 
+    pecb->ECBType        = G_ECBType_NOT_SPECIFIED; 
     // pecb->ECBValue.i64   = G_LOWEST_PRIORITY -1; 
     pecb->ECB_NextECB    = (struct gs_ecb *) 0; 
     pecb->ECB_PrevECB    = (struct gs_ecb *) 0; 
@@ -129,7 +129,7 @@ GS_ECB *gk_ECB_GetFree(void)
     pecb->ECB_PrevTCBAEL = (struct gs_ecb *) 0; 
     pecb->ECB_RRDS       = (struct gs_rrds *) 0;
     pecb->ECBValue.i64   = G_LOWEST_PRIORITY;
-    pecb->ECBState       = GS_ECB_STATE_UNLINKED;
+    pecb->ECBState       = GS_ECBState_UNLINKED;
     
     /// TCBs linked list for debugging
     pecb->ECB_NEXT_ECBs = g_kcb.KCB_ROOT_ECBs;
@@ -164,21 +164,21 @@ G_RCB *gk_RCB_GetFree(void)
 
     prcb->BLOCK_HASH     = (unsigned int) prcb + 3;
     prcb->malloc_address = mem;  
-    // prcb->RCBType        = GK_RCB_TYPE_FREE; 
-    prcb->RCBState       = GK_RCB_STATE_UNDEFINED; 
+    // prcb->RCBType        = GK_RCBType_FREE; 
+    prcb->RCBState       = GK_RCBState_UNDEFINED; 
     prcb->RCBCount       = (INT32) 0; 
     prcb->RCB_NextRCBASL = (struct gs_scb *) 0; 
     prcb->RCB_NextRCBGEL = (struct gs_ecb *) 0; 
     prcb->RCB_NextRCBWEL = (struct gs_ecb *) 0;
-    prcb->RCBType = GK_RCB_TYPE_UNUSED;
+    prcb->RCBType = GK_RCBType_UNUSED;
     
     /// TCBs linked list for debugging
-    prcb->RCB_NEXT_RCBs = g_kcb.KCB_ROOT_RCBs;
+    prcb->RCB_NEXT_RCBs = (G_RCB *) g_kcb.KCB_ROOT_RCBs;
     if (g_kcb.KCB_ROOT_RCBs != (struct g_rcb *) 0) {
         G_RCB *presource = (G_RCB *) g_kcb.KCB_ROOT_RCBs;
-        presource->RCB_PREV_RCBs = (struct g_rcb *) prcb;
+        presource->RCB_PREV_RCBs = (G_RCB *) prcb;
     }
-    prcb->RCB_PREV_RCBs = (struct g_rcb *) 0;
+    prcb->RCB_PREV_RCBs = (G_RCB *) 0;
     g_kcb.KCB_ROOT_RCBs = (struct g_rcb *) prcb;    
     
     SAMPLE_FUNCTION_END(19)
@@ -202,8 +202,8 @@ GS_SCB *gk_SCB_GetFree(void)
     
     pscb->BLOCK_HASH     = (unsigned int) pscb + 4;
     pscb->malloc_address = mem;  
-    pscb->SCBState       = G_SCB_STATE_FREE;
-    pscb->SCBState       = G_SCB_STATE_UNLINKED;
+    pscb->SCBState       = G_SCBState_FREE;
+    pscb->SCBState       = G_SCBState_UNLINKED;
     
     /// TCBs linked list for debugging
     pscb->SCB_NEXT_SCBs = g_kcb.KCB_ROOT_SCBs;
@@ -275,7 +275,7 @@ GS_LCB *gk_Get_LCB(void)
     plcb->LCBRunPriority  = (INT64) G_LOWEST_PRIORITY;  /* It is because it is empty*/
     plcb->LCB_NextTCBRDYL = (struct gs_tcb *) 0; 	   /* Pointer to the TCB of the Highest Priority Task */
     plcb->LCB_NextLCBFPL  = (struct gs_pcb *) 0;       /*!< Next free processor for this list */
-    plcb->LCBState        = GS_LCB_STATE_UNLINKED;     
+    plcb->LCBState        = GS_LCBState_UNLINKED;     
 
     /// LCBs linked list for debugging
     plcb->LCB_NEXT_LCBs = g_kcb.KCB_ROOT_LCBs;

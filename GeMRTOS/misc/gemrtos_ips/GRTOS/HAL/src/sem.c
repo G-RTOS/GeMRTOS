@@ -66,8 +66,8 @@ t_semaphore_resource *gu_sem_create(gt_time RCB_Priority,
             presource->RCB_NextRCBASL = (struct gs_scb *) 0;
             presource->RCB_NextRCBWEL  = (struct gs_ecb *) 0;
             presource->RCBPriority = (TIMEPRIORITY) RCB_Priority;
-            presource->RCBState = GK_RCB_STATE_SEM;
-            presource->RCBType = GK_RCB_TYPE_SEM;
+            presource->RCBState = GK_RCBState_SEM;
+            presource->RCBType = GK_RCBType_SEM;
             presource->RCBWaitingTimeout = (TIMEPRIORITY) RCBWaitingTimeout;
             presource->semaphore.SEMMaxCount = initial_count;
         }
@@ -135,8 +135,8 @@ INT32 gu_sem_wait(t_semaphore_resource *presource,
                 if (presource->RCBCount > 0) {
                     // gk_TASK_RESOURCE_GRANT(presource, pevent);
                     presource->RCBCount--;
-                    pevent->ECBType      = G_ECB_TYPE_SEM_GRANTED;
-                    peventime->ECBType   = G_ECB_TYPE_TIMEOUT_SEM_GRANTED;
+                    pevent->ECBType      = G_ECBType_SEM_GRANTED;
+                    peventime->ECBType   = G_ECBType_TIMEOUT_SEM_GRANTED;
                     pevent->ECBValue.i64 = (INT64) prrds->RRDSGrantedPriority.i64;
                     if (prrds->RRDSGrantedTimeout.i64 != (INT64) 0) {    
                         peventime->ECBValue.i64 = (INT64) GRTOS_now() + (INT64) prrds->RRDSGrantedTimeout.i64;
@@ -148,17 +148,17 @@ INT32 gu_sem_wait(t_semaphore_resource *presource,
                     retorno = G_TRUE;     // resource available granted without waiting
                     
                 } else {
-                    pevent->ECBType      = G_ECB_TYPE_SEM_WAITING;
+                    pevent->ECBType      = G_ECBType_SEM_WAITING;
                     if (blocking == G_TRUE) {
                         // gk_TASK_RESOURCE_WAIT((G_RCB *)presource, (GS_ECB *) pevent);
-                        // pevent->ECBType      = G_ECB_TYPE_SEM_WAITING;
+                        // pevent->ECBType      = G_ECBType_SEM_WAITING;
                         pevent->ECBValue.i64 = (INT64) prrds->RRDSWaitingPriority.i64;     // Insert it in waiting event list
                         if (prrds->RRDSWaitingTimeout.i64 != (INT64) 0) {    
                             peventime->ECBValue.i64 = (INT64) GRTOS_now() + (INT64) prrds->RRDSWaitingTimeout.i64;
                         } else {
                             peventime->ECBValue.i64 = (INT64) G_LATEST_TIME - (INT64) 100;
                         }
-                        peventime->ECBType = G_ECB_TYPE_TIMEOUT_SEM_WAITING;
+                        peventime->ECBType = G_ECBType_TIMEOUT_SEM_WAITING;
                         gk_ECBTL_Link(peventime);
                         gk_RCBWEL_Link((G_RCB *) presource, pevent);              
 
@@ -167,19 +167,19 @@ INT32 gu_sem_wait(t_semaphore_resource *presource,
                         // #################################################
                         GRTOS_USER_CRITICAL_SECTION_GET;
                         // 1) Resource was granted
-                        //   pevent->ECBState    = GS_ECB_STATE_GRANTED_RESOURCE 
-                        //   pevent->ECBType     = G_ECB_TYPE_SEM_GRANTED
-                        //   peventime->ECBState = GS_ECB_STATE_WAITING_TIME
+                        //   pevent->ECBState    = GS_ECBState_GRANTED_RESOURCE 
+                        //   pevent->ECBType     = G_ECBType_SEM_GRANTED
+                        //   peventime->ECBState = GS_ECBState_WAITING_TIME
                         // 2) Waiting Timeout happened (gk_timeout_ECB_SEM_wait was executed)
-                        //   pevent->ECBState    = GS_ECB_STATE_UNLINKED
-                        //   peventime->ECBState = GS_ECB_STATE_UNLINKED
+                        //   pevent->ECBState    = GS_ECBState_UNLINKED
+                        //   peventime->ECBState = GS_ECBState_UNLINKED
                         
-                        if (pevent->ECBType == G_ECB_TYPE_SEM_GRANTED)
+                        if (pevent->ECBType == G_ECBType_SEM_GRANTED)
                         { // The resource is granted to task
                             retorno = G_TRUE;  // resource available after waiting
                         }
                     }
-                    if (pevent->ECBType == G_ECB_TYPE_SEM_WAITING) {
+                    if (pevent->ECBType == G_ECBType_SEM_WAITING) {
                         gk_TASK_RESOURCE_DESTROY((GS_ECB *) pevent);
                         retorno = G_FALSE;      // resource no available without waiting
                     }
@@ -270,15 +270,15 @@ INT32 gk_TASK_RESOURCE_WAIT(G_RCB *presource, GS_ECB *pevent)
     prrds      = (GS_RRDS *) pevent->ECB_RRDS;
 	switch (presource->RCBType)
 	{
-		case GK_RCB_TYPE_SEM:  
-            pevent->ECBType = G_ECB_TYPE_SEM_WAITING;
+		case GK_RCBType_SEM:  
+            pevent->ECBType = G_ECBType_SEM_WAITING;
             pevent->ECBValue.i64 = (INT64) prrds->RRDSWaitingPriority.i64;     // Insert it in waiting event list
             if (prrds->RRDSWaitingTimeout.i64 != (INT64) 0) {    
                 peventime->ECBValue.i64 = (INT64) GRTOS_now() + (INT64) prrds->RRDSWaitingTimeout.i64;
             } else {
                 peventime->ECBValue.i64 = (INT64) G_LATEST_TIME - (INT64) 100;
             }
-            peventime->ECBType = G_ECB_TYPE_TIMEOUT_SEM_WAITING;
+            peventime->ECBType = G_ECBType_TIMEOUT_SEM_WAITING;
             break;      
         
         default:
@@ -310,7 +310,7 @@ INT32 gk_TASK_RESOURCE_UNWAIT(G_RCB *presource, GS_ECB *pevent)
     peventime = pevent->ECB_NextECBAEL;
 
     gk_RCBWEL_Unlink(pevent); PRINT_DEBUG_LINE        // It is waiting: unlink from waiting list
-    if (peventime->ECBState == GS_ECB_STATE_WAITING_TIME) {
+    if (peventime->ECBState == GS_ECBState_WAITING_TIME) {
         gk_ECBTL_Unlink(peventime); PRINT_DEBUG_LINE // Unlink waiting timeout event
     }
     return(G_TRUE);
@@ -338,10 +338,10 @@ INT32 gk_TASK_RESOURCE_GRANT(G_RCB *presource, GS_ECB *pevent)
     // Assign event type according the resource type
 	switch (presource->RCBType)
 	{
-		case GK_RCB_TYPE_SEM:  
+		case GK_RCBType_SEM:  
             presource->RCBCount--;
-            pevent->ECBType    = G_ECB_TYPE_SEM_GRANTED;
-            peventime->ECBType = G_ECB_TYPE_TIMEOUT_SEM_GRANTED;
+            pevent->ECBType    = G_ECBType_SEM_GRANTED;
+            peventime->ECBType = G_ECBType_TIMEOUT_SEM_GRANTED;
             pevent->ECBValue.i64 = (INT64) prrds->RRDSGrantedPriority.i64;
             if (prrds->RRDSGrantedTimeout.i64 != (INT64) 0) {    
                 peventime->ECBValue.i64 = (INT64) GRTOS_now() + (INT64) prrds->RRDSGrantedTimeout.i64;
@@ -386,7 +386,7 @@ INT32 gk_TASK_RESOURCE_UNGRANT(G_RCB *presource, GS_ECB *pevent)
     if (pevent->ECB_AssocRCB == (struct g_rcb *) presource) {
         switch (presource->RCBType)
         {
-            case GK_RCB_TYPE_SEM:  
+            case GK_RCBType_SEM:  
                 presource->RCBCount++;
                 break;
             default:
@@ -394,7 +394,7 @@ INT32 gk_TASK_RESOURCE_UNGRANT(G_RCB *presource, GS_ECB *pevent)
             break;
         }   
         gk_RCBGEL_Unlink(pevent);  
-        if (peventime->ECBState == GS_ECB_STATE_WAITING_TIME) {        
+        if (peventime->ECBState == GS_ECBState_WAITING_TIME) {        
             gk_ECBTL_Unlink(peventime);
         }
         
@@ -409,7 +409,7 @@ INT32 gk_TASK_RESOURCE_UNGRANT(G_RCB *presource, GS_ECB *pevent)
             ptcb = pevent->ECB_AssocTCB;             
             ptcb->TCBInherPriority = gk_TASK_GRANTED_PRIORITY_GET(ptcb); 
             gk_TCBWL_Unlink(ptcb); 
-            gk_TASK_PRIORITY_SET(ptcb, G_TASK_STATE_READY); 
+            gk_TASK_PRIORITY_SET(ptcb, G_TCBState_READY); 
             gk_TCBRDYL_Link(ptcb); 
         }            
         retorno = G_TRUE;
@@ -503,7 +503,7 @@ INT32 gk_TASK_RESOURCE_DESTROY(GS_ECB *pevent)
 
 /**gk_timeout_ECB_SEM_wait
  *  \brief 
- *  Time routine for event G_ECB_TYPE_TIMEOUT_SEM_WAITING. It is called from the time interrupt ISR
+ *  Time routine for event G_ECBType_TIMEOUT_SEM_WAITING. It is called from the time interrupt ISR
  *  \param [in] peventime Pointer to the timed event
  *  \return G_TRUE when successful, G_FALSE otherwise
  *  \todo Replace gk_TASK_RESOURCE_UNWAIT
@@ -524,7 +524,7 @@ INT32 gk_timeout_ECB_SEM_wait(GS_ECB *peventime) {
 
 /**gk_timeout_ECB_SEM_post
  *  \brief 
- *  Time routine for event G_ECB_TYPE_TIMEOUT_SEM_GRANTED. It is called from the time interrupt ISR
+ *  Time routine for event G_ECBType_TIMEOUT_SEM_GRANTED. It is called from the time interrupt ISR
  *  \param [in] peventime Pointer to the timed event
  *  \return G_TRUE when successful, G_FALSE otherwise
  *  \todo Eliminate the TASK_RESOURCE routines
@@ -533,7 +533,7 @@ INT32 gk_timeout_ECB_SEM_wait(GS_ECB *peventime) {
 INT32 gk_timeout_ECB_SEM_post(GS_ECB *peventime) {
     GS_ECB *pevent  = peventime->ECB_NextECBAEL;
     GS_TCB *ptcb = peventime->ECB_AssocTCB;
-    GS_SCB *psignal = gk_ECBASL_GetSCB(peventime, G_ECB_TYPE_TIMEOUT_SEM_GRANTED);
+    GS_SCB *psignal = gk_ECBASL_GetSCB(peventime, G_ECBType_TIMEOUT_SEM_GRANTED);
     
     /* It is the timeout of a waiting event *************************************/
     printf("\n\n\n ################## GRANTING TIMEOUT ###########\n\n\n");
@@ -555,7 +555,7 @@ INT32 gk_timeout_ECB_SEM_post(GS_ECB *peventime) {
     }
     else
     {
-        gk_TCBWL_Link(ptcb, G_TASK_STATE_WAITING_COMPLETED); PRINT_DEBUG_LINE
+        gk_TCBWL_Link(ptcb, G_TCBState_WAITING_COMPLETED); PRINT_DEBUG_LINE
     }
     return(G_TRUE);
 }
@@ -566,7 +566,7 @@ INT32 gk_timeout_ECB_SEM_post(GS_ECB *peventime) {
  *  \param [in] pevent1 Task ECB associated to the semaphore resource
  *  \return G_TRUE when successful, G_FALSE otherwise
   *  \details 
- *  The ECBs has to be type G_ECB_TYPE_SEM_GRANTED or G_ECB_TYPE_TIMEOUT_SEM_GRANTED. 
+ *  The ECBs has to be type G_ECBType_SEM_GRANTED or G_ECBType_TIMEOUT_SEM_GRANTED. 
  *  This function is called from gk_TCB_List_Unlink
  *  \relates Semaphore
  */
@@ -583,7 +583,7 @@ INT32 gk_SEM_granted_kill(GS_ECB *pevent1) {
  *  \param [in] pevent1 Task ECB associated to the semaphore resource
  *  \return G_TRUE when successful, G_FALSE otherwise
   *  \details 
- *  The ECBs has to be type G_ECB_TYPE_SEM_WAITING or G_ECB_TYPE_TIMEOUT_SEM_WAITING
+ *  The ECBs has to be type G_ECBType_SEM_WAITING or G_ECBType_TIMEOUT_SEM_WAITING
  *  This function is called from gk_TCB_List_Unlink
  *  \relates Semaphore
  */

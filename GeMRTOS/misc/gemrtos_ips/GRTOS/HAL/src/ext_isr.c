@@ -76,7 +76,7 @@ void  gk_INIT_IRQ (void)
                 g_kcb.KCB_ExtISR[i].G_EXT_INT_Count++; // = (int) 1;
 				gk_TCBRDYL_Link(g_kcb.KCB_ExtISR[i].G_TCB_ISR);   /* Insert Task in Ready List                */
 			} else {
-                gk_TCBWL_Link(g_kcb.KCB_ExtISR[i].G_TCB_ISR, G_TASK_STATE_WAITING_COMPLETED); 
+                gk_TCBWL_Link(g_kcb.KCB_ExtISR[i].G_TCB_ISR, G_TCBState_WAITING_COMPLETED); 
                 // g_kcb.KCB_ExtISR[i].G_EXT_INT_Count = (int) 0;
 				GRTOS_CMD_IRQ_ENB_SET(i); 
 			}
@@ -126,7 +126,7 @@ INT32 gk_ISR_RELEASE (int irq_nbr) {
         // !!!! verificar si esta en estado waiting
         /* Limpio el registro de interrupcion porque ya fue activada  */
         if (ptcb->TCBType == G_TASK_TYPE_ISR) {
-            if (ptcb->TCBState == G_TASK_STATE_WAITING_COMPLETED) {     // if task is waiting
+            if (ptcb->TCBState == G_TCBState_WAITING_COMPLETED) {     // if task is waiting
                 /* Insert Task in Ready List                */                
                 gk_TCB_Unlink((GS_TCB *) ptcb); 
                 gk_TASK_STK_Init((GS_TCB *) ptcb); 
@@ -182,7 +182,7 @@ INT32 gk_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr)
     }
     g_kcb.KCB_ExtISR[irq_nbr].G_TCB_ISR = (struct gs_tcb *) ptcb;
     
-    if (ptcb->TCBState != G_TASK_STATE_WAITING_COMPLETED) {
+    if (ptcb->TCBState != G_TCBState_WAITING_COMPLETED) {
         g_kcb.KCB_ExtISR[irq_nbr].G_EXT_INT_Count++;
     }
     

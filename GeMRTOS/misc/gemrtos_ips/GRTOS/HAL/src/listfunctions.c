@@ -186,7 +186,7 @@ void  gk_ECBASL_Link(GS_ECB *pevent, GS_SCB *psignal)
                 }
             }
         }
-        psignal->SCBState = G_SCB_STATE_IN_ECB;
+        psignal->SCBState = G_SCBState_IN_ECB;
     }
     SAMPLE_FUNCTION_END(4)
 }
@@ -211,7 +211,7 @@ INT32  gk_ECBASL_Unlink(GS_ECB *pevent, GS_SCB *psignal)
     {
         // It is the fist ESB of the list
     	pevent->ECB_NextECBASL = psignal->SCB_NextSCB;
-		psignal->SCBState = G_SCB_STATE_UNLINKED;
+		psignal->SCBState = G_SCBState_UNLINKED;
 		retorno = G_TRUE;
     }
     else
@@ -229,7 +229,7 @@ INT32  gk_ECBASL_Unlink(GS_ECB *pevent, GS_SCB *psignal)
     	else
     	{
     		psignal1->SCB_NextSCB = psignal->SCB_NextSCB;
-    		psignal->SCBState = G_SCB_STATE_UNLINKED;
+    		psignal->SCBState = G_SCBState_UNLINKED;
     		retorno = G_TRUE;
     	}
     }
@@ -270,16 +270,16 @@ INT32 gk_ECB_List_Unlink(GS_ECB *pevent)
 	// according the pevent->ECBState field
     switch (pevent->ECBState)
     {
-        case GS_ECB_STATE_WAITING_TIME:
+        case GS_ECBState_WAITING_TIME:
             gk_ECBTL_Unlink(pevent);
             break;
-        case GS_ECB_STATE_GRANTED_RESOURCE:    
+        case GS_ECBState_GRANTED_RESOURCE:    
             gk_RCBGEL_Unlink(pevent);            
             break;
-        case GS_ECB_STATE_WAITING_RESOURCE:  
+        case GS_ECBState_WAITING_RESOURCE:  
             gk_RCBWEL_Unlink(pevent);
             break;
-        case GS_ECB_STATE_UNLINKED:
+        case GS_ECBState_UNLINKED:
             break;
         default:
             G_DEBUG_WHILEFOREVER;
@@ -329,7 +329,7 @@ INT32 gk_ECBFL_Link(GS_ECB *pevent)
     
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (pevent->ECBState != GS_ECB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (pevent->ECBState != GS_ECBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
 
     /// TCBs linked list for debugging
@@ -359,7 +359,7 @@ inline INT32  gk_ECBTL_Link (GS_ECB *pevent)
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (pevent->ECBState != GS_ECB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (pevent->ECBState != GS_ECBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
     //printf("pevent = %p, %p", (void *)*((char *) pevent + 16), pevent->ECB_NextECB);
 	
@@ -384,7 +384,7 @@ inline INT32  gk_ECBTL_Link (GS_ECB *pevent)
 		pevent2->ECB_PrevECB = (struct gs_ecb *) pevent;
 	}
     /* Change Status of the Event */
-    pevent->ECBState = GS_ECB_STATE_WAITING_TIME;
+    pevent->ECBState = GS_ECBState_WAITING_TIME;
     SAMPLE_FUNCTION_END(8)
     return(G_TRUE);
 }
@@ -396,9 +396,9 @@ inline INT32  gk_ECBTL_Link (GS_ECB *pevent)
  *  \return G_TRUE if successful, G_FALSE if was not a time event
  *  \details
  *  When starts:
- *     pevent->ECBState = GS_ECB_STATE_WAITING_TIME
+ *     pevent->ECBState = GS_ECBState_WAITING_TIME
  *  When finishes:
- *     pevent->ECBState = GS_ECB_STATE_UNLINKED
+ *     pevent->ECBState = GS_ECBState_UNLINKED
  *  \todo Implement G_FALSE when no a time event
  *  \relates Event
  */
@@ -407,7 +407,7 @@ inline INT32 gk_ECBTL_Unlink(GS_ECB *pevent)
     SAMPLE_FUNCTION_BEGIN(9)
 	#if G_DEBUG_WHILEFOREVER_ENABLE == 1
 		if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-		if (pevent->ECBState != GS_ECB_STATE_WAITING_TIME) G_DEBUG_WHILEFOREVER;
+		if (pevent->ECBState != GS_ECBState_WAITING_TIME) G_DEBUG_WHILEFOREVER;
 	#endif
 
 	/* Remove from the time linked list */
@@ -428,7 +428,7 @@ inline INT32 gk_ECBTL_Unlink(GS_ECB *pevent)
 	/* Set the pointer to unlinked */
 	pevent->ECB_PrevECB = (struct gs_ecb *) 0;
 	pevent->ECB_NextECB = (struct gs_ecb *) 0;
-	pevent->ECBState = GS_ECB_STATE_UNLINKED;
+	pevent->ECBState = GS_ECBState_UNLINKED;
     SAMPLE_FUNCTION_END(9)
     return(G_TRUE);
 }
@@ -490,7 +490,7 @@ INT32  gk_KCBASL_Link(GS_SCB *psignal)
                 }
             }
         }
-        psignal->SCBState = G_SCB_STATE_IN_KCB;
+        psignal->SCBState = G_SCBState_IN_KCB;
     }
     SAMPLE_FUNCTION_END(10)
     return(G_TRUE);
@@ -515,7 +515,7 @@ INT32  gk_KCBASL_Unlink(GS_SCB *psignal)
     {
         // It is the fist ESB of the list
     	g_kcb.KCB_NextKCBASL = psignal->SCB_NextSCB;
-		psignal->SCBState = G_SCB_STATE_UNLINKED;
+		psignal->SCBState = G_SCBState_UNLINKED;
 		retorno = G_TRUE;
     }
     else
@@ -533,7 +533,7 @@ INT32  gk_KCBASL_Unlink(GS_SCB *psignal)
     	else
     	{
     		psignal1->SCB_NextSCB = psignal->SCB_NextSCB;
-    		psignal->SCBState = G_SCB_STATE_UNLINKED;
+    		psignal->SCBState = G_SCBState_UNLINKED;
     		retorno = G_TRUE;
     	}
     }
@@ -606,7 +606,7 @@ INT32 gk_LCBL_Link(GS_LCB *plcb)
 			}
 		}
 	}
-	plcb->LCBState = GS_LCB_STATE_LINKED;
+	plcb->LCBState = GS_LCBState_LINKED;
     SAMPLE_FUNCTION_END(12)
     return(G_TRUE);
 }
@@ -640,7 +640,7 @@ INT32 gk_LCBL_UnLink(GS_LCB *plcb)
 		plcb->LCB_PrevLCBL->LCB_NextLCBL = plcb->LCB_NextLCBL;
 		if (plcb->LCB_NextLCBL != (struct gs_lcb *) 0) plcb->LCB_NextLCBL->LCB_PrevLCBL = plcb->LCB_PrevLCBL;
 	}
-	plcb->LCBState = GS_LCB_STATE_UNLINKED;
+	plcb->LCBState = GS_LCBState_UNLINKED;
     
     SAMPLE_FUNCTION_END(13) 
     return(G_TRUE);
@@ -666,7 +666,7 @@ INT32 gk_LCBFPL_Link(int processorID)
 	if (processorID < 1 || processorID > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER;
 #endif
 
-    if (ppcb->PCBState != GS_PCB_STATE_FREE) {
+    if (ppcb->PCBState != GS_PCBState_FREE) {
         if (plcb->LCB_NextLCBFPL == (struct gs_pcb *) 0) {
             plcb->LCB_NextLCBFPL = (struct gs_pcb *) ppcb;
             ppcb->PCB_NextPCB = (struct gs_pcb *) 0;
@@ -680,7 +680,7 @@ INT32 gk_LCBFPL_Link(int processorID)
             plcb->LCB_NextLCBFPL = (struct gs_pcb *) ppcb;
         }
     }
-	ppcb->PCBState = GS_PCB_STATE_FREE;
+	ppcb->PCBState = GS_PCBState_FREE;
 
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
@@ -709,7 +709,7 @@ INT32 gk_LCBFPL_Unlink(int processorID)
 	if (processorID < 1 || processorID > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER;
 #endif
 
-    if (ppcb->PCBState != GS_PCB_STATE_RUNNING) {
+    if (ppcb->PCBState != GS_PCBState_RUNNING) {
         if (plcb->LCB_NextLCBFPL == ppcb) { /* It is the first element */
             plcb->LCB_NextLCBFPL = ppcb->PCB_NextPCB;
         }
@@ -719,7 +719,7 @@ INT32 gk_LCBFPL_Unlink(int processorID)
         if (ppcb->PCB_NextPCB != (struct gs_pcb *) 0) ppcb->PCB_NextPCB->PCB_PrevPCB = ppcb->PCB_PrevPCB;
     }
 
-	ppcb->PCBState = GS_PCB_STATE_RUNNING;
+	ppcb->PCBState = GS_PCBState_RUNNING;
     SAMPLE_FUNCTION_END(15)
     return(G_TRUE);
 }
@@ -784,7 +784,7 @@ INT32 gk_RCBASL_Link(G_RCB *presource, GS_SCB *psignal)
             }
         }
     }
-    psignal->SCBState = G_SCB_STATE_IN_RCB;
+    psignal->SCBState = G_SCBState_IN_RCB;
     SAMPLE_FUNCTION_END(16)
     return(G_TRUE);
 }
@@ -805,7 +805,7 @@ INT32 gk_RCBASL_Unlink(G_RCB *presource, GS_SCB *psignal)
 	GS_SCB *psignal1;
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState == G_SCB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (psignal->SCBState == G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
 
 	if (presource->RCB_NextRCBASL != (struct gs_scb *) 0)
@@ -830,11 +830,11 @@ INT32 gk_RCBASL_Unlink(G_RCB *presource, GS_SCB *psignal)
 				}
 			}
 		}
-		psignal->SCBState = G_SCB_STATE_UNLINKED;
+		psignal->SCBState = G_SCBState_UNLINKED;
 	}
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState != G_SCB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (psignal->SCBState != G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
     SAMPLE_FUNCTION_END(17)
     return(G_TRUE);
@@ -852,13 +852,13 @@ INT32 gk_RCBFL_Link(G_RCB *presource)
 {
     SAMPLE_FUNCTION_BEGIN(18)
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (presource->RCBType != GK_RCB_TYPE_UNUSED) G_DEBUG_WHILEFOREVER;
+	if (presource->RCBType != GK_RCBType_UNUSED) G_DEBUG_WHILEFOREVER;
 #endif
 
     /// RCBs linked list for debugging
     if (g_kcb.KCB_ROOT_RCBs != (struct g_rcb *) presource) presource->RCB_PREV_RCBs->RCB_NEXT_RCBs = presource->RCB_NEXT_RCBs;
-    else g_kcb.KCB_ROOT_RCBs = presource->RCB_NEXT_RCBs;
-    if (presource->RCB_NEXT_RCBs != (struct g_rcb *) 0) presource->RCB_NEXT_RCBs->RCB_PREV_RCBs = presource->RCB_PREV_RCBs; 
+    else g_kcb.KCB_ROOT_RCBs = (struct g_rcb *) presource->RCB_NEXT_RCBs;
+    if (presource->RCB_NEXT_RCBs != (G_RCB *) 0) presource->RCB_NEXT_RCBs->RCB_PREV_RCBs = presource->RCB_PREV_RCBs; 
 
     free(presource->malloc_address);
     g_kcb.KCB_NUMBER_OF_RCBs--; 
@@ -879,7 +879,7 @@ INT32 gk_RCBFL_Link(G_RCB *presource)
 // 
 //     G_RCB *presource = gk_Get_RCB();
 // 	if (presource != (G_RCB *) 0) {
-//         presource->RCBType = GK_RCB_TYPE_UNUSED;
+//         presource->RCBType = GK_RCBType_UNUSED;
 //     }
 //     SAMPLE_FUNCTION_END(19)
 // 	return(presource);
@@ -909,9 +909,9 @@ INT32 gk_TASK_RELEASE(GS_TCB *ptcb)
     gk_TCBRDYL_Link(ptcb); PRINT_DEBUG_LINE
     ptcb->TCB_NextTCBASL = (struct gs_scb *) psignal;   // Put back the Associated Signal list
 
-    // Check if there is G_SCB_TCB_ABORTED signal
-    if (state == G_TASK_STATE_WAITING) {  // It is waiting not completed    
-        psignal = gk_TCBASL_GetSCB(ptcb, G_SCB_TCB_ABORTED); PRINT_DEBUG_LINE
+    // Check if there is G_SCBType_TCB_ABORTED signal
+    if (state == G_TCBState_WAITING) {  // It is waiting not completed    
+        psignal = gk_TCBASL_GetSCB(ptcb, G_SCBType_TCB_ABORTED); PRINT_DEBUG_LINE
         if (psignal != (GS_SCB *) 0) {
             psignal = gk_SCB_Copy((GS_SCB *) psignal); PRINT_DEBUG_LINE
             gk_TCBPSL_Link(ptcb, (GS_SCB *) psignal); PRINT_DEBUG_LINE
@@ -998,7 +998,7 @@ GS_ECB *gk_RCBGEL_Link(G_RCB *presource, GS_ECB *pevent)
 		}
 	}
 	pevent->ECB_AssocRCB = (struct g_rcb *) presource;
-	pevent->ECBState = GS_ECB_STATE_GRANTED_RESOURCE;
+	pevent->ECBState = GS_ECBState_GRANTED_RESOURCE;
     SAMPLE_FUNCTION_END(21)
     return((GS_ECB *)pevent);
 }
@@ -1017,7 +1017,7 @@ void  gk_RCBGEL_Unlink(GS_ECB *pevent)
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (pevent->ECBState != GS_ECB_STATE_GRANTED_RESOURCE) G_DEBUG_WHILEFOREVER;
+	if (pevent->ECBState != GS_ECBState_GRANTED_RESOURCE) G_DEBUG_WHILEFOREVER;
 	if (ECB_IsValid(presource->RCB_NextRCBGEL) != G_TRUE) G_DEBUG_WHILEFOREVER;
 #endif
 
@@ -1033,7 +1033,7 @@ void  gk_RCBGEL_Unlink(GS_ECB *pevent)
     if (pevent->ECB_NextECB != (struct gs_ecb *) 0) pevent->ECB_NextECB->ECB_PrevECB = pevent->ECB_PrevECB;
 
 	/* Set the pointer to unlinked */
-	pevent->ECBState = GS_ECB_STATE_UNLINKED;
+	pevent->ECBState = GS_ECBState_UNLINKED;
 	pevent->ECB_PrevECB = (struct gs_ecb *) 0;
 	pevent->ECB_NextECB = (struct gs_ecb *) 0;
     SAMPLE_FUNCTION_END(22)
@@ -1115,7 +1115,7 @@ GS_ECB *gk_RCBWEL_Link(G_RCB *presource, GS_ECB *pevent)
 			}
 		}
 	}
-	pevent->ECBState = GS_ECB_STATE_WAITING_RESOURCE;
+	pevent->ECBState = GS_ECBState_WAITING_RESOURCE;
 	pevent->ECB_AssocRCB = (struct g_rcb *) presource;
     SAMPLE_FUNCTION_END(23)
     return(pevent);
@@ -1127,9 +1127,9 @@ GS_ECB *gk_RCBWEL_Link(G_RCB *presource, GS_ECB *pevent)
  *  \param [in] pevent Pointer to the ECB of the event
  *  \details 
  *  When starts:
- *  - pevent->ECBState != GS_ECB_STATE_UNLINKED
+ *  - pevent->ECBState != GS_ECBState_UNLINKED
  *  When finishes:
- *  - pevent->ECBState = GS_ECB_STATE_UNLINKED 
+ *  - pevent->ECBState = GS_ECBState_UNLINKED 
  *  \relates Event
  */ 
 void gk_RCBWEL_Unlink(GS_ECB *pevent)
@@ -1139,7 +1139,7 @@ void gk_RCBWEL_Unlink(GS_ECB *pevent)
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (pevent->ECBState == GS_ECB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (pevent->ECBState == GS_ECBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
 
 	/* Remove from the resource linked list */
@@ -1155,7 +1155,7 @@ void gk_RCBWEL_Unlink(GS_ECB *pevent)
         }
 	}
 	/* Set the pointer to unlinked */
-	pevent->ECBState = GS_ECB_STATE_UNLINKED;
+	pevent->ECBState = GS_ECBState_UNLINKED;
 	pevent->ECB_PrevECB = (struct gs_ecb *) 0;
 	pevent->ECB_NextECB = (struct gs_ecb *) 0;
     SAMPLE_FUNCTION_END(24)
@@ -1175,7 +1175,7 @@ INT32 gk_SCBFL_Link(GS_SCB *psignal)
     SAMPLE_FUNCTION_BEGIN(25)
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState != G_SCB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (psignal->SCBState != G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
 
     /// SCBs linked list for debugging
@@ -1245,7 +1245,7 @@ INT32 gk_SCBAPSL_UnLink(GS_SCB *pscb_root, GS_SCB *pscb_pending)
 {
     SAMPLE_FUNCTION_BEGIN(29)
 	GS_SCB * pscb;
-	if (pscb_pending->SCBState == G_SCB_STATE_EXECUTING) return(G_FALSE);
+	if (pscb_pending->SCBState == G_SCBState_EXECUTING) return(G_FALSE);
 
 	if (pscb_root->SCB_NextSCBAPSL == pscb_pending)
 	{
@@ -1389,7 +1389,7 @@ INT32 gk_TCBASL_Link(GS_TCB *ptcb, GS_SCB *psignal)
             }
         }
     }
-	psignal->SCBState = G_SCB_STATE_IN_TCB;
+	psignal->SCBState = G_SCBState_IN_TCB;
     SAMPLE_FUNCTION_END(32)
     return(G_TRUE);
 }
@@ -1410,7 +1410,7 @@ INT32  gk_TCBASL_Unlink(GS_TCB *ptcb, GS_SCB *psignal)
 	GS_SCB *psignal1;
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState == G_SCB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (psignal->SCBState == G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
 
 	if (ptcb->TCB_NextTCBASL != (struct gs_scb *) 0)
@@ -1435,11 +1435,11 @@ INT32  gk_TCBASL_Unlink(GS_TCB *ptcb, GS_SCB *psignal)
 				}
 			}
 		}
-		psignal->SCBState = G_SCB_STATE_UNLINKED;
+		psignal->SCBState = G_SCBState_UNLINKED;
 	}
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState != G_SCB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (psignal->SCBState != G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
     SAMPLE_FUNCTION_END(33)
     return G_TRUE;
@@ -1504,7 +1504,7 @@ INT32 gk_TCBFL_Link(GS_TCB *ptcb)
     
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (ptcb->TCBState != G_TASK_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (ptcb->TCBState != G_TCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
 
 	/* Remove the links from TCB        */
@@ -1584,7 +1584,7 @@ INT32  gk_TCBPSL_Link(GS_TCB *ptcb, GS_SCB *psignal)
             }
 		}
     }
-	psignal->SCBState = G_SCB_STATE_PENDING;
+	psignal->SCBState = G_SCBState_PENDING;
     SAMPLE_FUNCTION_END(37)
     return(G_TRUE);
 }
@@ -1604,7 +1604,7 @@ INT32  gk_TCBPSL_Unlink(GS_TCB *ptcb, GS_SCB *psignal)
     SAMPLE_FUNCTION_BEGIN(38)
 	GS_SCB *psignal1;
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState == G_SCB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (psignal->SCBState == G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
 	if (ptcb->TCB_NextTCBPSL != (struct gs_scb *) 0)
 	{
@@ -1628,10 +1628,10 @@ INT32  gk_TCBPSL_Unlink(GS_TCB *ptcb, GS_SCB *psignal)
 				}
 			}
 		}
-		psignal->SCBState = G_SCB_STATE_UNLINKED;
+		psignal->SCBState = G_SCBState_UNLINKED;
 	}
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState != G_SCB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (psignal->SCBState != G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
     SAMPLE_FUNCTION_END(38)
     return G_TRUE;
@@ -1656,10 +1656,10 @@ INT32 gk_TCBRDYL_Link(GS_TCB *ptcb)
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-	if (ptcb->TCBState != G_TASK_STATE_UNLINKED) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
+	if (ptcb->TCBState != G_TCBState_UNLINKED) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
 #endif
     G_DEBUG_VERBOSE
-	gk_TASK_PRIORITY_SET(ptcb, G_TASK_STATE_READY); PRINT_DEBUG_LINE
+	gk_TASK_PRIORITY_SET(ptcb, G_TCBState_READY); PRINT_DEBUG_LINE
 
 	if (ptcb->TCBType != G_TASK_TYPE_IDLE)   /* Idle task are not inserted in Ready Lists */
 	{
@@ -1709,7 +1709,7 @@ INT32 gk_TCBRDYL_Link(GS_TCB *ptcb)
 		}
 	}
 	ptcb->TCB_AssocPCB = (INT32) 0; PRINT_DEBUG_LINE
-	ptcb->TCBState = G_TASK_STATE_READY; PRINT_DEBUG_LINE
+	ptcb->TCBState = G_TCBState_READY; PRINT_DEBUG_LINE
 	// Check if Inversion occurs !!!!!!!!!!!
     /// If there exist a free processor, then trigger its interrupt
     if (readylist->LCB_NextLCBFPL != (struct gs_pcb *) 0)
@@ -1742,7 +1742,7 @@ INT32 gk_TCBRDYL_Unlink(GS_TCB *ptcb)
 	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
 	if ((TCB_IsValid(readylist->LCB_NextTCBRDYL) != G_TRUE && readylist->LCB_NextTCBRDYL != 0) ||
 			(readylist->LCB_NextTCBRDYL == (struct gs_tcb *) 0 && ptcb->TCBType != G_TASK_TYPE_IDLE)) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-    if (ptcb->TCBState != G_TASK_STATE_READY) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
+    if (ptcb->TCBState != G_TCBState_READY) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
 #endif
 
     if (ptcb->TCBType != G_TASK_TYPE_IDLE)  /* Task Idle is not inserted in ready lists */
@@ -1759,7 +1759,7 @@ INT32 gk_TCBRDYL_Unlink(GS_TCB *ptcb)
 		}
     }
 
-	ptcb->TCBState = G_TASK_STATE_UNLINKED; PRINT_DEBUG_LINE
+	ptcb->TCBState = G_TCBState_UNLINKED; PRINT_DEBUG_LINE
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(readylist->LCB_NextTCBRDYL) != G_TRUE &&
@@ -1791,11 +1791,11 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
 	if (TCB_IsValid(ptcb1) != G_TRUE && ptcb1 != (struct gs_tcb *) 0) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
 	if ((TCB_IsValid(ptcb) != G_TRUE) && (ptcb != (struct gs_tcb *) 0))G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
     G_DEBUG_VERBOSE
-	if (ptcb->TCBState != G_TASK_STATE_UNLINKED) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
+	if (ptcb->TCBState != G_TCBState_UNLINKED) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
 #endif
     
     
-	gk_TASK_PRIORITY_SET(ptcb, G_TASK_STATE_RUNNING); PRINT_DEBUG_LINE
+	gk_TASK_PRIORITY_SET(ptcb, G_TCBState_RUNNING); PRINT_DEBUG_LINE
     
 	/* Set the current processor as the processor associated  of the task */
 	ptcb->TCB_AssocPCB = (INT32) GRTOS_CMD_PRC_ID; PRINT_DEBUG_LINE
@@ -1851,20 +1851,20 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
 		}
 	}
 
-    ptcb->TCBState = G_TASK_STATE_RUNNING; PRINT_DEBUG_LINE
+    ptcb->TCBState = G_TCBState_RUNNING; PRINT_DEBUG_LINE
 	// Check if Inversion occurs !!!!!!!!!
 	//gk_LCB_CheckInvertion(RunList); PRINT_DEBUG_LINE
     // Si no esta en la lista principal del procesador o es tarea idle, el procesador es puesto como libre
 	if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0] || ptcb->TCBType == G_TASK_TYPE_IDLE)
 	{
-		if (g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCBState != GS_PCB_STATE_FREE)
+		if (g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCBState != GS_PCBState_FREE)
 	        gk_LCBFPL_Link(ptcb->TCB_AssocPCB); PRINT_DEBUG_LINE // Link the processor to the free list
 	}
 
     // Si esta en la lista de ready principal del procesador, entocnes es sacado de la lista de libres
 	if (ptcb->TCB_RDY_LCB_Index == g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0])
 	{
-		if (g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCBState == GS_PCB_STATE_FREE)
+		if (g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCBState == GS_PCBState_FREE)
 		    gk_LCBFPL_Unlink(ptcb->TCB_AssocPCB); PRINT_DEBUG_LINE // Unlink the processor from the free list
 	}
     
@@ -1913,8 +1913,8 @@ INT32  gk_TCBRUNL_Unlink(GS_TCB *ptcb)
     SAMPLE_FUNCTION_BEGIN(42)
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-	if (ptcb->TCBState != G_TASK_STATE_RUNNING) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-	if (ptcb->TCBState == G_TASK_STATE_UNLINKED) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
+	if (ptcb->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
+	if (ptcb->TCBState == G_TCBState_UNLINKED) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
 #endif
 
     GS_LCB *RunList = ptcb->TCB_RDY_LCB_Index; PRINT_DEBUG_LINE
@@ -1930,7 +1930,7 @@ INT32  gk_TCBRUNL_Unlink(GS_TCB *ptcb)
         // fprintf(stderr, "[ OK ] Processor %d trigger proc %d in %s, %d\n", GRTOS_CMD_PRC_ID, ptcb->TCB_AssocPCB, __FUNCTION__,__LINE__);
         GRTOS_CMD_PRC_INT(ptcb->TCB_AssocPCB);
     }
-    if (g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCBState != GS_PCB_STATE_FREE)
+    if (g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCBState != GS_PCBState_FREE)
     	gk_LCBFPL_Link(ptcb->TCB_AssocPCB); PRINT_DEBUG_LINE // Link processor to free list
 
 
@@ -1962,12 +1962,12 @@ INT32  gk_TCBRUNL_Unlink(GS_TCB *ptcb)
     }
 
     // g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_EXECTCB = g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_IDLETCB; PRINT_DEBUG_LINE 
-    // g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_IDLETCB->TCBState = G_TASK_STATE_RUNNING; PRINT_DEBUG_LINE 
+    // g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_IDLETCB->TCBState = G_TCBState_RUNNING; PRINT_DEBUG_LINE 
     
     /* Desassociate the task from the processor */    
     g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_EXECTCB = (struct gs_tcb *) 0;
 	ptcb->TCB_AssocPCB = (INT32) 0; PRINT_DEBUG_LINE
-	ptcb->TCBState = G_TASK_STATE_UNLINKED; PRINT_DEBUG_LINE
+	ptcb->TCBState = G_TCBState_UNLINKED; PRINT_DEBUG_LINE
 	// Check if Inversion occurs
 	//gk_LCB_CheckInvertion(RunList); PRINT_DEBUG_LINE
 	SAMPLE_FUNCTION_END(42)
@@ -1988,7 +1988,7 @@ INT32  gk_TCBWL_Link(GS_TCB *ptcb, unsigned int state)
     SAMPLE_FUNCTION_BEGIN(43)
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (ptcb->TCBState != G_TASK_STATE_UNLINKED)G_DEBUG_WHILEFOREVER;
+	if (ptcb->TCBState != G_TCBState_UNLINKED)G_DEBUG_WHILEFOREVER;
 #endif
 
     // int i; 
@@ -2026,7 +2026,7 @@ INT32 gk_TCBWL_Unlink(GS_TCB *ptcb)
 
     if (ptcb->TCB_NextTCB != (struct gs_tcb *) 0) ptcb->TCB_NextTCB->TCB_PrevTCB = ptcb->TCB_PrevTCB;
 
-    ptcb->TCBState = G_TASK_STATE_UNLINKED;
+    ptcb->TCBState = G_TCBState_UNLINKED;
     SAMPLE_FUNCTION_END(44)
     return(G_TRUE);
 }
@@ -2055,7 +2055,7 @@ INT32 gk_TASK_IS_BLOCKED(GS_TCB *ptcb)
 	    switch (pevent->ECBState)
 	    {
 	        /* It is a Waiting for resource Event *****************************/
-	        case GS_ECB_STATE_WAITING_RESOURCE:
+	        case GS_ECBState_WAITING_RESOURCE:
 	        	return_int = G_TRUE; PRINT_DEBUG_LINE
 	    	    break; 
 	    }
@@ -2117,9 +2117,9 @@ INT32 gk_RRDSFL_Link(GS_RRDS *prrds)
 #endif
 
     /// TCBs linked list for debugging
-    if (g_kcb.KCB_ROOT_RRDSs != (struct gs_tcb *) prrds) prrds->RRDS_PREV_RRDSs->RRDS_NEXT_RRDSs = prrds->RRDS_NEXT_RRDSs;
+    if (g_kcb.KCB_ROOT_RRDSs != (struct gs_rrds *) prrds) prrds->RRDS_PREV_RRDSs->RRDS_NEXT_RRDSs = prrds->RRDS_NEXT_RRDSs;
     else g_kcb.KCB_ROOT_RRDSs = prrds->RRDS_NEXT_RRDSs;
-    if (prrds->RRDS_NEXT_RRDSs != (struct gs_tcb *) 0) prrds->RRDS_NEXT_RRDSs->RRDS_PREV_RRDSs = prrds->RRDS_PREV_RRDSs; 
+    if (prrds->RRDS_NEXT_RRDSs != (struct gs_rrds *) 0) prrds->RRDS_NEXT_RRDSs->RRDS_PREV_RRDSs = prrds->RRDS_PREV_RRDSs; 
     
     free(prrds->malloc_address);
     g_kcb.KCB_NUMBER_OF_RRDSs-- ;
@@ -2186,7 +2186,7 @@ INT32 gk_RRDSASL_Link(GS_RRDS *prrds, GS_SCB *psignal)
             }
         }
     }
-	psignal->SCBState = G_SCB_STATE_IN_TCB;
+	psignal->SCBState = G_SCBState_IN_TCB;
     SAMPLE_FUNCTION_END(49)
     return(G_TRUE);
 }
@@ -2206,7 +2206,7 @@ INT32  gk_RRDSASL_UnLink(GS_RRDS *prrds, GS_SCB *psignal)
 	GS_SCB *psignal1;
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState == G_SCB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (psignal->SCBState == G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
 
 	if (prrds->RRDS_NextSCB != (struct gs_scb *) 0)
@@ -2231,11 +2231,11 @@ INT32  gk_RRDSASL_UnLink(GS_RRDS *prrds, GS_SCB *psignal)
 				}
 			}
 		}
-		psignal->SCBState = G_SCB_STATE_UNLINKED;
+		psignal->SCBState = G_SCBState_UNLINKED;
 	}
 
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState != G_SCB_STATE_UNLINKED) G_DEBUG_WHILEFOREVER;
+	if (psignal->SCBState != G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
 #endif
     SAMPLE_FUNCTION_END(50)
     return(G_TRUE);
@@ -2336,7 +2336,7 @@ GS_TCB *gk_PCB_GetNextTCB(void)
 
     // fprintf(stderr, "[ OK1 ] ptcb %p, IDLE %p, PCBState %d, ptcb->TCB_RDY_LCB_Index %d PCB_RDY_LCBL[0] %d in %s, %d\n", ptcb, ppcb->PCB_IDLETCB, ppcb->PCBState, ptcb->TCB_RDY_LCB_Index, g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_RDY_LCBL[0], __FUNCTION__,__LINE__);
 
-    if (ppcb->PCBState == GS_PCB_STATE_FREE) { // It is not executing a main list task
+    if (ppcb->PCBState == GS_PCBState_FREE) { // It is not executing a main list task
         // Unlink if it executing a task
         if ((ptcb != ppcb->PCB_IDLETCB) && (ptcb != (struct gs_tcb *) 0)) { // It is executing a task (no from main list)
             gk_TCBRUNL_Unlink(ptcb);
@@ -2407,11 +2407,11 @@ INT32 gk_SetNextTimeProcessor(void)
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER;
         if (g_kcb.KCB_NextECBTL->ECB_AssocTCB == (GS_TCB *)0 &&
-            g_kcb.KCB_NextECBTL->ECBType != (INT32) G_ECB_TYPE_LASTEST_TIME) G_DEBUG_WHILEFOREVER;
+            g_kcb.KCB_NextECBTL->ECBType != (INT32) G_ECBType_LASTEST_TIME) G_DEBUG_WHILEFOREVER;
         if (g_kcb.KCB_NextECBTL->ECB_AssocTCB->TCB_AssocPCB > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER;
     #endif
 
-	if (g_kcb.KCB_NextECBTL->ECBType != (INT32) G_ECB_TYPE_LASTEST_TIME) {
+	if (g_kcb.KCB_NextECBTL->ECBType != (INT32) G_ECBType_LASTEST_TIME) {
 		GRTOS_CMD_NXT_TM_PRC_SET((int) g_kcb.KCB_NextECBTL->ECB_AssocTCB->TCB_AssocPCB);
 	} else {
 		GRTOS_CMD_NXT_TM_PRC_SET((int) 0);
@@ -2444,7 +2444,7 @@ INT32 gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB *ptcb)
 	pevent = ptcb->TCB_NextTCBAEL;
 
 	while (pevent != (struct gs_ecb *) 0) {
-		if (pevent->ECBState == GS_ECB_STATE_GRANTED_RESOURCE){
+		if (pevent->ECBState == GS_ECBState_GRANTED_RESOURCE){
 			presource = (G_RCB *) pevent->ECB_AssocRCB;
 			priority2 = presource->RCBPriority.i64;
 			if (priority2 < priority){
@@ -2462,7 +2462,7 @@ INT32 gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB *ptcb)
  *  \brief 
  *  Computes the current priority of the task
  *  \param [in] ptcb       Pointer to the TCB
- *  \param [in] task_state State of the task (G_TASK_STATE_READY, G_TASK_STATE_RUNNING)
+ *  \param [in] task_state State of the task (G_TCBState_READY, G_TCBState_RUNNING)
  *  \return G_TRUE when successful, G_FALSE otherwise
  *  \todo Check if state is valid
  *  \relates Task
@@ -2476,7 +2476,7 @@ INT32 gk_TASK_PRIORITY_SET(GS_TCB *ptcb, INT32 task_state)
 
 	if (ptcb->TCBReadyPriority < ptcb->TCBInherPriority) {ptcb->TCBCurrentPriority = ptcb->TCBReadyPriority;}
 	else {ptcb->TCBCurrentPriority = ptcb->TCBInherPriority;}
-	if (task_state == G_TASK_STATE_RUNNING && ptcb->TCBCurrentPriority > ptcb->TCBRunPriority) {
+	if (task_state == G_TCBState_RUNNING && ptcb->TCBCurrentPriority > ptcb->TCBRunPriority) {
 		ptcb->TCBCurrentPriority = ptcb->TCBRunPriority;}
     SAMPLE_FUNCTION_END(58)
     return(G_TRUE);
@@ -2552,11 +2552,11 @@ INT32 gk_TCB_Unlink(GS_TCB *ptcb)
 
 	switch (ptcb->TCBState)
 	{
-		case G_TASK_STATE_RUNNING:           gk_TCBRUNL_Unlink(ptcb); PRINT_DEBUG_LINE break;
-		case G_TASK_STATE_READY:             gk_TCBRDYL_Unlink(ptcb); PRINT_DEBUG_LINE break;
-		case G_TASK_STATE_WAITING_COMPLETED: gk_TCBWL_Unlink(ptcb); PRINT_DEBUG_LINE   break;
-        case G_TASK_STATE_WAITING :          gk_TCBWL_Unlink(ptcb); PRINT_DEBUG_LINE   break;
-		case G_TASK_STATE_UNLINKED:
+		case G_TCBState_RUNNING:           gk_TCBRUNL_Unlink(ptcb); PRINT_DEBUG_LINE break;
+		case G_TCBState_READY:             gk_TCBRDYL_Unlink(ptcb); PRINT_DEBUG_LINE break;
+		case G_TCBState_WAITING_COMPLETED: gk_TCBWL_Unlink(ptcb); PRINT_DEBUG_LINE   break;
+        case G_TCBState_WAITING :          gk_TCBWL_Unlink(ptcb); PRINT_DEBUG_LINE   break;
+		case G_TCBState_UNLINKED:
 			if (ptcb->TCBType != G_TASK_TYPE_IDLE) G_DEBUG_WHILEFOREVER;
 			break;
 		default:
@@ -2589,9 +2589,9 @@ INT32 gk_ECB_Unlink(GS_ECB *pecb)
 	{
 		switch (pecb->ECBState)
 		{
-			case GS_ECB_STATE_WAITING_TIME:     gk_ECBTL_Unlink(pecb); break;
-			case GS_ECB_STATE_WAITING_RESOURCE: gk_RCBWEL_Unlink(pecb); break; ///!!! Poner resource
-			case GS_ECB_STATE_GRANTED_RESOURCE: gk_RCBGEL_Unlink(pecb); break;
+			case GS_ECBState_WAITING_TIME:     gk_ECBTL_Unlink(pecb); break;
+			case GS_ECBState_WAITING_RESOURCE: gk_RCBWEL_Unlink(pecb); break; ///!!! Poner resource
+			case GS_ECBState_GRANTED_RESOURCE: gk_RCBGEL_Unlink(pecb); break;
 			default: G_DEBUG_WHILEFOREVER; break;
 		}
 	}
@@ -2800,8 +2800,8 @@ void GRTOS_Task_GetPendingSCB(void)
 
 	if (psignal != (struct gs_scb *) 0)    /* There is a pending SCB    */
 	{
-		if (psignal->SCBState == G_SCB_STATE_PENDING) { /* Signal is pending      */
-			psignal->SCBState = G_SCB_STATE_EXECUTING; /* Signal to execution     */
+		if (psignal->SCBState == G_SCBState_PENDING) { /* Signal is pending      */
+			psignal->SCBState = G_SCBState_EXECUTING; /* Signal to execution     */
 		    G_SCB_CODE    = (INT32) psignal->SCB_TaskCode + 4; /* Task Code                     */
 			G_SCB_ARG     = (INT32) psignal->SCB_TaskArg;       /* Task Argument                 */
 		    gk_TCBPSL_Unlink(ptcb, psignal);            /* Unlink SCB from TCB       */

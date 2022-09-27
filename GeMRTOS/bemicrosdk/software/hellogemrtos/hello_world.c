@@ -321,7 +321,7 @@ int main()
                 gu_SetTaskAbortwhenDeadline(ptcb_array[i], 0);       
                 gu_StartTaskwithOffset(ptcb_array[i], 0, 0, 5, 0);
             }
-            gu_signal_create(G_SCB_TCB_ABORTED, 0, (void *) ptcb_array[i], (void *) sig_aborted_task_generic,  (void *) 1);  /// Abort when deadline
+            gu_signal_create(G_SCBType_TCB_ABORTED, 0, (void *) ptcb_array[i], (void *) sig_aborted_task_generic,  (void *) 1);  /// Abort when deadline
             #if G_DEBUG_WHILEFOREVER_ENABLE == 1
                 fprintf(stderr,"[ MESSAGE ] TASK %d CREATED\n", (int) i);
             #endif
@@ -372,7 +372,7 @@ int main()
             gu_SetTaskAbortwhenDeadline(ptcb1, 0);      
             gu_StartTaskwithOffset(ptcb1, 0, 0, 0, 0);
         }    
-        gu_signal_create(G_SCB_TCB_ABORTED, 0, (void *) ptcb1, (void *) sig_aborted_task1,  (void *) 1);  /// Abort when deadline
+        gu_signal_create(G_SCBType_TCB_ABORTED, 0, (void *) ptcb1, (void *) sig_aborted_task1,  (void *) 1);  /// Abort when deadline
 
         *mem = malloc(sizeof(INT32) * TASK_STACKSIZE + 31);
         INT32   *task2_stk = (INT32 *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);

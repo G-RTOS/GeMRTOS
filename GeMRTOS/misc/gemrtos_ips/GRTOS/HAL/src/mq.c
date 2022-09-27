@@ -63,14 +63,14 @@ INT32 gu_MQ_receive(GS_ECB  *pevent) {
                 return G_FALSE;
             }
             peventime->ECBValue.i64 = (INT64) prrds_buffer->queue_buffer.BUFFER_priority.i64;
-            peventime->ECBType = G_ECB_STATE_MESSAGE_CONSUME_WAIT;
+            peventime->ECBType = G_ECBType_MESSAGE_CONSUME_WAIT;
             gk_ECBTL_Link (peventime);
 
             gk_KERNEL_TASK_SUSPEND_CURRENT();    //Switch tasks and wait to send or timeout
             // #################################################
             GRTOS_USER_CRITICAL_SECTION_GET;     // return from timeout of with access to resource
 
-            if (peventime->ECBType == G_ECB_STATE_MESSAGE_CONSUME_EXPIRED) {
+            if (peventime->ECBType == G_ECBType_MESSAGE_CONSUME_EXPIRED) {
                 gk_ECBFL_Link(peventime);
                 GRTOS_CMD_CRITICAL_SECTION_RELEASE;
                 return G_FALSE;
@@ -130,7 +130,7 @@ INT32 gk_MQ_send(G_RCB  *prcb, void *pmsg, INT32 msg_length, gt_time timeout) {
             gk_RCBWEL_Link(prcb, pevent);
             
             peventime->ECBValue.i64 = (INT64) timeout;
-            peventime->ECBType = G_ECB_STATE_MESSAGE_SEND_WAIT;
+            peventime->ECBType = G_ECBType_MESSAGE_SEND_WAIT;
             gk_ECBTL_Link (peventime);
             
             gk_KERNEL_TASK_SUSPEND_CURRENT();    //Switch tasks and wait to send or timeout
@@ -188,8 +188,8 @@ G_RCB  *gu_queue_create(void *pbuffer, INT32 buffer_length)
     GRTOS_USER_CRITICAL_SECTION_GET;
         prcb = gk_RCB_GetFree();
         if (prcb != (G_RCB *) 0) {
-            prcb->RCBState = GK_RCB_STATE_QUEUE;
-            prcb->RCBType = (INT32) GK_RCB_TYPE_QUEUE;
+            prcb->RCBState = GK_RCBState_QUEUE;
+            prcb->RCBType = (INT32) GK_RCBType_QUEUE;
 	        prcb->RCBPriority.i64 = (INT64) G_LOWEST_PRIORITY - (INT64) 100;
 	        prcb->RCBGrantedPriority.i64 = (INT64) G_LOWEST_PRIORITY - (INT64) 100;
 	        prcb->RCBWaitingTimeout.i64 = (INT64) G_LATEST_TIME - (INT64) 100;
@@ -259,7 +259,7 @@ GS_ECB  *gu_queue_consume(G_RCB  *presource, void *pbuffer, INT32 buffer_length,
             prrds_buffer = pevent->ECB_RRDS;
         }
 
-        pevent->ECBType  = G_ECB_TYPE_QUEUE_CONSUME;
+        pevent->ECBType  = G_ECBType_QUEUE_CONSUME;
         prrds_buffer->RRDS_AsocECB = pevent;
 
         prrds_buffer->queue_buffer.BUFFER_status = BUFFER_status_READ;
@@ -314,7 +314,7 @@ INT32 gk_check_consume(GS_ECB * pevent) {
     prrds_buffer->queue_buffer.BUFFER_current_byte_index += bytes_to_transfer;
     prrds_buffer->queue_buffer.BUFFER_status = BUFFER_status_NOT_READ;
     
-    if (ptcb->TCBState == G_TASK_STATE_WAITING) { // it is waiting but not completed
+    if (ptcb->TCBState == G_TCBState_WAITING) { // it is waiting but not completed
         gk_TCB_Unlink(ptcb);
         gk_TCBRDYL_Link(ptcb);
     }
@@ -363,14 +363,14 @@ INT32 gu_MQ_consumer_mark_read(GS_ECB * pevent) {
 }
 
 /**gk_timeout_ECB_MQ_send
- *  \brief This function is called from the timed IRQ when a send timeout G_ECB_STATE_MESSAGE_SEND_WAIT happens
+ *  \brief This function is called from the timed IRQ when a send timeout G_ECBType_MESSAGE_SEND_WAIT happens
  *  \param [in] peventime Pointer to the timed ECB happened
  *  \return G_TRUE when successful, G_FALSE otherwise
  *  \relates Resource
  */
 INT32 gk_timeout_ECB_MQ_send(GS_ECB *peventime) {
     GS_TCB  *ptcb;
-    peventime->ECBType = G_ECB_STATE_MESSAGE_SEND_EXPIRED;    
+    peventime->ECBType = G_ECBType_MESSAGE_SEND_EXPIRED;    
     ptcb = peventime->ECB_AssocTCB;
     gk_TCB_Unlink(ptcb);
     gk_TCBRDYL_Link(ptcb);
@@ -378,14 +378,14 @@ INT32 gk_timeout_ECB_MQ_send(GS_ECB *peventime) {
 }
 
 /**gk_timeout_ECB_MQ_consume
- *  \brief This function is called from the timed IRQ when a consume timeout G_ECB_STATE_MESSAGE_CONSUME_WAIT happens
+ *  \brief This function is called from the timed IRQ when a consume timeout G_ECBType_MESSAGE_CONSUME_WAIT happens
  *  \param [in] peventime Description for peventime
  *  \return G_TRUE when successful, G_FALSE otherwise
  *  \relates Resource
  */
 INT32 gk_timeout_ECB_MQ_consume(GS_ECB *peventime) {
     GS_TCB  *ptcb;
-    peventime->ECBType = G_ECB_STATE_MESSAGE_CONSUME_EXPIRED;    
+    peventime->ECBType = G_ECBType_MESSAGE_CONSUME_EXPIRED;    
     ptcb = peventime->ECB_AssocTCB;
     gk_TCB_Unlink(ptcb);
     gk_TCBRDYL_Link(ptcb);

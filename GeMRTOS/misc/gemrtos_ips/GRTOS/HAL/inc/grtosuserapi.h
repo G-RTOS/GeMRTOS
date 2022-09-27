@@ -50,7 +50,7 @@
 // SCBType group
 /// \brief SCBType valid values 
 /// \todo Define the rest of SCB types
-#define G_SCB_TCB_ABORTED          1000u      ///< TYPE "Periodic task aborted when released before deadline"      \ingroup SCBType
+#define G_SCBType_TCB_ABORTED          1000u      ///< TYPE "Periodic task aborted when released before deadline"      \ingroup SCBType
 
 
 /**
