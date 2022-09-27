@@ -141,16 +141,18 @@ struct gs_kcb {
  *  \todo Include maximun number of running tasks and current running tasks to control exclusion
  */
 struct gs_lcb {
-    unsigned int  BLOCK_HASH;             ///< \brief BLOCK_HASH of the LCB: (GS_LCB *) + 6
+    unsigned int  BLOCK_HASH;           ///< \brief BLOCK_HASH of the LCB: (GS_LCB *) + 6
     INT32         LCBState;             ///< \brief State of the List Control Block                         \ingroup LCBState 
     INT32         LCBType;              ///< \brief Type of the List Control Block                          \ingroup LCBType
-    void          *malloc_address;        ///< \brief Pointer memory address of the malloc block         
-	INT64          LCBRunPriority;      ///< \brief Current Priority (-1 PRIORITY THERE IS NO TASK RUNNING 
-	struct gs_tcb  *LCB_NextTCBRUNL;    ///< \brief Pointer to the TCB list of running tasks 
-	struct gs_tcb  *LCB_NextTCBRDYL;	 ///< \brief Pointer to the TCB of the Highest Priority Task 
-	struct gs_lcb  *LCB_NextLCBL;       ///< \brief Pointer to the next list ordered by priority 
-	struct gs_lcb  *LCB_PrevLCBL;       ///< \brief Pointer to the next list ordered by priority 
-	struct gs_pcb  *LCB_NextLCBFPL;     ///< \brief Next free processor for this list
+    void          *malloc_address;      ///< \brief Pointer memory address of the malloc block         
+	INT64         LCBRunPriority;      ///< \brief Current Priority (-1 PRIORITY THERE IS NO TASK RUNNING
+    INT32         LCBCurrentRunning;   ///< \brief Current number of running tasks
+    INT32         LCBExclusion;        ///< \brief Maximum number of running task (0 for no limit)
+	struct gs_tcb *LCB_NextTCBRUNL;    ///< \brief Pointer to the TCB list of running tasks 
+	struct gs_tcb *LCB_NextTCBRDYL;	   ///< \brief Pointer to the TCB of the Highest Priority Task 
+	struct gs_lcb *LCB_NextLCBL;       ///< \brief Pointer to the next list ordered by priority 
+	struct gs_lcb *LCB_PrevLCBL;       ///< \brief Pointer to the next list ordered by priority 
+	struct gs_pcb *LCB_NextLCBFPL;     ///< \brief Next free processor for this list
     
     /// Fields for debugging
     struct gs_lcb  *LCB_NEXT_LCBs;     ///< \brief Pointer to next LCB structure. Used for debugging purposes.
