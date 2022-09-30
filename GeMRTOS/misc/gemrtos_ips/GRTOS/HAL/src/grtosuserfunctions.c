@@ -66,8 +66,8 @@ OPTIMEZE_CODE(3)
  *  \brief gu_Set_Default_Task_Type(unsigned int type)
  *  Set the default type of the task created.
  *  
- *  \param [in] type Default type: G_TASK_TYPE_UCOS for uCOS type, and
- *                                 G_TASK_TYPE_PERIODIC for periodic type.  
+ *  \param [in] type Default type: G_TCBType_UCOS for uCOS type, and
+ *                                 G_TCBType_PERIODIC for periodic type.  
  *  \return G_TRUE if type is valid, G_FALSE
  *  
  *  \details The type defined as default will be used as the default type for the task created afterwards.
@@ -322,10 +322,10 @@ INT32 gu_StartTaskwithOffset(struct gs_tcb *ptcb, unsigned int hours, unsigned i
         ticks   = (INT64) hours + (INT64) minutes + (INT64) seconds + (INT64) ms;
     
         switch (ptcb->TCBType){
-            case G_TASK_TYPE_UCOS:
+            case G_TCBType_UCOS:
                 gk_TCBRDYL_Link(ptcb);  /* Insert Task in Ready List                */
                 break;
-            case G_TASK_TYPE_PERIODIC:
+            case G_TCBType_PERIODIC:
                 /* Get the starting time of the task depending whether the  RTOS is running or not */
                 if (G_Running != G_FALSE) ticks = GRTOS_now() + ticks;
                 // else time = GRTOS_now() + ticks;
@@ -345,10 +345,10 @@ INT32 gu_StartTaskwithOffset(struct gs_tcb *ptcb, unsigned int hours, unsigned i
                 gk_TCBAEL_Link(pevent, ptcb);
                 gk_ECBTL_Link(pevent);
                 break;
-            // case G_TASK_TYPE_ISR:
+            // case G_TCBType_ISR:
             //     gk_TCBWL_Link(ptcb, G_TCBState_WAITING_COMPLETED);
             //     break;
-            // case G_TASK_TYPE_IDLE:
+            // case G_TCBType_IDLE:
             //     gk_TCBRDYL_Link(ptcb);  /* Insert Task in Ready List                */
             //     break;
             default:

@@ -247,7 +247,7 @@ void task_generic(void* pdata)
 
 GS_TCB *ptcb_array[G_MAX_NUMBER_OF_USER_TCB];
 
-int main()
+void main(void)
 {
     printf("GeMRTOS\n");
     printf("Processors      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
@@ -312,7 +312,7 @@ int main()
                 
                 USER_TCB_execution_time[i] = 0;
                 
-                gu_SetTaskType(ptcb_array[i], G_TASK_TYPE_PERIODIC);
+                gu_SetTaskType(ptcb_array[i], G_TCBType_PERIODIC);
                 // gu_SetTaskList(ptcb_array[i], (struct gs_lcb *) 0);
                 gu_SetTaskReadyPriority(ptcb_array[i], USER_TCB_priority[i]);
                 gu_SetTaskRunPriority(ptcb_array[i], USER_TCB_priority[i]);
@@ -363,7 +363,7 @@ int main()
                            
         if (ptcb1 != (void *) 0)
         {
-            gu_SetTaskType(ptcb1, G_TASK_TYPE_PERIODIC);                  ///< Size of the stack in words
+            gu_SetTaskType(ptcb1, G_TCBType_PERIODIC);                  ///< Size of the stack in words
             // gu_SetTaskList(ptcb1, 0);
             gu_SetTaskReadyPriority(ptcb1, TASK1_PRIORITY);
             gu_SetTaskRunPriority(ptcb1, TASK1_PRIORITY);
@@ -385,7 +385,7 @@ int main()
                            
         if (ptcb1 != (void *) 0)
         {
-            gu_SetTaskType(ptcb1, G_TASK_TYPE_PERIODIC);
+            gu_SetTaskType(ptcb1, G_TCBType_PERIODIC);
             // gu_SetTaskList(ptcb1, 0);
             gu_SetTaskReadyPriority(ptcb1, TASK2_PRIORITY);
             gu_SetTaskRunPriority(ptcb1, TASK2_PRIORITY);
@@ -406,7 +406,7 @@ int main()
                            
         if (ptcb1 != (void *) 0)
         {
-            gu_SetTaskType(ptcb1, G_TASK_TYPE_PERIODIC);
+            gu_SetTaskType(ptcb1, G_TCBType_PERIODIC);
             // gu_SetTaskList(ptcb1, 0);
             gu_SetTaskReadyPriority(ptcb1, TASK3_PRIORITY);
             gu_SetTaskRunPriority(ptcb1, TASK3_PRIORITY);
@@ -427,7 +427,7 @@ int main()
                            
         if (ptcb1 != (void *) 0)
         {
-            gu_SetTaskType(ptcb1, G_TASK_TYPE_UCOS);
+            gu_SetTaskType(ptcb1, G_TCBType_UCOS);
             // gu_SetTaskList(ptcb1, 0);
             gu_SetTaskReadyPriority(ptcb1, TASK4_PRIORITY);
             gu_SetTaskRunPriority(ptcb1, TASK4_PRIORITY);
@@ -441,5 +441,5 @@ int main()
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] FINISHING EXECUTION OF MAIN\n");
     #endif
-  return 0;
+  // return 0;
 }

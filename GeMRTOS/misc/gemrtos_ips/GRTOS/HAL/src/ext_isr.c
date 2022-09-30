@@ -58,7 +58,7 @@ void  gk_INIT_IRQ (void)
                                  // (void *) &g_kcb.G_ISR_STACK[i][G_ISR_STACKSIZE-4],              ///< Botton of the Stack of the Task
                                  (void *) g_kcb.G_ISR_STACK + (i * G_ISR_STACKSIZE) + G_ISR_STACKSIZE-4,              ///< Botton of the Stack of the Task
                                  (unsigned int) G_ISR_STACKSIZE,         ///< Size of the stack in words
-                                 (unsigned int) G_TASK_TYPE_ISR,         ///< Type of the Task
+                                 (unsigned int) G_TCBType_ISR,         ///< Type of the Task
                                  (INT64) G_ISR_PRIORITY,       ///< Initial Priority of the task
                                  (INT64) G_ISR_PRIORITY,         ///< Priority of the task when it is executing
                                  (INT64) G_TASK_PERIOD_DEFAULT,            ///< Deadline of the task
@@ -100,7 +100,7 @@ INT32 gk_ISR_COMPLETE (GS_TCB *ptcb) {
 	if (g_kcb.KCB_ExtISR[irq_nbr].G_EXT_INT_Count == (int) 0) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
 #endif    
     
-    if (ptcb->TCBType == G_TASK_TYPE_ISR) g_kcb.KCB_ExtISR[irq_nbr].G_EXT_INT_Count--;
+    if (ptcb->TCBType == G_TCBType_ISR) g_kcb.KCB_ExtISR[irq_nbr].G_EXT_INT_Count--;
     if (g_kcb.KCB_ExtISR[irq_nbr].G_EXT_INT_Count == (INT32) 0) {
         GRTOS_CMD_IRQ_ENB_SET(irq_nbr);
     }
@@ -125,7 +125,7 @@ INT32 gk_ISR_RELEASE (int irq_nbr) {
     while (ptcb != (GS_TCB *) 0) {
         // !!!! verificar si esta en estado waiting
         /* Limpio el registro de interrupcion porque ya fue activada  */
-        if (ptcb->TCBType == G_TASK_TYPE_ISR) {
+        if (ptcb->TCBType == G_TCBType_ISR) {
             if (ptcb->TCBState == G_TCBState_WAITING_COMPLETED) {     // if task is waiting
                 /* Insert Task in Ready List                */                
                 gk_TCB_Unlink((GS_TCB *) ptcb); 
@@ -171,9 +171,9 @@ INT32 gu_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr)
  */
 INT32 gk_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr)
 {
-    // Set the number of associated interrupt (valid only when TCBType == G_TASK_TYPE_ISR)
+    // Set the number of associated interrupt (valid only when TCBType == G_TCBType_ISR)
     // and link to the ISR linked list !!! check if task is running for consistency of Count
-    ptcb->TCBType = G_TASK_TYPE_ISR;
+    ptcb->TCBType = G_TCBType_ISR;
     ptcb->TCB_INTNumber = irq_nbr;
     ptcb->TCB_PrevISRTCB = (struct gs_tcb *) 0;
     ptcb->TCB_NextISRTCB = g_kcb.KCB_ExtISR[irq_nbr].G_TCB_ISR;

@@ -59,7 +59,7 @@ GS_TCB *gk_TCB_GetFree(void)
     ptcb->TCB_NextTCBAEL       = (struct gs_ecb *) 0; 
     ptcb->TCB_NextTCBASL       = (struct gs_scb *) 0; 
     ptcb->TCB_NextTCBPSL       = (struct gs_scb *) 0; 
-    ptcb->TCBType              = G_TASK_TYPE_UNDEFINED; 
+    ptcb->TCBType              = G_TCBType_UNDEFINED; 
     ptcb->TCBReadyPriority     = G_LOWEST_PRIORITY -1; 
     ptcb->TCBInherPriority     = G_LOWEST_PRIORITY -1; 
     ptcb->TCBRunPriority       = G_LOWEST_PRIORITY -1; 
@@ -275,7 +275,8 @@ GS_LCB *gk_Get_LCB(void)
     plcb->LCBRunPriority  = (INT64) G_LOWEST_PRIORITY;  /* It is because it is empty*/
     plcb->LCB_NextTCBRDYL = (struct gs_tcb *) 0; 	   /* Pointer to the TCB of the Highest Priority Task */
     plcb->LCB_NextLCBFPL  = (struct gs_pcb *) 0;       /*!< Next free processor for this list */
-    plcb->LCBState        = GS_LCBState_UNLINKED;     
+    plcb->LCBState        = GS_LCBState_UNLINKED;
+    plcb->LCBType         = GS_LCBType_UNSPECIFIED;
 
     /// LCBs linked list for debugging
     plcb->LCB_NEXT_LCBs = g_kcb.KCB_ROOT_LCBs;

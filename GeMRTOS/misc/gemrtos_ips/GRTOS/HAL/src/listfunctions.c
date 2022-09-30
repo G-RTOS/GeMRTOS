@@ -1661,7 +1661,7 @@ INT32 gk_TCBRDYL_Link(GS_TCB *ptcb)
     G_DEBUG_VERBOSE
 	gk_TASK_PRIORITY_SET(ptcb, G_TCBState_READY); PRINT_DEBUG_LINE
 
-	if (ptcb->TCBType != G_TASK_TYPE_IDLE)   /* Idle task are not inserted in Ready Lists */
+	if (ptcb->TCBType != G_TCBType_IDLE)   /* Idle task are not inserted in Ready Lists */
 	{
 		if (readylist->LCB_NextTCBRDYL == (struct gs_tcb *) 0)
 		{// It is the first TCB to insert
@@ -1741,11 +1741,11 @@ INT32 gk_TCBRDYL_Unlink(GS_TCB *ptcb)
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
 	if ((TCB_IsValid(readylist->LCB_NextTCBRDYL) != G_TRUE && readylist->LCB_NextTCBRDYL != 0) ||
-			(readylist->LCB_NextTCBRDYL == (struct gs_tcb *) 0 && ptcb->TCBType != G_TASK_TYPE_IDLE)) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
+			(readylist->LCB_NextTCBRDYL == (struct gs_tcb *) 0 && ptcb->TCBType != G_TCBType_IDLE)) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
     if (ptcb->TCBState != G_TCBState_READY) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
 #endif
 
-    if (ptcb->TCBType != G_TASK_TYPE_IDLE)  /* Task Idle is not inserted in ready lists */
+    if (ptcb->TCBType != G_TCBType_IDLE)  /* Task Idle is not inserted in ready lists */
     {
 		if (readylist->LCB_NextTCBRDYL == ptcb) /* It is the first ready task */
 		{
@@ -1855,7 +1855,7 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
 	// Check if Inversion occurs !!!!!!!!!
 	//gk_LCB_CheckInvertion(RunList); PRINT_DEBUG_LINE
     // Si no esta en la lista principal del procesador o es tarea idle, el procesador es puesto como libre
-	if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0] || ptcb->TCBType == G_TASK_TYPE_IDLE)
+	if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0] || ptcb->TCBType == G_TCBType_IDLE)
 	{
 		if (g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCBState != GS_PCBState_FREE)
 	        gk_LCBFPL_Link(ptcb->TCB_AssocPCB); PRINT_DEBUG_LINE // Link the processor to the free list
@@ -1936,7 +1936,7 @@ INT32  gk_TCBRUNL_Unlink(GS_TCB *ptcb)
 
 	/* Runs in background or it is an IDLE TCB, then unlink processor from Free List */
 	//if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0] ||
-	//		ptcb->TCBType == G_TASK_TYPE_IDLE) gk_LCBFPL_Unlink(ptcb->TCB_AssocPCB); PRINT_DEBUG_LINE
+	//		ptcb->TCBType == G_TCBType_IDLE) gk_LCBFPL_Unlink(ptcb->TCB_AssocPCB); PRINT_DEBUG_LINE
 
 
     if (RunList->LCB_NextTCBRUNL == ptcb){ // checks if it is the first TCP in RUNNING LIST
@@ -2557,7 +2557,7 @@ INT32 gk_TCB_Unlink(GS_TCB *ptcb)
 		case G_TCBState_WAITING_COMPLETED: gk_TCBWL_Unlink(ptcb); PRINT_DEBUG_LINE   break;
         case G_TCBState_WAITING :          gk_TCBWL_Unlink(ptcb); PRINT_DEBUG_LINE   break;
 		case G_TCBState_UNLINKED:
-			if (ptcb->TCBType != G_TASK_TYPE_IDLE) G_DEBUG_WHILEFOREVER;
+			if (ptcb->TCBType != G_TCBType_IDLE) G_DEBUG_WHILEFOREVER;
 			break;
 		default:
 			G_DEBUG_WHILEFOREVER;
@@ -2785,33 +2785,6 @@ GS_SCB *gk_RCBASL_GetSCB(G_RCB *prcb, INT32 SignalType)
 	return(psignal);
 }
 
-/**GRTOS_Task_GetPendingSCB
- *  \brief 
- *  Configures system to execute next pending signal. Call from switch routine
- *  \relates Task
- */
-void GRTOS_Task_GetPendingSCB(void)
-{
-    SAMPLE_FUNCTION_BEGIN(68)
-	GS_TCB *ptcb =gk_PCB_GetCurrentTCB();   /* Get Current Task          */
-	GS_SCB *psignal = ptcb->TCB_NextTCBPSL;  /* Get Next Pending Signal   */
-
-	G_SCB_PENDING = 0;               /* Default is no pending SCB */
-
-	if (psignal != (struct gs_scb *) 0)    /* There is a pending SCB    */
-	{
-		if (psignal->SCBState == G_SCBState_PENDING) { /* Signal is pending      */
-			psignal->SCBState = G_SCBState_EXECUTING; /* Signal to execution     */
-		    G_SCB_CODE    = (INT32) psignal->SCB_TaskCode + 4; /* Task Code                     */
-			G_SCB_ARG     = (INT32) psignal->SCB_TaskArg;       /* Task Argument                 */
-		    gk_TCBPSL_Unlink(ptcb, psignal);            /* Unlink SCB from TCB       */
-		    gk_SCBFL_Link(psignal);                     /* Link SCB to free list     */
-			G_SCB_PENDING = 1;                       /* Set the Pending Signal status */
-		}
-	}
-    alt_dcache_flush_all();
-    SAMPLE_FUNCTION_END(68)
-}
 
 /***********************************************************************************
 *********************** GRTOS COMPLEMENTARY FUNCTIONS  ****************************

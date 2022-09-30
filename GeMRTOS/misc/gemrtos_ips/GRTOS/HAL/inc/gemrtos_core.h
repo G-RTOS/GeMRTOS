@@ -138,6 +138,7 @@ struct gs_kcb {
  *  \brief gs_lcb  List Control Block structure (LCB)
  *  \details The gs_lcb holds information about processor. 
  *  \todo Check correctness for multiple list scheduling
+ *  \todo define types
  *  \todo Include maximun number of running tasks and current running tasks to control exclusion
  */
 struct gs_lcb {
@@ -163,7 +164,7 @@ struct gs_lcb {
 #define  GS_LCBState_LINKED                        1u  ///< \brief State LINKED for LIST                      \ingroup PCBState
 #define  GS_LCBState_UNLINKED                      2u  ///< \brief State UNLINKED for LIST                    \ingroup PCBState
 
-
+#define  GS_LCBType_UNSPECIFIED                    2u  ///< \brief State UNLINKED for LIST                    \ingroup PCBState
 //*************************************************************************************************
 /// \defgroup PCBState g_rgb::PCBState 
 /// \defgroup PCBType  g_rgb::PCBType 
@@ -192,6 +193,7 @@ struct gs_pcb {
 #define  GS_PCBState_RUNNING              2u    ///< \brief It is RUNNING when executing a main list task (LCB[0]) \ingroup PCBState 
 #define  GS_PCBState_FREE                 3u    ///< \brief It is FREE when not executing a main list task         \ingroup PCBState
 
+#define  GS_PCBType_UNSPECIFIED           1u    ///< \brief It is FREE when not executing a main list task         \ingroup PCBState
 
 #include <mq.h>
 #include <sem.h>

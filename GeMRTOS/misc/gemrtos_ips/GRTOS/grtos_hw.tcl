@@ -157,8 +157,8 @@ add_interface_port clock_reset_reset reset reset Input 1
 # 
 add_interface clk_out clock start
 set_interface_property clk_out associatedDirectClock ""
-set_interface_property clk_out clockRate 50000000
-set_interface_property clk_out clockRateKnown false
+set_interface_property clk_out clockRate 0
+# set_interface_property clk_out clockRateKnown false
 set_interface_property clk_out ENABLED true
 set_interface_property clk_out EXPORT_OF ""
 set_interface_property clk_out PORT_NAME_MAP ""

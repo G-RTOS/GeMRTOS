@@ -413,7 +413,7 @@ void  gk_KERNEL_TASK_COMPLETE(void)
 	gk_TCBWL_Link(ptcbtostart, G_TCBState_WAITING_COMPLETED);  /// Restore TCB to waiting list
 
 	/// If task is an ISR, then enable it for next request 
-	if (ptcbtostart->TCBType == G_TASK_TYPE_ISR) {
+	if (ptcbtostart->TCBType == G_TCBType_ISR) {
         gk_ISR_COMPLETE (ptcbtostart);  /// \todo Check if IRQ is enabled when all ISR are complete
     }
 
@@ -590,7 +590,7 @@ void gk_INIT_KERNEL(void)
     /*************************************************************************************/
 	/*  Assign default values                                                            */
 	/*************************************************************************************/
-    G_TASK_TYPE_DEFAULT     = G_TASK_TYPE_UCOS;
+    G_TASK_TYPE_DEFAULT     = G_TCBType_UCOS;
     G_TASK_LCB_DEFAULT      = gk_Get_LCB();
     G_TASK_PRIORITY_DEFAULT = (INT64) 0x7FFFFFFFFFFFFFF0LL;
     G_TASK_PERIOD_DEFAULT   = (INT64) 0x7FFFFFFFFFFFFFF0LL;  
@@ -644,7 +644,7 @@ void gk_INIT_KERNEL(void)
         g_kcb.G_PCBTbl[i].PCB_IDLETCB  = (struct gs_tcb *) gk_TCB_GetFree();
         if (g_kcb.G_PCBTbl[i].PCB_IDLETCB == (struct gs_tcb *) 0) G_DEBUG_WHILEFOREVER; /// !!! Set error NO_FREE_GS_TCB
         
-        g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCBType = G_TASK_TYPE_IDLE; 
+        g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCBType = G_TCBType_IDLE; 
 		// g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_StackBottom = (GS_STK *) ((((INT32) &g_kcb.G_IDLE_STACK[i][G_IDLE_STACKSIZE-8])-8)& ~0x3);
         g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_StackBottom = (GS_STK *) ((((INT32) g_kcb.G_IDLE_STACK + (i * G_IDLE_STACKSIZE) + G_IDLE_STACKSIZE-8)-8)& ~0x3);
         
@@ -666,7 +666,7 @@ void gk_INIT_KERNEL(void)
             g_kcb.G_PCBTbl[i].PCB_RDY_LCBL[j] = (struct gs_lcb *) G_TASK_LCB_DEFAULT;  
         }
 		g_kcb.G_PCBTbl[i].PCBID           = (int) 0; 
-		g_kcb.G_PCBTbl[i].PCBType         = (int) 0; 
+		g_kcb.G_PCBTbl[i].PCBType         = (int) GS_PCBType_UNSPECIFIED; 
 		g_kcb.G_PCBTbl[i].PCB_NextPCB     = (struct gs_pcb *) 0; 
 		g_kcb.G_PCBTbl[i].PCB_PrevPCB     = (struct gs_pcb *) 0;         
 	}    
@@ -795,5 +795,34 @@ void gk_START_KERNEL (void)
 	while(1);
 
 }
+
+/**GRTOS_Task_GetPendingSCB
+ *  \brief 
+ *  Configures system to execute next pending signal. Call from switch routine
+ *  \relates Task
+ */
+void GRTOS_Task_GetPendingSCB(void)
+{
+    SAMPLE_FUNCTION_BEGIN(68)
+	GS_TCB *ptcb =gk_PCB_GetCurrentTCB();   /* Get Current Task          */
+	GS_SCB *psignal = ptcb->TCB_NextTCBPSL;  /* Get Next Pending Signal   */
+
+	G_SCB_PENDING = 0;               /* Default is no pending SCB */
+
+	if (psignal != (struct gs_scb *) 0)    /* There is a pending SCB    */
+	{
+		if (psignal->SCBState == G_SCBState_PENDING) { /* Signal is pending      */
+			psignal->SCBState = G_SCBState_EXECUTING; /* Signal to execution     */
+		    G_SCB_CODE    = (INT32) psignal->SCB_TaskCode + 4; /* Task Code                     */
+			G_SCB_ARG     = (INT32) psignal->SCB_TaskArg;       /* Task Argument                 */
+		    gk_TCBPSL_Unlink(ptcb, psignal);            /* Unlink SCB from TCB       */
+		    gk_SCBFL_Link(psignal);                     /* Link SCB to free list     */
+			G_SCB_PENDING = 1;                       /* Set the Pending Signal status */
+		}
+	}
+    alt_dcache_flush_all();
+    SAMPLE_FUNCTION_END(68)
+}
+
 
 OPTIMEZE_RESTORE

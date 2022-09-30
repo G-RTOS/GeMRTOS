@@ -192,11 +192,11 @@ INT32 TCBState_Valid(unsigned int tcbstate)
 
 INT32 TCBType_Valid(unsigned int tcbtype)
 {
-    if (tcbtype == G_TASK_TYPE_UCOS) return G_TRUE;    
-    if (tcbtype == G_TASK_TYPE_PERIODIC) return G_TRUE;
-    if (tcbtype == G_TASK_TYPE_ISR) return G_TRUE;
-    if (tcbtype == G_TASK_TYPE_IDLE) return G_TRUE;
-    if (tcbtype == G_TASK_TYPE_UNDEFINED) return G_TRUE;    
+    if (tcbtype == G_TCBType_UCOS) return G_TRUE;    
+    if (tcbtype == G_TCBType_PERIODIC) return G_TRUE;
+    if (tcbtype == G_TCBType_ISR) return G_TRUE;
+    if (tcbtype == G_TCBType_IDLE) return G_TRUE;
+    if (tcbtype == G_TCBType_UNDEFINED) return G_TRUE;    
     return G_FALSE;
 }
 

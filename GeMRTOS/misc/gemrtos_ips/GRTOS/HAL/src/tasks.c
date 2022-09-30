@@ -87,11 +87,11 @@ GS_TCB *gk_CreateTask(void *TaskCode,
         // Initilize the stack of the task
         gk_TASK_STK_Init(ptcb);
         
-        // Set the number of associated interrupt (valid only when TCBType == G_TASK_TYPE_ISR)
+        // Set the number of associated interrupt (valid only when TCBType == G_TCBType_ISR)
         // and link to the ISR linked list
         ptcb->TCB_INTNumber = TCB_INTNumber;
         ptcb->TCB_PrevISRTCB = (struct gs_tcb *) 0;
-        if (TCBType == G_TASK_TYPE_ISR) {
+        if (TCBType == G_TCBType_ISR) {
             ptcb->TCB_NextISRTCB = g_kcb.KCB_ExtISR[TCB_INTNumber].G_TCB_ISR;
             if (g_kcb.KCB_ExtISR[TCB_INTNumber].G_TCB_ISR != (struct gs_tcb *) 0) {
                 g_kcb.KCB_ExtISR[TCB_INTNumber].G_TCB_ISR->TCB_PrevISRTCB = (struct gs_tcb *) ptcb;

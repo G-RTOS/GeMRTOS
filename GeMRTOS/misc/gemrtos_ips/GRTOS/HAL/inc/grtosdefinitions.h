@@ -709,7 +709,7 @@ INT32    gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB * ptcb);
 // void gk_Start_Main(void);
 void gk_KERNEL_TASK_START (void);
 void gk_ENTRY_IRQ_HANDLER (void);
-void GRTOS_Start_Task(void);
+// void GRTOS_Start_Task(void);
 void GRTOS_Suspend_Task(void);
 // void gk_INT_TASK_SWITCH(void);
 GS_TCB *gk_CreateTask(void *TaskCode,              

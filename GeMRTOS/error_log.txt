@@ -163,6 +163,10 @@ In file included from drivers/src/grtos_kernel.c:29:0:
 ./drivers/inc/grtosdefinitions.h:102:5: warning: multi-line comment [-Wcomment]
      // if (G_Running == G_TRUE) { \
      ^
+drivers/src/grtos_kernel.c: In function 'gk_KERNEL_TASK_START':
+drivers/src/grtos_kernel.c:382:2: warning: implicit declaration of function 'GRTOS_Start_Task' [-Wimplicit-function-declaration]
+  GRTOS_Start_Task(); 
+  ^
 In file included from drivers/src/grtosuserfunctions.c:32:0:
 ./drivers/inc/grtosdefinitions.h:93:4: warning: multi-line comment [-Wcomment]
     //  if (G_Running == G_TRUE) { \
@@ -237,6 +241,10 @@ hello_world.c: In function 'task_generic':
 hello_world.c:188:14: warning: unused variable 'pbuffer' [-Wunused-variable]
      GS_ECB  *pbuffer;
               ^
+hello_world.c: At top level:
+hello_world.c:250:6: warning: return type of 'main' is not 'int' [-Wmain]
+ void main(void)
+      ^
 hello_world.c: In function 'main':
 hello_world.c:287:13: warning: unused variable 'ptcb1' [-Wunused-variable]
      GS_TCB *ptcb1;
