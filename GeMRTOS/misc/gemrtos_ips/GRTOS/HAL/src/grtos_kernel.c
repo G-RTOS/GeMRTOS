@@ -187,6 +187,8 @@ void gk_ENTRY_IRQ_HANDLER (void)
 	if (G_Running == G_FALSE) G_DEBUG_WHILEFOREVER;  
 #endif
 	
+    // g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB
+    
 	GRTOS_CMD_PRC_INT_DSB;             /// Disable processor interrupt
 	GRTOS_CMD_INT_PRC_PND_CLR;         /// Remove pending interrupt of current processor
  
@@ -372,7 +374,8 @@ void  gk_KERNEL_TASK_START (void)
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
     
-    IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);   // Enables the next processor to start
+    // IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);   
+    GRTOS_CMD_RLS_NXT_PRC;   // Enables the next processor to start
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);

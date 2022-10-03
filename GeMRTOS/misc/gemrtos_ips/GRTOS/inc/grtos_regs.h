@@ -124,4 +124,24 @@
 
 #define IOWR_GRTOS_RST_CLR(data)                 IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR, data)
 
+
+
+/// \brief GRTOS_CMD_RST_GRTOS - resets the GRTOS controller to its initialization values
+/// and the processors with CPUID different from 1
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_RST_GRTOS                      IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR, 0)
+
+/// \brief GRTOS_CMD_RLS_NXT_PRC - unreset the next processor
+#define GRTOS_CMD_RLS_NXT_PRC                    IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR, GRTOS_CMD_PRC_ID)
+
+
+
+
+
+
+
+
+
+
+
 #endif /* __GRTOS_REGS_H__ */

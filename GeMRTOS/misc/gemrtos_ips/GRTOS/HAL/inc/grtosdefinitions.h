@@ -226,52 +226,6 @@ typedef union timepriority {
 	INT32 i32[2];
 } TIMEPRIORITY;
 
-// Structure for monitor the GRTOS controller @ GRTOS_BASE + 64
-// typedef struct gs_monitor {
-//     unsigned int       SAMPLE;          // reading used to sample the data
-//     unsigned long long R_FRZ_TM_THR;               // signed(63 downto 0);            -- Frozen Time Threshold Register          
-//     unsigned long long R_TM_CNT;                   // signed(63 downto 0);            -- System Time Register counter register
-//     unsigned long long R_NXT_EVN_TM;               // signed(63 downto 0);            -- Next Event Time Register
-//     unsigned long long R_FRZ_TM_CNT;               // signed(63 downto 0);            -- Frozen Time Counter register
-//     unsigned long long R_NXT_ABS_FRZ_TM;           // signed(63 downto 0);            -- Absolute time frozen event  
-//     unsigned long long C_TMP;                      // std_logic_vector(63 downto 0);  -- 64 bit Temporal register	    
-//                                 
-//     unsigned long R_SMP;                      // std_logic_vector(31 downto 0);  -- Temporal register
-//     unsigned long R_LOW_PRI_PRC;              // std_logic_vector(31 downto 0);  -- Lowest Priority Processor register
-//     unsigned long R_INT_ENB;                  // std_logic_vector(31 downto 0);  -- Interrupt Enable register
-//     unsigned long R_NXT_TM_EVN_PRC;           // std_logic_vector(31 downto 0);  -- Next Timed Event Processor register
-//     unsigned long R_IRQ_ENB;                  // std_logic_vector(31 downto 0);  -- IRQ Enable register
-//     unsigned long R_IRQ_PND;                  // std_logic_vector(31 downto 0);  -- IRQ Pending register 
-//     unsigned long R_TRG_PRC_INT;              // std_logic_vector(31 downto 0);  -- Trigger Processor Interrupt register
-//     unsigned long R_TM_PSC;                   // signed(31 downto 0);            -- Time Prescale register
-//     unsigned long R_TM_PSC_CNT;               // signed(31 downto 0);            -- Time Prescale counter
-//     unsigned long R_HLT_IDL_PRC_ENB;          // std_logic_vector(31 downto 0);   -- Enable bit to halt processor when idle
-//     unsigned long R_STATUS;                   // std_logic_vector(31 downto 0);  -- Status Register
-//     unsigned long R_ELP_TM_CNT;               // signed(31 downto 0);	         -- Elapsed Time Counter      
-//     unsigned long R_LST_EVN;                  // std_logic_vector(31 downto 0);  -- Last Event register
-//     unsigned long R_PRC_INT;                  // std_logic_vector(31 downto 0);	 -- Processor Interrupt Register
-//     unsigned long R_INT_CLR;                  // std_logic_vector(31 downto 0);  -- Interrupt Clear Register	
-//     unsigned long R_PRC_RST;                  // std_logic_vector(31 downto 0);	 -- Processor Reset Register
-//     unsigned long R_PRC_RST_CNT;              // signed(31 downto 0);	         -- Reset Time Counter          
-//     unsigned long R_INT_RQS;                  // std_logic_vector(31 downto 0);  -- Interrupt Request register
-//     unsigned long R_MTX_CLR_CNT;              // signed(31 downto 0);  -- Mutex Clear Down Counter Register  
-//     unsigned long R_MTX_SET_TM ;              // signed(31 downto 0);  -- Mutex Clear Setting Time Register
-//     unsigned long R_MSK_0;                    // std_logic_vector(31 downto 0);  -- Bit Selected in write date (base 0)
-//     unsigned long R_MSK_1;                    // std_logic_vector(31 downto 0);  -- Bit Selected in write date (base 1)	
-//     unsigned long R_MTX_PRC_GRN;              // std_logic_vector(31 downto 0);  -- Storage the processor ID that holds the mutex
-//     unsigned long C_MTX_PRC_GRN_BIT;          // std_logic_vector(31 downto 0);  -- Bit decoder logic of granted processor
-//     unsigned long R_MTX_RSV_PRC;              // std_logic_vector(31 downto 0);  -- Processor Mutex Request Register
-//     unsigned long R_MTX_RSV_PRC_LOWEST_INDEX; // std_logic_vector(31 downto 0);  -- Processor requesting mutex with lowest index
-//     unsigned long R_PRC_INT_STA;              // std_logic_vector(31 downto 0);  -- Processor Interrupt Status register    
-// 
-//     unsigned int R1_FRZ_TRG_ENB : 1;             //  -- Frozen trigger enabled
-//     unsigned int C1_IRQ_PND : 1;                 //    -- IRQ pendig flag    
-//     unsigned int C1_MTX_GRN : 1;                 //    -- Mutex is Granted to a processor flag     
-//     unsigned int R_EVN_TM_OCC : 1;               //    -- Time Event Occurred flag
-//     unsigned int R_FRZ_TM_OCC : 1;               //    -- Frozen Threshold has been reached
-//     unsigned int R_FRZ_EVN : 1;                  //    -- Frozen Event has been triggered    
-//     unsigned int C1_NXT_EVN_PRC_ZRO : 1;         //    -- No processor is Next Timed Event    
-// } GS_MONITOR;    
 
 
 /************************************************************************************
@@ -281,10 +235,7 @@ typedef union timepriority {
 /// GRTOS_CMD_PRC_ID  - returns the cpuID of the current processor
 #define GRTOS_CMD_PRC_ID  __builtin_rdctl(5)
 
-/// \brief GRTOS_CMD_RST_GRTOS - resets the GRTOS controller to its initialization values
-/// and the processors with CPUID different from 1
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_RST_GRTOS IOWR_GRTOS_RST_CLR(0)
+
 
 /// \brief GRTOS_CMD_TM_CNT_CLR resets the System Time Register
 /// \todo Describe better and related with GRTOS controller

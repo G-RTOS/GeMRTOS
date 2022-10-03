@@ -50,7 +50,7 @@ struct gs_ext_isr {
 
 void  gk_INIT_IRQ (void);
 INT32 gk_ISR_COMPLETE (GS_TCB *ptcb);
-INT32 gk_ISR_RELEASE (int irq_nbr);
+void  gk_ISR_RELEASE (int irq_nbr);
 INT32 gu_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr);
 INT32 gk_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr);
 

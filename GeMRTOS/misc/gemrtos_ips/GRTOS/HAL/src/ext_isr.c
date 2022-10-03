@@ -112,11 +112,10 @@ INT32 gk_ISR_COMPLETE (GS_TCB *ptcb) {
  *  \brief 
  *  Executed when an interrupt is triggered. It is called from gk_ENTRY_IRQ_HANDLER()
  *  \param [in] irq_nbr Number index of the interrupt
- *  \return G_TRUE when successful, G_FALSE otherwise
  *  \todo Verify if task is waiting to enable the interrupt, otherwise change the Type of the ISR
  *  \relates Interrupt
  */
-INT32 gk_ISR_RELEASE (int irq_nbr) {
+void gk_ISR_RELEASE (int irq_nbr) {
 
     GS_TCB *ptcb = g_kcb.KCB_ExtISR[irq_nbr].G_TCB_ISR;
     
@@ -138,7 +137,6 @@ INT32 gk_ISR_RELEASE (int irq_nbr) {
         ptcb = (GS_TCB *) ptcb->TCB_NextISRTCB;
     }
 
-    return G_TRUE;
 }
 
 /**gu_SetTaskISR

@@ -108,7 +108,6 @@ G_RCB  *gu_queue_consume(G_RCB  *presource, void *pbuffer, INT32 buffer_length, 
         }      
     GRTOS_CMD_CRITICAL_SECTION_RELEASE;
     
-    
 }
 
 

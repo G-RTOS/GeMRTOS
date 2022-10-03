@@ -52,7 +52,8 @@ void gk_MONITOR_FIFO_SAMPLE (int data)
 
 void gk_RST_MONITOR_HANDLER (void)
 {
-    IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);   // Enables the next processor to start
+    // IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);   // Enables the next processor to start
+    GRTOS_CMD_RLS_NXT_PRC;   // Enables the next processor to start
     while(1)
     {
 
@@ -74,7 +75,7 @@ void gk_RST_MONITOR_HANDLER (void)
  */
 INT32 TCB_IsValid(GS_TCB *ptcb)
 {
-    if (ptcb == (GS_TCB *) 0) return(G_TRUE);
+    if (ptcb == (GS_TCB *) 0) return(G_FALSE);
     if (ptcb->BLOCK_HASH == (unsigned int) ptcb + 1) return(G_TRUE);
     return(G_FALSE);
 }
@@ -83,7 +84,7 @@ INT32 PCB_IsValid(GS_PCB *ppcb)
 {
 	int processor;
 
-    if (ppcb == (struct gs_pcb *) 0) return(G_TRUE);
+    if (ppcb == (struct gs_pcb *) 0) return(G_FALSE);
 	/* Si apunta fuera del arreglo de TCBs retorno G_FALSE */
 	if (ppcb > g_kcb.G_PCBTbl + G_NUMBER_OF_PCB * sizeof(GS_PCB)) return(G_FALSE);
 	/* Si apunta a una direccion antes del arreglo TCBs retorno G_FALSE */
@@ -107,7 +108,7 @@ INT32 PCB_IsValid(GS_PCB *ppcb)
  */
 INT32 ECB_IsValid(GS_ECB *pevent)
 {
-    if (pevent == (GS_ECB *) 0) return(G_TRUE);
+    if (pevent == (GS_ECB *) 0) return(G_FALSE);
     if (pevent->BLOCK_HASH == (unsigned int) pevent + 2) return(G_TRUE);
     return(G_FALSE);
 }
@@ -124,7 +125,7 @@ INT32 ECB_IsValid(GS_ECB *pevent)
  */ 
 INT32 SCB_IsValid(GS_SCB *pscb)
 {
-    if (pscb == (GS_SCB *) 0) return(G_TRUE);
+    if (pscb == (GS_SCB *) 0) return(G_FALSE);
     if (pscb->BLOCK_HASH == (unsigned int) pscb + 4) return(G_TRUE);
     return(G_FALSE);
 }
@@ -140,7 +141,7 @@ INT32 SCB_IsValid(GS_SCB *pscb)
  */ 
 INT32 RCB_IsValid(void *prcb)
 {
-    if (prcb == (void *) 0) return(G_TRUE);
+    if (prcb == (void *) 0) return(G_FALSE);
     if (((G_RCB *) prcb)->BLOCK_HASH == (unsigned int) prcb + 3) return(G_TRUE);
     return(G_FALSE);
 }
@@ -156,7 +157,7 @@ INT32 RCB_IsValid(void *prcb)
  */ 
 INT32 RRDS_IsValid(GS_RRDS *prrds)
 {
-    if (prrds == (GS_RRDS *) 0) return(G_TRUE);
+    if (prrds == (GS_RRDS *) 0) return(G_FALSE);
     if (prrds->BLOCK_HASH == (unsigned int) prrds + 5) return(G_TRUE);
     return(G_FALSE);
 }
@@ -165,7 +166,7 @@ INT32 RRDS_IsValid(GS_RRDS *prrds)
 
 INT32 LCB_IsValid(GS_LCB *plcb)
 {
-    return(G_TRUE);
+    if (plcb == (GS_LCB *) 0) return(G_FALSE);
     if (plcb->BLOCK_HASH == (unsigned int) plcb + 6) return(G_TRUE);
     return(G_FALSE);    
 }
