@@ -327,8 +327,8 @@ INT32 gu_StartTaskwithOffset(struct gs_tcb *ptcb, unsigned int hours, unsigned i
                 break;
             case G_TCBType_PERIODIC:
                 /* Get the starting time of the task depending whether the  RTOS is running or not */
-                if (G_Running != G_FALSE) ticks = GRTOS_now() + ticks;
-                // else time = GRTOS_now() + ticks;
+                if (G_Running != G_FALSE) ticks = GRTOS_now + ticks;
+                // else time = GRTOS_now + ticks;
 
                 if (ticks == (INT64) 0){
                     /* Task Ready and Set next Release in Period Time from start time */
@@ -470,7 +470,7 @@ INT32 gu_TASK_Sleep_Time(gt_time ticks)
 	if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
 #endif
 
-	pevent->ECBValue.i64 = GRTOS_now() + ticks;
+	pevent->ECBValue.i64 = GRTOS_now + ticks;
 
 	pevent->ECBType = (INT32) G_ECBType_OSTimeDly;
     gk_TCBAEL_Link(pevent, ptcbcurrent);
@@ -755,7 +755,7 @@ gt_time gu_get_now(void)
     GRTOS_USER_CRITICAL_SECTION_GET;
         G_DEBUG_VERBOSE    
 	    // GRTOS_CMD_TM_CNT_GET((int *) &status);
-        status = (gt_time) GRTOS_now();
+        status = (gt_time) GRTOS_now;
 	GRTOS_CMD_CRITICAL_SECTION_RELEASE;
 	return(status);
 }
@@ -859,7 +859,7 @@ void gk_TIME_CALLBACK(GS_ECB *pevent)
             
             /* Set a new event in the future */
             pevent->ECBValue.i64 = (INT64) pevent->ECBValue.i64 + ptcb->TCBPeriod;
-            // pevent->ECBValue.i64 = (INT64) GRTOS_now() + ptcb->TCBPeriod; 
+            // pevent->ECBValue.i64 = (INT64) GRTOS_now + ptcb->TCBPeriod; 
             gk_TCBAEL_Link(pevent, ptcb);  // Link the periodic event back to the tcb
             gk_ECBTL_Link(pevent);                 
             break; 

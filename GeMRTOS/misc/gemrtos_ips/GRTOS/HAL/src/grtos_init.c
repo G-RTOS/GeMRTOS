@@ -62,25 +62,25 @@ OPTIMEZE_CODE(3)
 /// }
 
 
-/**GRTOS_now
- *  \brief Return the current system time
- *  \details ONLY for critical section use
- *  \return INT64 with the current system time
- *  \relates Time
- */
-INT64 GRTOS_now(void)
-{
-    union {
-        unsigned long long i64;
-        unsigned i32[2];
-    } value64;
-    
-    value64.i32[1] = (unsigned) IORD_GRTOS_TM_CNT_HGH;
-    value64.i32[0] = (unsigned) IORD_GRTOS_SMP;
-    
-    return ((INT64) value64.i64);
-    
-}
+/// /**GRTOS_now
+///  *  \brief Return the current system time
+///  *  \details ONLY for critical section use
+///  *  \return INT64 with the current system time
+///  *  \relates Time
+///  */
+/// INT64 GRTOS_now(void)
+/// {
+///     union {
+///         unsigned long long i64;
+///         unsigned i32[2];
+///     } value64;
+///     
+///     value64.i32[1] = (unsigned) IORD_GRTOS_TM_CNT_HGH;
+///     value64.i32[0] = (unsigned) IORD_GRTOS_SMP;
+///     
+///     return ((INT64) value64.i64);
+///     
+/// }
 
 
 /**********************************************************************************

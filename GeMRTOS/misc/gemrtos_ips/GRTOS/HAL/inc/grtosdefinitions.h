@@ -379,7 +379,7 @@ extern volatile INT64 G_TASK_PERIOD_DEFAULT;
 // void    GRTOS_CMD_TM_CNT_GET(int *ptime);
 gt_time gu_get_mutex_time(void);
 // INT64 GRTOS_CMD_SYS_MUTEX_TIME(void);
-INT64   GRTOS_now(void);
+// INT64   GRTOS_now(void);
 INT32     gk_TCBLowerPriorityThanTCB(GS_TCB *ptcb1, GS_TCB *ptcb2);
 INT32   gk_LCB_CheckInvertion(void);
 INT32    gk_SetLowestProcessor(void);

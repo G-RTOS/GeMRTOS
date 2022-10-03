@@ -139,7 +139,7 @@ INT32 gu_sem_wait(t_semaphore_resource *presource,
                     peventime->ECBType   = G_ECBType_TIMEOUT_SEM_GRANTED;
                     pevent->ECBValue.i64 = (INT64) prrds->RRDSGrantedPriority.i64;
                     if (prrds->RRDSGrantedTimeout.i64 != (INT64) 0) {    
-                        peventime->ECBValue.i64 = (INT64) GRTOS_now() + (INT64) prrds->RRDSGrantedTimeout.i64;
+                        peventime->ECBValue.i64 = (INT64) GRTOS_now + (INT64) prrds->RRDSGrantedTimeout.i64;
                     } else {
                         peventime->ECBValue.i64 = (INT64) G_LATEST_TIME - (INT64) 100;
                     }                    
@@ -154,7 +154,7 @@ INT32 gu_sem_wait(t_semaphore_resource *presource,
                         // pevent->ECBType      = G_ECBType_SEM_WAITING;
                         pevent->ECBValue.i64 = (INT64) prrds->RRDSWaitingPriority.i64;     // Insert it in waiting event list
                         if (prrds->RRDSWaitingTimeout.i64 != (INT64) 0) {    
-                            peventime->ECBValue.i64 = (INT64) GRTOS_now() + (INT64) prrds->RRDSWaitingTimeout.i64;
+                            peventime->ECBValue.i64 = (INT64) GRTOS_now + (INT64) prrds->RRDSWaitingTimeout.i64;
                         } else {
                             peventime->ECBValue.i64 = (INT64) G_LATEST_TIME - (INT64) 100;
                         }
@@ -274,7 +274,7 @@ INT32 gk_TASK_RESOURCE_WAIT(G_RCB *presource, GS_ECB *pevent)
             pevent->ECBType = G_ECBType_SEM_WAITING;
             pevent->ECBValue.i64 = (INT64) prrds->RRDSWaitingPriority.i64;     // Insert it in waiting event list
             if (prrds->RRDSWaitingTimeout.i64 != (INT64) 0) {    
-                peventime->ECBValue.i64 = (INT64) GRTOS_now() + (INT64) prrds->RRDSWaitingTimeout.i64;
+                peventime->ECBValue.i64 = (INT64) GRTOS_now + (INT64) prrds->RRDSWaitingTimeout.i64;
             } else {
                 peventime->ECBValue.i64 = (INT64) G_LATEST_TIME - (INT64) 100;
             }
@@ -344,7 +344,7 @@ INT32 gk_TASK_RESOURCE_GRANT(G_RCB *presource, GS_ECB *pevent)
             peventime->ECBType = G_ECBType_TIMEOUT_SEM_GRANTED;
             pevent->ECBValue.i64 = (INT64) prrds->RRDSGrantedPriority.i64;
             if (prrds->RRDSGrantedTimeout.i64 != (INT64) 0) {    
-                peventime->ECBValue.i64 = (INT64) GRTOS_now() + (INT64) prrds->RRDSGrantedTimeout.i64;
+                peventime->ECBValue.i64 = (INT64) GRTOS_now + (INT64) prrds->RRDSGrantedTimeout.i64;
             } else {
                 peventime->ECBValue.i64 = (INT64) G_LATEST_TIME - (INT64) 100;
             }

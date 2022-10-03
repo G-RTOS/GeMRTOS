@@ -84,11 +84,24 @@
 
 // Read grtos registers
 #define IORD_GRTOS_SMP                           IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP)
-#define IORD_GRTOS_TM_CNT_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TM_CNT_HGH)
+// #define IORD_GRTOS_TM_CNT_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TM_CNT_HGH)
 // #define IORD_GRTOS_SYS_MUTEX_TIME_HGH            IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SYS_MUTEX_TIME_HGH)
 // #define IORD_GRTOS_SYS_TM_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SYS_TM)
 
 
+
+/// \brief GRTOS_now Return the current system time
+/// \details ONLY for critical section use
+/// \return INT64 with the current system time
+/// \relates Time
+#define GRTOS_now ({ \
+TIMEPRIORITY value64; \
+do { \
+    value64.i32[1] = (unsigned) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TM_CNT_HGH); \
+    value64.i32[0] = (unsigned) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP); \
+} while(0); \
+    value64.i64; \
+})
 
 
 /// \brief GRTOS_CMD_MTX_TM_GET Return the time the mutex is granted in system time units
