@@ -72,6 +72,8 @@
 // Macros defined and implemented in hardware, but not used
 #define IOWR_GRTOS_HLT_IDL_PRC_CLR(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_DSB, data)
 #define IOWR_GRTOS_FRZ_TM_HGH(data)              IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH,data)
+#define IOWR_GRTOS_MTX_RSV_CLR(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RSV_CLR, data)
+#define IOWR_GRTOS_MTX_RQS(data)                 IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_GRN, data)
 
 
 // Read grtos registers
@@ -100,17 +102,37 @@
 
 
 // Write grtos registers
-#define IOWR_GRTOS_SMP(data)                     IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP, data)
-#define IOWR_GRTOS_NXT_OCC_TM_RQS(data)          IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_NXT_OCC_TM_HGH, data)
-#define IOWR_GRTOS_MTX_RQS(data)                 IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_GRN, data)
-#define IOWR_GRTOS_MTX_RLS(data)                 IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RLS, data)
-#define IOWR_GRTOS_MTX_RSV_SET(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RSV_SET, data)
-#define IOWR_GRTOS_MTX_RSV_CLR(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RSV_CLR, data)
-/// #define IOWR_GRTOS_INT_PRC_PND_CLR(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_INT_PRC_PND_CLR, GRTOS_CMD_PRC_ID)
+/// #define IOWR_GRTOS_SMP(data)                     IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP, data)
+/// #define IOWR_GRTOS_NXT_OCC_TM_RQS(data)          IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_NXT_OCC_TM_HGH, data)
+/// #define IOWR_GRTOS_FRZ_THR_HGH(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_THR_HGH, (unsigned long)temp_aux.i32[1])
 
 
-#define IOWR_GRTOS_FRZ_THR_HGH(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_THR_HGH, data)
+/// \brief GRTOS_CMD_FRZ_TM_THR_SET Sets the Frozen Time Threshold register of the GRTOS controller
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_FRZ_TM_THR_SET(timeset) \
+	do { \
+		TIMEPRIORITY temp_aux; \
+        temp_aux.i64 = (INT64) timeset; \
+        IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP, (unsigned long)temp_aux.i32[0]); \
+ 		IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_THR_HGH, (unsigned long)temp_aux.i32[1]); \
+ 	}while(0) 
 
+/// \brief GRTOS_CMD_NXT_OCC_TM_EVN_SET Sets the Next Occurence Time register of the GRTOS controller
+/// to produce a timed event when system time reaches the value of timeset
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_NXT_OCC_TM_EVN_SET(timeset) \
+	do { \
+		TIMEPRIORITY temp_aux; \
+        temp_aux.i64 = (INT64) timeset; \
+        IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP, (unsigned long)temp_aux.i32[0]); \
+        IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_NXT_OCC_TM_HGH, (unsigned long)temp_aux.i32[1]); \
+ 	}while(0) 
+
+/// \brief GRTOS_MTX_RLS releases the mutex from the current processor
+#define GRTOS_MTX_RLS                                        IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RLS, GRTOS_CMD_PRC_ID)
+
+/// \brief GRTOS_MTX_RSV_SET sets the reserve bit of the current processor to grant the mutex
+#define GRTOS_MTX_RSV_SET                                    IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RSV_SET, GRTOS_CMD_PRC_ID)
 
 /// \brief GRTOS_CMD_INT_PRC_PND_CLR clears the pending interrupt of the current processor.
 /// The interrupts to processors are always registered to avoid spurious interrupts

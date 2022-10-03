@@ -259,18 +259,6 @@ typedef union timepriority {
 /// \todo Describe better and related with GRTOS controller
 #define GRTOS_CMD_EVN_OCC IORD_GRTOS_EVN_OCC
 
-/// \brief GRTOS_CMD_NXT_OCC_TM_EVN_SET Sets the Next Occurence Time register of the GRTOS controller
-/// to produce a timed event when system time reaches the value of timeset
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_NXT_OCC_TM_EVN_SET(timeset) \
-	do { \
-		TIMEPRIORITY temp_aux; \
-        temp_aux.i64 = (INT64) timeset; \
- 		IOWR_GRTOS_SMP((unsigned long)temp_aux.i32[0]); \
- 		IOWR_GRTOS_NXT_OCC_TM_RQS((unsigned long)temp_aux.i32[1]); \
- 	}while(0) 
-      
-
 /// \brief GRTOS_CMD_GET_STATUS_DEBUG_HOLD return the status of the DEBUG_HOLD bit (G_TRUE or G_FALSE)
 /// \todo Describe better and related with GRTOS controller
 #define GRTOS_CMD_GET_STATUS_DEBUG_HOLD (((IORD_GRTOS_CTRL_SET >> 2) & 1) ? G_TRUE : G_FALSE)
@@ -282,16 +270,6 @@ typedef union timepriority {
 /// \brief GRTOS_CMD_GET_FRZ_ACT returns the status of the frozen mode event (G_TRUE if active, G_FALSE if inactive)
 /// \todo Describe better and related with GRTOS controller
 #define GRTOS_CMD_GET_FRZ_ACT ((IORD_GRTOS_CTRL_SET  & 1) ? G_TRUE : G_FALSE)
-
-/// \brief GRTOS_CMD_FRZ_TM_THR_SET Sets the Frozen Time Threshold register of the GRTOS controller
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_FRZ_TM_THR_SET(timeset) \
-	do { \
-		TIMEPRIORITY temp_aux; \
-        temp_aux.i64 = (INT64) timeset; \
- 		IOWR_GRTOS_SMP((unsigned long)temp_aux.i32[0]); \
- 		IOWR_GRTOS_FRZ_THR_HGH((unsigned long)temp_aux.i32[1]); \
- 	}while(0) 
 
 
 /// \brief GRTOS_CMD_HALT_PROCESSOR puts the processor in halt mode
@@ -315,7 +293,7 @@ typedef union timepriority {
 #define GRTOS_CMD_CRITICAL_SECTION_GET \
 	do{ \
 		do { \
-            IOWR_GRTOS_MTX_RSV_SET(GRTOS_CMD_PRC_ID); \
+            GRTOS_MTX_RSV_SET; \
             GRTOS_CMD_HALT_PROCESSOR \
         } while (GRTOS_CMD_PRC_ID != IORD_GRTOS_MTX_RQS);  \
 	}while(0)
@@ -331,7 +309,7 @@ typedef union timepriority {
 #define GRTOS_CMD_CRITICAL_SECTION_RELEASE \
 	do{ GRTOS_CMD_PRC_INT_ENB; \
         alt_dcache_flush_all(); \
-        IOWR_GRTOS_MTX_RLS(GRTOS_CMD_PRC_ID ); \
+        GRTOS_MTX_RLS; \
 	}while(0)
   
 /**
