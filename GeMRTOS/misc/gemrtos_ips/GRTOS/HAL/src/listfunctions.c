@@ -2862,21 +2862,6 @@ INT32 gk_TASK_Kill(GS_TCB *ptcb)
 *********************** GRTOS COMPLEMENTARY FUNCTIONS to be added!!!!!!!  ****************************
 ***********************************************************************************/
 
-/**gu_Get_IRQ_Register
- *  \brief 
- *  Returns the status or the IRQ inputs of the GRTOS Controller
- *  \return integer with the status of the External IRQ Register
- *  \todo Check if return can be changed to INT32
- *  \todo Change to user API files  
- *  \relates Interrupt
- */
-int gu_Get_IRQ_Register(void)
-{
-    SAMPLE_FUNCTION_BEGIN(71)
-    SAMPLE_FUNCTION_END(71)
-	return(IORD_GRTOS_IRQ_RQS);
-}
-
 /**gu_Get_CPU_ID
  *  \brief 
  *  Returns the ID of the current processor

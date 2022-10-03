@@ -726,22 +726,6 @@ gt_time  gu_Convert_Time(INT32 days, INT32 hours, INT32 minutes, INT32 seconds, 
     return ((gt_time) ticks);
 }
 
-/**gu_get_halt_status
- *  \brief 
- *  Return the time that systems stood in halt mode
- *  \return Time in halt mode of system
- *  \todo Return a gt_time variable
- *  \relates Miscellaneous
- */
-INT32 gu_get_halt_status(void)
-{
-	INT32 status;
-    GRTOS_USER_CRITICAL_SECTION_GET;  
-        status = IORD_GRTOS_HLT_IDL_PRC_ENB;
-	GRTOS_CMD_CRITICAL_SECTION_RELEASE;
-	return(status);
-}
-
 /**gu_get_irq_status
  *  \brief 
  *  Return the status of the system IRQs
@@ -753,7 +737,7 @@ INT32 gu_get_irq_status(void)
 {
 	INT32 status;
     GRTOS_USER_CRITICAL_SECTION_GET;  
-        status = IORD_GRTOS_IRQ_RQS;
+        status = GRTOS_CMD_IRQ_RQS;
 	GRTOS_CMD_CRITICAL_SECTION_RELEASE;
 	return(status);
 }

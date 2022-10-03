@@ -94,7 +94,6 @@ INT32  gu_TASK_Sleep_Time(gt_time ticks);
  *  Function Headers for user usage
  */
 int     gu_Get_CPU_ID(void);
-int     gu_Get_IRQ_Register(void);
 gt_time gu_Get_Next_Occurrence_Time(void);
 gt_tm   gu_Clock(gt_time gtime);
 
@@ -145,7 +144,6 @@ INT32      gu_signal_destroy(GS_SCB *pscb);
  * User functions for system status and control
  */
 gt_time  gu_Convert_Time(INT32 days, INT32 hours, INT32 minutes, INT32 seconds, INT32 ms);
-INT32    gu_get_halt_status(void);
 INT32    gu_get_irq_status(void);
 INT32    gu_get_reserved_mutex_processor(void);
 gt_time gu_get_now(void);

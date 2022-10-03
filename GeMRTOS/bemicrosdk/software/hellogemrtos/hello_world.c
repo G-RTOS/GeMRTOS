@@ -267,7 +267,7 @@ void main(void)
     GRTOS_MUTEX_BLOCKED(500);    // Set the time the mutex is blocked after release
     GRTOS_CMD_FRZ_TM_THR_SET(100000);  // Set the frozen threshold
     GRTOS_CMD_FRZ_ENB_SET;            // Enable the frozen mode
-    printf("Mutex Block release time                 = 0x%x\n", (int) IORD_GRTOS_MUTEXBLOCKED32);
+    printf("Mutex Block release time                 = 0x%x\n", (int) GRTOS_MUTEX_BLOCKED_GET);
     printf("Frozen threshold register (R_FRZ_TM_THR) = 0x%llx\n", (unsigned long long) gu_get_frozen_threshold());
     printf("GCC information ###########\n");
     printf("sizeof(unsigned)   = %d\n", (int) sizeof(unsigned));

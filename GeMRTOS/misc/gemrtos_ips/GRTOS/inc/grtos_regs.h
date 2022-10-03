@@ -70,6 +70,11 @@
 #define ADDR_HLT_ACT_CNT_SMP    34
 
 // Macros defined and implemented in hardware, but not used
+#define IORD_GRTOS_HLT_ACT_CNT_SMP               IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_ACT_CNT_SMP)
+#define IORD_GRTOS_TRG_INT_PRC                   IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TRG_INT_PRC)
+#define IORD_GRTOS_HLT_IDL_PRC_ENB               IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_ENB)
+#define IORD_GRTOS_RST_CLR                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR)
+
 #define IOWR_GRTOS_HLT_IDL_PRC_CLR(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_DSB, data)
 #define IOWR_GRTOS_FRZ_TM_HGH(data)              IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH,data)
 #define IOWR_GRTOS_MTX_RSV_CLR(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RSV_CLR, data)
@@ -89,23 +94,24 @@
 #define IORD_GRTOS_CTRL_SET                      IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL)
 #define IORD_GRTOS_EVN_OCC                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_EVN_OCC)
 
-#define IORD_GRTOS_MUTEXBLOCKED32                IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MUTEXBLOCKED32)
+// #define GRTOS_MUTEX_BLOCKED_GET                IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MUTEXBLOCKED32)
+// #define IORD_GRTOS_IRQ_RQS                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_IRQ_RQS)
 
-#define IORD_GRTOS_IRQ_RQS                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_IRQ_RQS)
-#define IORD_GRTOS_INT_ENB_SET                   IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_INT_ENB_SET)
-#define IORD_GRTOS_RST_CLR                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR)
+/// \brief GRTOS_MUTEX_BLOCKED_GET returns the time the mutex will be blocked until next granted
+#define GRTOS_MUTEX_BLOCKED_GET                              IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MUTEXBLOCKED32)
 
-#define IORD_GRTOS_HLT_IDL_PRC_ENB               IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_ENB)
-#define IORD_GRTOS_TRG_INT_PRC                   IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TRG_INT_PRC)
+/// \brief GRTOS_CMD_IRQ_RQS gets the status of the External IRQ register
+/// \todo Describe better and related with GRTOS controller
+/// \todo Check if it is required
+#define GRTOS_CMD_IRQ_RQS                                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_IRQ_RQS)
 
-#define IORD_GRTOS_HLT_ACT_CNT_SMP               IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_ACT_CNT_SMP)
+
+/// \brief GRTOS_CMD_IRQ_ENB_GET(irq) reads the enabled status of the device interrupt request (DIRQ) irq
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_IRQ_ENB_GET(irq) ((IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_INT_ENB_SET) >> (irq-1)) & 1)
 
 
 // Write grtos registers
-/// #define IOWR_GRTOS_SMP(data)                     IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP, data)
-/// #define IOWR_GRTOS_NXT_OCC_TM_RQS(data)          IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_NXT_OCC_TM_HGH, data)
-/// #define IOWR_GRTOS_FRZ_THR_HGH(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_THR_HGH, (unsigned long)temp_aux.i32[1])
-
 
 /// \brief GRTOS_CMD_FRZ_TM_THR_SET Sets the Frozen Time Threshold register of the GRTOS controller
 /// \todo Describe better and related with GRTOS controller

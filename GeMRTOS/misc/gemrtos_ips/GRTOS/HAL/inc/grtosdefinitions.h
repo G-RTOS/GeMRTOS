@@ -246,15 +246,6 @@ typedef union timepriority {
         while(0); \
     }
 
-/// \brief GRTOS_CMD_IRQ_ENB_GET(irq) reads the enabled status of the device interrupt request (DIRQ) irq
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_IRQ_ENB_GET(irq) ((IORD_GRTOS_INT_ENB_SET >> (irq-1)) & 1)
-
-/// \brief GRTOS_CMD_IRQ_RQS gets the status of the External IRQ register
-/// \todo Describe better and related with GRTOS controller
-/// \todo Check if it is required
-#define GRTOS_CMD_IRQ_RQS IORD_GRTOS_IRQ_RQS
-
 /// \brief GRTOS_CMD_EVN_OCC returns the event happened from the GRTOS controller
 /// \todo Describe better and related with GRTOS controller
 #define GRTOS_CMD_EVN_OCC IORD_GRTOS_EVN_OCC
