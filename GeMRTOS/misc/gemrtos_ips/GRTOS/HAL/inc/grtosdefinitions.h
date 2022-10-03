@@ -176,7 +176,7 @@
 #define G_DEBUG_RUN_MONITOR_ROUTINE \
     do{ \
         GRTOS_CMD_DEBUG_HOLD_ENB; \
-        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "In %s, %d, proc %x, mtx %x \n",__FUNCTION__,__LINE__, GRTOS_CMD_PRC_ID,IORD_GRTOS_MTX_RQS); \
+        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "In %s, %d, proc %x, mtx %x \n",__FUNCTION__,__LINE__, GRTOS_CMD_PRC_ID,GRTOS_MTX_PRC_GRANTED); \
         GRTOS_CMD_DEBUG_HOLD_DIS; } while(0)
 
 /**
@@ -208,7 +208,7 @@
  *  It is defined as empty when no in debug mode
  *  /// \todo Check if it required
  */
-// #define PRINT_DEBUG_LINE  fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "%s, %s, %d, proc %x, mtx %x\n",,__FILE__,__LINE__, GRTOS_CMD_PRC_ID, IORD_GRTOS_MTX_RQS);
+// #define PRINT_DEBUG_LINE  fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "%s, %s, %d, proc %x, mtx %x\n",,__FILE__,__LINE__, GRTOS_CMD_PRC_ID, GRTOS_MTX_PRC_GRANTED);
 // #define PRINT_DEBUG_LINE  fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "%s, %d\n",__FUNCTION__,__LINE__);       
 #define PRINT_DEBUG_LINE  
 
@@ -246,22 +246,6 @@ typedef union timepriority {
         while(0); \
     }
 
-/// \brief GRTOS_CMD_EVN_OCC returns the event happened from the GRTOS controller
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_EVN_OCC IORD_GRTOS_EVN_OCC
-
-/// \brief GRTOS_CMD_GET_STATUS_DEBUG_HOLD return the status of the DEBUG_HOLD bit (G_TRUE or G_FALSE)
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_GET_STATUS_DEBUG_HOLD (((IORD_GRTOS_CTRL_SET >> 2) & 1) ? G_TRUE : G_FALSE)
-
-/// \brief GRTOS_CMD_GET_FRZ_ENB returns the status of the frozen mode (G_TRUE if enabled, G_FALSE if disabled)
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_GET_FRZ_ENB (((IORD_GRTOS_CTRL_SET >> 1) & 1) ? G_TRUE : G_FALSE)
-
-/// \brief GRTOS_CMD_GET_FRZ_ACT returns the status of the frozen mode event (G_TRUE if active, G_FALSE if inactive)
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_GET_FRZ_ACT ((IORD_GRTOS_CTRL_SET  & 1) ? G_TRUE : G_FALSE)
-
 
 /// \brief GRTOS_CMD_HALT_PROCESSOR puts the processor in halt mode
 /// The first command enable the IDLE state for the processor and the second read the first 
@@ -286,7 +270,7 @@ typedef union timepriority {
 		do { \
             GRTOS_MTX_RSV_SET; \
             GRTOS_CMD_HALT_PROCESSOR \
-        } while (GRTOS_CMD_PRC_ID != IORD_GRTOS_MTX_RQS);  \
+        } while (GRTOS_CMD_PRC_ID != GRTOS_MTX_PRC_GRANTED);  \
 	}while(0)
 
 
@@ -307,7 +291,7 @@ typedef union timepriority {
  *  \brief GRTOS_CMD_MTX_RQS_GET 
  *  Returns the current value of the Mutex.
  */
-#define GRTOS_CMD_MTX_RQS_GET IORD_GRTOS_MTX_RQS;
+#define GRTOS_CMD_MTX_RQS_GET GRTOS_MTX_PRC_GRANTED;
 
 /**
  *  \brief GRTOS_USER_CRITICAL_SECTION_GET defines the entry to a critical section to handle system variables.
@@ -394,10 +378,8 @@ extern volatile INT64 G_TASK_PERIOD_DEFAULT;
 /***************************************************************/
 // void    GRTOS_CMD_TM_CNT_GET(int *ptime);
 gt_time gu_get_mutex_time(void);
-INT64 GRTOS_CMD_SYS_MUTEX_TIME(void);
+// INT64 GRTOS_CMD_SYS_MUTEX_TIME(void);
 INT64   GRTOS_now(void);
-INT64 GRTOS_CMD_FRZ_TM_THR_GET(void);
-int     GetMaximumMutexExecutionTime(void);
 INT32     gk_TCBLowerPriorityThanTCB(GS_TCB *ptcb1, GS_TCB *ptcb2);
 INT32   gk_LCB_CheckInvertion(void);
 INT32    gk_SetLowestProcessor(void);

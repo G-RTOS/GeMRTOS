@@ -38,7 +38,7 @@
 
 #define ADDR_NXT_OCC_TM_HGH     3
 #define ADDR_SYS_MUTEX_TIME_HGH 4
-#define C_SYS_TM                5
+#define ADDR_SYS_TM             5
 #define ADDR_MTX_GRN            6
 #define ADDR_MTX_RLS            7
 
@@ -74,6 +74,7 @@
 #define IORD_GRTOS_TRG_INT_PRC                   IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TRG_INT_PRC)
 #define IORD_GRTOS_HLT_IDL_PRC_ENB               IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_ENB)
 #define IORD_GRTOS_RST_CLR                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR)
+#define IORD_GRTOS_FRZ_TM_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH)
 
 #define IOWR_GRTOS_HLT_IDL_PRC_CLR(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_DSB, data)
 #define IOWR_GRTOS_FRZ_TM_HGH(data)              IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH,data)
@@ -84,18 +85,79 @@
 // Read grtos registers
 #define IORD_GRTOS_SMP                           IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP)
 #define IORD_GRTOS_TM_CNT_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TM_CNT_HGH)
-#define IORD_GRTOS_SYS_MUTEX_TIME_HGH            IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SYS_MUTEX_TIME_HGH)
-#define IORD_GRTOS_SYS_TM_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SYS_TM)
-#define IORD_GRTOS_MTX_RQS                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_GRN)
-#define IORD_GRTOS_ELP_TM_CNT                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_ELP_TM_CNT)
-#define IORD_GRTOS_FRZ_TM_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH)
-#define IORD_GRTOS_TM_PSC                        IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TM_PSC)
-#define IORD_GRTOS_FRZ_THR_HGH                   IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_THR_HGH)
-#define IORD_GRTOS_CTRL_SET                      IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL)
-#define IORD_GRTOS_EVN_OCC                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_EVN_OCC)
+// #define IORD_GRTOS_SYS_MUTEX_TIME_HGH            IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SYS_MUTEX_TIME_HGH)
+// #define IORD_GRTOS_SYS_TM_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SYS_TM)
 
-// #define GRTOS_MUTEX_BLOCKED_GET                IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MUTEXBLOCKED32)
-// #define IORD_GRTOS_IRQ_RQS                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_IRQ_RQS)
+
+
+
+/// \brief GRTOS_CMD_MTX_TM_GET Return the time the mutex is granted in system time units
+/// \details ONLY for use in critical section
+/// \relates Miscellaneous
+#define GRTOS_CMD_MTX_TM_GET ({ \
+TIMEPRIORITY value64; \
+do { \
+    value64.i32[1] = (unsigned) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SYS_MUTEX_TIME_HGH); \
+    value64.i32[0] = (unsigned) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP); \
+} while(0); \
+    value64.i64; \
+})
+
+/// \brief GRTOS_CMD_SYS_TM_GET Returns the value of System TIME (R_FRZ_CNT + R_TM_CNT) 
+/// \details ONLY for use in critical section
+/// \return Returns the value of the System Time (C_SYS_TM)
+/// \relates Time
+#define GRTOS_CMD_SYS_TM_GET ({ \
+TIMEPRIORITY value64; \
+do { \
+    value64.i32[1] = (unsigned) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SYS_TM); \
+    value64.i32[0] = (unsigned) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP); \
+} while(0); \
+    value64.i64; \
+})
+
+
+/// \brief GRTOS_MTX_PRC_GRANTED returns the CPUID of the processor granting the GRTOS MUTEX
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_MTX_PRC_GRANTED                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_GRN)
+
+/// GRTOS_GET_INTERVAL
+///  \brief GRTOS_GET_INTERVAL Reset the Interval Time Counter, returning the last value
+///  \return Return the interval time since the laast reset
+///  \relates Time
+#define GRTOS_GET_INTERVAL                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_ELP_TM_CNT)
+
+/// \brief GRTOS_CMD_GET_TIME_PRESCALE gets the system clock prescale
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_GET_TIME_PRESCALE                          IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TM_PSC)
+
+/// \brief GRTOS_CMD_FRZ_TM_THR_GET Returns the value of the Frozen Time Threshold (R_FRZ_TM_THR) register of the GRTOS controller
+/// \details ONLY for use in critical section
+/// \return Returns the value of the Frozen Time Threshold (R_FRZ_TM_THR)
+/// \param [in] None
+/// \relates Time
+#define GRTOS_CMD_FRZ_TM_THR_GET ({ \
+    TIMEPRIORITY value64; \
+    value64.i32[1] = (unsigned) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_THR_HGH); \
+    value64.i32[0] = (unsigned) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP); \
+    value64.i64; \
+})
+
+/// \brief GRTOS_CMD_GET_STATUS_DEBUG_HOLD return the status of the DEBUG_HOLD bit (G_TRUE or G_FALSE)
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_GET_STATUS_DEBUG_HOLD (((IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL) >> 2) & 1) ? G_TRUE : G_FALSE)
+
+/// \brief GRTOS_CMD_GET_FRZ_ENB returns the status of the frozen mode (G_TRUE if enabled, G_FALSE if disabled)
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_GET_FRZ_ENB (((IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL) >> 1) & 1) ? G_TRUE : G_FALSE)
+
+/// \brief GRTOS_CMD_GET_FRZ_ACT returns the status of the frozen mode event (G_TRUE if active, G_FALSE if inactive)
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_GET_FRZ_ACT ((IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL)  & 1) ? G_TRUE : G_FALSE)
+
+/// \brief GRTOS_CMD_EVN_OCC returns the event happened from the GRTOS controller
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_EVN_OCC                                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_EVN_OCC)
 
 /// \brief GRTOS_MUTEX_BLOCKED_GET returns the time the mutex will be blocked until next granted
 #define GRTOS_MUTEX_BLOCKED_GET                              IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MUTEXBLOCKED32)
@@ -104,7 +166,6 @@
 /// \todo Describe better and related with GRTOS controller
 /// \todo Check if it is required
 #define GRTOS_CMD_IRQ_RQS                                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_IRQ_RQS)
-
 
 /// \brief GRTOS_CMD_IRQ_ENB_GET(irq) reads the enabled status of the device interrupt request (DIRQ) irq
 /// \todo Describe better and related with GRTOS controller

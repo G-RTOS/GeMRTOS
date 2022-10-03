@@ -247,12 +247,13 @@ void task_generic(void* pdata)
 
 GS_TCB *ptcb_array[G_MAX_NUMBER_OF_USER_TCB];
 
-void main(void)
+int main(void)
 {
     printf("GeMRTOS\n");
     printf("Processors      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
     printf("Clock frequency = %d MHz\n", (int)GRTOS_DRIVER_GRTOSFREQUENCY);
     printf("Clock prescaler = %d\n", (int)GRTOS_DRIVER_PRESCALE);
+    printf("Reg. prescaler  = %d\n", (int)GRTOS_CMD_GET_TIME_PRESCALE);
     printf("Interrupts      = %#010x\n", (int)GRTOS_DRIVER_GRTOSINTERRUPTS);  
     printf("Generation ID   = %d\n", (int)GRTOS_DRIVER_GRTOSGENERATIONID);
     printf("Processor type  = %s\n", GRTOS_DRIVER_PROCESSOR_TYPE);
@@ -268,6 +269,10 @@ void main(void)
     GRTOS_CMD_FRZ_TM_THR_SET(100000);  // Set the frozen threshold
     GRTOS_CMD_FRZ_ENB_SET;            // Enable the frozen mode
     printf("Mutex Block release time                 = 0x%x\n", (int) GRTOS_MUTEX_BLOCKED_GET);
+    printf("System time register = 0x%llx\n", (unsigned long long) GRTOS_CMD_SYS_TM_GET);
+    printf("Mutex time register = 0x%llx\n", (unsigned long long) GRTOS_CMD_MTX_TM_GET);
+    printf("System time register = 0x%llx\n", (unsigned long long) GRTOS_CMD_SYS_TM_GET);
+    printf("Mutex time register = 0x%llx\n", (unsigned long long) GRTOS_CMD_MTX_TM_GET);  
     printf("Frozen threshold register (R_FRZ_TM_THR) = 0x%llx\n", (unsigned long long) gu_get_frozen_threshold());
     printf("GCC information ###########\n");
     printf("sizeof(unsigned)   = %d\n", (int) sizeof(unsigned));

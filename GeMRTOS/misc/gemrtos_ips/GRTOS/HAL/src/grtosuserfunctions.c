@@ -774,13 +774,10 @@ gt_time gu_get_frozen_threshold(void)
 	gt_time status;
     GRTOS_USER_CRITICAL_SECTION_GET;
         G_DEBUG_VERBOSE    
-	    // GRTOS_CMD_TM_CNT_GET((int *) &status);
-        status = (gt_time) GRTOS_CMD_FRZ_TM_THR_GET();
+        status = (gt_time) GRTOS_CMD_FRZ_TM_THR_GET;
 	GRTOS_CMD_CRITICAL_SECTION_RELEASE;
 	return(status);
 }
-
-
 
 /**gu_get_mutex_time
  *  \brief 
@@ -792,7 +789,7 @@ gt_time gu_get_mutex_time(void)
 	gt_time status;
     GRTOS_USER_CRITICAL_SECTION_GET;
         G_DEBUG_VERBOSE    
-        status = (gt_time) GRTOS_CMD_SYS_MUTEX_TIME();
+        status = (gt_time) GRTOS_CMD_MTX_TM_GET;
 	GRTOS_CMD_CRITICAL_SECTION_RELEASE;
 	return(status);
 }

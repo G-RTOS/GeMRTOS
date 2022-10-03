@@ -241,12 +241,8 @@ hello_world.c: In function 'task_generic':
 hello_world.c:188:14: warning: unused variable 'pbuffer' [-Wunused-variable]
      GS_ECB  *pbuffer;
               ^
-hello_world.c: At top level:
-hello_world.c:250:6: warning: return type of 'main' is not 'int' [-Wmain]
- void main(void)
-      ^
 hello_world.c: In function 'main':
-hello_world.c:287:13: warning: unused variable 'ptcb1' [-Wunused-variable]
+hello_world.c:292:13: warning: unused variable 'ptcb1' [-Wunused-variable]
      GS_TCB *ptcb1;
              ^
 + bash -c 'nios2-stackreport --prefix nios2-elf- hellogemrtos.elf'

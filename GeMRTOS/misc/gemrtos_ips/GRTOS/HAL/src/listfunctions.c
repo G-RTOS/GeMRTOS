@@ -1877,8 +1877,8 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
 	if (TCB_IsValid(ptcb) != G_TRUE) {PRINT_TO_DEBUG("ERROR TCB= %p\n",ptcb); G_DEBUG_WHILEFOREVER;}
 	for (i=0; i<G_NUMBER_OF_PCB;i++){
 		if (g_kcb.G_PCBTbl[i].PCB_EXECTCB == ptcb) {
-            PRINT_TO_DEBUG("ERROR %s, %s, %d, pi %x, tcb %p, ptcb %p, proc %x, mtx %x\n",__FUNCTION__,__FILE__,__LINE__, i, g_kcb.G_PCBTbl[i].PCB_EXECTCB, ptcb, GRTOS_CMD_PRC_ID, IORD_GRTOS_MTX_RQS);            
-            PRINT_TO_DEBUG("ERROR %s, %s, %d, pi %x, tcb %p, ptcb %p, proc %x, mtx %x\n",__FUNCTION__,__FILE__,__LINE__, i, g_kcb.G_PCBTbl[i].PCB_EXECTCB, ptcb, GRTOS_CMD_PRC_ID, IORD_GRTOS_MTX_RQS);           
+            PRINT_TO_DEBUG("ERROR %s, %s, %d, pi %x, tcb %p, ptcb %p, proc %x, mtx %x\n",__FUNCTION__,__FILE__,__LINE__, i, g_kcb.G_PCBTbl[i].PCB_EXECTCB, ptcb, GRTOS_CMD_PRC_ID, GRTOS_MTX_PRC_GRANTED);            
+            PRINT_TO_DEBUG("ERROR %s, %s, %d, pi %x, tcb %p, ptcb %p, proc %x, mtx %x\n",__FUNCTION__,__FILE__,__LINE__, i, g_kcb.G_PCBTbl[i].PCB_EXECTCB, ptcb, GRTOS_CMD_PRC_ID, GRTOS_MTX_PRC_GRANTED);           
             G_DEBUG_WHILEFOREVER;
         }
 	}
