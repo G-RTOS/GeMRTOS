@@ -69,6 +69,10 @@
 
 #define ADDR_HLT_ACT_CNT_SMP    34
 
+// Macros defined and implemented in hardware, but not used
+#define IOWR_GRTOS_HLT_IDL_PRC_CLR(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_DSB, data)
+#define IOWR_GRTOS_FRZ_TM_HGH(data)              IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH,data)
+
 
 // Read grtos registers
 #define IORD_GRTOS_SMP                           IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_SMP)
@@ -102,38 +106,97 @@
 #define IOWR_GRTOS_MTX_RLS(data)                 IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RLS, data)
 #define IOWR_GRTOS_MTX_RSV_SET(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RSV_SET, data)
 #define IOWR_GRTOS_MTX_RSV_CLR(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RSV_CLR, data)
-#define IOWR_GRTOS_INT_PRC_PND_CLR(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_INT_PRC_PND_CLR, data)
-#define IOWR_GRTOS_FRZ_TM_HGH(data)              IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH,data)
-#define IOWR_GRTOS_TM_PSC(data)                  IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_TM_PSC, data)
+/// #define IOWR_GRTOS_INT_PRC_PND_CLR(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_INT_PRC_PND_CLR, GRTOS_CMD_PRC_ID)
+
+
 #define IOWR_GRTOS_FRZ_THR_HGH(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_THR_HGH, data)
-#define IOWR_GRTOS_CTRL_SET(data)                IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL, data)
-#define IOWR_GRTOS_INT_ENB_SET(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_INT_ENB_SET, data)
-#define IOWR_GRTOS_INT_ENB_CLR(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADD_INT_ENB_CLR, data)
-#define IOWR_GRTOS_LOW_PRC_SET(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_LOW_PRC_SET, data)
-#define IOWR_GRTOS_NXT_TM_PRC_SET(data)          IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_NXT_TM_PRC_SET, data)
-#define IOWR_GRTOS_MUTEXBLOCKED32(data)          IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MUTEXBLOCKED32, data)
 
 
-#define IOWR_GRTOS_HLT_IDL_PRC_SET(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_ENB, data)
-#define IOWR_GRTOS_HLT_IDL_PRC_CLR(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_DSB, data)
+/// \brief GRTOS_CMD_INT_PRC_PND_CLR clears the pending interrupt of the current processor.
+/// The interrupts to processors are always registered to avoid spurious interrupts
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_INT_PRC_PND_CLR                            IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_INT_PRC_PND_CLR, GRTOS_CMD_PRC_ID);
 
-#define IOWR_GRTOS_IRQ_ENB_SET(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_IRQ_ENB_SET, data)
-#define IOWR_GRTOS_IRQ_ENB_CLR(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_IRQ_ENB_CLR, data)
-#define IOWR_GRTOS_TRG_INT_PRC(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_TRG_INT_PRC, data)
-#define IOWR_GRTOS_MTX_SET_TM(data)              IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_SET_TM, data)
+/// \brief GRTOS_CMD_SET_TIME_PRESCALE sets the system clock prescale to get the system time unitbuf
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_SET_TIME_PRESCALE(scale)                   IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_TM_PSC, scale);
 
-#define IOWR_GRTOS_RST_CLR(data)                 IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR, data)
+/// \brief GRTOS_CMD_FRZ_ENB_SET enables the frozen mode event
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_FRZ_ENB_SET                                IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL, 1)
 
+/// \brief GRTOS_CMD_FRZ_DSB_SET disables the frozen mode event
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_FRZ_DSB_SET                                IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL, 2)
 
+/// \brief GRTOS_CMD_FRZ_EVN_CLR Clears the C1_FRZ_EVN flags. 
+/// It should be executed when the frozen mode strategy is completed.
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_FRZ_EVN_CLR                                IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL, 3) 
+
+/// \brief GRTOS_CMD_TM_CNT_CLR resets the System Time Register
+/// \todo Describe better and related with GRTOS controller
+/// \todo Check if it is required
+#define GRTOS_CMD_TM_CNT_CLR                                 IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL, 4); 
+
+/// \brief GRTOS_CMD_DEBUG_HOLD_ENB - enables the DEBUG_HOLD mode
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_DEBUG_HOLD_ENB                             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL, 6)
+
+/// \brief GRTOS_CMD_DEBUG_HOLD_DIS - disables the DEBUG_HOLD mode
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_DEBUG_HOLD_DIS                             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_CTRL, 7)
+
+/// \brief GRTOS_CMD_PRC_INT_ENB enables the processor interrupt request of the current processor in the GRTOS controller
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_PRC_INT_ENB                                IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_INT_ENB_SET, GRTOS_CMD_PRC_ID);
+
+/// \brief GRTOS_CMD_PRC_INT_DSB disables the interrupt of the current processor in the GRTOS controller. 
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_PRC_INT_DSB                                IOWR(GRTOS_DRIVER_GRTOS_BASE, ADD_INT_ENB_CLR, GRTOS_CMD_PRC_ID);
+
+/// \brief GRTOS_CMD_LOW_PRC_SET 
+/// Sets the processor with CPUID equal to processor as the Lowest Priority Processor in the GRTOS Controller
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_LOW_PRC_SET(processor)                     IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_LOW_PRC_SET, processor);
+
+/// \brief GRTOS_CMD_NXT_TM_PRC_SET sets the Next Occurrence Time Processor in the GRTOS controller
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_NXT_TM_PRC_SET(processor)                  IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_NXT_TM_PRC_SET, processor);
+
+/// \brief GRTOS_MUTEX_BLOCKED set the time the mutex will be blocked until next granted
+#define GRTOS_MUTEX_BLOCKED(data)                            IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MUTEXBLOCKED32, data)
+    
+/// \brief GRTOS_CMD_HLT_IDL_PRC set to halt the current processor when it is idle
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_HLT_IDL_PRC                                IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_ENB, GRTOS_CMD_PRC_ID)
+
+/// \brief GRTOS_CMD_IRQ_ENB_SET(irq) enables the device interrupt request event irq  (DIRQ)
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_IRQ_ENB_SET(irq)                           IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_IRQ_ENB_SET, irq)
+
+/// \brief GRTOS_CMD_IRQ_ENB_CLR(irq) disables the device interrupt request event irq  (DIRQ)
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_IRQ_ENB_CLR(irq)                           IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_IRQ_ENB_CLR, irq)
+
+/// \brief GRTOS_CMD_TRG_PRC_INT_SET interrupts the processor proc. If proc interrupt is 
+/// enabled in the GRTOS controller then the processor is interrupted
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_TRG_PRC_INT_SET(proc)                      IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_TRG_INT_PRC, proc);
 
 /// \brief GRTOS_CMD_RST_GRTOS - resets the GRTOS controller to its initialization values
 /// and the processors with CPUID different from 1
 /// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_RST_GRTOS                      IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR, 0)
+#define GRTOS_CMD_RST_GRTOS                                  IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR, 0)
 
 /// \brief GRTOS_CMD_RLS_NXT_PRC - unreset the next processor
-#define GRTOS_CMD_RLS_NXT_PRC                    IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR, GRTOS_CMD_PRC_ID)
+#define GRTOS_CMD_RLS_NXT_PRC                                IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR, GRTOS_CMD_PRC_ID)
 
+/// \brief GRTOS_USER_CRITICAL_SECTION_SET_RELEASE_TIME 
+/// Sets the register ADDR_MTX_SET_TM which holds the number of clocks cycles the
+/// Mutex remains granted after it is released. This time is defined in order to allow
+/// leaving the section critical after releasing the mutex
+#define GRTOS_USER_CRITICAL_SECTION_SET_RELEASE_TIME(time)   IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_SET_TM, time);
 
 
 

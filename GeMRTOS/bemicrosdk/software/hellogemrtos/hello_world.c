@@ -264,7 +264,7 @@ void main(void)
     printf("Address width   = %d\n", (int)GRTOS_DRIVER_BUS_WIDTH);
     printf("Program memory  = %d %s\n", (int)GRTOS_DRIVER_EXTERNAL_MEMORY_SPAN, GRTOS_DRIVER_EXTERNAL_MEMORY_UNIT);
     printf("GeMRTOS controller information ###########\n");
-    IOWR_GRTOS_MUTEXBLOCKED32(500);    // Set the time the mutex is blocked after release
+    GRTOS_MUTEX_BLOCKED(500);    // Set the time the mutex is blocked after release
     GRTOS_CMD_FRZ_TM_THR_SET(100000);  // Set the frozen threshold
     GRTOS_CMD_FRZ_ENB_SET;            // Enable the frozen mode
     printf("Mutex Block release time                 = 0x%x\n", (int) IORD_GRTOS_MUTEXBLOCKED32);

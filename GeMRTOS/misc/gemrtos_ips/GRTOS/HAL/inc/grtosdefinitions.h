@@ -237,32 +237,6 @@ typedef union timepriority {
 
 
 
-/// \brief GRTOS_CMD_TM_CNT_CLR resets the System Time Register
-/// \todo Describe better and related with GRTOS controller
-/// \todo Check if it is required
-#define GRTOS_CMD_TM_CNT_CLR IOWR_GRTOS_CTRL_SET(4); 
-
-/// \brief GRTOS_CMD_DEBUG_HOLD_ENB - enables the DEBUG_HOLD mode
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_DEBUG_HOLD_ENB IOWR_GRTOS_CTRL_SET(6)
-
-/// \brief GRTOS_CMD_DEBUG_HOLD_DIS - disables the DEBUG_HOLD mode
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_DEBUG_HOLD_DIS IOWR_GRTOS_CTRL_SET(7)
-
-/// \brief GRTOS_CMD_PRC_INT_ENB enables the processor interrupt request of the current processor in the GRTOS controller
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_PRC_INT_ENB IOWR_GRTOS_INT_ENB_SET(GRTOS_CMD_PRC_ID);
-
-/// \brief GRTOS_CMD_PRC_INT_DSB disables the interrupt of the current processor in the GRTOS controller. 
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_PRC_INT_DSB IOWR_GRTOS_INT_ENB_CLR(GRTOS_CMD_PRC_ID );
-
-/// \brief GRTOS_CMD_TRG_PRC_INT_SET interrupts the processor proc. If proc interrupt is 
-/// enabled in the GRTOS controller then the processor is interrupted
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_TRG_PRC_INT_SET(proc) IOWR_GRTOS_TRG_INT_PRC(proc);
-
 /// \brief GRTOS_CMD_PRC_INT(proc) 
 /// interrupts the processor and waits until it reaches the ISR and disables the interrupt
 /// \todo Describe better and related with GRTOS controller
@@ -272,31 +246,9 @@ typedef union timepriority {
         while(0); \
     }
 
-/// \brief GRTOS_CMD_INT_PRC_PND_CLR clears the pending interrupt of the current processor.
-/// The interrupts to processors are always registered to avoid spurious interrupts
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_INT_PRC_PND_CLR IOWR_GRTOS_INT_PRC_PND_CLR(GRTOS_CMD_PRC_ID);
-
-/// \brief GRTOS_CMD_LOW_PRC_SET 
-/// Sets the processor with CPUID equal to processor as the Lowest Priority Processor in the GRTOS Controller
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_LOW_PRC_SET(processor) IOWR_GRTOS_LOW_PRC_SET(processor);
-
-/// \brief GRTOS_CMD_NXT_TM_PRC_SET sets the Next Occurrence Time Processor in the GRTOS controller
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_NXT_TM_PRC_SET(processor) IOWR_GRTOS_NXT_TM_PRC_SET(processor);
-
-/// \brief GRTOS_CMD_IRQ_ENB_SET(irq) enables the device interrupt request event irq  (DIRQ)
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_IRQ_ENB_SET(irq) IOWR_GRTOS_IRQ_ENB_SET(irq)
-
 /// \brief GRTOS_CMD_IRQ_ENB_GET(irq) reads the enabled status of the device interrupt request (DIRQ) irq
 /// \todo Describe better and related with GRTOS controller
 #define GRTOS_CMD_IRQ_ENB_GET(irq) ((IORD_GRTOS_INT_ENB_SET >> (irq-1)) & 1)
-
-/// \brief GRTOS_CMD_IRQ_ENB_CLR(irq) disables the device interrupt request event irq  (DIRQ)
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_IRQ_ENB_CLR(irq) IOWR_GRTOS_IRQ_ENB_CLR(irq)
 
 /// \brief GRTOS_CMD_IRQ_RQS gets the status of the External IRQ register
 /// \todo Describe better and related with GRTOS controller
@@ -317,22 +269,11 @@ typedef union timepriority {
  		IOWR_GRTOS_SMP((unsigned long)temp_aux.i32[0]); \
  		IOWR_GRTOS_NXT_OCC_TM_RQS((unsigned long)temp_aux.i32[1]); \
  	}while(0) 
-    
-/// \brief GRTOS_CMD_HLT_IDL_PRC set to halt the current processor when it is idle
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_HLT_IDL_PRC IOWR_GRTOS_HLT_IDL_PRC_SET(GRTOS_CMD_PRC_ID );        
+      
 
 /// \brief GRTOS_CMD_GET_STATUS_DEBUG_HOLD return the status of the DEBUG_HOLD bit (G_TRUE or G_FALSE)
 /// \todo Describe better and related with GRTOS controller
 #define GRTOS_CMD_GET_STATUS_DEBUG_HOLD (((IORD_GRTOS_CTRL_SET >> 2) & 1) ? G_TRUE : G_FALSE)
-
-/// \brief GRTOS_CMD_FRZ_ENB_SET enables the frozen mode event
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_FRZ_ENB_SET IOWR_GRTOS_CTRL_SET(1)
-
-/// \brief GRTOS_CMD_FRZ_DSB_SET disables the frozen mode event
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_FRZ_DSB_SET IOWR_GRTOS_CTRL_SET(2)
 
 /// \brief GRTOS_CMD_GET_FRZ_ENB returns the status of the frozen mode (G_TRUE if enabled, G_FALSE if disabled)
 /// \todo Describe better and related with GRTOS controller
@@ -341,11 +282,6 @@ typedef union timepriority {
 /// \brief GRTOS_CMD_GET_FRZ_ACT returns the status of the frozen mode event (G_TRUE if active, G_FALSE if inactive)
 /// \todo Describe better and related with GRTOS controller
 #define GRTOS_CMD_GET_FRZ_ACT ((IORD_GRTOS_CTRL_SET  & 1) ? G_TRUE : G_FALSE)
-
-/// \brief GRTOS_CMD_FRZ_EVN_CLR Clears the C1_FRZ_EVN flags. 
-/// It should be executed when the frozen mode strategy is completed.
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_FRZ_EVN_CLR IOWR_GRTOS_CTRL_SET(3) 
 
 /// \brief GRTOS_CMD_FRZ_TM_THR_SET Sets the Frozen Time Threshold register of the GRTOS controller
 /// \todo Describe better and related with GRTOS controller
@@ -365,12 +301,6 @@ typedef union timepriority {
 #define GRTOS_CMD_HALT_PROCESSOR \
         GRTOS_CMD_HLT_IDL_PRC; \
         g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].GRTOS_PROCESSOR_BASE[0] = (int) 0;
-
-//         g_kcb.GRTOS_PROCESSOR_BASE[GRTOS_CMD_PRC_ID][0] = (int) 0; 
-/// \brief GRTOS_CMD_SET_TIME_PRESCALE sets the system clock prescale to get the system time unitbuf
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_SET_TIME_PRESCALE(scale) \
-        IOWR_GRTOS_TM_PSC(scale);
 
 /************************************************************************************
  *  GRTOS CRITICAL SECTION COMMANDS
@@ -425,13 +355,6 @@ typedef union timepriority {
  */
 #define GRTOS_USER_CRITICAL_SECTION_RELEASE  GRTOS_CMD_CRITICAL_SECTION_RELEASE
 
-/**
- *  \brief GRTOS_USER_CRITICAL_SECTION_SET_RELEASE_TIME 
- *  Sets the register ADDR_MTX_SET_TM which holds the number of clocks cycles the
- *  Mutex remains granted after it is released. This time is defined in order to allow
- *  leaving the section critical after releasing the mutex
- */
-#define GRTOS_USER_CRITICAL_SECTION_SET_RELEASE_TIME(time) IOWR_GRTOS_MTX_SET_TM(time);
 
 #include <gemrtos_core.h>
 // #include <gemrtos_core_api.h>

@@ -374,7 +374,6 @@ void  gk_KERNEL_TASK_START (void)
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
     
-    // IOWR_GRTOS_RST_CLR(GRTOS_CMD_PRC_ID);   
     GRTOS_CMD_RLS_NXT_PRC;   // Enables the next processor to start
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1

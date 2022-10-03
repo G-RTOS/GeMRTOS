@@ -164,7 +164,7 @@ In file included from drivers/src/grtos_kernel.c:29:0:
      // if (G_Running == G_TRUE) { \
      ^
 drivers/src/grtos_kernel.c: In function 'gk_KERNEL_TASK_START':
-drivers/src/grtos_kernel.c:385:2: warning: implicit declaration of function 'GRTOS_Start_Task' [-Wimplicit-function-declaration]
+drivers/src/grtos_kernel.c:384:2: warning: implicit declaration of function 'GRTOS_Start_Task' [-Wimplicit-function-declaration]
   GRTOS_Start_Task(); 
   ^
 In file included from drivers/src/grtosuserfunctions.c:32:0:
