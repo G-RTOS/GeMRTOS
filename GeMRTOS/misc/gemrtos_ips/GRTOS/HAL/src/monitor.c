@@ -173,7 +173,6 @@ INT32 LCB_IsValid(GS_LCB *plcb)
 
 INT32 IsAListorNull(GS_LCB *plcb)
 {
-	int lcb;
 	/* si es puntero nulo retorno G_TRUE */
 	if (plcb == (struct gs_lcb *) 0) return(G_TRUE);
     if (plcb->BLOCK_HASH == (unsigned int) plcb + 6) return(G_TRUE);

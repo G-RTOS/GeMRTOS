@@ -39,19 +39,6 @@
 #define G_FALSE             0u
 #define G_TRUE              1u
 
-// TCBType group
-/// \brief TCBType valid values
-#define G_TCBType_UCOS                          1u   ///< \brief Task type UCOS "one run only" (with optional infinite loop)           \ingroup TCBType
-#define G_TCBType_PERIODIC                      2u   ///< \brief Task type PERIODIC "with periodic release"                            \ingroup TCBType
-#define G_TCBType_ISR                           4u   ///< \brief Task type ISR. It is released for an interrupt event                  \ingroup TCBType
-#define G_TCBType_IDLE                          5u   ///< \brief Task type IDLE. It is executed when processor is not assigned to task \ingroup TCBType
-#define G_TCBType_UNDEFINED                     7u   ///< \brief Task type UNDEFIEND. Wehn not a specific type is given to the task    \ingroup TCBType
-
-// SCBType group
-/// \brief SCBType valid values 
-/// \todo Define the rest of SCB types
-#define G_SCBType_TCB_ABORTED          1000u      ///< TYPE "Periodic task aborted when released before deadline"      \ingroup SCBType
-
 
 /**
  * Structure Definitions

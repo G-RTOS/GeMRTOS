@@ -88,24 +88,25 @@
 #define RTSZ1(i, l, f) RTSZ2(i, l, f)
 #define RTSZ2(i, l, f) RTSZ_##i##_##l##_##f
 
+    //  if (G_Running == G_TRUE) { 
+    //      fprintf(fpuart[GRTOS_CMD_PRC_ID-1],"Proc %d in func %s, file %s, %d \n",GRTOS_CMD_PRC_ID , __FUNCTION__,__FILE__,__LINE__); 
+    //  } 
 
 #define SAMPLE_FUNCTION_BEGIN(number) \
-   //  if (G_Running == G_TRUE) { \
-   //      fprintf(fpuart[GRTOS_CMD_PRC_ID-1],"Proc %d in func %s, file %s, %d \n",GRTOS_CMD_PRC_ID , __FUNCTION__,__FILE__,__LINE__); \
-   //  } \
     if ((G_DEBUG_SAMPLE_BEGIN_ENABLE == 0xFFFFFFFF) ||  (G_DEBUG_SAMPLE_BEGIN_ENABLE == number)){ \
         RTSZ(0):  \
         IOWR(GRTOS_DRIVER_GRTOS_MONITOR_BASE, 0, (unsigned int) &&RTSZ(0) | 0x80000000); \
     }
 
+    // if (G_Running == G_TRUE) { 
+    //     if ((g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer < g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackTop - 300) || (g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer > g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackBottom)) { 
+    //         PRINT_TO_DEBUG("ERROR TCB= %p, TCB_StackBottom = %p, TCB_StackPointer = %p, TCB_StackTop = %p\n",g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB, (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackBottom, (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer, (void *)  g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackTop); 
+    //         PRINT_TO_DEBUG("ERROR TCB_IDLE= %p\n", (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB ); 
+    //         G_DEBUG_WHILEFOREVER; } 
+    // } 
+    
 #define SAMPLE_FUNCTION_END(number) \
-    // if (G_Running == G_TRUE) { \
-    //     if ((g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer < g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackTop - 300) || (g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer > g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackBottom)) { \
-    //         PRINT_TO_DEBUG("ERROR TCB= %p, TCB_StackBottom = %p, TCB_StackPointer = %p, TCB_StackTop = %p\n",g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB, (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackBottom, (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer, (void *)  g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackTop); \
-    //         PRINT_TO_DEBUG("ERROR TCB_IDLE= %p\n", (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB ); \
-    //         G_DEBUG_WHILEFOREVER; } \
-    // } \
-    // if ((G_DEBUG_SAMPLE_END_ENABLE == 0xFFFFFFFF) ||  (G_DEBUG_SAMPLE_END_ENABLE == number)){ \
+    if ((G_DEBUG_SAMPLE_END_ENABLE == 0xFFFFFFFF) ||  (G_DEBUG_SAMPLE_END_ENABLE == number)){ \
         RTSZ(0):  \
         IOWR(GRTOS_DRIVER_GRTOS_MONITOR_BASE, 0, (unsigned int) &&RTSZ(0) | 0xC0000000); \
     }
@@ -228,85 +229,6 @@ typedef union timepriority {
 
 
 
-/************************************************************************************
- *  GRTOS COMMANDS
- ************************************************************************************/
-
-/// GRTOS_CMD_PRC_ID  - returns the cpuID of the current processor
-#define GRTOS_CMD_PRC_ID  __builtin_rdctl(5)
-
-
-
-/// \brief GRTOS_CMD_PRC_INT(proc) 
-/// interrupts the processor and waits until it reaches the ISR and disables the interrupt
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_PRC_INT(proc) \
-    GRTOS_CMD_TRG_PRC_INT_SET(proc); \
-    while (GRTOS_CMD_IRQ_ENB_GET(proc)){ \
-        while(0); \
-    }
-
-
-/// \brief GRTOS_CMD_HALT_PROCESSOR puts the processor in halt mode
-/// The first command enable the IDLE state for the processor and the second read the first 
-/// address of the processor bus because it is in waitrequest until next interrupt
-/// \todo Describe better and related with GRTOS controller
-#define GRTOS_CMD_HALT_PROCESSOR \
-        GRTOS_CMD_HLT_IDL_PRC; \
-        g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].GRTOS_PROCESSOR_BASE[0] = (int) 0;
-
-/************************************************************************************
- *  GRTOS CRITICAL SECTION COMMANDS
- ************************************************************************************/
-
-/**
- *  \brief GRTOS_CMD_CRITICAL_SECTION_GET 
- *  Defines the entry to a critical section to handle system variables and ISR routines.
- *  It asks for critical section and puts the processor in halt mode. 
- *  GRTOS controller enables the processor when section is granted to it.
- */
-#define GRTOS_CMD_CRITICAL_SECTION_GET \
-	do{ \
-		do { \
-            GRTOS_MTX_RSV_SET; \
-            GRTOS_CMD_HALT_PROCESSOR \
-        } while (GRTOS_CMD_PRC_ID != GRTOS_MTX_PRC_GRANTED);  \
-	}while(0)
-
-
-/**
- *  \brief GRTOS_CMD_CRITICAL_SECTION_RELEASE 
- *  Releases the critical section from the current processor.
- *  The final released is delayed by the controller to let the processor finishes executing 
- *  the return from the critical section.
- *  It should be executed from the interrupt routine.
- */
-#define GRTOS_CMD_CRITICAL_SECTION_RELEASE \
-	do{ GRTOS_CMD_PRC_INT_ENB; \
-        alt_dcache_flush_all(); \
-        GRTOS_MTX_RLS; \
-	}while(0)
-  
-/**
- *  \brief GRTOS_CMD_MTX_RQS_GET 
- *  Returns the current value of the Mutex.
- */
-#define GRTOS_CMD_MTX_RQS_GET GRTOS_MTX_PRC_GRANTED;
-
-/**
- *  \brief GRTOS_USER_CRITICAL_SECTION_GET defines the entry to a critical section to handle system variables.
- *  It is called from outside an interrupt and it may be interrupted while it is waiting for mutex.
- *  It should be used in user functions that execute kernel functions or modify kernal data.
- */
-#define GRTOS_USER_CRITICAL_SECTION_GET  GRTOS_CMD_CRITICAL_SECTION_GET
-
-
-/**
- *  \brief GRTOS_USER_CRITICAL_SECTION_RELEASE releases the critical section from the current processor.
- *  It is called from outside of an interrupt.
- *  It used in all the user function that executes kernel functions or modify kernel data.
- */
-#define GRTOS_USER_CRITICAL_SECTION_RELEASE  GRTOS_CMD_CRITICAL_SECTION_RELEASE
 
 
 #include <gemrtos_core.h>
@@ -531,7 +453,7 @@ INT32    gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB * ptcb);
 // void gk_Start_Main(void);
 void gk_KERNEL_TASK_START (void);
 void gk_ENTRY_IRQ_HANDLER (void);
-// void GRTOS_Start_Task(void);
+void GRTOS_Start_Task(void);
 void GRTOS_Suspend_Task(void);
 // void gk_INT_TASK_SWITCH(void);
 GS_TCB *gk_CreateTask(void *TaskCode,              

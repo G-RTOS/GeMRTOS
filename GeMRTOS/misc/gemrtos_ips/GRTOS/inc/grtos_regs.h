@@ -301,6 +301,84 @@ do { \
 #define GRTOS_USER_CRITICAL_SECTION_SET_RELEASE_TIME(time)   IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_SET_TM, time);
 
 
+/************************************************************************************
+ *  GRTOS COMMANDS
+ ************************************************************************************/
+
+/// GRTOS_CMD_PRC_ID  - returns the cpuID of the current processor
+#define GRTOS_CMD_PRC_ID  __builtin_rdctl(5)
+
+
+/// \brief GRTOS_CMD_PRC_INT(proc) 
+/// interrupts the processor and waits until it reaches the ISR and disables the interrupt
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_PRC_INT(proc) \
+    GRTOS_CMD_TRG_PRC_INT_SET(proc); \
+    while (GRTOS_CMD_IRQ_ENB_GET(proc)){ \
+        while(0); \
+    }
+
+
+/// \brief GRTOS_CMD_HALT_PROCESSOR puts the processor in halt mode
+/// The first command enable the IDLE state for the processor and the second read the first 
+/// address of the processor bus because it is in waitrequest until next interrupt
+/// \todo Describe better and related with GRTOS controller
+#define GRTOS_CMD_HALT_PROCESSOR \
+        GRTOS_CMD_HLT_IDL_PRC; \
+        g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].GRTOS_PROCESSOR_BASE[0] = (int) 0;
+
+/************************************************************************************
+ *  GRTOS CRITICAL SECTION COMMANDS
+ ************************************************************************************/
+
+/**
+ *  \brief GRTOS_CMD_CRITICAL_SECTION_GET 
+ *  Defines the entry to a critical section to handle system variables and ISR routines.
+ *  It asks for critical section and puts the processor in halt mode. 
+ *  GRTOS controller enables the processor when section is granted to it.
+ */
+#define GRTOS_CMD_CRITICAL_SECTION_GET \
+	do{ \
+		do { \
+            GRTOS_MTX_RSV_SET; \
+            GRTOS_CMD_HALT_PROCESSOR \
+        } while (GRTOS_CMD_PRC_ID != GRTOS_MTX_PRC_GRANTED);  \
+	}while(0)
+
+
+/**
+ *  \brief GRTOS_CMD_CRITICAL_SECTION_RELEASE 
+ *  Releases the critical section from the current processor.
+ *  The final released is delayed by the controller to let the processor finishes executing 
+ *  the return from the critical section.
+ *  It should be executed from the interrupt routine.
+ */
+#define GRTOS_CMD_CRITICAL_SECTION_RELEASE \
+	do{ GRTOS_CMD_PRC_INT_ENB; \
+        alt_dcache_flush_all(); \
+        GRTOS_MTX_RLS; \
+	}while(0)
+  
+/**
+ *  \brief GRTOS_CMD_MTX_RQS_GET 
+ *  Returns the current value of the Mutex.
+ */
+#define GRTOS_CMD_MTX_RQS_GET GRTOS_MTX_PRC_GRANTED;
+
+/**
+ *  \brief GRTOS_USER_CRITICAL_SECTION_GET defines the entry to a critical section to handle system variables.
+ *  It is called from outside an interrupt and it may be interrupted while it is waiting for mutex.
+ *  It should be used in user functions that execute kernel functions or modify kernal data.
+ */
+#define GRTOS_USER_CRITICAL_SECTION_GET  GRTOS_CMD_CRITICAL_SECTION_GET
+
+
+/**
+ *  \brief GRTOS_USER_CRITICAL_SECTION_RELEASE releases the critical section from the current processor.
+ *  It is called from outside of an interrupt.
+ *  It used in all the user function that executes kernel functions or modify kernel data.
+ */
+#define GRTOS_USER_CRITICAL_SECTION_RELEASE  GRTOS_CMD_CRITICAL_SECTION_RELEASE
 
 
 
