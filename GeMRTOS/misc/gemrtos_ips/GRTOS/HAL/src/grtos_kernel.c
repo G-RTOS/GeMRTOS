@@ -827,4 +827,26 @@ void GRTOS_Task_GetPendingSCB(void)
 }
 
 
+/**********************************************************************************
+ *                        	IDLE TASK DOING NOTHING
+ *********************************************************************************/
+/**gk_CODE_IDLE_TASK
+ *  \brief IDLE task. This code is executed when no task is ready. The processor is halted.
+ *  
+ *  \param [in] pdata Pointer to data
+ *  \details Task can be changed. The processors run this task with different stacks
+ *  \relates Task
+ */
+void gk_CODE_IDLE_TASK(void* pdata)
+{
+	while(1)
+    {
+        #if G_DEBUG_PRINT_WHEN_PROCESSOR_GOES_IDLE == 1
+            fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "I\n");
+        #endif
+        GRTOS_CMD_HALT_PROCESSOR; // Put the procesor in HALT mode 
+    }
+}
+
+
 OPTIMEZE_RESTORE

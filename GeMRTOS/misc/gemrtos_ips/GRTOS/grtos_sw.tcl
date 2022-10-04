@@ -59,7 +59,7 @@ set_sw_property supported_interrupt_apis "legacy_interrupt_api enhanced_interrup
 
 # C source files
 add_sw_property c_source HAL/src/gemrtos_core.c
-add_sw_property c_source HAL/src/grtos_init.c
+# add_sw_property c_source HAL/src/grtos_init.c
 add_sw_property c_source HAL/src/listfunctions.c
 add_sw_property c_source HAL/src/grtos_kernel.c
 add_sw_property c_source HAL/src/monitor.c
@@ -120,7 +120,7 @@ add_sw_setting boolean_define_only system_h_define gemrtos.semaphore GRTOS_INCLU
 add_sw_setting boolean system_h_define gemrtos.message_queue GRTOS_INCLUDE_MESSAGE_QUEUE 1 "Set to include message queue support to GeMRTOS."
 
 # set module_name [get_module_name]
-add_sw_setting unquoted_string system_h_define gemrtos.IORD_GRTOS_SMP GRTOS_IORD_GRTOS_SMP "command" "Sets the priority of the software timer service/daemon task. See the FreeRTOS software timers page for a full description."
+# add_sw_setting unquoted_string system_h_define gemrtos.IORD_GRTOS_SMP GRTOS_IORD_GRTOS_SMP "command" "Sets the priority of the software timer service/daemon task. See the FreeRTOS software timers page for a full description."
 
 
 

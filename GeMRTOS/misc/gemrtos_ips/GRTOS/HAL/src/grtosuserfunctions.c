@@ -754,7 +754,6 @@ gt_time gu_get_now(void)
 	gt_time status;
     GRTOS_USER_CRITICAL_SECTION_GET;
         G_DEBUG_VERBOSE    
-	    // GRTOS_CMD_TM_CNT_GET((int *) &status);
         status = (gt_time) GRTOS_now;
 	GRTOS_CMD_CRITICAL_SECTION_RELEASE;
 	return(status);
@@ -859,7 +858,6 @@ void gk_TIME_CALLBACK(GS_ECB *pevent)
             
             /* Set a new event in the future */
             pevent->ECBValue.i64 = (INT64) pevent->ECBValue.i64 + ptcb->TCBPeriod;
-            // pevent->ECBValue.i64 = (INT64) GRTOS_now + ptcb->TCBPeriod; 
             gk_TCBAEL_Link(pevent, ptcb);  // Link the periodic event back to the tcb
             gk_ECBTL_Link(pevent);                 
             break; 

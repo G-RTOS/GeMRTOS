@@ -376,10 +376,7 @@ extern volatile INT64 G_TASK_PERIOD_DEFAULT;
 /***************************************************************/
 /* INTERNAL SYSTEM FUNCTIONS                                   */
 /***************************************************************/
-// void    GRTOS_CMD_TM_CNT_GET(int *ptime);
 gt_time gu_get_mutex_time(void);
-// INT64 GRTOS_CMD_SYS_MUTEX_TIME(void);
-// INT64   GRTOS_now(void);
 INT32     gk_TCBLowerPriorityThanTCB(GS_TCB *ptcb1, GS_TCB *ptcb2);
 INT32   gk_LCB_CheckInvertion(void);
 INT32    gk_SetLowestProcessor(void);
@@ -569,39 +566,6 @@ void gk_RST_MONITOR_HANDLER (void);
 /***************************************************************/
 void gk_ENTRY_SIGNAL_RETURN(void);
 void gk_CODE_IDLE_TASK(void* pdata);
-void taskISR0(void* pdata);
-void taskISR1(void* pdata);
-void taskISR2(void* pdata);
-void taskISR3(void* pdata);
-void taskISR4(void* pdata);
-void taskISR5(void* pdata);
-void taskISR6(void* pdata);
-void taskISR7(void* pdata);
-void taskISR8(void* pdata);
-void taskISR9(void* pdata);
-void taskISR10(void* pdata);
-void taskISR11(void* pdata);
-void taskISR12(void* pdata);
-void taskISR13(void* pdata);
-void taskISR14(void* pdata);
-void taskISR15(void* pdata);
-void taskISR16(void* pdata);
-void taskISR17(void* pdata);
-void taskISR18(void* pdata);
-void taskISR19(void* pdata);
-void taskISR20(void* pdata);
-void taskISR21(void* pdata);
-void taskISR22(void* pdata);
-void taskISR23(void* pdata);
-void taskISR24(void* pdata);
-void taskISR25(void* pdata);
-void taskISR26(void* pdata);
-void taskISR27(void* pdata);
-void taskISR28(void* pdata);
-void taskISR29(void* pdata);
-void taskISR30(void* pdata);
-void taskISR31(void* pdata);
-
 
 
 
