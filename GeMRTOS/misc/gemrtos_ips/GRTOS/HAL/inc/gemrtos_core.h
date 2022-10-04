@@ -31,6 +31,14 @@
 #ifndef GEMRTOS_CORE_H_
 #define GEMRTOS_CORE_H_
 
+
+/************************************************************************************
+ *  System constants definitions
+ ************************************************************************************/
+#define G_FALSE             0u
+#define G_TRUE              1u
+
+
 /************************************************************************************
  *  GeMRTOS DATA STRUCTURES
  ************************************************************************************/
@@ -438,6 +446,9 @@ GS_SCB *gk_Get_SCB(void);
 GS_RRDS *gk_Get_RRDS(void);
 GS_LCB *gk_Get_LCB(void);
 INT32 gk_Create_PCBs(int Nmbr_PCB);
+
+
+
 
 
 

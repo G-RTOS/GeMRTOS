@@ -35,24 +35,12 @@
 #define EXT_ISR_H_
 
 #include <grtosuserapi.h>
-#include "sys/alt_irq.h"
-#include "priv/alt_irq_table.h"
 
 
-/**
- *  gs_ext_isr Struct to hold the actions associated  with external events. They are hold in g_kcb structure
- */
-struct gs_ext_isr {
-    struct gs_tcb *G_TCB_ISR;        /** Pointers to the first ISR TCBs for each interrupt number */
-    INT32         G_EXT_INT_Count;  /** Holds the number of ISR released, when 0 enable it again */
-    gt_priority   G_EXT_ISR_Timeout; /** Holds the timeout of the interrupts                      */
-};
 
-void  gk_INIT_IRQ (void);
-INT32 gk_ISR_COMPLETE (GS_TCB *ptcb);
-void  gk_ISR_RELEASE (int irq_nbr);
-INT32 gu_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr);
-INT32 gk_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr);
+
+
+
 
 
 
