@@ -8,10 +8,9 @@
  */
 
 #include <stdio.h>
-#include <grtosuserapi.h>
 // #include <mq.h>
 // #include <sem.h>
-#include <grtosdefinitions.h>
+#include <gemrtos_core.h>
 
 // Change this for final version. This is just to make real-time tasks for runtime testing
 // #include "C:/genericDE10/corrida/rts.h"

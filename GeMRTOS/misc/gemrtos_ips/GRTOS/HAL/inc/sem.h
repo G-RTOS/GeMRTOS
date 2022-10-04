@@ -32,7 +32,6 @@
 #ifndef SEM_H_
 #define SEM_H_
 
-#include <grtosuserapi.h>
 
 /**
  * Semaphore related functions 

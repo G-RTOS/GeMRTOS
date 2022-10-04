@@ -39,11 +39,8 @@
 #include "os/alt_sem.h"
 #include "os/alt_flag.h"
 
-#include "grtos_regs.h"
-#include <grtosdefinitions.h>
 
 
-#define INT64U long long
 
 #ifdef __cplusplus
 extern "C"

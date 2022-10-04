@@ -28,8 +28,7 @@
 ******************************************************************************/
 
 
-#include <grtosuserapi.h>
-#include <grtosdefinitions.h>
+#include <gemrtos_core.h>
 #include <grtos.h>
 #include <stdlib.h>
 

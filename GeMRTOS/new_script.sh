@@ -355,22 +355,22 @@ jtagconfig.exe --getparam 1 JtagClock 2>> ${error_log_file}
 
 # Open terminal windows for standard outputs
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=0 2>> ${error_log_file}
-sleep 5s 2>> ${error_log_file}
+sleep 2s 2>> ${error_log_file}
 
 #cygstart terminal_err.sh
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=1 2>> ${error_log_file} 
-sleep 5s 2>> ${error_log_file}
+sleep 2s 2>> ${error_log_file}
 #cygstart terminal_1.sh
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=2 2>> ${error_log_file}
-sleep 5s 2>> ${error_log_file}
+sleep 2s 2>> ${error_log_file}
 #cygstart terminal_2.sh
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=3 2>> ${error_log_file}
-sleep 5s 2>> ${error_log_file}
+sleep 2s 2>> ${error_log_file}
 #cygstart terminal_3.sh
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=4 2>> ${error_log_file}
-sleep 5s 2>> ${error_log_file}
+sleep 2s 2>> ${error_log_file}
 cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=5 2>> ${error_log_file}
-sleep 5s 2>> ${error_log_file}
+sleep 2s 2>> ${error_log_file}
 
 nios2-download --go -r ./${SOFTWARE_DIR_NAME}/${APP_NAME}/${APP_NAME}.elf --instance=0 2>> ${error_log_file}
 

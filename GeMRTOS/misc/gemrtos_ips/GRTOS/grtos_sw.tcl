@@ -64,8 +64,8 @@ add_sw_property c_source HAL/src/listfunctions.c
 add_sw_property c_source HAL/src/grtos_kernel.c
 add_sw_property c_source HAL/src/monitor.c
 add_sw_property c_source HAL/src/grtosuserfunctions.c
-add_sw_property c_source HAL/src/tasks.c
-add_sw_property c_source HAL/src/ext_isr.c
+# add_sw_property c_source HAL/src/tasks.c
+# add_sw_property c_source HAL/src/ext_isr.c
 add_sw_property c_source HAL/src/mq.c
 add_sw_property c_source HAL/src/sem.c
 
@@ -78,8 +78,8 @@ add_sw_property include_source HAL/inc/gemrtos_core.h
 # add_sw_property include_source HAL/inc/gemrtos_core_api.h
 add_sw_property include_source HAL/inc/grtos.h
 add_sw_property include_source HAL/inc/grtosdefinitions.h
-add_sw_property include_source HAL/inc/grtosuserapi.h
-add_sw_property include_source HAL/inc/ext_isr.h
+# add_sw_property include_source HAL/inc/grtosuserapi.h
+# add_sw_property include_source HAL/inc/ext_isr.h
 add_sw_property include_source HAL/inc/mq.h
 add_sw_property include_source HAL/inc/sem.h
 

@@ -26,7 +26,7 @@
 *                                                                             *
 ******************************************************************************/
 
-#include <grtosdefinitions.h>
+#include <gemrtos_core.h>
 #include <grtos.h>
 
 #include "priv/alt_irq_table.h"

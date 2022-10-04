@@ -31,7 +31,6 @@
 #ifndef MQ_H_
 #define MQ_H_
 
-#include <grtosuserapi.h>
 
 
 /**

@@ -31,6 +31,7 @@
 #ifndef GEMRTOS_CORE_H_
 #define GEMRTOS_CORE_H_
 
+#include <grtosdefinitions.h>
 
 /************************************************************************************
  *  System constants definitions
@@ -38,6 +39,56 @@
 #define G_FALSE             0u
 #define G_TRUE              1u
 
+
+/************************************************************************************
+ *  GRTOS TYPE DEFINITIONS
+ ************************************************************************************/
+
+typedef struct gs_kcb      GS_KCB;
+typedef struct gs_pcb      GS_PCB;
+typedef struct gs_lcb      GS_LCB;
+typedef struct gs_tcb      GS_TCB;
+typedef struct gs_ecb      GS_ECB;
+typedef struct gs_scb      GS_SCB; 
+typedef struct gs_rrds     GS_RRDS;
+typedef struct g_rgb       G_RCB;
+typedef struct gs_mcb      GS_MCB; 
+typedef struct g_rgb       t_message_resource; 
+typedef struct g_rgb       t_semaphore_resource;
+
+
+/* This is the definition for Nios32.  */
+typedef unsigned long long INT64;
+typedef unsigned           INT32;       /* Unsigned 32 bit quantity      */
+typedef unsigned int       GS_STK;      /* Type to Stack Pointers        */
+
+typedef unsigned long long gt_time;
+typedef unsigned long long gt_priority;
+
+
+typedef union timepriority {
+	INT64 i64;
+	INT32 i32[2];
+} TIMEPRIORITY;
+
+
+typedef struct gs_tm {
+	int	tm_msec;	/* Seconds: 0-59 (K&R says 0-61?) */
+	int	tm_sec;		/* Seconds: 0-59 (K&R says 0-61?) */
+	int	tm_min;		/* Minutes: 0-59 */
+	int	tm_hour;	/* Hours since midnight: 0-23 */
+	int	tm_day;     /* Day of the month: 1-31 */
+	int	tm_year;	/* Years since 1900 */
+} gt_tm;
+
+/**
+ *  gs_ext_isr Struct to hold the actions associated  with external events. They are hold in g_kcb structure
+ */
+struct gs_ext_isr {
+    struct gs_tcb *G_TCB_ISR;        /** Pointers to the first ISR TCBs for each interrupt number */
+    INT32         G_EXT_INT_Count;  /** Holds the number of ISR released, when 0 enable it again */
+    gt_priority   G_EXT_ISR_Timeout; /** Holds the timeout of the interrupts                      */
+};
 
 /************************************************************************************
  *  GeMRTOS DATA STRUCTURES
@@ -438,6 +489,62 @@ struct gs_tcb
 #define G_TCBType_IDLE                          5u   ///< \brief Task type IDLE. It is executed when processor is not assigned to task \ingroup TCBType
 #define G_TCBType_UNDEFINED                     7u   ///< \brief Task type UNDEFIEND. Wehn not a specific type is given to the task    \ingroup TCBType
 
+/*
+*********************************************************************************************************
+*    SYSTEM VARIABLES
+*********************************************************************************************************
+*/
+
+
+extern volatile int G_DEBUG_SAMPLE_BEGIN_ENABLE;
+extern volatile int G_DEBUG_SAMPLE_END_ENABLE;
+
+extern volatile INT32  G_Running;      
+extern volatile INT32  gs_sizeof_G_PCBTbl;
+extern volatile void   *gs_addressof_G_PCBTbl;
+extern volatile INT32  gs_offsetof_PCB_EXECTCB;
+extern volatile INT32  gs_offsetof_TCB_StackPointer;
+extern volatile INT32  gs_offsetof_PCB_IDLETCB;
+
+
+extern GS_KCB g_kcb;
+
+//Variable to interface C and assembler
+extern volatile GS_STK G_TCB_CURRENT;
+extern volatile INT32  G_SCB_PENDING;
+extern volatile INT32  G_SCB_CODE;
+extern volatile INT32  G_SCB_ARG;
+
+// extern volatile int GRTOS_S_PROCESSOR1_IRQ_INTERRUPT_CONTROLLER_ID;
+extern volatile int GRTOS_S_PROCESSOR1_IRQ;
+
+extern volatile int G_IRQ_ENABLED;
+extern volatile int G_IRQ_PENDING;
+
+extern volatile INT32 GRTOS_MutexReleaseRegisterAddress;
+extern volatile INT32 GRTOS_MutexRequestRegisterAddress;
+extern volatile INT32 GRTOS_InterruptEnableRegisterAddress;
+extern volatile INT32 GRTOS_InterruptDisableRegisterAddress;  
+
+extern FILE* fpuart[G_NUMBER_OF_PCB];
+
+extern volatile INT32 G_TASK_TYPE_DEFAULT;
+extern volatile GS_LCB *G_TASK_LCB_DEFAULT;
+extern volatile INT64 G_TASK_PRIORITY_DEFAULT;
+extern volatile INT64 G_TASK_PERIOD_DEFAULT;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /// Core functions definitions
 GS_ECB *gk_Get_ECB(void);
@@ -448,6 +555,296 @@ GS_LCB *gk_Get_LCB(void);
 INT32 gk_Create_PCBs(int Nmbr_PCB);
 
 
+/***************************************************************/
+/* INTERNAL SYSTEM FUNCTIONS                                   */
+/***************************************************************/
+gt_time gu_get_mutex_time(void);
+INT32     gk_TCBLowerPriorityThanTCB(GS_TCB *ptcb1, GS_TCB *ptcb2);
+INT32   gk_LCB_CheckInvertion(void);
+INT32    gk_SetLowestProcessor(void);
+INT32    gk_SetNextTimeProcessor(void);
+INT32     gk_LCBLowerPriorityThanLCB(GS_LCB *plcb1, GS_LCB *plcb2);
+GS_TCB *gk_PCB_GetNextTCB(void);
+GS_TCB *gk_PCB_GetCurrentTCB(void);
+
+/***************************************************************/
+/* debug function                                              */
+/***************************************************************/
+INT32 TCB_IsValid(GS_TCB *ptcb);
+
+INT32 LCB_IsValid(GS_LCB *plcb);
+
+INT32 PCB_IsValid(GS_PCB *ppcb);
+INT32 ECB_IsValid(GS_ECB *pevent);
+INT32 SCB_IsValid(GS_SCB *pscb);
+INT32 RCB_IsValid(void *prcb);
+INT32 RRDS_IsValid(GS_RRDS *prrds);
+
+INT32 TCBState_Valid(unsigned int tcbstate);
+INT32 TCBType_Valid(unsigned int tcbtype);
+INT32 ECBState_Valid(unsigned int ecbstate);
+INT32 ECBType_Valid(unsigned int ecbtype);
+
+INT32 IsAListorNull(GS_LCB *plcb);
+
+
+/***************************************************************/
+/*  LIST AND DATA STRUCTURES PROTOTYPES                        */
+/***************************************************************/
+
+INT32   gk_ECBAEL_Link(GS_ECB *pevent1, GS_ECB *pevent2);
+INT32   gk_ECBAEL_Remove(GS_ECB *pevent);
+
+void    gk_ECBASL_Link(GS_ECB *pevent, GS_SCB *psignal);
+INT32   gk_ECBASL_Unlink(GS_ECB *pevent, GS_SCB *psignal);
+GS_SCB *gk_ECBASL_GetSCB(GS_ECB *pevent, INT32 SignalType);
+
+GS_ECB *gk_ECB_GetFree(void);
+// INT32   gk_ECBFL_Link(GS_ECB *pevent);
+
+extern INT32    gk_ECBTL_Link (GS_ECB *pevent);
+extern INT32    gk_ECBTL_Unlink(GS_ECB *pevent);
+
+INT32    gk_KCBASL_Link(GS_SCB *psignal);
+INT32   gk_KCBASL_Unlink(GS_SCB *psignal);
+INT32    gk_LCBL_Link(GS_LCB *plcb);
+GS_SCB *gk_KCBASL_GetSCB(INT32 SignalType);
+
+INT32    gk_LCBFPL_Link(int processorID);
+INT32    gk_LCBFPL_Unlink(int processorID);
+
+INT32    gk_LCBL_UnLink(GS_LCB *plcb);
+//void    gk_LCB_Link_to_LCB_List(GS_LCB *plcb);
+
+// GS_MCB *gk_MCB_GetFree(void);
+// void    gk_MCBFL_Link(GS_MCB *pmcb);
+
+// int     gk_MCBQL_Link(GS_MCB *pmcb, G_RCB * prcb);
+// void    gk_MCBQL_Unlink(GS_MCB *pmcb, G_RCB * prcb);
+
+void    gk_PCBInit(void);
+
+G_RCB  *gk_RCB_GetFree(void);
+INT32    gk_RCBFL_Link(G_RCB *presource);
+
+INT32 gk_TASK_RELEASE(GS_TCB *ptcb);
+INT32 gk_TASK_RESOURCE_WAIT(G_RCB *presource, GS_ECB *pevent);
+INT32 gk_TASK_RESOURCE_UNWAIT(G_RCB *presource, GS_ECB *pevent);
+INT32 gk_TASK_RESOURCE_GRANT(G_RCB *presource, GS_ECB *pevent);
+INT32 gk_TASK_RESOURCE_UNGRANT(G_RCB *presource, GS_ECB *pevent) ;
+GS_ECB *gk_TASK_RESOURCE_CREATE(G_RCB *presource, 
+                                GS_TCB  *ptcb, 
+                                INT64 waiting_priority,
+		                        INT64 RCBGrantedPriority,
+			                    INT64 RCBWaitingTimeout,
+				                INT64 RCBGrantedTimeout);
+INT32 gk_TASK_RESOURCE_DESTROY(GS_ECB *pevent);
+
+GS_ECB *gk_RCBGEL_Link(G_RCB *presource, GS_ECB *pevent);
+void    gk_RCBGEL_Unlink(GS_ECB *pevent);
+
+INT32    gk_RCBASL_Link(G_RCB *presource, GS_SCB *psignal);
+INT32    gk_RCBASL_Unlink(G_RCB *presource, GS_SCB *psignal);
+GS_SCB *gk_RCBASL_GetSCB(G_RCB *presource, INT32 SignalType);
+
+GS_ECB *gk_RCBWEL_Link(G_RCB *presource, GS_ECB *pevent);
+void    gk_RCBWEL_Unlink(GS_ECB *pevent);
+
+INT32    gk_RRDSASL_Link(GS_RRDS *prrds, GS_SCB *psignal);
+INT32    gk_RRDSASL_UnLink(GS_RRDS *prrds, GS_SCB *psignal);
+GS_SCB *gk_RRDSASL_GetSCB(GS_RRDS *prrds, INT32 SignalType);
+
+GS_RRDS *gk_RRDS_GetFree(void);
+INT32    gk_RRDSFL_Link(GS_RRDS *prrds);
+
+INT32    gk_SCBFL_Link(GS_SCB *psignal);
+GS_SCB *gk_SCB_GetFree(void);
+GS_SCB *gk_SCB_Copy(GS_SCB *psignal);
+
+void    gk_SCBAPSL_Link(GS_SCB *pscb_root, GS_SCB *pscb_pending);
+INT32   gk_SCBAPSL_UnLink(GS_SCB *pscb_root, GS_SCB *pscb_pending);
+
+GS_TCB *gk_TCB_GetFree(void);
+INT32    gk_TCB_Unlink(GS_TCB *ptcb);
+
+void    gk_TCBFL_Init(void);
+INT32    gk_TCBFL_Link(GS_TCB *ptcb);
+
+INT32    gk_TCBAEL_Link(GS_ECB *pevent, GS_TCB *ptcb);
+INT32    gk_TCBAEL_Unlink(GS_ECB *pevent);
+
+INT32    gk_TCBASL_Link(GS_TCB *ptcb, GS_SCB *psignal);
+INT32    gk_TCBASL_Unlink(GS_TCB *ptcb, GS_SCB *psignal);
+GS_SCB *gk_TCBASL_GetSCB(GS_TCB *ptcb, INT32 SignalType);
+INT32    gk_TCB_List_Unlink(GS_TCB *ptcb);
+INT32   gk_ECB_List_Unlink(GS_ECB *pevent);
+INT32   gk_ECBFL_Link(GS_ECB *pevent);
+
+INT32    gk_TCBPSL_Link(GS_TCB *ptcb, GS_SCB *psignal);
+INT32    gk_TCBPSL_Unlink(GS_TCB *ptcb, GS_SCB *psignal);
+GS_SCB *gk_TCBPSL_GetSCB(GS_TCB *ptcb, INT32 SignalType);
+
+INT32    gk_TCBRDYL_Link(GS_TCB *ptcb);
+INT32    gk_TCBRDYL_Unlink(GS_TCB *ptcb);
+
+INT32    gk_TCBRUNL_Link(GS_TCB *ptcb);
+INT32    gk_TCBRUNL_Unlink(GS_TCB *ptcb);
+
+INT32    gk_TCBWL_Link(GS_TCB *ptcb, unsigned int state);
+INT32    gk_TCBWL_Unlink(GS_TCB *ptcb);
+
+/***************************************************************/
+/*         TASK RELATED FUNCTIONS                              */
+/***************************************************************/
+// GS_TCB *gk_TASK_Create(void);
+INT32    gk_TASK_Kill(GS_TCB *ptcb);
+void    gk_KERNEL_TASK_SUSPEND(GS_TCB *ptcb);
+void    gk_KERNEL_TASK_SUSPEND_CURRENT(void);
+INT32   gk_TASK_IS_BLOCKED(GS_TCB *ptcb);
+GS_ECB *gk_TCB_in_RCBGEL(G_RCB *presource, GS_TCB *ptcb);
+INT32    gk_TASK_PRIORITY_SET(GS_TCB *ptcb, INT32 task_state);
+INT64   gk_TASK_GRANTED_PRIORITY_GET(GS_TCB *ptcb);
+INT32    gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB * ptcb);
+
+
+/***************************************************************/
+/*  INTERNAL ROUTINES FOR TASK EXECUTION                       */
+/***************************************************************/
+// void gk_Start_Main(void);
+void gk_KERNEL_TASK_START (void);
+void gk_ENTRY_IRQ_HANDLER (void);
+void GRTOS_Start_Task(void);
+void GRTOS_Suspend_Task(void);
+// void gk_INT_TASK_SWITCH(void);
+GS_TCB *gk_CreateTask(void *TaskCode,              
+                     void *p_arg,                  
+                     void *StkBotton,              
+                     unsigned int StkSize,         
+                     unsigned int TCBType,         
+                     INT64 TCBReadyPriority,       
+                     INT64 TCBRunPriority,         
+                     INT64 TCBDeadline,            
+                     INT64 TCBPeriod,              
+                     GS_LCB *TCB_RDY_LCB_Index,        
+                     int TCB_Abort_w_Deadline,     
+                     INT64 TCBInherPriority, int TCB_INTNumber); 
+                     
+INT32 gk_TASK_STK_Init(GS_TCB *ptcb);
+// void gk_TASK_TCB_Init (GS_TCB *ptcb);
+// void gk_INIT_IRQ(void);
+// void gk_KERNEL_TIME_IRQ_HANDLER (void);
+void gk_TIME_CALLBACK(GS_ECB *event);
+void gk_RESOURCE_ECB_KILL_CALLBACK(GS_ECB *pevent);
+void gk_FROZEN_CALLBACK(void);
+void gk_INIT_KERNEL(void);
+void gk_KERNEL_TASK_COMPLETE(void);
+void GRTOS_Task_GetPendingSCB(void);
+// void gk_KERNEL_FROZEN_IRQ_HANDLER(void);
+void gk_RST_MONITOR_HANDLER (void);
+
+
+/***************************************************************/
+/*  SYSTEM TASKS                                               */
+/***************************************************************/
+void gk_ENTRY_SIGNAL_RETURN(void);
+void gk_CODE_IDLE_TASK(void* pdata);
+
+
+
+INT32  gu_TASK_Sleep(INT32 hours, INT32 minutes, INT32 seconds, INT32 ms);
+INT32  gu_TASK_Sleep_Time(gt_time ticks);
+
+/**
+ *  Function Headers for user usage
+ */
+int     gu_Get_CPU_ID(void);
+gt_time gu_Get_Next_Occurrence_Time(void);
+gt_tm   gu_Clock(gt_time gtime);
+
+/**
+ *  Default setting functions
+ */
+INT32 gu_Set_Default_Task_Type(unsigned int type);
+INT32 gu_Get_Default_Task_Type(void);
+INT32 gu_Set_Default_Task_List(GS_LCB * list);
+INT32 gu_Get_Default_Task_List(void);
+void gu_Set_Default_Task_Priority(INT32 level, INT32 priority);
+void gu_Set_Default_Task_Period(INT32 hours, INT32 minutes, INT32 seconds, INT32 ms);
+INT32 gu_SetTaskType(struct gs_tcb *ptcb, unsigned int type);
+INT32 gu_SetTaskList(struct gs_tcb *ptcb, struct gs_lcb *plcb);
+INT32 gu_SetTaskReadyPriority(struct gs_tcb *ptcb, long long priority);
+INT32 gu_SetTaskRunPriority(struct gs_tcb *ptcb, long long priority);
+INT32 gu_SetTaskDeadline(struct gs_tcb *ptcb, unsigned int hours, unsigned int minutes, unsigned int seconds, unsigned int ms);
+INT32 gu_SetTaskPeriod(struct gs_tcb *ptcb, unsigned int hours, unsigned int minutes, unsigned int seconds, unsigned int ms);
+INT32 gu_SetTaskAbortwhenDeadline(struct gs_tcb *ptcb, unsigned int abort_when_deadline);
+INT32 gu_StartTaskwithOffset(struct gs_tcb *ptcb,unsigned int hours, unsigned int minutes, unsigned int seconds, unsigned int ms);
+
+
+/**
+ * Task related functions 
+ */
+ 
+void *gu_GetTask(void         *TaskCode,   
+				 void         *p_arg,      
+				 void         *StkBotton,  
+                 unsigned int  StkSize);	
+ 
+
+INT32   gu_TASK_Kill(GS_TCB *ptcb);
+INT32   gu_TASK_SUSPEND(GS_TCB *ptcb);
+INT32   gu_TASK_RESUME(GS_TCB *ptcb);
+INT32   gu_TASK_IS_BLOCKED(GS_TCB *ptcb);
+
+
+ 
+
+/**
+ * Signal related functions
+ */
+GS_SCB *gu_signal_create(INT32 Type, INT32 Priority, void *pxcb, void *Signal_Code, void *Signal_Arg);
+INT32      gu_signal_destroy(GS_SCB *pscb);
+
+/**
+ * User functions for system status and control
+ */
+gt_time  gu_Convert_Time(INT32 days, INT32 hours, INT32 minutes, INT32 seconds, INT32 ms);
+INT32    gu_get_irq_status(void);
+INT32    gu_get_reserved_mutex_processor(void);
+gt_time gu_get_now(void);
+gt_time gu_get_frozen_threshold(void);
+
+void  gk_INIT_IRQ (void);
+INT32 gk_ISR_COMPLETE (GS_TCB *ptcb);
+void  gk_ISR_RELEASE (int irq_nbr);
+INT32 gu_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr);
+INT32 gk_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr);
+
+
+// *************************************************** //
+// *************************************************** //
+//// SYSTEM CALL TEMPLATE
+//void  gu_TASK_Sleep_Time(gt_time ticks)
+//{
+//	G_DEBUG_VERBOSE
+//    GRTOS_USER_CRITICAL_SECTION_GET;
+//    
+//        <PREVIOUS SUSPEND PROCEDURE >
+//    
+//	gk_KERNEL_TASK_SUSPEND_CURRENT();
+//    GRTOS_USER_CRITICAL_SECTION_GET;
+//    
+//        <AFTER SUSPEND PROCEDURE >
+//        
+//	GRTOS_CMD_CRITICAL_SECTION_RELEASE;
+//}
+// *************************************************** //
+// *************************************************** //
+
+
+/**
+ *  Monitor functions
+ */
+void gk_MONITOR_FIFO_SAMPLE(int data);
 
 
 
