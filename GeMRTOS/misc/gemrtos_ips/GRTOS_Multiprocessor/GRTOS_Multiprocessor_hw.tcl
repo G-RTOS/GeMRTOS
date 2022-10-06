@@ -746,6 +746,17 @@ proc compose { } {
     # Connections
     ##########################################
     
+    # ###################################### 06/10/2022
+    # connections and connection parameters
+    add_connection nios_avalon_monitor.bus_internal grtos_0.bus_internal conduit
+    set_connection_parameter_value nios_avalon_monitor.bus_internal/grtos_0.bus_internal endPort {}
+    set_connection_parameter_value nios_avalon_monitor.bus_internal/grtos_0.bus_internal endPortLSB {0}
+    set_connection_parameter_value nios_avalon_monitor.bus_internal/grtos_0.bus_internal startPort {}
+    set_connection_parameter_value nios_avalon_monitor.bus_internal/grtos_0.bus_internal startPortLSB {0}
+    set_connection_parameter_value nios_avalon_monitor.bus_internal/grtos_0.bus_internal width {0}
+    # ###################################### 06/10/2022
+    
+    
     # NIOS CONNECTION TO MONITOR
     for {set i 1} {$i <= $Processors} {incr i} {
         add_connection nios2_qsys_${i}.data_master nios_avalon_monitor.s${i} avalon

@@ -29,8 +29,11 @@ entity avalon_monitor is
         
 	port (
         clk         : in  std_logic;
-		reset       : in  std_logic; 		
-		
+		reset       : in  std_logic;
+
+        -- Ouput indicating a processor is in waiting
+		frozen_avalon_monitor  : out std_logic;
+        
 		-- Avalon Slave port to Access monitor Registers
 	    slave_AvalonMonitor_chipselect    : in std_logic;		
 		slave_AvalonMonitor_address       : in std_logic_vector(5 downto 0);
@@ -841,38 +844,40 @@ end component;
     
     signal slave_AvalonMonitor_readdata_int : STD_LOGIC_VECTOR (ADDRESS_WIDTH - 1 downto 0);
     
-    signal i1_empty, i1_full, i1_fifo_store, i1_frozzen, i1_read_fifo,      i1_almost_full    : STD_LOGIC;
-    signal i2_empty, i2_full, i2_fifo_store, i2_frozzen, i2_read_fifo,      i2_almost_full    : STD_LOGIC;
-    signal i3_empty, i3_full, i3_fifo_store, i3_frozzen, i3_read_fifo,      i3_almost_full    : STD_LOGIC;
-    signal i4_empty, i4_full, i4_fifo_store, i4_frozzen, i4_read_fifo,      i4_almost_full    : STD_LOGIC;
-    signal i5_empty, i5_full, i5_fifo_store, i5_frozzen, i5_read_fifo,      i5_almost_full    : STD_LOGIC;
-    signal i6_empty, i6_full, i6_fifo_store, i6_frozzen, i6_read_fifo,      i6_almost_full    : STD_LOGIC;
-    signal i7_empty, i7_full, i7_fifo_store, i7_frozzen, i7_read_fifo,      i7_almost_full    : STD_LOGIC;
-    signal i8_empty, i8_full, i8_fifo_store, i8_frozzen, i8_read_fifo,      i8_almost_full    : STD_LOGIC;
-    signal i9_empty, i9_full, i9_fifo_store, i9_frozzen, i9_read_fifo,      i9_almost_full    : STD_LOGIC;
-    signal i10_empty, i10_full, i10_fifo_store, i10_frozzen, i10_read_fifo, i10_almost_full        : STD_LOGIC; 
-    signal i11_empty, i11_full, i11_fifo_store, i11_frozzen, i11_read_fifo, i11_almost_full        : STD_LOGIC;
-    signal i12_empty, i12_full, i12_fifo_store, i12_frozzen, i12_read_fifo, i12_almost_full        : STD_LOGIC;
-    signal i13_empty, i13_full, i13_fifo_store, i13_frozzen, i13_read_fifo, i13_almost_full        : STD_LOGIC;
-    signal i14_empty, i14_full, i14_fifo_store, i14_frozzen, i14_read_fifo, i14_almost_full        : STD_LOGIC;
-    signal i15_empty, i15_full, i15_fifo_store, i15_frozzen, i15_read_fifo, i15_almost_full        : STD_LOGIC;
-    signal i16_empty, i16_full, i16_fifo_store, i16_frozzen, i16_read_fifo, i16_almost_full        : STD_LOGIC;
-    signal i17_empty, i17_full, i17_fifo_store, i17_frozzen, i17_read_fifo, i17_almost_full        : STD_LOGIC;
-    signal i18_empty, i18_full, i18_fifo_store, i18_frozzen, i18_read_fifo, i18_almost_full        : STD_LOGIC;
-    signal i19_empty, i19_full, i19_fifo_store, i19_frozzen, i19_read_fifo, i19_almost_full        : STD_LOGIC;
-    signal i20_empty, i20_full, i20_fifo_store, i20_frozzen, i20_read_fifo, i20_almost_full        : STD_LOGIC; 
-    signal i21_empty, i21_full, i21_fifo_store, i21_frozzen, i21_read_fifo, i21_almost_full        : STD_LOGIC;
-    signal i22_empty, i22_full, i22_fifo_store, i22_frozzen, i22_read_fifo, i22_almost_full        : STD_LOGIC;
-    signal i23_empty, i23_full, i23_fifo_store, i23_frozzen, i23_read_fifo, i23_almost_full        : STD_LOGIC;
-    signal i24_empty, i24_full, i24_fifo_store, i24_frozzen, i24_read_fifo, i24_almost_full        : STD_LOGIC;
-    signal i25_empty, i25_full, i25_fifo_store, i25_frozzen, i25_read_fifo, i25_almost_full        : STD_LOGIC;
-    signal i26_empty, i26_full, i26_fifo_store, i26_frozzen, i26_read_fifo, i26_almost_full        : STD_LOGIC;
-    signal i27_empty, i27_full, i27_fifo_store, i27_frozzen, i27_read_fifo, i27_almost_full        : STD_LOGIC;
-    signal i28_empty, i28_full, i28_fifo_store, i28_frozzen, i28_read_fifo, i28_almost_full        : STD_LOGIC;
-    signal i29_empty, i29_full, i29_fifo_store, i29_frozzen, i29_read_fifo, i29_almost_full        : STD_LOGIC;
-    signal i30_empty, i30_full, i30_fifo_store, i30_frozzen, i30_read_fifo, i30_almost_full        : STD_LOGIC; 
-    signal i31_empty, i31_full, i31_fifo_store, i31_frozzen, i31_read_fifo, i31_almost_full        : STD_LOGIC;
-    signal i32_empty, i32_full, i32_fifo_store, i32_frozzen, i32_read_fifo, i32_almost_full        : STD_LOGIC;    
+    signal i_frozzen : STD_LOGIC_VECTOR(32 downto 1);
+    
+    signal i1_empty, i1_full, i1_fifo_store, i1_read_fifo,      i1_almost_full    : STD_LOGIC;
+    signal i2_empty, i2_full, i2_fifo_store, i2_read_fifo,      i2_almost_full    : STD_LOGIC;
+    signal i3_empty, i3_full, i3_fifo_store, i3_read_fifo,      i3_almost_full    : STD_LOGIC;
+    signal i4_empty, i4_full, i4_fifo_store, i4_read_fifo,      i4_almost_full    : STD_LOGIC;
+    signal i5_empty, i5_full, i5_fifo_store, i5_read_fifo,      i5_almost_full    : STD_LOGIC;
+    signal i6_empty, i6_full, i6_fifo_store, i6_read_fifo,      i6_almost_full    : STD_LOGIC;
+    signal i7_empty, i7_full, i7_fifo_store, i7_read_fifo,      i7_almost_full    : STD_LOGIC;
+    signal i8_empty, i8_full, i8_fifo_store, i8_read_fifo,      i8_almost_full    : STD_LOGIC;
+    signal i9_empty, i9_full, i9_fifo_store, i9_read_fifo,      i9_almost_full    : STD_LOGIC;
+    signal i10_empty, i10_full, i10_fifo_store, i10_read_fifo, i10_almost_full        : STD_LOGIC; 
+    signal i11_empty, i11_full, i11_fifo_store, i11_read_fifo, i11_almost_full        : STD_LOGIC;
+    signal i12_empty, i12_full, i12_fifo_store, i12_read_fifo, i12_almost_full        : STD_LOGIC;
+    signal i13_empty, i13_full, i13_fifo_store, i13_read_fifo, i13_almost_full        : STD_LOGIC;
+    signal i14_empty, i14_full, i14_fifo_store, i14_read_fifo, i14_almost_full        : STD_LOGIC;
+    signal i15_empty, i15_full, i15_fifo_store, i15_read_fifo, i15_almost_full        : STD_LOGIC;
+    signal i16_empty, i16_full, i16_fifo_store, i16_read_fifo, i16_almost_full        : STD_LOGIC;
+    signal i17_empty, i17_full, i17_fifo_store, i17_read_fifo, i17_almost_full        : STD_LOGIC;
+    signal i18_empty, i18_full, i18_fifo_store, i18_read_fifo, i18_almost_full        : STD_LOGIC;
+    signal i19_empty, i19_full, i19_fifo_store, i19_read_fifo, i19_almost_full        : STD_LOGIC;
+    signal i20_empty, i20_full, i20_fifo_store, i20_read_fifo, i20_almost_full        : STD_LOGIC; 
+    signal i21_empty, i21_full, i21_fifo_store, i21_read_fifo, i21_almost_full        : STD_LOGIC;
+    signal i22_empty, i22_full, i22_fifo_store, i22_read_fifo, i22_almost_full        : STD_LOGIC;
+    signal i23_empty, i23_full, i23_fifo_store, i23_read_fifo, i23_almost_full        : STD_LOGIC;
+    signal i24_empty, i24_full, i24_fifo_store, i24_read_fifo, i24_almost_full        : STD_LOGIC;
+    signal i25_empty, i25_full, i25_fifo_store, i25_read_fifo, i25_almost_full        : STD_LOGIC;
+    signal i26_empty, i26_full, i26_fifo_store, i26_read_fifo, i26_almost_full        : STD_LOGIC;
+    signal i27_empty, i27_full, i27_fifo_store, i27_read_fifo, i27_almost_full        : STD_LOGIC;
+    signal i28_empty, i28_full, i28_fifo_store, i28_read_fifo, i28_almost_full        : STD_LOGIC;
+    signal i29_empty, i29_full, i29_fifo_store, i29_read_fifo, i29_almost_full        : STD_LOGIC;
+    signal i30_empty, i30_full, i30_fifo_store, i30_read_fifo, i30_almost_full        : STD_LOGIC; 
+    signal i31_empty, i31_full, i31_fifo_store, i31_read_fifo, i31_almost_full        : STD_LOGIC;
+    signal i32_empty, i32_full, i32_fifo_store, i32_read_fifo, i32_almost_full        : STD_LOGIC;    
 
     
     -- signal counter                    : signed(15 downto 0);
@@ -887,7 +892,15 @@ end component;
     
 
 begin
-
+    process(reset, clk) is
+        variable frozen_out_i : STD_LOGIC;
+	begin 
+        frozen_out_i := '0';
+        for i in 1 to NProcessors loop
+            frozen_out_i := frozen_out_i or i_frozzen(i);
+        end loop;
+        frozen_avalon_monitor <= frozen_out_i;
+    end process;
     -- #######################################################################################################################
     
     u1: STD_FIFO 
@@ -913,7 +926,7 @@ begin
                      '1' when slave_AvalonMonitor_read = '0' and prev_AvalonMonitor_read = '1' and prev_AvalonMonitor_address = ADDR_FIFO_0 else 
                      '0';
 
-    i1_frozzen    <= '1' when ((i1_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i1_address_prev /=  s1_address and  s1_read = '1' else 
+    i_frozzen(1)    <= '1' when ((i1_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i1_address_prev /=  s1_address and  s1_read = '1' else 
                      '0';
     
     -- #######################################################################################################################
@@ -1105,37 +1118,37 @@ begin
     i31_read_fifo <= '1' when i31_empty = '0' and R_CTRL(2) = '1' else '1' when i31_almost_full = '1' and R_CTRL(0) = '0' else '1' when slave_AvalonMonitor_read = '0' and prev_AvalonMonitor_read = '1' and prev_AvalonMonitor_address = ADDR_FIFO_30 else '0';
     i32_read_fifo <= '1' when i32_empty = '0' and R_CTRL(2) = '1' else '1' when i32_almost_full = '1' and R_CTRL(0) = '0' else '1' when slave_AvalonMonitor_read = '0' and prev_AvalonMonitor_read = '1' and prev_AvalonMonitor_address = ADDR_FIFO_31 else '0';
 
-    i2_frozzen    <= '1' when ((i2_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i2_address_prev /=  s2_address and  s2_read = '1' else '0';
-    i3_frozzen    <= '1' when ((i3_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i3_address_prev /=  s3_address and  s3_read = '1' else '0';
-    i4_frozzen    <= '1' when ((i4_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i4_address_prev /=  s4_address and  s4_read = '1' else '0';
-    i5_frozzen    <= '1' when ((i5_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i5_address_prev /=  s5_address and  s5_read = '1' else '0';
-    i6_frozzen    <= '1' when ((i6_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i6_address_prev /=  s6_address and  s6_read = '1' else '0';
-    i7_frozzen    <= '1' when ((i7_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i7_address_prev /=  s7_address and  s7_read = '1' else '0';
-    i8_frozzen    <= '1' when ((i8_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i8_address_prev /=  s8_address and  s8_read = '1' else '0';
-    i9_frozzen    <= '1' when ((i9_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i9_address_prev /=  s9_address and  s9_read = '1' else '0';
-    i10_frozzen   <= '1' when ((i10_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i10_address_prev /= s10_address and s10_read = '1' else '0';    
-    i11_frozzen   <= '1' when ((i11_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i11_address_prev /= s11_address and s11_read = '1' else '0';
-    i12_frozzen   <= '1' when ((i12_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i12_address_prev /= s12_address and s12_read = '1' else '0';
-    i13_frozzen   <= '1' when ((i13_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i13_address_prev /= s13_address and s13_read = '1' else '0';
-    i14_frozzen   <= '1' when ((i14_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i14_address_prev /= s14_address and s14_read = '1' else '0';
-    i15_frozzen   <= '1' when ((i15_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i15_address_prev /= s15_address and s15_read = '1' else '0';
-    i16_frozzen   <= '1' when ((i16_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i16_address_prev /= s16_address and s16_read = '1' else '0';
-    i17_frozzen   <= '1' when ((i17_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i17_address_prev /= s17_address and s17_read = '1' else '0';
-    i18_frozzen   <= '1' when ((i18_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i18_address_prev /= s18_address and s18_read = '1' else '0';
-    i19_frozzen   <= '1' when ((i19_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i19_address_prev /= s19_address and s19_read = '1' else '0';
-    i20_frozzen   <= '1' when ((i20_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i20_address_prev /= s20_address and s20_read = '1' else '0';    
-    i21_frozzen   <= '1' when ((i21_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i21_address_prev /= s21_address and s21_read = '1' else '0';
-    i22_frozzen   <= '1' when ((i22_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i22_address_prev /= s22_address and s22_read = '1' else '0';
-    i23_frozzen   <= '1' when ((i23_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i23_address_prev /= s23_address and s23_read = '1' else '0';
-    i24_frozzen   <= '1' when ((i24_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i24_address_prev /= s24_address and s24_read = '1' else '0';
-    i25_frozzen   <= '1' when ((i25_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i25_address_prev /= s25_address and s25_read = '1' else '0';
-    i26_frozzen   <= '1' when ((i26_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i26_address_prev /= s26_address and s26_read = '1' else '0';
-    i27_frozzen   <= '1' when ((i27_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i27_address_prev /= s27_address and s27_read = '1' else '0';
-    i28_frozzen   <= '1' when ((i28_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i28_address_prev /= s28_address and s28_read = '1' else '0';
-    i29_frozzen   <= '1' when ((i29_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i29_address_prev /= s29_address and s29_read = '1' else '0';    
-    i30_frozzen   <= '1' when ((i30_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i30_address_prev /= s30_address and s30_read = '1' else '0';    
-    i31_frozzen   <= '1' when ((i31_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i31_address_prev /= s31_address and s31_read = '1' else '0';
-    i32_frozzen   <= '1' when ((i32_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i32_address_prev /= s32_address and s32_read = '1' else '0';
+    i_frozzen(2)    <= '1' when ((i2_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i2_address_prev /=  s2_address and  s2_read = '1' else '0';
+    i_frozzen(3)    <= '1' when ((i3_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i3_address_prev /=  s3_address and  s3_read = '1' else '0';
+    i_frozzen(4)    <= '1' when ((i4_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i4_address_prev /=  s4_address and  s4_read = '1' else '0';
+    i_frozzen(5)    <= '1' when ((i5_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i5_address_prev /=  s5_address and  s5_read = '1' else '0';
+    i_frozzen(6)    <= '1' when ((i6_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i6_address_prev /=  s6_address and  s6_read = '1' else '0';
+    i_frozzen(7)    <= '1' when ((i7_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i7_address_prev /=  s7_address and  s7_read = '1' else '0';
+    i_frozzen(8)    <= '1' when ((i8_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i8_address_prev /=  s8_address and  s8_read = '1' else '0';
+    i_frozzen(9)    <= '1' when ((i9_full = '1'  and R_CTRL(0) = '1') or R_CTRL(1) = '1') and  i9_address_prev /=  s9_address and  s9_read = '1' else '0';
+    i_frozzen(10)   <= '1' when ((i10_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i10_address_prev /= s10_address and s10_read = '1' else '0';    
+    i_frozzen(11)   <= '1' when ((i11_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i11_address_prev /= s11_address and s11_read = '1' else '0';
+    i_frozzen(12)   <= '1' when ((i12_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i12_address_prev /= s12_address and s12_read = '1' else '0';
+    i_frozzen(13)   <= '1' when ((i13_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i13_address_prev /= s13_address and s13_read = '1' else '0';
+    i_frozzen(14)   <= '1' when ((i14_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i14_address_prev /= s14_address and s14_read = '1' else '0';
+    i_frozzen(15)   <= '1' when ((i15_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i15_address_prev /= s15_address and s15_read = '1' else '0';
+    i_frozzen(16)   <= '1' when ((i16_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i16_address_prev /= s16_address and s16_read = '1' else '0';
+    i_frozzen(17)   <= '1' when ((i17_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i17_address_prev /= s17_address and s17_read = '1' else '0';
+    i_frozzen(18)   <= '1' when ((i18_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i18_address_prev /= s18_address and s18_read = '1' else '0';
+    i_frozzen(19)   <= '1' when ((i19_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i19_address_prev /= s19_address and s19_read = '1' else '0';
+    i_frozzen(20)   <= '1' when ((i20_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i20_address_prev /= s20_address and s20_read = '1' else '0';    
+    i_frozzen(21)   <= '1' when ((i21_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i21_address_prev /= s21_address and s21_read = '1' else '0';
+    i_frozzen(22)   <= '1' when ((i22_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i22_address_prev /= s22_address and s22_read = '1' else '0';
+    i_frozzen(23)   <= '1' when ((i23_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i23_address_prev /= s23_address and s23_read = '1' else '0';
+    i_frozzen(24)   <= '1' when ((i24_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i24_address_prev /= s24_address and s24_read = '1' else '0';
+    i_frozzen(25)   <= '1' when ((i25_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i25_address_prev /= s25_address and s25_read = '1' else '0';
+    i_frozzen(26)   <= '1' when ((i26_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i26_address_prev /= s26_address and s26_read = '1' else '0';
+    i_frozzen(27)   <= '1' when ((i27_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i27_address_prev /= s27_address and s27_read = '1' else '0';
+    i_frozzen(28)   <= '1' when ((i28_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i28_address_prev /= s28_address and s28_read = '1' else '0';
+    i_frozzen(29)   <= '1' when ((i29_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i29_address_prev /= s29_address and s29_read = '1' else '0';    
+    i_frozzen(30)   <= '1' when ((i30_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i30_address_prev /= s30_address and s30_read = '1' else '0';    
+    i_frozzen(31)   <= '1' when ((i31_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i31_address_prev /= s31_address and s31_read = '1' else '0';
+    i_frozzen(32)   <= '1' when ((i32_full = '1' and R_CTRL(0) = '1') or R_CTRL(1) = '1') and i32_address_prev /= s32_address and s32_read = '1' else '0';
 
 
 Slave_Avalon_Read:
@@ -1197,10 +1210,10 @@ Control_register:
     m1_writedata      <= s1_writedata;
     m1_address        <= s1_address;
     m1_write          <= s1_write;
-    m1_read           <= s1_read when i1_frozzen = '0' else '0';
+    m1_read           <= s1_read when i_frozzen(1) = '0' else '0';
     m1_byteenable     <= s1_byteenable;
     m1_debugaccess    <= s1_debugaccess;
-    s1_waitrequest    <= m1_waitrequest when i1_frozzen = '0' else '1';
+    s1_waitrequest    <= m1_waitrequest when i_frozzen(1) = '0' else '1';
     s1_readdatavalid  <= m1_readdatavalid;
     s1_readdata       <= m1_readdata;
 
@@ -1208,10 +1221,10 @@ Control_register:
     m2_writedata      <= s2_writedata;
     m2_address        <= s2_address;
     m2_write          <= s2_write;
-    m2_read           <= s2_read when i2_frozzen = '0' else '0';
+    m2_read           <= s2_read when i_frozzen(2) = '0' else '0';
     m2_byteenable     <= s2_byteenable;
     m2_debugaccess    <= s2_debugaccess;
-    s2_waitrequest    <= m2_waitrequest when i2_frozzen = '0' else '1';
+    s2_waitrequest    <= m2_waitrequest when i_frozzen(2) = '0' else '1';
     s2_readdatavalid  <= m2_readdatavalid;
     s2_readdata       <= m2_readdata;
     
@@ -1219,10 +1232,10 @@ Control_register:
     m3_writedata      <= s3_writedata;
     m3_address        <= s3_address;
     m3_write          <= s3_write;
-    m3_read           <= s3_read when i3_frozzen = '0' else '0';
+    m3_read           <= s3_read when i_frozzen(3) = '0' else '0';
     m3_byteenable     <= s3_byteenable;
     m3_debugaccess    <= s3_debugaccess;
-    s3_waitrequest    <= m3_waitrequest when i3_frozzen = '0' else '1';
+    s3_waitrequest    <= m3_waitrequest when i_frozzen(3) = '0' else '1';
     s3_readdatavalid  <= m3_readdatavalid;
     s3_readdata       <= m3_readdata;
 
@@ -1230,10 +1243,10 @@ Control_register:
     m4_writedata      <= s4_writedata;
     m4_address        <= s4_address;
     m4_write          <= s4_write;
-    m4_read           <= s4_read when i4_frozzen = '0' else '0';
+    m4_read           <= s4_read when i_frozzen(4) = '0' else '0';
     m4_byteenable     <= s4_byteenable;
     m4_debugaccess    <= s4_debugaccess;
-    s4_waitrequest    <= m4_waitrequest when i4_frozzen = '0' else '1';
+    s4_waitrequest    <= m4_waitrequest when i_frozzen(4) = '0' else '1';
     s4_readdatavalid  <= m4_readdatavalid;
     s4_readdata       <= m4_readdata;
 
@@ -1241,10 +1254,10 @@ Control_register:
     m5_writedata      <= s5_writedata;
     m5_address        <= s5_address;
     m5_write          <= s5_write;
-    m5_read           <= s5_read when i5_frozzen = '0' else '0';
+    m5_read           <= s5_read when i_frozzen(5) = '0' else '0';
     m5_byteenable     <= s5_byteenable;
     m5_debugaccess    <= s5_debugaccess;
-    s5_waitrequest    <= m5_waitrequest when i5_frozzen = '0' else '1';
+    s5_waitrequest    <= m5_waitrequest when i_frozzen(5) = '0' else '1';
     s5_readdatavalid  <= m5_readdatavalid;
     s5_readdata       <= m5_readdata;
 
@@ -1252,10 +1265,10 @@ Control_register:
     m6_writedata      <= s6_writedata;
     m6_address        <= s6_address;
     m6_write          <= s6_write;
-    m6_read           <= s6_read when i6_frozzen = '0' else '0';
+    m6_read           <= s6_read when i_frozzen(6) = '0' else '0';
     m6_byteenable     <= s6_byteenable;
     m6_debugaccess    <= s6_debugaccess;
-    s6_waitrequest    <= m6_waitrequest when i6_frozzen = '0' else '1';
+    s6_waitrequest    <= m6_waitrequest when i_frozzen(6) = '0' else '1';
     s6_readdatavalid  <= m6_readdatavalid;
     s6_readdata       <= m6_readdata;
 
@@ -1263,10 +1276,10 @@ Control_register:
     m7_writedata      <= s7_writedata;
     m7_address        <= s7_address;
     m7_write          <= s7_write;
-    m7_read           <= s7_read when i7_frozzen = '0' else '0';
+    m7_read           <= s7_read when i_frozzen(7) = '0' else '0';
     m7_byteenable     <= s7_byteenable;
     m7_debugaccess    <= s7_debugaccess;
-    s7_waitrequest    <= m7_waitrequest when i7_frozzen = '0' else '1';
+    s7_waitrequest    <= m7_waitrequest when i_frozzen(7) = '0' else '1';
     s7_readdatavalid  <= m7_readdatavalid;
     s7_readdata       <= m7_readdata;
 
@@ -1274,10 +1287,10 @@ Control_register:
     m8_writedata      <= s8_writedata;
     m8_address        <= s8_address;
     m8_write          <= s8_write;
-    m8_read           <= s8_read when i8_frozzen = '0' else '0';
+    m8_read           <= s8_read when i_frozzen(8) = '0' else '0';
     m8_byteenable     <= s8_byteenable;
     m8_debugaccess    <= s8_debugaccess;
-    s8_waitrequest    <= m8_waitrequest when i8_frozzen = '0' else '1';
+    s8_waitrequest    <= m8_waitrequest when i_frozzen(8) = '0' else '1';
     s8_readdatavalid  <= m8_readdatavalid;
     s8_readdata       <= m8_readdata;
 
@@ -1285,10 +1298,10 @@ Control_register:
     m9_writedata      <= s9_writedata;
     m9_address        <= s9_address;
     m9_write          <= s9_write;
-    m9_read           <= s9_read when i9_frozzen = '0' else '0';
+    m9_read           <= s9_read when i_frozzen(9) = '0' else '0';
     m9_byteenable     <= s9_byteenable;
     m9_debugaccess    <= s9_debugaccess;
-    s9_waitrequest    <= m9_waitrequest when i9_frozzen = '0' else '1';
+    s9_waitrequest    <= m9_waitrequest when i_frozzen(9) = '0' else '1';
     s9_readdatavalid  <= m9_readdatavalid;
     s9_readdata       <= m9_readdata;
 
@@ -1296,10 +1309,10 @@ Control_register:
     m10_writedata      <= s10_writedata;
     m10_address        <= s10_address;
     m10_write          <= s10_write;
-    m10_read           <= s10_read when i10_frozzen = '0' else '0';
+    m10_read           <= s10_read when i_frozzen(10) = '0' else '0';
     m10_byteenable     <= s10_byteenable;
     m10_debugaccess    <= s10_debugaccess;
-    s10_waitrequest    <= m10_waitrequest when i10_frozzen = '0' else '1';
+    s10_waitrequest    <= m10_waitrequest when i_frozzen(10) = '0' else '1';
     s10_readdatavalid  <= m10_readdatavalid;
     s10_readdata       <= m10_readdata;
 
@@ -1307,10 +1320,10 @@ Control_register:
     m11_writedata      <= s11_writedata;
     m11_address        <= s11_address;
     m11_write          <= s11_write;
-    m11_read           <= s11_read when i11_frozzen = '0' else '0';
+    m11_read           <= s11_read when i_frozzen(11) = '0' else '0';
     m11_byteenable     <= s11_byteenable;
     m11_debugaccess    <= s11_debugaccess;
-    s11_waitrequest    <= m11_waitrequest when i11_frozzen = '0' else '1';
+    s11_waitrequest    <= m11_waitrequest when i_frozzen(11) = '0' else '1';
     s11_readdatavalid  <= m11_readdatavalid;
     s11_readdata       <= m11_readdata;
 
@@ -1318,10 +1331,10 @@ Control_register:
     m12_writedata      <= s12_writedata;
     m12_address        <= s12_address;
     m12_write          <= s12_write;
-    m12_read           <= s12_read when i12_frozzen = '0' else '0';
+    m12_read           <= s12_read when i_frozzen(12) = '0' else '0';
     m12_byteenable     <= s12_byteenable;
     m12_debugaccess    <= s12_debugaccess;
-    s12_waitrequest    <= m12_waitrequest when i12_frozzen = '0' else '1';
+    s12_waitrequest    <= m12_waitrequest when i_frozzen(12) = '0' else '1';
     s12_readdatavalid  <= m12_readdatavalid;
     s12_readdata       <= m12_readdata;
     
@@ -1329,10 +1342,10 @@ Control_register:
     m13_writedata      <= s13_writedata;
     m13_address        <= s13_address;
     m13_write          <= s13_write;
-    m13_read           <= s13_read when i13_frozzen = '0' else '0';
+    m13_read           <= s13_read when i_frozzen(13) = '0' else '0';
     m13_byteenable     <= s13_byteenable;
     m13_debugaccess    <= s13_debugaccess;
-    s13_waitrequest    <= m13_waitrequest when i13_frozzen = '0' else '1';
+    s13_waitrequest    <= m13_waitrequest when i_frozzen(13) = '0' else '1';
     s13_readdatavalid  <= m13_readdatavalid;
     s13_readdata       <= m13_readdata;
 
@@ -1340,10 +1353,10 @@ Control_register:
     m14_writedata      <= s14_writedata;
     m14_address        <= s14_address;
     m14_write          <= s14_write;
-    m14_read           <= s14_read when i14_frozzen = '0' else '0';
+    m14_read           <= s14_read when i_frozzen(14) = '0' else '0';
     m14_byteenable     <= s14_byteenable;
     m14_debugaccess    <= s14_debugaccess;
-    s14_waitrequest    <= m14_waitrequest when i14_frozzen = '0' else '1';
+    s14_waitrequest    <= m14_waitrequest when i_frozzen(14) = '0' else '1';
     s14_readdatavalid  <= m14_readdatavalid;
     s14_readdata       <= m14_readdata;
 
@@ -1351,10 +1364,10 @@ Control_register:
     m15_writedata      <= s15_writedata;
     m15_address        <= s15_address;
     m15_write          <= s15_write;
-    m15_read           <= s15_read when i15_frozzen = '0' else '0';
+    m15_read           <= s15_read when i_frozzen(15) = '0' else '0';
     m15_byteenable     <= s15_byteenable;
     m15_debugaccess    <= s15_debugaccess;
-    s15_waitrequest    <= m15_waitrequest when i15_frozzen = '0' else '1';
+    s15_waitrequest    <= m15_waitrequest when i_frozzen(15) = '0' else '1';
     s15_readdatavalid  <= m15_readdatavalid;
     s15_readdata       <= m15_readdata;
 
@@ -1362,10 +1375,10 @@ Control_register:
     m16_writedata      <= s16_writedata;
     m16_address        <= s16_address;
     m16_write          <= s16_write;
-    m16_read           <= s16_read when i16_frozzen = '0' else '0';
+    m16_read           <= s16_read when i_frozzen(16) = '0' else '0';
     m16_byteenable     <= s16_byteenable;
     m16_debugaccess    <= s16_debugaccess;
-    s16_waitrequest    <= m16_waitrequest when i16_frozzen = '0' else '1';
+    s16_waitrequest    <= m16_waitrequest when i_frozzen(16) = '0' else '1';
     s16_readdatavalid  <= m16_readdatavalid;
     s16_readdata       <= m16_readdata;
 
@@ -1373,10 +1386,10 @@ Control_register:
     m17_writedata      <= s17_writedata;
     m17_address        <= s17_address;
     m17_write          <= s17_write;
-    m17_read           <= s17_read when i17_frozzen = '0' else '0';
+    m17_read           <= s17_read when i_frozzen(17) = '0' else '0';
     m17_byteenable     <= s17_byteenable;
     m17_debugaccess    <= s17_debugaccess;
-    s17_waitrequest    <= m17_waitrequest when i17_frozzen = '0' else '1';
+    s17_waitrequest    <= m17_waitrequest when i_frozzen(17) = '0' else '1';
     s17_readdatavalid  <= m17_readdatavalid;
     s17_readdata       <= m17_readdata;
 
@@ -1384,10 +1397,10 @@ Control_register:
     m18_writedata      <= s18_writedata;
     m18_address        <= s18_address;
     m18_write          <= s18_write;
-    m18_read           <= s18_read when i18_frozzen = '0' else '0';
+    m18_read           <= s18_read when i_frozzen(18) = '0' else '0';
     m18_byteenable     <= s18_byteenable;
     m18_debugaccess    <= s18_debugaccess;
-    s18_waitrequest    <= m18_waitrequest when i18_frozzen = '0' else '1';
+    s18_waitrequest    <= m18_waitrequest when i_frozzen(18) = '0' else '1';
     s18_readdatavalid  <= m18_readdatavalid;
     s18_readdata       <= m18_readdata;
 
@@ -1395,10 +1408,10 @@ Control_register:
     m19_writedata      <= s19_writedata;
     m19_address        <= s19_address;
     m19_write          <= s19_write;
-    m19_read           <= s19_read when i19_frozzen = '0' else '0';
+    m19_read           <= s19_read when i_frozzen(19) = '0' else '0';
     m19_byteenable     <= s19_byteenable;
     m19_debugaccess    <= s19_debugaccess;
-    s19_waitrequest    <= m19_waitrequest when i19_frozzen = '0' else '1';
+    s19_waitrequest    <= m19_waitrequest when i_frozzen(19) = '0' else '1';
     s19_readdatavalid  <= m19_readdatavalid;
     s19_readdata       <= m19_readdata;
 
@@ -1406,10 +1419,10 @@ Control_register:
     m20_writedata      <= s20_writedata;
     m20_address        <= s20_address;
     m20_write          <= s20_write;
-    m20_read           <= s20_read when i20_frozzen = '0' else '0';
+    m20_read           <= s20_read when i_frozzen(20) = '0' else '0';
     m20_byteenable     <= s20_byteenable;
     m20_debugaccess    <= s20_debugaccess;
-    s20_waitrequest    <= m20_waitrequest when i20_frozzen = '0' else '1';
+    s20_waitrequest    <= m20_waitrequest when i_frozzen(20) = '0' else '1';
     s20_readdatavalid  <= m20_readdatavalid;
     s20_readdata       <= m20_readdata;
 
@@ -1417,10 +1430,10 @@ Control_register:
     m21_writedata      <= s21_writedata;
     m21_address        <= s21_address;
     m21_write          <= s21_write;
-    m21_read           <= s21_read when i21_frozzen = '0' else '0';
+    m21_read           <= s21_read when i_frozzen(21) = '0' else '0';
     m21_byteenable     <= s21_byteenable;
     m21_debugaccess    <= s21_debugaccess;
-    s21_waitrequest    <= m21_waitrequest when i21_frozzen = '0' else '1';
+    s21_waitrequest    <= m21_waitrequest when i_frozzen(21) = '0' else '1';
     s21_readdatavalid  <= m21_readdatavalid;
     s21_readdata       <= m21_readdata;
 
@@ -1428,10 +1441,10 @@ Control_register:
     m22_writedata      <= s22_writedata;
     m22_address        <= s22_address;
     m22_write          <= s22_write;
-    m22_read           <= s22_read when i22_frozzen = '0' else '0';
+    m22_read           <= s22_read when i_frozzen(22) = '0' else '0';
     m22_byteenable     <= s22_byteenable;
     m22_debugaccess    <= s22_debugaccess;
-    s22_waitrequest    <= m22_waitrequest when i22_frozzen = '0' else '1';
+    s22_waitrequest    <= m22_waitrequest when i_frozzen(22) = '0' else '1';
     s22_readdatavalid  <= m22_readdatavalid;
     s22_readdata       <= m22_readdata;
     
@@ -1439,10 +1452,10 @@ Control_register:
     m23_writedata      <= s23_writedata;
     m23_address        <= s23_address;
     m23_write          <= s23_write;
-    m23_read           <= s23_read when i23_frozzen = '0' else '0';
+    m23_read           <= s23_read when i_frozzen(23) = '0' else '0';
     m23_byteenable     <= s23_byteenable;
     m23_debugaccess    <= s23_debugaccess;
-    s23_waitrequest    <= m23_waitrequest when i23_frozzen = '0' else '1';
+    s23_waitrequest    <= m23_waitrequest when i_frozzen(23) = '0' else '1';
     s23_readdatavalid  <= m23_readdatavalid;
     s23_readdata       <= m23_readdata;
 
@@ -1450,10 +1463,10 @@ Control_register:
     m24_writedata      <= s24_writedata;
     m24_address        <= s24_address;
     m24_write          <= s24_write;
-    m24_read           <= s24_read when i24_frozzen = '0' else '0';
+    m24_read           <= s24_read when i_frozzen(24) = '0' else '0';
     m24_byteenable     <= s24_byteenable;
     m24_debugaccess    <= s24_debugaccess;
-    s24_waitrequest    <= m24_waitrequest when i24_frozzen = '0' else '1';
+    s24_waitrequest    <= m24_waitrequest when i_frozzen(24) = '0' else '1';
     s24_readdatavalid  <= m24_readdatavalid;
     s24_readdata       <= m24_readdata;
 
@@ -1461,10 +1474,10 @@ Control_register:
     m25_writedata      <= s25_writedata;
     m25_address        <= s25_address;
     m25_write          <= s25_write;
-    m25_read           <= s25_read when i25_frozzen = '0' else '0';
+    m25_read           <= s25_read when i_frozzen(25) = '0' else '0';
     m25_byteenable     <= s25_byteenable;
     m25_debugaccess    <= s25_debugaccess;
-    s25_waitrequest    <= m25_waitrequest when i25_frozzen = '0' else '1';
+    s25_waitrequest    <= m25_waitrequest when i_frozzen(25) = '0' else '1';
     s25_readdatavalid  <= m25_readdatavalid;
     s25_readdata       <= m25_readdata;
 
@@ -1472,10 +1485,10 @@ Control_register:
     m26_writedata      <= s26_writedata;
     m26_address        <= s26_address;
     m26_write          <= s26_write;
-    m26_read           <= s26_read when i26_frozzen = '0' else '0';
+    m26_read           <= s26_read when i_frozzen(26) = '0' else '0';
     m26_byteenable     <= s26_byteenable;
     m26_debugaccess    <= s26_debugaccess;
-    s26_waitrequest    <= m26_waitrequest when i26_frozzen = '0' else '1';
+    s26_waitrequest    <= m26_waitrequest when i_frozzen(26) = '0' else '1';
     s26_readdatavalid  <= m26_readdatavalid;
     s26_readdata       <= m26_readdata;
 
@@ -1483,10 +1496,10 @@ Control_register:
     m27_writedata      <= s27_writedata;
     m27_address        <= s27_address;
     m27_write          <= s27_write;
-    m27_read           <= s27_read when i27_frozzen = '0' else '0';
+    m27_read           <= s27_read when i_frozzen(27) = '0' else '0';
     m27_byteenable     <= s27_byteenable;
     m27_debugaccess    <= s27_debugaccess;
-    s27_waitrequest    <= m27_waitrequest when i27_frozzen = '0' else '1';
+    s27_waitrequest    <= m27_waitrequest when i_frozzen(27) = '0' else '1';
     s27_readdatavalid  <= m27_readdatavalid;
     s27_readdata       <= m27_readdata;
 
@@ -1494,10 +1507,10 @@ Control_register:
     m28_writedata      <= s28_writedata;
     m28_address        <= s28_address;
     m28_write          <= s28_write;
-    m28_read           <= s28_read when i28_frozzen = '0' else '0';
+    m28_read           <= s28_read when i_frozzen(28) = '0' else '0';
     m28_byteenable     <= s28_byteenable;
     m28_debugaccess    <= s28_debugaccess;
-    s28_waitrequest    <= m28_waitrequest when i28_frozzen = '0' else '1';
+    s28_waitrequest    <= m28_waitrequest when i_frozzen(28) = '0' else '1';
     s28_readdatavalid  <= m28_readdatavalid;
     s28_readdata       <= m28_readdata;
 
@@ -1505,10 +1518,10 @@ Control_register:
     m29_writedata      <= s29_writedata;
     m29_address        <= s29_address;
     m29_write          <= s29_write;
-    m29_read           <= s29_read when i29_frozzen = '0' else '0';
+    m29_read           <= s29_read when i_frozzen(29) = '0' else '0';
     m29_byteenable     <= s29_byteenable;
     m29_debugaccess    <= s29_debugaccess;
-    s29_waitrequest    <= m29_waitrequest when i29_frozzen = '0' else '1';
+    s29_waitrequest    <= m29_waitrequest when i_frozzen(29) = '0' else '1';
     s29_readdatavalid  <= m29_readdatavalid;
     s29_readdata       <= m29_readdata;
 
@@ -1516,10 +1529,10 @@ Control_register:
     m30_writedata      <= s30_writedata;
     m30_address        <= s30_address;
     m30_write          <= s30_write;
-    m30_read           <= s30_read when i30_frozzen = '0' else '0';
+    m30_read           <= s30_read when i_frozzen(30) = '0' else '0';
     m30_byteenable     <= s30_byteenable;
     m30_debugaccess    <= s30_debugaccess;
-    s30_waitrequest    <= m30_waitrequest when i30_frozzen = '0' else '1';
+    s30_waitrequest    <= m30_waitrequest when i_frozzen(30) = '0' else '1';
     s30_readdatavalid  <= m30_readdatavalid;
     s30_readdata       <= m30_readdata;
 
@@ -1527,10 +1540,10 @@ Control_register:
     m31_writedata      <= s31_writedata;
     m31_address        <= s31_address;
     m31_write          <= s31_write;
-    m31_read           <= s31_read when i31_frozzen = '0' else '0';
+    m31_read           <= s31_read when i_frozzen(31) = '0' else '0';
     m31_byteenable     <= s31_byteenable;
     m31_debugaccess    <= s31_debugaccess;
-    s31_waitrequest    <= m31_waitrequest when i31_frozzen = '0' else '1';
+    s31_waitrequest    <= m31_waitrequest when i_frozzen(31) = '0' else '1';
     s31_readdatavalid  <= m31_readdatavalid;
     s31_readdata       <= m31_readdata;
 
@@ -1538,10 +1551,10 @@ Control_register:
     m32_writedata      <= s32_writedata;
     m32_address        <= s32_address;
     m32_write          <= s32_write;
-    m32_read           <= s32_read when i32_frozzen = '0' else '0';
+    m32_read           <= s32_read when i_frozzen(32) = '0' else '0';
     m32_byteenable     <= s32_byteenable;
     m32_debugaccess    <= s32_debugaccess;
-    s32_waitrequest    <= m32_waitrequest when i32_frozzen = '0' else '1';
+    s32_waitrequest    <= m32_waitrequest when i_frozzen(32) = '0' else '1';
     s32_readdatavalid  <= m32_readdatavalid;
     s32_readdata       <= m32_readdata;
 

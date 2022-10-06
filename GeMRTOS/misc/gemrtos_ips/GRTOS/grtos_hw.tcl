@@ -23,7 +23,7 @@ package require -exact qsys 13.0
 set_module_property DESCRIPTION "gRTOS Qsys Component"
 set_module_property NAME grtos
 set_module_property VERSION 1.0
-set_module_property INTERNAL true
+set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property GROUP gRTOS
 set_module_property AUTHOR "Ricardo Cayssials"
@@ -275,6 +275,21 @@ proc validate {} {
 }
 
 proc elaborate {} {
+
+# 
+# connection point bus_internal
+# 
+add_interface bus_internal conduit end
+set_interface_property bus_internal associatedClock clock_reset
+set_interface_property bus_internal associatedReset clock_reset_reset
+set_interface_property bus_internal ENABLED true
+set_interface_property bus_internal EXPORT_OF ""
+set_interface_property bus_internal PORT_NAME_MAP ""
+set_interface_property bus_internal SVD_ADDRESS_GROUP ""
+
+#LEDS interface
+add_interface_port bus_internal frozen_avalon_monitor export Input 1
+
 
 # 
 # connection point phy

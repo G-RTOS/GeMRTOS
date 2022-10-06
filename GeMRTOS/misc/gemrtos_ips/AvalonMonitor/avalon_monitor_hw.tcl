@@ -30,9 +30,8 @@ package require -exact sopc 10.0
 set_module_property DESCRIPTION "Nios II Avalon monitor module"
 set_module_property NAME nios_avalon_monitor
 set_module_property VERSION 13.0
-set_module_property HIDE_FROM_SOPC true 
 set_module_property GROUP gRTOS
-set_module_property INTERNAL true
+set_module_property INTERNAL false
 set_module_property AUTHOR "Ricardo Cayssials"
 set_module_property DISPLAY_NAME "Nios II Avalon monitor module"
 set_module_property TOP_LEVEL_HDL_FILE avalon_monitor.vhd
@@ -229,6 +228,20 @@ set_interface_assignment s_Global embeddedsw.configuration.isMemoryDevice 0
 set_interface_assignment s_Global embeddedsw.configuration.isNonVolatileStorage 0
 set_interface_assignment s_Global embeddedsw.configuration.isPrintableDevice 0
 
+
+# 
+# connection point bus_internal
+# 
+add_interface bus_internal conduit end
+set_interface_property bus_internal associatedClock clk
+set_interface_property bus_internal associatedReset reset
+set_interface_property bus_internal ENABLED true
+set_interface_property bus_internal EXPORT_OF ""
+set_interface_property bus_internal PORT_NAME_MAP ""
+set_interface_property bus_internal SVD_ADDRESS_GROUP ""
+
+#LEDS interface
+add_interface_port bus_internal frozen_avalon_monitor export Output 1
 
 
 # | 

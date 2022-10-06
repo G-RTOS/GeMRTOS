@@ -30,7 +30,6 @@ package require -exact sopc 10.0
 set_module_property DESCRIPTION "GRTOS Avalon bridge module"
 set_module_property NAME GRTOS_Avalon_Bridge
 set_module_property VERSION 13.0
-set_module_property HIDE_FROM_SOPC true 
 set_module_property GROUP gRTOS
 set_module_property INTERNAL true
 set_module_property AUTHOR "Ricardo Cayssials"
