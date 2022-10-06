@@ -199,3 +199,23 @@ Line 178 of "HAL/src/crt0.S" starts at address 0x400180c <__reset+12> and ends a
 
 Line 176 of "HAL/src/crt0.S" starts at address 0x4001804 <__reset+4> and ends at 0x4001808 <__reset+8>.
 
+Line 161 of "HAL/src/alt_instruction_exception_entry.c" starts at address 0x4001de4 <alt_instruction_exception_entry+96> and ends at 0x4001df8.
+
+Line 161 of "HAL/src/alt_instruction_exception_entry.c" starts at address 0x4001de4 <alt_instruction_exception_entry+96> and ends at 0x4001df8.
+
+Line 161 of "HAL/src/alt_instruction_exception_entry.c" starts at address 0x4001de4 <alt_instruction_exception_entry+96> and ends at 0x4001df8.
+
+Line 161 of "HAL/src/alt_instruction_exception_entry.c" starts at address 0x4001de4 <alt_instruction_exception_entry+96> and ends at 0x4001df8.
+
+Line 161 of "HAL/src/alt_instruction_exception_entry.c" starts at address 0x4001de4 <alt_instruction_exception_entry+96> and ends at 0x4001df8.
+
+No line number information available.
+
+Line 158 of "drivers/src/grtos_switch.S" starts at address 0x4001820 <grtos_irq_entry> and ends at 0x4001824 <grtos_irq_entry+4>.
+
+Line 161 of "drivers/src/grtos_switch.S" starts at address 0x4001824 <grtos_irq_entry+4> and ends at 0x4001828 <grtos_irq_entry+8>.
+
+Line 162 of "drivers/src/grtos_switch.S" starts at address 0x4001828 <grtos_irq_entry+8> and ends at 0x400182c <grtos_irq_entry+12>.
+
+Line 163 of "drivers/src/grtos_switch.S" starts at address 0x400182c <grtos_irq_entry+12> and ends at 0x4001830 <grtos_irq_entry+16>.
+

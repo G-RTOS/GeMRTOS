@@ -67,7 +67,7 @@ typedef unsigned long long gt_priority;
 
 
 typedef union timepriority {
-	INT64 i64;
+	INT64 i64  __attribute__((aligned(4)));
 	INT32 i32[2];
 } TIMEPRIORITY;
 
@@ -159,7 +159,7 @@ struct gs_kcb {
 	struct gs_tcb     *KCB_NextTCBWL;        ///< \brief Pointer to the linked list of the TCB of Waiting Tasks
 	struct gs_lcb     *KCB_NextLCBL;         ///< \brief Pointer to the lowest priority run list
 	struct gs_scb     *KCB_NextKCBASL;       ///< \brief Pointer to Signal Associated List for KCB
-    struct gs_ext_isr KCB_ExtISR[ALT_NIRQ];  ///< \brief Pointers to ISR TCBs for each interrupt number
+    struct gs_ext_isr KCB_ExtISR[ALT_NIRQ] __attribute__((aligned(4)));  ///< \brief Pointers to ISR TCBs for each interrupt number
     
     // int     *GRTOS_PROCESSOR_BASE[G_NUMBER_OF_PCB+1] __attribute__((aligned(4))); /// \brief Processor specific addresses to go to idle state
     
@@ -240,7 +240,7 @@ struct gs_pcb {
 	int PCBState;                               ///< \brief State of the PCB : GS_FREE_PROCESSOR, GS_RUNNING_PROCESSOR  \ingroup PCBState
     int PCBType;                                ///< \brief Type of the processor                                       \ingroup PCBType
     int *GRTOS_PROCESSOR_BASE __attribute__((aligned(4))); /// \brief Processor specific addresses to go to idle state    
-	struct gs_lcb *PCB_RDY_LCBL[G_NUMBER_OF_LCBs_FOR_PCB]; ///< \brief Ready Lists the processor services 
+	struct gs_lcb *PCB_RDY_LCBL[G_NUMBER_OF_LCBs_FOR_PCB] __attribute__((aligned(4))); ///< \brief Ready Lists the processor services 
 	struct gs_tcb *PCB_IDLETCB;                 ///< \brief Pointer to the TCB of the IDLE Task 
 	struct gs_tcb *PCB_EXECTCB;                 ///< \brief Current task assigned to processor 
 	struct gs_pcb *PCB_NextPCB;                 ///< \brief Pointer to the next free processor 
