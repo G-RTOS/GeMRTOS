@@ -255,7 +255,42 @@ INT32 LCBType_IsValid(INT32 lcbtype)
     return G_TRUE;    
 }
 
-
+INT32 Check_list_TCBAEL_IsValid(int cycles)
+{
+    GS_TCB *root_block = g_kcb.KCB_ROOT_TCBs;
+    GS_ECB *element;
+    GS_ECB *previous_should;
+    int loops = 0;
+    while ((root_block != (GS_TCB *) 0) && (loops <= cycles)) {
+        if (TCB_IsValid(root_block) != G_TRUE) {
+            fprintf(fpuart[GRTOS_CMD_PRC_ID-1],"ERROR in for Proc %d in function %s, file = %s, line = %d \n",GRTOS_CMD_PRC_ID , __FUNCTION__,__FILE__,__LINE__);
+            return G_FALSE;
+        }
+        element = root_block->TCB_NextTCBAEL;
+        previous_should = (GS_ECB *) 0;
+        while ((element != (GS_ECB *) 0) && (loops <= cycles)) {
+            if (ECB_IsValid(element) != G_TRUE) {
+                fprintf(fpuart[GRTOS_CMD_PRC_ID-1],"ERROR in for Proc %d in function %s, file = %s, line = %d \n",GRTOS_CMD_PRC_ID , __FUNCTION__,__FILE__,__LINE__);
+                return G_FALSE;
+            }
+            if (element->ECB_NextTCBAEL != previous_should) {
+                fprintf(fpuart[GRTOS_CMD_PRC_ID-1],"ERROR in for Proc %d in function %s, file = %s, line = %d \n",GRTOS_CMD_PRC_ID , __FUNCTION__,__FILE__,__LINE__);
+                return G_FALSE;
+            }
+            previous_should = element;
+            element = element->ECB_NextTCBAEL;
+            // loops++;
+        }
+        // loops++;
+        root_block = root_block->TCB_NEXT_TCBs;
+    }
+    if (loops > cycles) {
+        fprintf(fpuart[GRTOS_CMD_PRC_ID-1],"ERROR in for Proc %d in function %s, file = %s, line = %d \n",GRTOS_CMD_PRC_ID , __FUNCTION__,__FILE__,__LINE__);
+        return G_FALSE;
+    }
+    // fprintf(fpuart[GRTOS_CMD_PRC_ID-1],"[ MESSAGE ] CHECK Check_list_TCBAEL_IsValid OK \n");
+    return G_TRUE;    
+}
 
 
 OPTIMEZE_RESTORE

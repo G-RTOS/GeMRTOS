@@ -73,7 +73,6 @@ GS_TCB *gk_TCB_GetFree(void)
     ptcb->TCB_TaskArg          = (void   *) 0; 
     ptcb->TCB_NextTCB          = (struct gs_tcb *) 0; 
     ptcb->TCB_PrevTCB          = (struct gs_tcb *) 0; 
-    ptcb->TCB_NextTCBAEL       = (struct gs_ecb *) 0; 
     ptcb->TCB_AssocPCB         = 0; 
     ptcb->TCB_INTNumber        = -1; 
     ptcb->TCB_RDY_LCB_Index    = (GS_LCB *) G_TASK_LCB_DEFAULT; 

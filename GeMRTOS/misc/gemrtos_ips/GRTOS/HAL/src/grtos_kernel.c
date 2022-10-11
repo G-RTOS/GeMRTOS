@@ -137,7 +137,9 @@ void gk_ENTRY_RST_HANDLER (void)
     NIOS2_WRITE_STATUS(0); 
     /// Disable the interrupts
     NIOS2_WRITE_IENABLE (0);
-
+    
+    SAMPLE_FUNCTION_BEGIN(1000);
+    
     GRTOS_USER_CRITICAL_SECTION_GET;        /// Enter in Critial Section  
 
 
@@ -156,6 +158,7 @@ void gk_ENTRY_RST_HANDLER (void)
     g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB;
     gk_LCBFPL_Link(GRTOS_CMD_PRC_ID);
     
+    SAMPLE_FUNCTION_END(1000);
 	gk_KERNEL_TASK_START();              // Start the GRTOS for this processor
     
 	printf("******************************************** \n"); 
@@ -191,6 +194,8 @@ void gk_ENTRY_IRQ_HANDLER (void)
     
 	GRTOS_CMD_PRC_INT_DSB;             /// Disable processor interrupt
 	GRTOS_CMD_INT_PRC_PND_CLR;         /// Remove pending interrupt of current processor
+    
+    SAMPLE_FUNCTION_BEGIN(1001);
  
     // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "In %s, %d \n", __FUNCTION__, __LINE__);                    
 	GRTOS_CMD_CRITICAL_SECTION_GET;   /// Get into critical section
@@ -268,7 +273,9 @@ void gk_ENTRY_IRQ_HANDLER (void)
 	/* Set the GRTOS register for next interrupt                     */
 	gk_SetLowestProcessor(); 
 	gk_LCB_CheckInvertion(); 
-	gk_SetNextTimeProcessor();     
+	gk_SetNextTimeProcessor();
+    
+    SAMPLE_FUNCTION_END(1001);
 }
 
 /**********************************************************************************
@@ -342,6 +349,8 @@ void  gk_KERNEL_TASK_START (void)
 {
 	GS_TCB *ptcbtostart = gk_PCB_GetNextTCB();  /// Get the Next TCB to run in the current processor 
     
+    SAMPLE_FUNCTION_BEGIN(1002);
+    
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
@@ -381,6 +390,7 @@ void  gk_KERNEL_TASK_START (void)
     #endif
     
 	//Load the processor status and return to execute the task
+    SAMPLE_FUNCTION_END(1002);
 	GRTOS_Start_Task(); 
 
 	/* Never should be executed this */
@@ -396,7 +406,8 @@ void  gk_KERNEL_TASK_START (void)
  */
 void  gk_KERNEL_TASK_COMPLETE(void)
 {
-	
+	SAMPLE_FUNCTION_BEGIN(1003);
+    
     GRTOS_USER_CRITICAL_SECTION_GET;  /// Enter in Critial Section
     
 	GS_TCB *ptcbtostart = gk_PCB_GetCurrentTCB(); 
@@ -435,6 +446,7 @@ void  gk_KERNEL_TASK_COMPLETE(void)
 	gk_SetNextTimeProcessor(); 
 
 	//Load the processor status and return to execute the HighRdy task
+    SAMPLE_FUNCTION_END(1003);
 	GRTOS_Start_Task(); 
 
 	/* Never should be executed this */
@@ -453,6 +465,7 @@ void  gk_KERNEL_TASK_COMPLETE(void)
  */ 
 void gk_KERNEL_TASK_SUSPEND(GS_TCB *ptcb)
 {
+    SAMPLE_FUNCTION_BEGIN(1004);
 	/* if not running nor ready, then nothing to do */
 	if (ptcb->TCBState != G_TCBState_READY && ptcb->TCBState != G_TCBState_RUNNING)
 	{
@@ -472,6 +485,7 @@ void gk_KERNEL_TASK_SUSPEND(GS_TCB *ptcb)
 			gk_TCBWL_Link(ptcb, G_TCBState_WAITING); 
 		}
 	}
+    SAMPLE_FUNCTION_END(1004);
 }
 
 
@@ -486,6 +500,8 @@ void gk_KERNEL_TASK_SUSPEND_CURRENT(void)
 	/* Check if Executing task is running or if it was desalocated   */
 	GS_TCB *ptcbfrom = gk_PCB_GetCurrentTCB(); 
 
+    SAMPLE_FUNCTION_BEGIN(1005);
+
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (TCB_IsValid(ptcbfrom) != G_TRUE || ptcbfrom == (GS_TCB *) 0) G_DEBUG_WHILEFOREVER; 
 	if (ptcbfrom->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; 
@@ -496,6 +512,8 @@ void gk_KERNEL_TASK_SUSPEND_CURRENT(void)
     
     gk_TCBRUNL_Unlink(ptcbfrom); 
 	gk_TCBWL_Link(ptcbfrom, G_TCBState_WAITING); 
+
+    SAMPLE_FUNCTION_END(1005);
 
 	/* Suspend current task and execute next ready */
 	GRTOS_Suspend_Task(); 
@@ -535,6 +553,7 @@ void gk_INIT_KERNEL(void)
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	if (GRTOS_CMD_PRC_ID  != (int) 1) while(1); 
 #endif
+
 
     GRTOS_CMD_RST_GRTOS; // Reset the rest of processor assigning 0 to R_PRC_RST register
 
@@ -700,6 +719,8 @@ void gk_START_KERNEL (void)
     int i;    
     char filename[20];  /// String to hold the de name
     
+    SAMPLE_FUNCTION_BEGIN(1006);
+    
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
@@ -781,6 +802,8 @@ void gk_START_KERNEL (void)
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
+    
+    SAMPLE_FUNCTION_END(1006);
     
 	gk_KERNEL_TASK_START();  	// Start the GRTOS for processor 1
 

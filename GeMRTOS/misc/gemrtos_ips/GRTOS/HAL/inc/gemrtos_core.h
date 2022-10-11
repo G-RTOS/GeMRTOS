@@ -845,7 +845,7 @@ INT32 gk_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr);
  *  Monitor functions
  */
 void gk_MONITOR_FIFO_SAMPLE(int data);
-
+INT32 Check_list_TCBAEL_IsValid(int cycles);
 
 
 

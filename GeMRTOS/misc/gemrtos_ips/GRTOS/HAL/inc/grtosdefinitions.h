@@ -105,6 +105,9 @@
     // } 
     
 #define SAMPLE_FUNCTION_END(number) \
+    if (Check_list_TCBAEL_IsValid((int) 10000) != G_TRUE) { \
+        G_DEBUG_WHILEFOREVER; \
+    }        \
     if ((G_DEBUG_SAMPLE_END_ENABLE == 0xFFFFFFFF) ||  (G_DEBUG_SAMPLE_END_ENABLE == number)){ \
         RTSZ(0):  \
         IOWR(GRTOS_DRIVER_GRTOS_MONITOR_BASE, 0, (unsigned int) &&RTSZ(0) | 0xC0000000); \

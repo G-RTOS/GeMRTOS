@@ -1316,9 +1316,13 @@ INT32 gk_TCBAEL_Unlink(GS_ECB *pevent)
 #endif
     if (pevent->ECB_AssocTCB != (GS_TCB *)0)
     {
-        if (pevent->ECB_PrevTCBAEL == (struct gs_ecb *) 0) pevent->ECB_AssocTCB->TCB_NextTCBAEL = pevent->ECB_NextTCBAEL;
-        else pevent->ECB_PrevTCBAEL->ECB_NextTCBAEL = pevent->ECB_NextTCBAEL;
-        if (pevent->ECB_NextTCBAEL != (struct gs_ecb *) 00) pevent->ECB_NextTCBAEL->ECB_PrevTCBAEL = pevent->ECB_PrevTCBAEL;
+        if (pevent->ECB_PrevTCBAEL == (struct gs_ecb *) 0) {
+            pevent->ECB_AssocTCB->TCB_NextTCBAEL = pevent->ECB_NextTCBAEL;
+        }
+        else {
+            pevent->ECB_PrevTCBAEL->ECB_NextTCBAEL = pevent->ECB_NextTCBAEL;
+        }
+        if (pevent->ECB_NextTCBAEL != (struct gs_ecb *) 0) pevent->ECB_NextTCBAEL->ECB_PrevTCBAEL = pevent->ECB_PrevTCBAEL;
 
         /* Set the event unlink from task list */
         pevent->ECB_PrevTCBAEL = (struct gs_ecb *) 0;
