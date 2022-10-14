@@ -225,3 +225,11 @@ Line 161 of "HAL/src/alt_instruction_exception_entry.c" starts at address 0x4001
 
 Line 161 of "HAL/src/alt_instruction_exception_entry.c" starts at address 0x4001de4 <alt_instruction_exception_entry+96> and ends at 0x4001df8.
 
+Line 176 of "HAL/src/crt0.S" starts at address 0x4001804 <__reset+4> and ends at 0x4001808 <__reset+8>.
+
+Line 177 of "HAL/src/crt0.S" starts at address 0x4001808 <__reset+8> and ends at 0x400180c <__reset+12>.
+
+Line 178 of "HAL/src/crt0.S" starts at address 0x400180c <__reset+12> and ends at 0x4001810 <__reset+16>.
+
+Line 176 of "HAL/src/crt0.S" starts at address 0x4001804 <__reset+4> and ends at 0x4001808 <__reset+8>.
+
