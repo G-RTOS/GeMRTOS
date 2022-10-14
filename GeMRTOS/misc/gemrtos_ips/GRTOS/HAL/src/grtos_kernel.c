@@ -29,35 +29,15 @@
 #include <gemrtos_core.h>
 #include <grtos.h>
 
+#include "sys/alt_exceptions.h"
+#include "nios2.h"
+#include "alt_types.h"
+alt_exception_result handler(alt_exception_cause cause, alt_u32 addr, alt_u32 bad_addr );
+
 #include "priv/alt_irq_table.h"
 
 
 OPTIMEZE_CODE(3)
-
-// #pragma GCC push
-// #pragma GCC optimize('mbypass-cache')
-// #pragma GCC optimize('mno-cache-volatile')
-// #pragma GCC pop
-
-
-// extern void _do_ctors(void); PRINT_DEBUG_LINE
-// extern void _do_dtors(void); PRINT_DEBUG_LINE
-// /*
-//  * Standard arguments for main. By default, no arguments are passed to main.
-//  * However a device driver may choose to configure these arguments by calling
-//  * alt_set_args(). The expectation is that this facility will only be used by
-//  * the iclient/ihost utility.
-//  */
-// 
-// //int    alt_argc = 0; PRINT_DEBUG_LINE
-// //char** alt_argv = {NULL}; PRINT_DEBUG_LINE
-// //char** alt_envp = {NULL}; PRINT_DEBUG_LINE
-// 
-// /*
-//  * Prototype for the entry point to the users application.
-//  */
-// 
-// extern int main (int, char **, char **); PRINT_DEBUG_LINE
 
 
 /*****************************************************************************/
@@ -67,7 +47,7 @@ OPTIMEZE_CODE(3)
 /*****************************************************************************/
 
 /* Data Structure */
-GS_KCB  g_kcb __attribute__((aligned(4)));                        ///< \brief Structure of GS_KCB
+volatile GS_KCB  g_kcb __attribute__((aligned(4)));           ///< \brief Structure of GS_KCB
 
 
 /// GLOBAL VARIABLES to hold states for assembler interface
@@ -75,8 +55,6 @@ volatile GS_STK G_TCB_CURRENT __attribute__((aligned(4)));    ///< \brief Holds 
 volatile INT32 G_SCB_PENDING __attribute__((aligned(4)));     ///< \brief Holds the SCB for pending signal
 volatile INT32 G_SCB_CODE __attribute__((aligned(4)));        ///< \brief Holds the Code Address for pending signal
 volatile INT32 G_SCB_ARG __attribute__((aligned(4)));         ///< \brief Holds the Args Address for pending signal
-
-
 
 /// \brief IRQ number of the GRTOS controller in processors
 /// \todo explain correctelly
@@ -109,12 +87,12 @@ volatile int G_DEBUG_SAMPLE_BEGIN_ENABLE __attribute__((aligned(4)));     ///< \
 volatile int G_DEBUG_SAMPLE_END_ENABLE __attribute__((aligned(4)));       ///< \brief Values to enable sampling function ends (0xffffffff for all functions)
 
 
-FILE* fpuart[G_NUMBER_OF_PCB];    ///< \brief Files for JTAG-UARTs
+FILE* fpuart[G_NUMBER_OF_PCB] __attribute__((aligned(4)));    ///< \brief Files for JTAG-UARTs
 
-volatile INT32 G_TASK_TYPE_DEFAULT;            ///< \brief Default assignment for Task Type
-volatile GS_LCB *G_TASK_LCB_DEFAULT;             ///< \brief Default assignment for Task LCB
-volatile INT64 G_TASK_PRIORITY_DEFAULT;        ///< \brief Default assignment for Task Priority
-volatile INT64 G_TASK_PERIOD_DEFAULT;          ///< \brief Default assignment for Task Period
+volatile INT32 G_TASK_TYPE_DEFAULT __attribute__((aligned(4)));        ///< \brief Default assignment for Task Type
+volatile GS_LCB *G_TASK_LCB_DEFAULT __attribute__((aligned(4)));       ///< \brief Default assignment for Task LCB
+volatile INT64 G_TASK_PRIORITY_DEFAULT __attribute__((aligned(4)));    ///< \brief Default assignment for Task Priority
+volatile INT64 G_TASK_PERIOD_DEFAULT __attribute__((aligned(4)));      ///< \brief Default assignment for Task Period
 
 
 /***********************************************************************************
@@ -761,12 +739,14 @@ void gk_START_KERNEL (void)
     /// Install the GRTOS Controller interrupt device driver and
     /// Disable the interrupt (the last parameter (flags) is NULL). Values in system.h
     // fprintf(stderr, "[ OK ] Installing GRTOS Controller interrupt\n");
-    // # alt_ic_isr_register((alt_u32) GRTOS_DRIVER_GRTOS_S_PROCESSOR1_IRQ_INTERRUPT_CONTROLLER_ID,
-    // #                     (alt_u32) GRTOS_DRIVER_GRTOS_S_PROCESSOR1_IRQ,
-    // #                     // (alt_isr_func) gk_KERNEL_TIME_IRQ_HANDLER,
-    // #                     (alt_isr_func) gk_ENTRY_IRQ_HANDLER,
-    // #                     (void *) NULL,
-    // #                     (void *) NULL);
+    alt_ic_isr_register((alt_u32) GRTOS_DRIVER_GRTOS_S_PROCESSOR1_IRQ_INTERRUPT_CONTROLLER_ID,
+                        (alt_u32) GRTOS_DRIVER_GRTOS_S_PROCESSOR1_IRQ,
+                        // (alt_isr_func) gk_ENTRY_IRQ_HANDLER,
+                        (alt_isr_func) grtos_irq_entry,
+                        (void *) NULL,
+                        (void *) NULL);
+                        
+    alt_instruction_exception_register(handler);
                         
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
@@ -849,6 +829,19 @@ void GRTOS_Task_GetPendingSCB(void)
     SAMPLE_FUNCTION_END(68)
 }
 
+/**********************************************************************************
+ *                        	Exception handler
+ *  from http://www-ug.eecg.toronto.edu/msl/manuals/n2sw_nii52006.pdf
+ *********************************************************************************/
+
+alt_exception_result handler(alt_exception_cause cause,
+                              alt_u32 addr,
+                              alt_u32 bad_addr )
+{
+    fprintf(stderr,"[ EXCEPTION ] cause= %d, address= 0x%x, bad_addr: 0x%x\n", (int) cause, (unsigned int) addr, (unsigned int) bad_addr);
+    while(1);
+    return (alt_exception_result) 0;
+}
 
 /**********************************************************************************
  *                        	IDLE TASK DOING NOTHING

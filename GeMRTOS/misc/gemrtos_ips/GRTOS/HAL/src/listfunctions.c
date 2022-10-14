@@ -508,7 +508,7 @@ INT32  gk_KCBASL_Unlink(GS_SCB *psignal)
 {
     SAMPLE_FUNCTION_BEGIN(11)
     int retorno = G_FALSE;
-	GS_SCB *psignal1;
+	GS_SCB *psignal1 = g_kcb.KCB_NextKCBASL;
 	GS_SCB *psignal2;
 
     if (g_kcb.KCB_NextKCBASL == psignal)

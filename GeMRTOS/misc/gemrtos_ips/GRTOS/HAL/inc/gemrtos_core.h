@@ -507,7 +507,7 @@ extern volatile INT32  gs_offsetof_TCB_StackPointer;
 extern volatile INT32  gs_offsetof_PCB_IDLETCB;
 
 
-extern GS_KCB g_kcb;
+extern volatile GS_KCB g_kcb;
 
 //Variable to interface C and assembler
 extern volatile GS_STK G_TCB_CURRENT;
@@ -714,6 +714,7 @@ INT32    gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB * ptcb);
 void gk_KERNEL_TASK_START (void);
 void gk_ENTRY_IRQ_HANDLER (void);
 void GRTOS_Start_Task(void);
+void grtos_irq_entry(void);
 void GRTOS_Suspend_Task(void);
 // void gk_INT_TASK_SWITCH(void);
 GS_TCB *gk_CreateTask(void *TaskCode,              
