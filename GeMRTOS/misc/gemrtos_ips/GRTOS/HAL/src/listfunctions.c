@@ -1711,8 +1711,8 @@ INT32 gk_TCBRDYL_Link(GS_TCB *ptcb)
 				}
 			}
 		}
+        ptcb->TCB_AssocPCB = (INT32) 0; PRINT_DEBUG_LINE
 	}
-	ptcb->TCB_AssocPCB = (INT32) 0; PRINT_DEBUG_LINE
 	ptcb->TCBState = G_TCBState_READY; PRINT_DEBUG_LINE
 	// Check if Inversion occurs !!!!!!!!!!!
     /// If there exist a free processor, then trigger its interrupt
@@ -1876,16 +1876,6 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
     /* Set the processor to ptcb                   */
     	G_DEBUG_VERBOSE
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	int i;
-	g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB = (struct gs_tcb *) 0; /* just to check no duplication */
-	if (TCB_IsValid(ptcb) != G_TRUE) {PRINT_TO_DEBUG("ERROR TCB= %p\n",ptcb); G_DEBUG_WHILEFOREVER;}
-	for (i=0; i<G_NUMBER_OF_PCB;i++){
-		if (g_kcb.G_PCBTbl[i].PCB_EXECTCB == ptcb) {
-            PRINT_TO_DEBUG("ERROR %s, %s, %d, pi %x, tcb %p, ptcb %p, proc %x, mtx %x\n",__FUNCTION__,__FILE__,__LINE__, i, g_kcb.G_PCBTbl[i].PCB_EXECTCB, ptcb, GRTOS_CMD_PRC_ID, GRTOS_MTX_PRC_GRANTED);            
-            PRINT_TO_DEBUG("ERROR %s, %s, %d, pi %x, tcb %p, ptcb %p, proc %x, mtx %x\n",__FUNCTION__,__FILE__,__LINE__, i, g_kcb.G_PCBTbl[i].PCB_EXECTCB, ptcb, GRTOS_CMD_PRC_ID, GRTOS_MTX_PRC_GRANTED);           
-            G_DEBUG_WHILEFOREVER;
-        }
-	}
 	if ((ptcb->TCB_StackPointer < ptcb->TCB_StackTop - 300) || (ptcb->TCB_StackPointer > ptcb->TCB_StackBottom)) {
         PRINT_TO_DEBUG("ERROR TCB= %p, TCB_StackBottom = %p, TCB_StackPointer = %p, TCB_StackTop = %p\n",ptcb, (void *) ptcb->TCB_StackBottom, (void *) ptcb->TCB_StackPointer, (void *)  ptcb->TCB_StackTop); 
         PRINT_TO_DEBUG("ERROR TCB_IDLE= %p\n", (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB ); 
@@ -2343,7 +2333,8 @@ GS_TCB *gk_PCB_GetNextTCB(void)
 
     if (ppcb->PCBState == GS_PCBState_FREE) { // It is not executing a main list task
         // Unlink if it executing a task
-        if ((ptcb != ppcb->PCB_IDLETCB) && (ptcb != (struct gs_tcb *) 0)) { // It is executing a task (no from main list)
+        // if ((ptcb != ppcb->PCB_IDLETCB) && (ptcb != (struct gs_tcb *) 0)) { // It is executing a task (no from main list)
+        if (ptcb != ppcb->PCB_IDLETCB) {
             gk_TCBRUNL_Unlink(ptcb);
             gk_TCBRDYL_Link(ptcb);
         }    
@@ -2357,7 +2348,7 @@ GS_TCB *gk_PCB_GetNextTCB(void)
                     ptcb = ppcb->PCB_RDY_LCBL[i]->LCB_NextTCBRDYL;
                     break;
                 }
-                i++;
+                // i++;
             }
         }
     }
@@ -2879,7 +2870,7 @@ int gu_Get_CPU_ID(void)
 {
     SAMPLE_FUNCTION_BEGIN(72)
     SAMPLE_FUNCTION_END(72)
-	return(GRTOS_CMD_PRC_ID );
+	return(GRTOS_CMD_PRC_ID);
 }
 
 

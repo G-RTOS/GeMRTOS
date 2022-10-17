@@ -170,3 +170,184 @@ hello_world.c:291:13: warning: unused variable 'ptcb1' [-Wunused-variable]
 ++ perl /cygdrive/c/intelFPGA/18.0/nios2eds/bin/nios2-stackreport.pl --prefix nios2-elf- hellogemrtos.elf
 + nios2-elf-objdump --disassemble --syms --all-header hellogemrtos.elf
 + echo '[hellogemrtos' build 'complete]'
+No parameter named JtagClock
+No parameter named JtagClock
++ cygpath=/bin/cygpath
++ elffile=NONE
++ jdi=AUTOMATIC
++ cpu_name=AUTOMATIC
++ debug=no
++ nios2_instance=AUTOMATIC
++ for ii in 0 1
++ mode=AUTOMATIC
++ cable=AUTOMATIC
++ device=AUTOMATIC
++ nios2_debug_core=yes
++ sidp=
++ id=
++ timestamp=
++ signal_pid=
++ wait=NONE
++ go=no
++ stop=no
++ reset_target=no
++ accept_bad_sysid=no
++ tcpport=none
++ tcpdebug=no
++ write_gmon=
++ thread_vars=NONE
++ fs2console=no
++ kitdir=
++ internal_nios2=
++ test xNONE = xNONE
++ configdir=
++ test 0 = 1
++ elffile=NONE
++ directory=.
++ ac_prev=
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ go=yes
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ reset_target=yes
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ test xNONE '!=' xNONE
++ test -x /bin/cygpath
+++ /bin/cygpath -u ./software/hellogemrtos/hellogemrtos.elf
++ ac_option=./software/hellogemrtos/hellogemrtos.elf
++ elffile=./software/hellogemrtos/hellogemrtos.elf
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
+++ echo --instance=0
+++ sed 's/[-_a-zA-Z0-9]*=//'
++ ac_optarg=0
++ case "$ac_option" in
++ nios2_instance=0
++ test -n ''
++ test -x /bin/cygpath
+++ /bin/cygpath -u .
++ directory=.
++ test x./software/hellogemrtos/hellogemrtos.elf '!=' xNONE
+++ echo ./software/hellogemrtos/hellogemrtos.elf
+++ cut -c1-1
++ test x. '!=' x/
++ elffile=././software/hellogemrtos/hellogemrtos.elf
++ for ii in 0 1
++ mode=AUTOMATIC
++ cable=AUTOMATIC
++ device=AUTOMATIC
++ nios2_debug_core=yes
++ sidp=
++ id=
++ timestamp=
++ signal_pid=
++ wait=NONE
++ go=no
++ stop=no
++ reset_target=no
++ accept_bad_sysid=no
++ tcpport=none
++ tcpdebug=no
++ write_gmon=
++ thread_vars=NONE
++ fs2console=no
++ kitdir=
++ internal_nios2=
++ test x././software/hellogemrtos/hellogemrtos.elf = xNONE
+++ dirname ././software/hellogemrtos/hellogemrtos.elf
++ configdir=././software/hellogemrtos
++ test 1 = 1
++ test x0 = xAUTOMATIC
++ elffile=NONE
++ directory=.
++ ac_prev=
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ go=yes
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ reset_target=yes
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
++ ac_optarg=
++ case "$ac_option" in
++ test xNONE '!=' xNONE
++ test -x /bin/cygpath
+++ /bin/cygpath -u ./software/hellogemrtos/hellogemrtos.elf
++ ac_option=./software/hellogemrtos/hellogemrtos.elf
++ elffile=./software/hellogemrtos/hellogemrtos.elf
++ for ac_option in '"$@"'
++ test -n ''
++ case "$ac_option" in
+++ echo --instance=0
+++ sed 's/[-_a-zA-Z0-9]*=//'
++ ac_optarg=0
++ case "$ac_option" in
++ nios2_instance=0
++ test -n ''
++ test -x /bin/cygpath
+++ /bin/cygpath -u .
++ directory=.
++ test x./software/hellogemrtos/hellogemrtos.elf '!=' xNONE
+++ echo ./software/hellogemrtos/hellogemrtos.elf
+++ cut -c1-1
++ test x. '!=' x/
++ elffile=././software/hellogemrtos/hellogemrtos.elf
++ test xyes '!=' xyes
++ test xAUTOMATIC = xAUTOMATIC
++ mode=RAM
++ rc=20
++ case "$mode" in
++ test xyes = xyes
++ test xnone '!=' xnone
++ test xAUTOMATIC '!=' xAUTOMATIC
++ test xAUTOMATIC '!=' xAUTOMATIC
++ test x0 '!=' xAUTOMATIC
++ arglist=' --instance 0'
++ arglist2=' --instance=0'
++ test x '!=' x
++ test xno = xyes
++ test xNONE '!=' xNONE
++ test xyes = xyes
++ arglist=' --instance 0 --reset-target'
++ test xyes = xyes
++ arglist=' --instance 0 --reset-target --go'
++ test xno = xyes
++ test xnone '!=' xnone
++ arglist=' --instance 0 --reset-target --go --tcpport none'
++ test x '!=' x
++ test xNONE '!=' xNONE
++ test x././software/hellogemrtos/hellogemrtos.elf '!=' xNONE
++ test -x /bin/cygpath
+++ /bin/cygpath -m ././software/hellogemrtos/hellogemrtos.elf
++ elffile=software/hellogemrtos/hellogemrtos.elf
++ srecfile=software/hellogemrtos/hellogemrtos.elf.srec
++ nios2-elf-objcopy software/hellogemrtos/hellogemrtos.elf -O srec software/hellogemrtos/hellogemrtos.elf.srec
++ arglist=' --instance 0 --reset-target --go --tcpport none software/hellogemrtos/hellogemrtos.elf.srec'
++ test x = xyes
++ test xno = xyes
++ eval nios2-gdb-server --instance 0 --reset-target --go --tcpport none software/hellogemrtos/hellogemrtos.elf.srec
+++ nios2-gdb-server --instance 0 --reset-target --go --tcpport none software/hellogemrtos/hellogemrtos.elf.srec
++ rc=0
++ test xsoftware/hellogemrtos/hellogemrtos.elf.srec '!=' x
++ rm software/hellogemrtos/hellogemrtos.elf.srec
++ exit 0

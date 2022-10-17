@@ -637,14 +637,12 @@ void gk_INIT_KERNEL(void)
 	/// Initialize Processor Structures creating IDLE TCBs
 	for (i = 0;  i < G_NUMBER_OF_PCB;  i++) {
         
-        // g_kcb.GRTOS_PROCESSOR_BASE[i+1]  = GRTOS_DRIVER_GRTOS_PROCESSOR_BASE[i];
         g_kcb.G_PCBTbl[i].GRTOS_PROCESSOR_BASE = (int *) GRTOS_DRIVER_GRTOS_PROCESSOR_BASE[i]; // Address to go to idle state
         
         g_kcb.G_PCBTbl[i].PCB_IDLETCB  = (struct gs_tcb *) gk_TCB_GetFree();
         if (g_kcb.G_PCBTbl[i].PCB_IDLETCB == (struct gs_tcb *) 0) G_DEBUG_WHILEFOREVER; /// !!! Set error NO_FREE_GS_TCB
         
         g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCBType = G_TCBType_IDLE; 
-		// g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_StackBottom = (GS_STK *) ((((INT32) &g_kcb.G_IDLE_STACK[i][G_IDLE_STACKSIZE-8])-8)& ~0x3);
         g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_StackBottom = (GS_STK *) ((((INT32) g_kcb.G_IDLE_STACK + (i * G_IDLE_STACKSIZE) + G_IDLE_STACKSIZE-8)-8)& ~0x3);
         
         g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_StackTop = (GS_STK *)((INT32) g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_StackBottom - ((INT32)(G_IDLE_STACKSIZE)& ~0x3));
