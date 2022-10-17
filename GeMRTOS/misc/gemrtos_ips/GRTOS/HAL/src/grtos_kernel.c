@@ -655,10 +655,11 @@ void gk_INIT_KERNEL(void)
         g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_RDY_LCB_Index = (struct gs_lcb *) G_TASK_LCB_DEFAULT; 
 
         gk_TASK_STK_Init(g_kcb.G_PCBTbl[i].PCB_IDLETCB);    
-        gk_TCBRDYL_Link(g_kcb.G_PCBTbl[i].PCB_IDLETCB);  /* Insert Task in Ready List          */
+        // gk_TCBRDYL_Link(g_kcb.G_PCBTbl[i].PCB_IDLETCB);  /* Insert Task in Ready List          */
         
 		g_kcb.G_PCBTbl[i].PCBState = GS_PCBState_NOTRUNNING; 
-		 
+        
+	    g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCBState = G_TCBState_READY; 		 
         g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_AssocPCB = i + 1;
 		g_kcb.G_PCBTbl[i].PCB_EXECTCB = g_kcb.G_PCBTbl[i].PCB_IDLETCB; 
         for (j = 0;  j < G_NUMBER_OF_LCBs_FOR_PCB;  j++) {         
@@ -855,10 +856,12 @@ alt_exception_result handler(alt_exception_cause cause,
  */
 void gk_CODE_IDLE_TASK(void* pdata)
 {
+    void *StackPointer;               // Check that SP is in the stack of the IDLE task of the processor
 	while(1)
     {
         #if G_DEBUG_PRINT_WHEN_PROCESSOR_GOES_IDLE == 1
-            fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "I\n");
+            NIOS2_READ_SP(StackPointer);
+            fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "I, proc=%d, sp=%p \n", GRTOS_CMD_PRC_ID, StackPointer);
         #endif
         GRTOS_CMD_HALT_PROCESSOR; // Put the procesor in HALT mode 
     }

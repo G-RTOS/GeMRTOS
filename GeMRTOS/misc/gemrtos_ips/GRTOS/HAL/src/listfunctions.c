@@ -1969,7 +1969,8 @@ INT32  gk_TCBRUNL_Unlink(GS_TCB *ptcb)
     // g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_IDLETCB->TCBState = G_TCBState_RUNNING; PRINT_DEBUG_LINE 
     
     /* Desassociate the task from the processor */    
-    g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_EXECTCB = (struct gs_tcb *) 0;
+    // g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_EXECTCB = (struct gs_tcb *) 0;
+    g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_EXECTCB = g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_IDLETCB;
 	ptcb->TCB_AssocPCB = (INT32) 0; PRINT_DEBUG_LINE
 	ptcb->TCBState = G_TCBState_UNLINKED; PRINT_DEBUG_LINE
 	// Check if Inversion occurs
