@@ -409,7 +409,6 @@ void *gu_GetTask(void         *TaskCode,
                          G_TASK_PERIOD_DEFAULT,   
                          (GS_LCB *) G_TASK_LCB_DEFAULT,      
                          G_TRUE,                  
-                         G_TASK_PRIORITY_DEFAULT,
                          0); 
    
     if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_RELEASE;

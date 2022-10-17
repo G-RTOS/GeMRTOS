@@ -2348,7 +2348,6 @@ GS_TCB *gk_PCB_GetNextTCB(void)
                     ptcb = ppcb->PCB_RDY_LCBL[i]->LCB_NextTCBRDYL;
                     break;
                 }
-                // i++;
             }
         }
     }
@@ -2563,37 +2562,37 @@ INT32 gk_TCB_Unlink(GS_TCB *ptcb)
     return(G_TRUE);
 }
 
-/**gk_ECB_Unlink
- *  \brief 
- *  Unlinks the ECB according to the list it is linked
- *  \param [in] pecb Pointer to the ECB
- *  \return G_TRUE when successful, G_FALSE otherwise
- *  \todo Check if it useful, otherwise delete the function
- *  \todo Implement G_FALSE when no linked
- *  \relates Event
- */ 
-INT32 gk_ECB_Unlink(GS_ECB *pecb)
-{
-    SAMPLE_FUNCTION_BEGIN(61)
-	G_DEBUG_VERBOSE
-
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (ECB_IsValid(pecb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
-
-	if (pecb != (struct gs_ecb *) 0)
-	{
-		switch (pecb->ECBState)
-		{
-			case GS_ECBState_WAITING_TIME:     gk_ECBTL_Unlink(pecb); break;
-			case GS_ECBState_WAITING_RESOURCE: gk_RCBWEL_Unlink(pecb); break; ///!!! Poner resource
-			case GS_ECBState_GRANTED_RESOURCE: gk_RCBGEL_Unlink(pecb); break;
-			default: G_DEBUG_WHILEFOREVER; break;
-		}
-	}
-    SAMPLE_FUNCTION_END(61)
-    return(G_TRUE);
-}
+// /**gk_ECB_Unlink
+//  *  \brief 
+//  *  Unlinks the ECB according to the list it is linked
+//  *  \param [in] pecb Pointer to the ECB
+//  *  \return G_TRUE when successful, G_FALSE otherwise
+//  *  \todo Check if it useful, otherwise delete the function
+//  *  \todo Implement G_FALSE when no linked
+//  *  \relates Event
+//  */ 
+//  NT32 gk_ECB_Unlink(GS_ECB *pecb)
+//  
+//     SAMPLE_FUNCTION_BEGIN(61)
+//  	G_DEBUG_VERBOSE
+//  
+//  if G_DEBUG_WHILEFOREVER_ENABLE == 1
+//  	if (ECB_IsValid(pecb) != G_TRUE) G_DEBUG_WHILEFOREVER;
+//  endif
+//  
+//  	if (pecb != (struct gs_ecb *) 0)
+//  	{
+//  		switch (pecb->ECBState)
+//  		{
+//  			case GS_ECBState_WAITING_TIME:     gk_ECBTL_Unlink(pecb); break;
+//  			case GS_ECBState_WAITING_RESOURCE: gk_RCBWEL_Unlink(pecb); break; ///!!! Poner resource
+//  			case GS_ECBState_GRANTED_RESOURCE: gk_RCBGEL_Unlink(pecb); break;
+//  			default: G_DEBUG_WHILEFOREVER; break;
+//  		}
+//  	}
+//     SAMPLE_FUNCTION_END(61)
+//     return(G_TRUE);
+//  
 
 /**gk_TCBPSL_GetSCB
  *  \brief 

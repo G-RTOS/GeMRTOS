@@ -295,7 +295,6 @@ GS_LCB *gk_Get_LCB(void)
  *  \brief Reservs system memory to store the Processor Control Blocks of the system (PCB)
  *  \param [in] Nmbr_TCB Number of user PCBs desired to create (Interrupt and system PCB are added by the function)
  *  \return G_TRUE when successful, G_FALSE otherwise
- *  \todo Include into the KCB
  *  \todo System signal should be implmented when no free PCB is available
  *  \relates Core
  */
@@ -328,7 +327,6 @@ INT32 gk_Create_PCBs(int Nmbr_PCB)
  *  \param [in] TCBInherPriority     Inhereted priority
  *  \param [in] TCB_INTNumber        Interrupt Number if task is ISR
  *  \return Pointer to the TCB
- *  \todo TCBInherPriority has no sense
  *  \relates Task
  */
 GS_TCB *gk_CreateTask(void *TaskCode,              
@@ -342,7 +340,6 @@ GS_TCB *gk_CreateTask(void *TaskCode,
                      INT64 TCBPeriod,              
                      GS_LCB *TCB_RDY_LCB_Index,        
                      int TCB_Abort_w_Deadline,     
-                     INT64 TCBInherPriority,
                      int TCB_INTNumber)       
 {
     GS_TCB  *ptcb;
@@ -362,7 +359,7 @@ GS_TCB *gk_CreateTask(void *TaskCode,
         ptcb->TCBPeriod            = TCBPeriod;    ///< Period of the task
         ptcb->TCB_RDY_LCB_Index    = TCB_RDY_LCB_Index;       /*!< number of the ready list that should be inserted */
         ptcb->TCB_Abort_w_Deadline = TCB_Abort_w_Deadline;   /*!< True when task is aborted when deadline, false otherwise */
-        ptcb->TCBInherPriority     = TCBInherPriority;  /* Load task priority into TCB              */
+        ptcb->TCBInherPriority     = TCBRunPriority;  /* Load task priority into TCB              */
         
         // Initilize the stack of the task
         gk_TASK_STK_Init(ptcb);
@@ -417,7 +414,6 @@ void  gk_INIT_IRQ (void)
                                  (INT64) G_TASK_PERIOD_DEFAULT,              ///< Period of the task
                                  (GS_LCB *) G_TASK_LCB_DEFAULT,        /*!< pointer of the ready list that should be inserted */
                                  (int) G_TRUE,     /*!< True when task is aborted when deadline */
-                                 (INT64) G_ISR_PRIORITY,
                                  (int) i);  
                                      
 			// g_kcb.KCB_ExtISR[i].G_TCB_ISR->TCB_INTNumber = i; 

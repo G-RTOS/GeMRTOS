@@ -53,7 +53,6 @@ typedef struct gs_scb      GS_SCB;
 typedef struct gs_rrds     GS_RRDS;
 typedef struct g_rgb       G_RCB;
 typedef struct gs_mcb      GS_MCB; 
-typedef struct g_rgb       t_message_resource; 
 typedef struct g_rgb       t_semaphore_resource;
 
 
@@ -257,37 +256,37 @@ struct gs_pcb {
 #include <mq.h>
 #include <sem.h>
 
-/** MESSAGE RESOURCE *************************************************************/
-/**
- *  \todo Check if T_MESSAGE_RESOURCE structure is required
- */
-struct T_MESSAGE_RESOURCE {
-    INT32          MESSize;            /** Size of queue (maximum number of entries) */
-    INT32          MESEntries;         /** Current number of entries in the queue    */
-    struct gs_mcb  *MES_FirstMCB;      /** Pointer to the first MCB of queue data    */
-    struct gs_mcb  *MES_LastMCB;       /** Pointer to the last MCB of queue data     */
-    INT32          LAST_MCB_ID;        /** Last MCB_ID assigned to a MCB             */
-};
-
-/** QUEUE DATA STRUCTURE *********************************************************/
-/**
- *  \todo Check if gs_mcb structure is required
- */
-struct gs_mcb {                      /** MESSAGE CONTROL BLOCK                        */
-    INT32         MCBState;          /** State of the Queue: UNUSED, FREE, LINKED       */
-    INT32         MCBCount;          /** Number of task to deliver the message         */
-	struct gs_mcb *MCB_NextMCB;      /** Link to next queue control block in list of free blocks */
-	struct gs_mcb *MCB_PrevMCB;      /** Link to next queue control block in list of free blocks */
-    void          *MCB_StartMessage; /** Pointer to the start of message data        */
-    void          *MCB_EndMessage;   /** Pointer to the end of message data                */
-    INT32         MCB_ID;            /** Identification for the MCB     */
-    INT32         MCB_RlsCount;      /** Number of task to deliver the message         */
-};
-
-/// MCBState valid values
-#define  GK_MCBState_UNLINKED   2u
-#define  GK_MCBState_FREE       3u
-#define  GK_MCBState_LINKED     4u
+// /** MESSAGE RESOURCE *************************************************************/
+// /**
+//  *  \todo Check if T_MESSAGE_RESOURCE structure is required
+//  */
+// struct T_MESSAGE_RESOURCE {
+//     INT32          MESSize;            /** Size of queue (maximum number of entries) */
+//     INT32          MESEntries;         /** Current number of entries in the queue    */
+//     struct gs_mcb  *MES_FirstMCB;      /** Pointer to the first MCB of queue data    */
+//     struct gs_mcb  *MES_LastMCB;       /** Pointer to the last MCB of queue data     */
+//     INT32          LAST_MCB_ID;        /** Last MCB_ID assigned to a MCB             */
+// };
+// 
+// /** QUEUE DATA STRUCTURE *********************************************************/
+// /**
+//  *  \todo Check if gs_mcb structure is required
+//  */
+// struct gs_mcb {                      /** MESSAGE CONTROL BLOCK                        */
+//     INT32         MCBState;          /** State of the Queue: UNUSED, FREE, LINKED       */
+//     INT32         MCBCount;          /** Number of task to deliver the message         */
+// 	struct gs_mcb *MCB_NextMCB;      /** Link to next queue control block in list of free blocks */
+// 	struct gs_mcb *MCB_PrevMCB;      /** Link to next queue control block in list of free blocks */
+//     void          *MCB_StartMessage; /** Pointer to the start of message data        */
+//     void          *MCB_EndMessage;   /** Pointer to the end of message data                */
+//     INT32         MCB_ID;            /** Identification for the MCB     */
+//     INT32         MCB_RlsCount;      /** Number of task to deliver the message         */
+// };
+// 
+// /// MCBState valid values
+// #define  GK_MCBState_UNLINKED   2u
+// #define  GK_MCBState_FREE       3u
+// #define  GK_MCBState_LINKED     4u
 
 
 extern struct T_QUEUE_RESOURCE     queue;
@@ -300,8 +299,7 @@ extern struct T_QUEUE_RESOURCE     queue;
 /**
  *  \brief g_rgb  Resource Control Block (RCB)
  *  \details The g_rgb holds information about different kinds of resources.
- *  \todo Define a unified srtucture for different kind of resources. 
- *  \todo Re-write the message resource routines
+ *  \todo Define a unified structure for different kind of resources. 
  */
 struct g_rgb{
     struct {
@@ -325,7 +323,6 @@ struct g_rgb{
     };    
     union {
         struct T_SEMAPHORE_RESOURCE semaphore;         ///< \brief is the semaphore resource structure
-        struct T_MESSAGE_RESOURCE   message;           ///< \brief is the message resource structure
         struct T_QUEUE_RESOURCE     queue;             ///< \brief is the queue resource, defined in mq.h
     };
 };
@@ -534,18 +531,6 @@ extern volatile INT64 G_TASK_PRIORITY_DEFAULT;
 extern volatile INT64 G_TASK_PERIOD_DEFAULT;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /// Core functions definitions
 GS_ECB *gk_Get_ECB(void);
 G_RCB  *gk_Get_RCB(void);
@@ -615,12 +600,6 @@ INT32    gk_LCBFPL_Unlink(int processorID);
 
 INT32    gk_LCBL_UnLink(GS_LCB *plcb);
 //void    gk_LCB_Link_to_LCB_List(GS_LCB *plcb);
-
-// GS_MCB *gk_MCB_GetFree(void);
-// void    gk_MCBFL_Link(GS_MCB *pmcb);
-
-// int     gk_MCBQL_Link(GS_MCB *pmcb, G_RCB * prcb);
-// void    gk_MCBQL_Unlink(GS_MCB *pmcb, G_RCB * prcb);
 
 void    gk_PCBInit(void);
 
@@ -728,7 +707,7 @@ GS_TCB *gk_CreateTask(void *TaskCode,
                      INT64 TCBPeriod,              
                      GS_LCB *TCB_RDY_LCB_Index,        
                      int TCB_Abort_w_Deadline,     
-                     INT64 TCBInherPriority, int TCB_INTNumber); 
+                     int TCB_INTNumber); 
                      
 INT32 gk_TASK_STK_Init(GS_TCB *ptcb);
 // void gk_TASK_TCB_Init (GS_TCB *ptcb);
