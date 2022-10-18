@@ -31,8 +31,6 @@
 #ifndef MQ_H_
 #define MQ_H_
 
-
-
 /**
  *  \brief Message Queue Resource
  *  \details It is used as union in G_RCB

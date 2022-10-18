@@ -1046,8 +1046,11 @@ GS_ECB *gk_RCBWEL_Link(G_RCB *presource, GS_ECB *pevent)
 		}
 		else
 		{
-			while (pevent1 != (struct gs_ecb *) 00){
-				if (pevent1->ECB_NextECB == (struct gs_ecb *) 00) {
+			while (pevent1 != (struct gs_ecb *) 0){
+                
+                PRINT_ASSERT((ECB_IsValid(pevent1) == G_TRUE),"ERROR ECB1 not valid\n");
+                
+				if (pevent1->ECB_NextECB == (struct gs_ecb *) 0) {
 					pevent->ECB_NextECB = (struct gs_ecb *) 0;
 					pevent->ECB_PrevECB = (struct gs_ecb *) pevent1;
 					pevent1->ECB_NextECB = (struct gs_ecb *) pevent;
@@ -1092,10 +1095,8 @@ void gk_RCBWEL_Unlink(GS_ECB *pevent)
     SAMPLE_FUNCTION_BEGIN(24)
 	G_RCB *presource = (G_RCB *) pevent->ECB_AssocRCB;
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (pevent->ECBState == GS_ECBState_UNLINKED) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR ECB not valid\n");
+    PRINT_ASSERT((pevent->ECBState != GS_ECBState_UNLINKED),"ERROR ECBState= %d\n", (int) pevent->ECBState);
 
 	/* Remove from the resource linked list */
 	if (presource->RCB_NextRCBWEL == pevent)
@@ -1129,9 +1130,7 @@ INT32 gk_SCBFL_Link(GS_SCB *psignal)
 {
     SAMPLE_FUNCTION_BEGIN(25)
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState != G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((psignal->SCBState == G_SCBState_UNLINKED),"ERROR SCBState= %d\n", (int) psignal->SCBState);
 
     /// SCBs linked list for debugging
     if (g_kcb.KCB_ROOT_SCBs != (struct gs_scb *) psignal) psignal->SCB_PREV_SCBs->SCB_NEXT_SCBs = psignal->SCB_NEXT_SCBs;
@@ -1239,10 +1238,9 @@ INT32 gk_SCBAPSL_UnLink(GS_SCB *pscb_root, GS_SCB *pscb_pending)
 INT32 gk_TCBAEL_Link(GS_ECB *pevent, GS_TCB *ptcb)
 {
     SAMPLE_FUNCTION_BEGIN(30)
-	#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-		if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-		if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	#endif
+    
+    PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR pevent\n");
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR ptcb\n");        
 
     pevent->ECB_AssocTCB = (struct gs_tcb *) ptcb; /* Associate EVENT to the Task            */
 
@@ -1266,9 +1264,9 @@ INT32 gk_TCBAEL_Unlink(GS_ECB *pevent)
 {
     SAMPLE_FUNCTION_BEGIN(31)
     int retorno = G_FALSE;
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+    
+    PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR pevent\n");
+
     if (pevent->ECB_AssocTCB != (GS_TCB *)0)
     {
         if (pevent->ECB_PrevTCBAEL == (struct gs_ecb *) 0) {
@@ -1368,9 +1366,9 @@ INT32  gk_TCBASL_Unlink(GS_TCB *ptcb, GS_SCB *psignal)
     SAMPLE_FUNCTION_BEGIN(33)
 	GS_SCB *psignal1;
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState == G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR ptcb\n");
+    PRINT_ASSERT((SCB_IsValid(psignal) == G_TRUE),"ERROR psignal\n");
+    PRINT_ASSERT((psignal->SCBState != G_SCBState_UNLINKED),"ERROR SCBState= %d\n", (int) psignal->SCBState);
 
 	if (ptcb->TCB_NextTCBASL != (struct gs_scb *) 0)
 	{
@@ -1397,9 +1395,8 @@ INT32  gk_TCBASL_Unlink(GS_TCB *ptcb, GS_SCB *psignal)
 		psignal->SCBState = G_SCBState_UNLINKED;
 	}
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState != G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((psignal->SCBState == G_SCBState_UNLINKED),"ERROR SCBState= %d\n", (int) psignal->SCBState);
+
     SAMPLE_FUNCTION_END(33)
     return G_TRUE;
 }

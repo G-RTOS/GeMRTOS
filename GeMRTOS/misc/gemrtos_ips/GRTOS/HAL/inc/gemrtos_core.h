@@ -34,13 +34,6 @@
 #include <grtosdefinitions.h>
 
 /************************************************************************************
- *  System constants definitions
- ************************************************************************************/
-#define G_FALSE             0u
-#define G_TRUE              1u
-
-
-/************************************************************************************
  *  GRTOS TYPE DEFINITIONS
  ************************************************************************************/
 
@@ -54,7 +47,7 @@ typedef struct gs_rrds     GS_RRDS;
 typedef struct g_rgb       G_RCB;
 typedef struct gs_mcb      GS_MCB; 
 typedef struct g_rgb       t_semaphore_resource;
-
+typedef union timepriority TIMEPRIORITY;
 
 /* This is the definition for Nios32.  */
 typedef unsigned long long INT64;
@@ -64,11 +57,20 @@ typedef unsigned int       GS_STK;      /* Type to Stack Pointers        */
 typedef unsigned long long gt_time;
 typedef unsigned long long gt_priority;
 
+union timepriority {
+        INT64 i64  __attribute__((aligned(4)));
+        INT32 i32[2];
+};
 
-typedef union timepriority {
-	INT64 i64  __attribute__((aligned(4)));
-	INT32 i32[2];
-} TIMEPRIORITY;
+#include <mq.h>
+
+
+
+/************************************************************************************
+ *  System constants definitions
+ ************************************************************************************/
+#define G_FALSE             0u
+#define G_TRUE              1u
 
 
 typedef struct gs_tm {
@@ -253,7 +255,7 @@ struct gs_pcb {
 
 #define  GS_PCBType_UNSPECIFIED           1u    ///< \brief It is FREE when not executing a main list task         \ingroup PCBState
 
-#include <mq.h>
+// #include <mq.h>
 #include <sem.h>
 
 // /** MESSAGE RESOURCE *************************************************************/
