@@ -351,11 +351,6 @@ inline INT32  gk_ECBTL_Link (GS_ECB *pevent)
     
     PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR ECB not valid\n");
     PRINT_ASSERT((pevent->ECBState == GS_ECBState_UNLINKED),"ERROR ECBState= %d\n", (int) pevent->ECBState);
-    
-// #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-// 	if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-// 	if (pevent->ECBState != GS_ECBState_UNLINKED) G_DEBUG_WHILEFOREVER;
-// #endif
 	
     if (g_kcb.KCB_NextECBTL->ECBValue.i64 > pevent->ECBValue.i64)
 		{/* Event inserted is the next occurence   */
@@ -371,7 +366,6 @@ inline INT32  gk_ECBTL_Link (GS_ECB *pevent)
 		while (pevent2->ECBValue.i64 <= pevent->ECBValue.i64){
 			pevent2 = pevent2->ECB_NextECB;
 		}        
-
 		pevent->ECB_NextECB = (struct gs_ecb *) pevent2;   /* Insert the task in the linked list        */
 		pevent->ECB_PrevECB = pevent2->ECB_PrevECB;
 		pevent2->ECB_PrevECB->ECB_NextECB = (struct gs_ecb *) pevent;
@@ -399,10 +393,9 @@ inline INT32  gk_ECBTL_Link (GS_ECB *pevent)
 inline INT32 gk_ECBTL_Unlink(GS_ECB *pevent)
 {
     SAMPLE_FUNCTION_BEGIN(9)
-	#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-		if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-		if (pevent->ECBState != GS_ECBState_WAITING_TIME) G_DEBUG_WHILEFOREVER;
-	#endif
+    
+    PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR ECB not valid\n");
+    PRINT_ASSERT((pevent->ECBState == GS_ECBState_WAITING_TIME),"ERROR ECBState= %d\n", (int) pevent->ECBState);    
 
 	/* Remove from the time linked list */
 	if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) pevent)
@@ -549,9 +542,7 @@ INT32 gk_LCBL_Link(GS_LCB *plcb)
     SAMPLE_FUNCTION_BEGIN(12)
 	GS_LCB *plcb1 = g_kcb.KCB_NextLCBL;
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (LCB_IsValid(plcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((LCB_IsValid(plcb) == G_TRUE),"ERROR PCB not valid\n");
 
 	if (g_kcb.KCB_NextLCBL == (struct gs_lcb *) 0)
 	{/* it is the first list to be added */
@@ -572,9 +563,9 @@ INT32 gk_LCBL_Link(GS_LCB *plcb)
 		else
 		{
 			while (plcb1 != (struct gs_lcb *) 0) {
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (LCB_IsValid(plcb1) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+                
+                PRINT_ASSERT((LCB_IsValid(plcb1) == G_TRUE),"ERROR PCB not valid\n");
+                
 				if (plcb1->LCB_NextLCBL == (struct gs_lcb *) 0){
 					/* It has to be inserted as the last element */
 					plcb->LCB_NextLCBL  = (struct gs_lcb *) 0;
@@ -618,10 +609,8 @@ INT32 gk_LCBL_UnLink(GS_LCB *plcb)
 {
     SAMPLE_FUNCTION_BEGIN(13) 
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (LCB_IsValid(plcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (LCB_IsValid(g_kcb.KCB_NextLCBL) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((LCB_IsValid(plcb) == G_TRUE),"ERROR PCB not valid\n");
+    PRINT_ASSERT((LCB_IsValid(g_kcb.KCB_NextLCBL) == G_TRUE),"ERROR PCB not valid\n");
 
 	/// Check if it is the first element in the list
 	if (g_kcb.KCB_NextLCBL == plcb)
@@ -656,9 +645,7 @@ INT32 gk_LCBFPL_Link(int processorID)
 	GS_PCB *ppcb = &g_kcb.G_PCBTbl[processorID-1];
     GS_LCB *plcb = ppcb->PCB_RDY_LCBL[0];
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (processorID < 1 || processorID > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((processorID >= 1 && processorID <= G_NUMBER_OF_PCB),"ERROR processorID= %d\n", (int) processorID);
 
     if (ppcb->PCBState != GS_PCBState_FREE) {
         if (plcb->LCB_NextLCBFPL == (struct gs_pcb *) 0) {
@@ -676,10 +663,8 @@ INT32 gk_LCBFPL_Link(int processorID)
     }
 	ppcb->PCBState = GS_PCBState_FREE;
 
+    PRINT_ASSERT((plcb->LCB_NextLCBFPL != (struct gs_pcb *) 0),"ERROR linking PCB\n");
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (plcb->LCB_NextLCBFPL == (struct gs_pcb *) 0) G_DEBUG_WHILEFOREVER;
-#endif
     SAMPLE_FUNCTION_END(14)
     return(G_TRUE);
 } 
@@ -699,9 +684,7 @@ INT32 gk_LCBFPL_Unlink(int processorID)
 	GS_PCB *ppcb = &g_kcb.G_PCBTbl[processorID-1];
     GS_LCB *plcb = ppcb->PCB_RDY_LCBL[0];    
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (processorID < 1 || processorID > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((processorID >= 1 && processorID <= G_NUMBER_OF_PCB),"ERROR processorID= %d\n", (int) processorID);
 
     if (ppcb->PCBState != GS_PCBState_RUNNING) {
         if (plcb->LCB_NextLCBFPL == ppcb) { /* It is the first element */
@@ -798,9 +781,7 @@ INT32 gk_RCBASL_Unlink(G_RCB *presource, GS_SCB *psignal)
     SAMPLE_FUNCTION_BEGIN(17)
 	GS_SCB *psignal1;
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState == G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((psignal->SCBState != G_SCBState_UNLINKED),"ERROR SCBState= %d\n", (int) psignal->SCBState);
 
 	if (presource->RCB_NextRCBASL != (struct gs_scb *) 0)
 	{
@@ -826,10 +807,9 @@ INT32 gk_RCBASL_Unlink(G_RCB *presource, GS_SCB *psignal)
 		}
 		psignal->SCBState = G_SCBState_UNLINKED;
 	}
+    
+    PRINT_ASSERT((psignal->SCBState == G_SCBState_UNLINKED),"ERROR SCBState= %d\n", (int) psignal->SCBState);
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState != G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
-#endif
     SAMPLE_FUNCTION_END(17)
     return(G_TRUE);
 }
@@ -845,9 +825,8 @@ INT32 gk_RCBASL_Unlink(G_RCB *presource, GS_SCB *psignal)
 INT32 gk_RCBFL_Link(G_RCB *presource)
 {
     SAMPLE_FUNCTION_BEGIN(18)
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (presource->RCBType != GK_RCBType_UNUSED) G_DEBUG_WHILEFOREVER;
-#endif
+    
+    PRINT_ASSERT((presource->RCBType == GK_RCBType_UNUSED),"ERROR RCBType= %d\n", (int) presource->RCBType);    
 
     /// RCBs linked list for debugging
     if (g_kcb.KCB_ROOT_RCBs != (struct g_rcb *) presource) presource->RCB_PREV_RCBs->RCB_NEXT_RCBs = presource->RCB_NEXT_RCBs;
@@ -861,23 +840,6 @@ INT32 gk_RCBFL_Link(G_RCB *presource)
     return(G_TRUE);
 }
 
-// /**gk_RCB_GetFree
-//  *  \brief 
-//  *  Unlinks an RCB from the RCBFL list and returns its pointer or NULL if no free RCB is available
-//  *  \return Pointer to the RCB or NULL when no RCB available
-//  *  \relates Resource
-//  */
-// G_RCB *gk_RCB_GetFree(void)
-// {
-//     SAMPLE_FUNCTION_BEGIN(19)
-// 
-//     G_RCB *presource = gk_Get_RCB();
-// 	if (presource != (G_RCB *) 0) {
-//         presource->RCBType = GK_RCBType_UNUSED;
-//     }
-//     SAMPLE_FUNCTION_END(19)
-// 	return(presource);
-// }
 
 /**gk_TASK_RELEASE
  *  \brief 
@@ -891,6 +853,9 @@ INT32 gk_RCBFL_Link(G_RCB *presource)
 INT32 gk_TASK_RELEASE(GS_TCB *ptcb) 
 {
     SAMPLE_FUNCTION_BEGIN(20)
+    
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB not valid\n");
+    
     GS_SCB *psignal = ptcb->TCB_NextTCBASL;             // Preserve the Associated Signal list
     unsigned int state = ptcb->TCBState;                // Preserve the currente state of task
     
@@ -937,9 +902,7 @@ GS_ECB *gk_RCBGEL_Link(G_RCB *presource, GS_ECB *pevent)
         return(pevent);
     }
 
-	#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-		if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	#endif
+    PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR ECB not valid\n");
 
     /* Set the priority of the event to link */ 
     // !!!! cambiar para prioridad de diferetnes structures
@@ -966,6 +929,8 @@ GS_ECB *gk_RCBGEL_Link(G_RCB *presource, GS_ECB *pevent)
 		} else {
 			while (pevent1 != (struct gs_ecb *) 0)
 			{
+                PRINT_ASSERT((ECB_IsValid(pevent1) == G_TRUE),"ERROR ECB1 not valid\n");
+                
 				if (pevent1->ECBValue.i64 > pevent->ECBValue.i64)
 				{
 					pevent->ECB_NextECB = (struct gs_ecb *) pevent1;
@@ -1009,11 +974,9 @@ void  gk_RCBGEL_Unlink(GS_ECB *pevent)
 
 	G_RCB *presource = (G_RCB *) pevent->ECB_AssocRCB;
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (pevent->ECBState != GS_ECBState_GRANTED_RESOURCE) G_DEBUG_WHILEFOREVER;
-	if (ECB_IsValid(presource->RCB_NextRCBGEL) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR ECB not valid\n");
+    PRINT_ASSERT((pevent->ECBState == GS_ECBState_GRANTED_RESOURCE),"ERROR ECBState= %d \n",(int) pevent->ECBState);
+    PRINT_ASSERT((ECB_IsValid(presource->RCB_NextRCBGEL) == G_TRUE),"ERROR RCB_NextRCBGEL not valid\n");
 
 	/* Remove from the resource linked list */
 	if (presource->RCB_NextRCBGEL == pevent)
@@ -1057,9 +1020,7 @@ GS_ECB *gk_RCBWEL_Link(G_RCB *presource, GS_ECB *pevent)
 	}
 	if (pevent == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER;
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (ECB_IsValid(pevent) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR ECB not valid\n");
 
 	// Set the priority of the event
 	if (pevent->ECB_RRDS != (struct gs_rrds *) 0) pevent->ECBValue.i64 = pevent->ECB_RRDS->RRDSWaitingPriority.i64;
