@@ -161,7 +161,6 @@ void gk_ENTRY_IRQ_HANDLER (void)
 {
 	unsigned int event_code;
     GS_ECB *pevent;
-    GS_TCB *ptcb; 
     
     // Only when GeMRTOS is running
     PRINT_ASSERT((G_Running == G_TRUE),"ERROR G_Running= %d\n",G_Running);
@@ -471,10 +470,7 @@ void gk_INIT_KERNEL(void)
 {
 	int i,j;     
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (GRTOS_CMD_PRC_ID  != (int) 1) while(1); 
-#endif
-
+    PRINT_ASSERT((GRTOS_CMD_PRC_ID  == (int) 1),"ERROR Processor is not 1, CPUID= %d\n",(int) GRTOS_CMD_PRC_ID);
 
     GRTOS_CMD_RST_GRTOS; // Reset the rest of processor assigning 0 to R_PRC_RST register
 
@@ -483,9 +479,9 @@ void gk_INIT_KERNEL(void)
     G_DEBUG_SAMPLE_BEGIN_ENABLE = 0;
     G_DEBUG_SAMPLE_END_ENABLE = 0;
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-    fprintf(stderr,"[ MESSAGE ] INITIALIZE THE KCB STRUCTURE\n");    
-#endif
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] INITIALIZE THE KCB STRUCTURE\n");    
+    #endif
 
     GRTOS_CMD_SET_TIME_PRESCALE((int) GRTOS_DRIVER_PRESCALE);
 
@@ -510,7 +506,6 @@ void gk_INIT_KERNEL(void)
     g_kcb.KCB_ROOT_SCBs   = (struct gs_scb  *) 0;
     g_kcb.KCB_ROOT_RRDSs  = (struct gs_rrds *) 0;
 
-
     // volatile INT32   G_ISR_STACK[ALT_NIRQ][G_ISR_STACKSIZE] __attribute__((aligned(4)));  
     void   *mem1 = malloc(sizeof(INT32) * ALT_NIRQ * G_ISR_STACKSIZE + 31);
     g_kcb.G_ISR_STACK = (INT32 *) (((uintptr_t)mem1+15) & ~ (uintptr_t)0x0F);    
@@ -523,9 +518,9 @@ void gk_INIT_KERNEL(void)
     /*************************************************************************************/
 	/*  Reserve system Conrol Blocks                                                     */
 	/*************************************************************************************/
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-    fprintf(stderr,"[ MESSAGE ] CREATING PCB STRUCTURES\n");    
-#endif
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] CREATING PCB STRUCTURES\n");    
+    #endif
     gk_Create_PCBs((int) G_NUMBER_OF_PCB);
 
 
@@ -552,18 +547,15 @@ void gk_INIT_KERNEL(void)
     gs_offsetof_TCB_StackPointer          = (INT32) (&((GS_TCB *) NULL)->TCB_StackPointer);
 
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-    fprintf(stderr,"[ MESSAGE ] INITIALIZE THE LCB LIST\n");    
-#endif
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-    fprintf(stderr,"[ MESSAGE ] INITIALIZE THE TIMED EVENT LIST\n");    
-#endif
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        fprintf(stderr,"[ MESSAGE ] INITIALIZE THE TIMED EVENT LIST\n");    
+    #endif
     /// INITIALIZE THE TIMED EVENT LIST
-    g_kcb.KCB_NextECBTL = (struct gs_ecb *) gk_ECB_GetFree(); 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (ECB_IsValid(g_kcb.KCB_NextECBTL) != G_TRUE) G_DEBUG_WHILEFOREVER; 
-#endif
+    g_kcb.KCB_NextECBTL = (struct gs_ecb *) gk_ECB_GetFree();
+
+    PRINT_ASSERT((ECB_IsValid(g_kcb.KCB_NextECBTL) == G_TRUE),"ERROR not valid event obtained\n");
+    
     /// Set the Next Occurence time equal to G_LATEST_TIME (is g_kcb.KCB_NextECBTL->ECBValue.i64)
     GRTOS_CMD_NXT_OCC_TM_EVN_SET(G_LATEST_TIME);   
     /// Link an ECB with the latest time
@@ -602,7 +594,9 @@ void gk_INIT_KERNEL(void)
         
 	    g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCBState = G_TCBState_READY; 		 
         g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_AssocPCB = i + 1;
+        
 		g_kcb.G_PCBTbl[i].PCB_EXECTCB = g_kcb.G_PCBTbl[i].PCB_IDLETCB; 
+        
         for (j = 0;  j < G_NUMBER_OF_LCBs_FOR_PCB;  j++) {         
             g_kcb.G_PCBTbl[i].PCB_RDY_LCBL[j] = (struct gs_lcb *) G_TASK_LCB_DEFAULT;  
         }

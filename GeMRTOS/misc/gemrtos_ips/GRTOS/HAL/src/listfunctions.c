@@ -2253,12 +2253,9 @@ INT32  gk_RRDSASL_UnLink(GS_RRDS *prrds, GS_SCB *psignal)
 GS_TCB *gk_PCB_GetCurrentTCB(void)
 {
 	SAMPLE_FUNCTION_BEGIN(51)
-	#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-		if (TCB_IsValid(g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB) != G_TRUE && g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB != (struct gs_tcb *) 0) {
-            PRINT_TO_DEBUG("g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB = %p", (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB)
-            G_DEBUG_WHILEFOREVER;
-        }
-	#endif
+    
+    PRINT_ASSERT((TCB_IsValid(g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB) == G_TRUE),"ERROR Current TCB is not valid\n");
+    
     SAMPLE_FUNCTION_END(51)
 	return(g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB);
 }
@@ -2276,10 +2273,10 @@ INT32 gk_LCBLowerPriorityThanLCB(GS_LCB *plcb1, GS_LCB *plcb2)
 {
     SAMPLE_FUNCTION_BEGIN(52)
     int retorno = G_FALSE;
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (LCB_IsValid(plcb1) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (LCB_IsValid(plcb2) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+    
+    PRINT_ASSERT((LCB_IsValid(plcb1) == G_TRUE),"ERROR LCB not valid (%p)\n",(void *) plcb1);
+    PRINT_ASSERT((LCB_IsValid(plcb2) == G_TRUE),"ERROR LCB not valid (%p)\n",(void *) plcb2);
+
 	if ((plcb1->LCB_NextTCBRUNL != (struct gs_tcb *) 0) && (plcb2->LCB_NextTCBRUNL == (struct gs_tcb *) 0)) retorno = G_TRUE;
 	if (((plcb1->LCB_NextTCBRUNL != (struct gs_tcb *) 0) && (plcb2->LCB_NextTCBRUNL != (struct gs_tcb *) 0)) &&
 		(plcb1->LCBRunPriority > plcb2->LCBRunPriority)) retorno = G_TRUE;
@@ -2299,10 +2296,9 @@ INT32 gk_TCBLowerPriorityThanTCB(GS_TCB *ptcb1, GS_TCB *ptcb2)
 {
     SAMPLE_FUNCTION_BEGIN(53)
     int retorno = G_FALSE;
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb1) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (TCB_IsValid(ptcb2) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+    
+    PRINT_ASSERT((TCB_IsValid(ptcb1) == G_TRUE),"ERROR TCB not valid (%p)\n",(void *) ptcb1);
+    PRINT_ASSERT((TCB_IsValid(ptcb2) == G_TRUE),"ERROR TCB not valid (%p)\n",(void *) ptcb2);
 
 	if (ptcb1->TCBCurrentPriority > ptcb2->TCBCurrentPriority) retorno = G_TRUE;
     SAMPLE_FUNCTION_END(53)
@@ -2377,13 +2373,11 @@ GS_TCB *gk_PCB_GetNextTCB(void)
 INT32 gk_SetLowestProcessor(void)
 {
     SAMPLE_FUNCTION_BEGIN(55)
-    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        if (g_kcb.KCB_NextLCBL == (GS_LCB *)0) G_DEBUG_WHILEFOREVER;
-        if (g_kcb.KCB_NextLCBL->LCB_NextTCBRUNL == (GS_TCB *)0) G_DEBUG_WHILEFOREVER;
-        if (g_kcb.KCB_NextLCBL->LCB_NextTCBRUNL->TCB_AssocPCB <=  0) G_DEBUG_WHILEFOREVER;
-        if (g_kcb.KCB_NextLCBL->LCB_NextTCBRUNL->TCB_AssocPCB == 0) G_DEBUG_WHILEFOREVER;
-        if (g_kcb.KCB_NextLCBL->LCB_NextTCBRUNL->TCB_AssocPCB > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER;
-    #endif
+    
+    PRINT_ASSERT((g_kcb.KCB_NextLCBL != (GS_LCB *)0),"ERROR No LCB in system\n");    
+    PRINT_ASSERT((g_kcb.KCB_NextLCBL->LCB_NextTCBRUNL != (GS_TCB *)0),"ERROR Lowest LCB without running list\n"); 
+    PRINT_ASSERT((g_kcb.KCB_NextLCBL->LCB_NextTCBRUNL->TCB_AssocPCB >= 1),"ERROR No associated PCB valid, TCB_AssocPCB= %d\n", g_kcb.KCB_NextLCBL->LCB_NextTCBRUNL->TCB_AssocPCB); 
+    PRINT_ASSERT((g_kcb.KCB_NextLCBL->LCB_NextTCBRUNL->TCB_AssocPCB <= G_NUMBER_OF_PCB),"ERROR No associated PCB valid, TCB_AssocPCB= %d\n", g_kcb.KCB_NextLCBL->LCB_NextTCBRUNL->TCB_AssocPCB);
 
 	GRTOS_CMD_LOW_PRC_SET((int)g_kcb.KCB_NextLCBL->LCB_NextTCBRUNL->TCB_AssocPCB);
 	SAMPLE_FUNCTION_END(55)
@@ -2399,12 +2393,10 @@ INT32 gk_SetLowestProcessor(void)
 INT32 gk_SetNextTimeProcessor(void)
 {
 	SAMPLE_FUNCTION_BEGIN(56)
-    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER;
-        if (g_kcb.KCB_NextECBTL->ECB_AssocTCB == (GS_TCB *)0 &&
-            g_kcb.KCB_NextECBTL->ECBType != (INT32) G_ECBType_LASTEST_TIME) G_DEBUG_WHILEFOREVER;
-        if (g_kcb.KCB_NextECBTL->ECB_AssocTCB->TCB_AssocPCB > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER;
-    #endif
+    
+    PRINT_ASSERT((g_kcb.KCB_NextECBTL != (struct gs_ecb *) 0),"ERROR No next timed event \n");
+    PRINT_ASSERT((g_kcb.KCB_NextECBTL->ECB_AssocTCB != (GS_TCB *)0 || g_kcb.KCB_NextECBTL->ECBType == (INT32) G_ECBType_LASTEST_TIME),"ERROR in timed event list, ECB_AssocTCB= %d\n", (int) g_kcb.KCB_NextECBTL->ECB_AssocTCB);    
+    PRINT_ASSERT((g_kcb.KCB_NextECBTL->ECB_AssocTCB->TCB_AssocPCB <= G_NUMBER_OF_PCB),"ERROR TCB_AssocPCB= %d\n", (int) g_kcb.KCB_NextECBTL->ECB_AssocTCB->TCB_AssocPCB);
 
 	if (g_kcb.KCB_NextECBTL->ECBType != (INT32) G_ECBType_LASTEST_TIME) {
 		GRTOS_CMD_NXT_TM_PRC_SET((int) g_kcb.KCB_NextECBTL->ECB_AssocTCB->TCB_AssocPCB);
@@ -2431,9 +2423,7 @@ INT32 gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB *ptcb)
 	INT64 priority2;
 	G_RCB *presource;
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB is not valid, PTCB= %p\n", (void *) ptcb);
 
 	priority = ptcb->TCBReadyPriority;
 	pevent = ptcb->TCB_NextTCBAEL;
@@ -2465,9 +2455,8 @@ INT32 gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB *ptcb)
 INT32 gk_TASK_PRIORITY_SET(GS_TCB *ptcb, INT32 task_state)
 {
     SAMPLE_FUNCTION_BEGIN(58)
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb) != G_TRUE || ptcb == (struct gs_tcb *) 0) G_DEBUG_WHILEFOREVER;
-#endif
+    
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB is not valid, PTCB= %p\n", (void *) ptcb);
 
 	if (ptcb->TCBReadyPriority < ptcb->TCBInherPriority) {ptcb->TCBCurrentPriority = ptcb->TCBReadyPriority;}
 	else {ptcb->TCBCurrentPriority = ptcb->TCBInherPriority;}
@@ -2488,20 +2477,17 @@ INT32 gk_LCB_CheckInvertion(void)
 {
     SAMPLE_FUNCTION_BEGIN(59)
 	GS_LCB *readylist = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCB_RDY_LCBL[0];
-	int i = GRTOS_CMD_PRC_ID ;
-    // int j;
 
-
+    PRINT_ASSERT((LCB_IsValid(readylist) == G_TRUE),"ERROR LCB is not valid\n");
+    
 	if (readylist->LCB_NextTCBRDYL != (struct gs_tcb *) 0)
 	{/* There is at least a Ready Task */
 		if (readylist->LCB_NextLCBFPL != (struct gs_pcb *) 0)
 		{/* There is a Free Processor then interrupt it */
-
-
-			if (i != readylist->LCB_NextLCBFPL->PCBID) {
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-    fprintf(stderr, "[ OK ] Processor %d trigger proc %d in %s, %d\n", GRTOS_CMD_PRC_ID, readylist->LCB_NextLCBFPL->PCBID, __FUNCTION__,__LINE__);
-#endif    
+			if (GRTOS_CMD_PRC_ID != readylist->LCB_NextLCBFPL->PCBID) {
+                #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+                    fprintf(stderr, "[ OK ] Processor %d trigger proc %d in %s, %d\n", GRTOS_CMD_PRC_ID, readylist->LCB_NextLCBFPL->PCBID, __FUNCTION__,__LINE__);
+                #endif    
                 GRTOS_CMD_PRC_INT(readylist->LCB_NextLCBFPL->PCBID);
             }
 		}
@@ -2511,15 +2497,11 @@ INT32 gk_LCB_CheckInvertion(void)
 			{/*�There is not Free Processor then check the priority of running task */
 				if (readylist->LCB_NextTCBRUNL->TCBCurrentPriority > readylist->LCB_NextTCBRDYL->TCBCurrentPriority){
 					/* Ready priority is greater then processor assigned is interrupted */
-
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (readylist->LCB_NextTCBRUNL->TCB_AssocPCB < 1 || readylist->LCB_NextTCBRUNL->TCB_AssocPCB > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER;
-#endif
-
-					if (i != readylist->LCB_NextTCBRUNL->TCB_AssocPCB) {
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1                        
-    fprintf(stderr, "[ OK ] Processor %d trigger proc %d in %s, %d\n", GRTOS_CMD_PRC_ID, readylist->LCB_NextTCBRUNL->TCB_AssocPCB, __FUNCTION__,__LINE__);
-#endif                        
+                    PRINT_ASSERT((readylist->LCB_NextTCBRUNL->TCB_AssocPCB >= 1 && readylist->LCB_NextTCBRUNL->TCB_AssocPCB <= G_NUMBER_OF_PCB),"ERROR TCB_AssocPCB = %d\n", (int) readylist->LCB_NextTCBRUNL->TCB_AssocPCB);
+					if (GRTOS_CMD_PRC_ID != readylist->LCB_NextTCBRUNL->TCB_AssocPCB) {
+                        #if G_DEBUG_WHILEFOREVER_ENABLE == 1                        
+                            fprintf(stderr, "[ OK ] Processor %d trigger proc %d in %s, %d\n", GRTOS_CMD_PRC_ID, readylist->LCB_NextTCBRUNL->TCB_AssocPCB, __FUNCTION__,__LINE__);
+                        #endif                        
                         GRTOS_CMD_PRC_INT(readylist->LCB_NextTCBRUNL->TCB_AssocPCB);
                     }
 				}
@@ -2541,9 +2523,8 @@ INT32 gk_LCB_CheckInvertion(void)
 INT32 gk_TCB_Unlink(GS_TCB *ptcb)
 {
     SAMPLE_FUNCTION_BEGIN(60)
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+    
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB is not valid\n");    
 
 	switch (ptcb->TCBState)
 	{
