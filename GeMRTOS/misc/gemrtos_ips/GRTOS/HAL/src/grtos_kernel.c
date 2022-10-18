@@ -251,7 +251,7 @@ void gk_ENTRY_IRQ_HANDLER (void)
 /**gk_ENTRY_BAD_TASK_RETURN
  *  \brief BAD RETURN FUNCTION IN TASK STACK
  *  \details THIS IS THE RETURN ADDRESS WHEN A BAD RETURN IS EXECUTED IN A TASK SWITCH
- *  \todo implement a safe rescate of the system
+ *  \todo implement a safe recovery of the system
  */
 void gk_ENTRY_BAD_TASK_RETURN(void)
 {
@@ -272,41 +272,6 @@ void gk_ENTRY_SIGNAL_RETURN(void)
     // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "Returning from Signal In %s, %d \n", __FUNCTION__, __LINE__);    
 	GRTOS_CMD_CRITICAL_SECTION_GET;  	/// Get into critical section
 }
- 
-// /**gk_KERNEL_FROZEN_IRQ_HANDLER
-//  *  \brief Frozen mode handler
-//  *  \details Calls the gk_FROZEN_CALLBACK() routine in grtosfunctions.c file where 
-//  *  user may inplement frozen mode strategy
-//  *  \relates Time
-//  */ 
-// void gk_KERNEL_FROZEN_IRQ_HANDLER(void) {
-//     // GRTOS_CMD_FRZ_EVN_CLR;  // The Frozen event should be cleared
-//     gk_FROZEN_CALLBACK();
-// }
-
-// /**gk_KERNEL_TIME_IRQ_HANDLER
-//  *  \brief Executes the ISR for timed events from GRTOS
-//  *  \details Calls the gk_TIME_CALLBACK funtion to resolve according to the event type
-//  */
-// // void gk_KERNEL_TIME_IRQ_HANDLER (void) __attribute__ ((section (".exceptions"))); 
-// void gk_KERNEL_TIME_IRQ_HANDLER (void)
-// {
-// 	GS_ECB *pevent = g_kcb.KCB_NextECBTL; 
-// 
-// #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-// 	GS_TCB *ptcb;     
-//     ptcb   = pevent->ECB_AssocTCB; 
-// 	if ((ECB_IsValid(pevent) != G_TRUE) || (pevent == (struct gs_ecb *) 0)) G_DEBUG_WHILEFOREVER; 
-// 	if ((TCB_IsValid(ptcb) != G_TRUE) || (ptcb == (struct gs_tcb *) 0)) G_DEBUG_WHILEFOREVER; 
-//     if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER; 
-// #endif
-//         
-//     gk_ECBTL_Unlink((GS_ECB *)pevent);     /* Delete the EVENT from Time Waiting Event List     */
-//     
-//     // Call the TIME_CALLBACK funtion to resolve according to the event type
-//     gk_TIME_CALLBACK((GS_ECB *) pevent);
-// }
-
 
 /**gk_KERNEL_TASK_START
  *  \brief Start the execution of the tasks of the system
@@ -321,10 +286,8 @@ void  gk_KERNEL_TASK_START (void)
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
     
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcbtostart) != G_TRUE) G_DEBUG_WHILEFOREVER; 
-	if (ptcbtostart->TCBState != G_TCBState_READY) G_DEBUG_WHILEFOREVER; 
-#endif
+    PRINT_ASSERT((TCB_IsValid(ptcbtostart) == G_TRUE),"ERROR Start TCB is not valid\n");
+    PRINT_ASSERT((ptcbtostart->TCBState == G_TCBState_READY),"ERROR Start TCB is not ready\n");
 
 	/// Change State to Running
     gk_TCB_Unlink(ptcbtostart); 
@@ -378,14 +341,19 @@ void  gk_KERNEL_TASK_COMPLETE(void)
     
 	GS_TCB *ptcbtostart = gk_PCB_GetCurrentTCB(); 
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-    if (TCB_IsValid(ptcbtostart) != G_TRUE) {PRINT_TO_DEBUG("ERROR TCB= %p\n",ptcbtostart); G_DEBUG_WHILEFOREVER;}
-	void *StackPointer; 
-	NIOS2_READ_SP(StackPointer); 
-	if ((int) StackPointer > (int) ptcbtostart->TCB_StackBottom) G_DEBUG_WHILEFOREVER; 
-	if ((int) StackPointer < (int) ptcbtostart->TCB_StackTop - 300) G_DEBUG_WHILEFOREVER; 
-    if (ptcbtostart->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-#endif
+    PRINT_ASSERT((TCB_IsValid(ptcbtostart) == G_TRUE),"ERROR Completed task is not valid %p \n",(void *) ptcbtostart);
+	PRINT_ASSERT((GRTOS_CMD_PRC_SP <= (INT32) (int) ptcbtostart->TCB_StackBottom),"ERROR SP out of bottom = %d\n",(int) GRTOS_CMD_PRC_SP);
+    PRINT_ASSERT((GRTOS_CMD_PRC_SP > (INT32) (int) ptcbtostart->TCB_StackTop - 300),"ERROR SP out of top = %d\n",(int) GRTOS_CMD_PRC_SP);
+    PRINT_ASSERT((ptcbtostart->TCBState == G_TCBState_RUNNING),"ERROR Completed task (%p) is not running, TCBState= %d\n",(void *) ptcbtostart->TCBState);
+    
+// #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+//     if (TCB_IsValid(ptcbtostart) != G_TRUE) {PRINT_TO_DEBUG("ERROR TCB= %p\n",ptcbtostart); G_DEBUG_WHILEFOREVER;}
+// 	void *StackPointer; 
+// 	NIOS2_READ_SP(StackPointer); 
+// 	if ((int) StackPointer > (int) ptcbtostart->TCB_StackBottom) G_DEBUG_WHILEFOREVER; 
+// 	if ((int) StackPointer < (int) ptcbtostart->TCB_StackTop - 300) G_DEBUG_WHILEFOREVER; 
+//     if (ptcbtostart->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
+// #endif
 
 	gk_TCB_Unlink(ptcbtostart); 
 

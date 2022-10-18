@@ -131,6 +131,21 @@ drivers/src/grtos_kernel.c: In function 'gk_ENTRY_IRQ_HANDLER':
 drivers/src/grtos_kernel.c:164:13: warning: unused variable 'ptcb' [-Wunused-variable]
      GS_TCB *ptcb; 
              ^
+In file included from ./drivers/inc/gemrtos_core.h:34:0,
+                 from drivers/src/grtos_kernel.c:29:
+drivers/src/grtos_kernel.c: In function 'gk_KERNEL_TASK_COMPLETE':
+drivers/src/grtos_kernel.c:347:64: warning: format '%d' expects a matching 'int' argument [-Wformat=]
+     PRINT_ASSERT((ptcbtostart->TCBState == G_TCBState_RUNNING),"ERROR Completed task (%p) is not running, TCBState= %d\n",(void *) ptcbtostart->TCBState);
+                                                                ^
+./drivers/inc/grtosdefinitions.h:180:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+drivers/src/grtos_kernel.c:347:64: warning: format '%d' expects a matching 'int' argument [-Wformat=]
+     PRINT_ASSERT((ptcbtostart->TCBState == G_TCBState_RUNNING),"ERROR Completed task (%p) is not running, TCBState= %d\n",(void *) ptcbtostart->TCBState);
+                                                                ^
+./drivers/inc/grtosdefinitions.h:180:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
 + echo '[BSP' build 'complete]'
 + cd ../hellogemrtos_bsp
 + pwd
