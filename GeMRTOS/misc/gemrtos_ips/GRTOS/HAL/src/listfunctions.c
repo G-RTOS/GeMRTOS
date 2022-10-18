@@ -1505,11 +1505,9 @@ INT32 gk_TCBFL_Link(GS_TCB *ptcb)
 {
     SAMPLE_FUNCTION_BEGIN(35)
 	// GS_SCB *psignal1;
-    
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-	if (ptcb->TCBState != G_TCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
-#endif
+
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB (%p) not valid\n",(void *) ptcb);
+    PRINT_ASSERT((ptcb->TCBState == G_TCBState_UNLINKED),"ERROR TCBState= %d\n",(int) ptcb->TCBState);
 
 	/* Remove the links from TCB        */
     gk_TCB_List_Unlink(ptcb);
@@ -1523,7 +1521,6 @@ INT32 gk_TCBFL_Link(GS_TCB *ptcb)
     free(ptcb->malloc_address);
     g_kcb.KCB_NUMBER_OF_TCBs--; 
 
-    
 	G_DEBUG_VERBOSE
 
     SAMPLE_FUNCTION_END(35)
@@ -1607,9 +1604,9 @@ INT32  gk_TCBPSL_Unlink(GS_TCB *ptcb, GS_SCB *psignal)
 {
     SAMPLE_FUNCTION_BEGIN(38)
 	GS_SCB *psignal1;
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState == G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
-#endif
+    
+    PRINT_ASSERT((psignal->SCBState != G_SCBState_UNLINKED),"ERROR SCBState= %d\n",(int) psignal->SCBState);    
+
 	if (ptcb->TCB_NextTCBPSL != (struct gs_scb *) 0)
 	{
 		if (ptcb->TCB_NextTCBPSL == psignal)
@@ -1634,9 +1631,9 @@ INT32  gk_TCBPSL_Unlink(GS_TCB *ptcb, GS_SCB *psignal)
 		}
 		psignal->SCBState = G_SCBState_UNLINKED;
 	}
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (psignal->SCBState != G_SCBState_UNLINKED) G_DEBUG_WHILEFOREVER;
-#endif
+    
+    PRINT_ASSERT((psignal->SCBState == G_SCBState_UNLINKED),"ERROR SCBState= %d\n",(int) psignal->SCBState);  
+    
     SAMPLE_FUNCTION_END(38)
     return G_TRUE;
 
@@ -1658,11 +1655,9 @@ INT32 gk_TCBRDYL_Link(GS_TCB *ptcb)
     GS_LCB *readylist = ptcb->TCB_RDY_LCB_Index; PRINT_DEBUG_LINE
     // int i; PRINT_DEBUG_LINE
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-	if (ptcb->TCBState != G_TCBState_UNLINKED) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-#endif
-    G_DEBUG_VERBOSE
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB not valid");
+    PRINT_ASSERT((ptcb->TCBState == G_TCBState_UNLINKED),"ERROR TCBState= %d\n",(int) ptcb->TCBState);  
+
 	gk_TASK_PRIORITY_SET(ptcb, G_TCBState_READY); PRINT_DEBUG_LINE
 
 	if (ptcb->TCBType != G_TCBType_IDLE)   /* Idle task are not inserted in Ready Lists */
@@ -1684,9 +1679,8 @@ INT32 gk_TCBRDYL_Link(GS_TCB *ptcb)
 				ptcb1 = readylist->LCB_NextTCBRDYL; PRINT_DEBUG_LINE
 				while (ptcb1 != (struct gs_tcb *) 0)
 				{
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb1) != G_TRUE) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-#endif
+                    PRINT_ASSERT((TCB_IsValid(ptcb1) == G_TRUE),"ERROR TCB not valid");
+
 					if (ptcb1->TCB_NextTCB == (struct gs_tcb *) 0){    /* It has to be inserted as the last element */
 						ptcb->TCB_NextTCB  = (struct gs_tcb *) 0; PRINT_DEBUG_LINE
 						ptcb->TCB_PrevTCB  = (struct gs_tcb *) ptcb1; PRINT_DEBUG_LINE
@@ -1712,19 +1706,19 @@ INT32 gk_TCBRDYL_Link(GS_TCB *ptcb)
 			}
 		}
         ptcb->TCB_AssocPCB = (INT32) 0; PRINT_DEBUG_LINE
-	}
-	ptcb->TCBState = G_TCBState_READY; PRINT_DEBUG_LINE
-	// Check if Inversion occurs !!!!!!!!!!!
-    /// If there exist a free processor, then trigger its interrupt
-    if (readylist->LCB_NextLCBFPL != (struct gs_pcb *) 0)
-    {
-        if (readylist->LCB_NextLCBFPL->PCBID != GRTOS_CMD_PRC_ID )	{
-            // fprintf(stderr, "[ OK ] Processor %d trigger proc %d in %s, %d\n", GRTOS_CMD_PRC_ID, i, __FUNCTION__,__LINE__);
-            GRTOS_CMD_PRC_INT(readylist->LCB_NextLCBFPL->PCBID); 
+        
+        /// If there exist a free processor, then trigger its interrupt
+        if (readylist->LCB_NextLCBFPL != (struct gs_pcb *) 0)
+        {
+            if (readylist->LCB_NextLCBFPL->PCBID != GRTOS_CMD_PRC_ID )	{
+                GRTOS_CMD_PRC_INT(readylist->LCB_NextLCBFPL->PCBID); 
+            }
         }
-    }
+	}
+	ptcb->TCBState = G_TCBState_READY; 
+	// Check if Inversion occurs !!!!!!!!!!!
 	//gk_LCB_CheckInvertion(readylist); PRINT_DEBUG_LINE
-	G_DEBUG_VERBOSE; PRINT_DEBUG_LINE // Print Debug information 
+
     SAMPLE_FUNCTION_END(39)
     return(G_TRUE);
 }
@@ -1742,12 +1736,9 @@ INT32 gk_TCBRDYL_Unlink(GS_TCB *ptcb)
     SAMPLE_FUNCTION_BEGIN(40)
 	GS_LCB *readylist = ptcb->TCB_RDY_LCB_Index; PRINT_DEBUG_LINE
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-	if ((TCB_IsValid(readylist->LCB_NextTCBRDYL) != G_TRUE && readylist->LCB_NextTCBRDYL != 0) ||
-			(readylist->LCB_NextTCBRDYL == (struct gs_tcb *) 0 && ptcb->TCBType != G_TCBType_IDLE)) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-    if (ptcb->TCBState != G_TCBState_READY) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-#endif
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB not valid\n");
+    PRINT_ASSERT((TCB_IsValid(readylist->LCB_NextTCBRDYL) == G_TRUE || readylist->LCB_NextTCBRDYL == 0),"ERROR in ready list");
+    PRINT_ASSERT((readylist->LCB_NextTCBRDYL != (struct gs_tcb *) 0 || ptcb->TCBType == G_TCBType_IDLE),"ERROR in ready task");
 
     if (ptcb->TCBType != G_TCBType_IDLE)  /* Task Idle is not inserted in ready lists */
     {
@@ -1765,19 +1756,15 @@ INT32 gk_TCBRDYL_Unlink(GS_TCB *ptcb)
 
 	ptcb->TCBState = G_TCBState_UNLINKED; PRINT_DEBUG_LINE
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(readylist->LCB_NextTCBRDYL) != G_TRUE &&
-			readylist->LCB_NextTCBRDYL != (struct gs_tcb *) 0) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-#endif
-	// Check if Inversion occurs  !!!!
-	//gk_LCB_CheckInvertion(readylist); PRINT_DEBUG_LINE
+    PRINT_ASSERT((TCB_IsValid(readylist->LCB_NextTCBRDYL) == G_TRUE || readylist->LCB_NextTCBRDYL == 0),"ERROR in ready list");
+
     SAMPLE_FUNCTION_END(40)
     return(G_TRUE);
 }
 
 /**gk_TCBRUNL_Link
  *  \brief 
- *  Links the TCB to the Run Task List
+ *  Links the TCB to the Run Task List to be executed by the current processor
  *  \param [in] ptcb Pointer to the TCB
  *  \return G_TRUE if successful, G_FALSE otherwise
  *  \todo Implement G_FALSE return
@@ -1786,19 +1773,14 @@ INT32 gk_TCBRDYL_Unlink(GS_TCB *ptcb)
 INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
 {
     SAMPLE_FUNCTION_BEGIN(41)
-	GS_TCB *ptcb1;
+
     GS_LCB *RunList = ptcb->TCB_RDY_LCB_Index; PRINT_DEBUG_LINE
-    ptcb1 = RunList->LCB_NextTCBRUNL; PRINT_DEBUG_LINE
-
-
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb1) != G_TRUE && ptcb1 != (struct gs_tcb *) 0) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-	if ((TCB_IsValid(ptcb) != G_TRUE) && (ptcb != (struct gs_tcb *) 0))G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-    G_DEBUG_VERBOSE
-	if (ptcb->TCBState != G_TCBState_UNLINKED) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-#endif
+    GS_TCB *ptcb1 = RunList->LCB_NextTCBRUNL; PRINT_DEBUG_LINE
     
-    
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE || ptcb == (struct gs_tcb *) 0),"ERROR TCB not valid\n");
+    PRINT_ASSERT((TCB_IsValid(ptcb1) == G_TRUE || ptcb1 == (struct gs_tcb *) 0),"ERROR TCB not valid\n");
+    PRINT_ASSERT((ptcb->TCBState == G_TCBState_UNLINKED),"ERROR TCBState= %d\n",(int) ptcb->TCBState);    
+  
 	gk_TASK_PRIORITY_SET(ptcb, G_TCBState_RUNNING); PRINT_DEBUG_LINE
     
 	/* Set the current processor as the processor associated  of the task */
@@ -1856,8 +1838,7 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
 	}
 
     ptcb->TCBState = G_TCBState_RUNNING; PRINT_DEBUG_LINE
-	// Check if Inversion occurs !!!!!!!!!
-	//gk_LCB_CheckInvertion(RunList); PRINT_DEBUG_LINE
+
     // Si no esta en la lista principal del procesador o es tarea idle, el procesador es puesto como libre
 	if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0] || ptcb->TCBType == G_TCBType_IDLE)
 	{
@@ -1874,13 +1855,7 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
     
     /***********************************************/
     /* Set the processor to ptcb                   */
-    	G_DEBUG_VERBOSE
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if ((ptcb->TCB_StackPointer < ptcb->TCB_StackTop - 300) || (ptcb->TCB_StackPointer > ptcb->TCB_StackBottom)) {
-        PRINT_TO_DEBUG("ERROR TCB= %p, TCB_StackBottom = %p, TCB_StackPointer = %p, TCB_StackTop = %p\n",ptcb, (void *) ptcb->TCB_StackBottom, (void *) ptcb->TCB_StackPointer, (void *)  ptcb->TCB_StackTop); 
-        PRINT_TO_DEBUG("ERROR TCB_IDLE= %p\n", (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB ); 
-        G_DEBUG_WHILEFOREVER; }
-#endif
+    PRINT_ASSERT((ptcb->TCB_StackPointer >= ptcb->TCB_StackTop - 300) && (ptcb->TCB_StackPointer <= ptcb->TCB_StackBottom),"ERROR TCB_StackPointer out of range\n");
 
 	g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB = (struct gs_tcb *) ptcb;
     ptcb->TCB_AssocPCB = GRTOS_CMD_PRC_ID;
