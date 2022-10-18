@@ -27,7 +27,7 @@
 ******************************************************************************/
 
 #include <gemrtos_core.h>
-#include <grtos.h>
+// #include <grtos.h>
 
 #include "sys/alt_exceptions.h"
 #include "nios2.h"

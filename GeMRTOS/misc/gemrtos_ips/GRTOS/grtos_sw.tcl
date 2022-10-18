@@ -77,6 +77,7 @@ add_sw_property include_source inc/grtos_regs.h
 add_sw_property include_source HAL/inc/gemrtos_core.h
 # add_sw_property include_source HAL/inc/gemrtos_core_api.h
 add_sw_property include_source HAL/inc/grtos.h
+add_sw_property include_source HAL/inc/gemrtos.h
 add_sw_property include_source HAL/inc/grtosdefinitions.h
 # add_sw_property include_source HAL/inc/grtosuserapi.h
 # add_sw_property include_source HAL/inc/ext_isr.h

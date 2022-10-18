@@ -174,6 +174,9 @@
 				 while(1){dest++;\
 			 }}while(0)
 
+/**
+ * PRINT_ASSERT lets assert a condition, printa a message, the line where it happened and stop execution
+ */
 #if G_DEBUG_WHILEFOREVER_ENABLE == 1
 	#define PRINT_ASSERT(condition,...) \
         if (!(condition)) { \
