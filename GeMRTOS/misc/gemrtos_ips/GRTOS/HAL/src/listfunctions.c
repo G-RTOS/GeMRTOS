@@ -1764,7 +1764,7 @@ INT32 gk_TCBRDYL_Unlink(GS_TCB *ptcb)
 
 /**gk_TCBRUNL_Link
  *  \brief 
- *  Links the TCB to the Run Task List to be executed by the current processor
+ *  Links the TCB to the Run Task List (to be executed by the current processor)
  *  \param [in] ptcb Pointer to the TCB
  *  \return G_TRUE if successful, G_FALSE otherwise
  *  \todo Implement G_FALSE return
@@ -1839,19 +1839,7 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
 
     ptcb->TCBState = G_TCBState_RUNNING; PRINT_DEBUG_LINE
 
-    // Si no esta en la lista principal del procesador o es tarea idle, el procesador es puesto como libre
-	if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0] || ptcb->TCBType == G_TCBType_IDLE)
-	{
-		if (g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCBState != GS_PCBState_FREE)
-	        gk_LCBFPL_Link(ptcb->TCB_AssocPCB); PRINT_DEBUG_LINE // Link the processor to the free list
-	}
 
-    // Si esta en la lista de ready principal del procesador, entocnes es sacado de la lista de libres
-	if (ptcb->TCB_RDY_LCB_Index == g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0])
-	{
-		if (g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCBState == GS_PCBState_FREE)
-		    gk_LCBFPL_Unlink(ptcb->TCB_AssocPCB); PRINT_DEBUG_LINE // Unlink the processor from the free list
-	}
     
     /***********************************************/
     /* Set the processor to ptcb                   */
@@ -1859,12 +1847,21 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
 
 	g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB = (struct gs_tcb *) ptcb;
     ptcb->TCB_AssocPCB = GRTOS_CMD_PRC_ID;
-    if (g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_RDY_LCBL[0] == ptcb->TCB_RDY_LCB_Index) { /* processor is not idle */
-        gk_LCBFPL_Unlink(GRTOS_CMD_PRC_ID);
-    }
-    else { /* processor is idle */
-        gk_LCBFPL_Link(GRTOS_CMD_PRC_ID);
-    }
+    
+    // Si no esta en la lista principal del procesador o es tarea idle, el procesador es puesto como libre
+	if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCB_RDY_LCBL[0] || ptcb->TCBType == G_TCBType_IDLE)
+	{
+		if (g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCBState != GS_PCBState_FREE)
+	        gk_LCBFPL_Link(GRTOS_CMD_PRC_ID); PRINT_DEBUG_LINE // Link the processor to the free list
+	}
+    else
+	// if (ptcb->TCB_RDY_LCB_Index == g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0])
+	{
+        // Si esta en la lista de ready principal del procesador, entocnes es sacado de la lista de libres        
+		if (g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCBState == GS_PCBState_FREE)
+		    gk_LCBFPL_Unlink(GRTOS_CMD_PRC_ID); PRINT_DEBUG_LINE // Unlink the processor from the free list
+	}
+    
     SAMPLE_FUNCTION_END(41)
     return(G_TRUE);
 }
@@ -1880,32 +1877,22 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
 INT32  gk_TCBRUNL_Unlink(GS_TCB *ptcb)
 {
     SAMPLE_FUNCTION_BEGIN(42)
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-	if (ptcb->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-	if (ptcb->TCBState == G_TCBState_UNLINKED) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-#endif
+    
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB not valid\n");
+    PRINT_ASSERT((ptcb->TCBState == G_TCBState_RUNNING),"ERROR TCBState= %d, should be Running\n", (int) ptcb->TCBState);
 
     GS_LCB *RunList = ptcb->TCB_RDY_LCB_Index; PRINT_DEBUG_LINE
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-    if (TCB_IsValid(RunList->LCB_NextTCBRUNL) != G_TRUE) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-	if (ptcb->TCB_AssocPCB < 1 || ptcb->TCB_AssocPCB > G_NUMBER_OF_PCB) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-#endif
-
+    PRINT_ASSERT((TCB_IsValid(RunList->LCB_NextTCBRUNL) == G_TRUE),"ERROR TCB not valid\n");
+    PRINT_ASSERT((ptcb->TCB_AssocPCB >= 1 && ptcb->TCB_AssocPCB <= G_NUMBER_OF_PCB),"ERROR TCB_AssocPCB= %d\n", (int) ptcb->TCB_AssocPCB);    
 
     /// Stop the processor executing running task triggering its interrupt
     if (ptcb->TCB_AssocPCB != GRTOS_CMD_PRC_ID ) {
-        // fprintf(stderr, "[ OK ] Processor %d trigger proc %d in %s, %d\n", GRTOS_CMD_PRC_ID, ptcb->TCB_AssocPCB, __FUNCTION__,__LINE__);
         GRTOS_CMD_PRC_INT(ptcb->TCB_AssocPCB);
     }
+    
     if (g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCBState != GS_PCBState_FREE)
     	gk_LCBFPL_Link(ptcb->TCB_AssocPCB); PRINT_DEBUG_LINE // Link processor to free list
-
-
-	/* Runs in background or it is an IDLE TCB, then unlink processor from Free List */
-	//if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0] ||
-	//		ptcb->TCBType == G_TCBType_IDLE) gk_LCBFPL_Unlink(ptcb->TCB_AssocPCB); PRINT_DEBUG_LINE
 
 
     if (RunList->LCB_NextTCBRUNL == ptcb){ // checks if it is the first TCP in RUNNING LIST
@@ -1936,10 +1923,11 @@ INT32  gk_TCBRUNL_Unlink(GS_TCB *ptcb)
     /* Desassociate the task from the processor */    
     // g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_EXECTCB = (struct gs_tcb *) 0;
     g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_EXECTCB = g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_IDLETCB;
-	ptcb->TCB_AssocPCB = (INT32) 0; PRINT_DEBUG_LINE
+    
+    if (ptcb->TCBType != G_TCBType_IDLE) ptcb->TCB_AssocPCB = (INT32) 0; PRINT_DEBUG_LINE
+    
 	ptcb->TCBState = G_TCBState_UNLINKED; PRINT_DEBUG_LINE
-	// Check if Inversion occurs
-	//gk_LCB_CheckInvertion(RunList); PRINT_DEBUG_LINE
+
 	SAMPLE_FUNCTION_END(42)
     return(G_TRUE);
 }
