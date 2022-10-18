@@ -163,12 +163,13 @@ void gk_ENTRY_IRQ_HANDLER (void)
     GS_ECB *pevent;
     GS_TCB *ptcb; 
     
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if ((alt_irq_pending() != 1) && (alt_irq_pending() != 0)) G_DEBUG_WHILEFOREVER;   // Only interrupt from GRTOS supported
-	if (G_Running == G_FALSE) G_DEBUG_WHILEFOREVER;  
-#endif
-	
-    // g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB
+    // Only when GeMRTOS is running
+    PRINT_ASSERT((G_Running == G_TRUE),"ERROR G_Running= %d\n",G_Running);
+    // Only interrupt from GRTOS supported
+    PRINT_ASSERT(((alt_irq_pending() == 1) || (alt_irq_pending() == 0)),"ERROR alt_irq_pending()= %d\n",(int) alt_irq_pending());
+    // Check that SP is in the stack of the IDLE task of the processor    
+	PRINT_ASSERT(((GRTOS_CMD_PRC_SP <= (INT32) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB->TCB_StackBottom) && ((INT32) GRTOS_CMD_PRC_SP >= (int) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB->TCB_StackTop - 300)),"ERROR SP = %d\n",(int) GRTOS_CMD_PRC_SP);
+
     
 	GRTOS_CMD_PRC_INT_DSB;             /// Disable processor interrupt
 	GRTOS_CMD_INT_PRC_PND_CLR;         /// Remove pending interrupt of current processor
@@ -176,56 +177,45 @@ void gk_ENTRY_IRQ_HANDLER (void)
     SAMPLE_FUNCTION_BEGIN(1001);
  
     // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "In %s, %d \n", __FUNCTION__, __LINE__);                    
-	GRTOS_CMD_CRITICAL_SECTION_GET;   /// Get into critical section
-    
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	void *StackPointer;               // Check that SP is in the stack of the IDLE task of the processor
-	NIOS2_READ_SP(StackPointer); 
-	if (((int) StackPointer > (int) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB->TCB_StackBottom) || ((int) StackPointer < (int) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB->TCB_StackTop - 300)) fprintf(stderr, "[ FAIL ] Processor %d error in SP for IDLE in %s, %d\n", GRTOS_CMD_PRC_ID, __FUNCTION__,__LINE__);; 
-#endif    
+	GRTOS_CMD_CRITICAL_SECTION_GET;   /// Get into critical section 
 
 	event_code = GRTOS_CMD_EVN_OCC;  
 	while(event_code)
 	{
         switch (event_code) {
             case EVN_CODE_TIMED:
-                pevent = g_kcb.KCB_NextECBTL; 
                 /// Time Event happened
-                // gk_KERNEL_TIME_IRQ_HANDLER();  
-                #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-                    ptcb   = pevent->ECB_AssocTCB; 
-                    if ((ECB_IsValid(pevent) != G_TRUE) || (pevent == (struct gs_ecb *) 0)) G_DEBUG_WHILEFOREVER; 
-                    if ((TCB_IsValid(ptcb) != G_TRUE) || (ptcb == (struct gs_tcb *) 0)) G_DEBUG_WHILEFOREVER; 
-                    if (g_kcb.KCB_NextECBTL == (struct gs_ecb *) 0) G_DEBUG_WHILEFOREVER; 
-                #endif
-                        
-                gk_ECBTL_Unlink((GS_ECB *)pevent);     /* Unlink the EVENT from Time Waiting Event List     */
+                pevent = g_kcb.KCB_NextECBTL; 
                 
+                PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR no valid timed event\n");
+                PRINT_ASSERT((TCB_IsValid(pevent->ECB_AssocTCB) == G_TRUE),"ERROR no valid TASK associated with event\n");
+                PRINT_ASSERT((g_kcb.KCB_NextECBTL != (struct gs_ecb *) 0),"ERROR no next event in timed event list\n");
+
+                /* Unlink the EVENT from Time Waiting Event List     */        
+                gk_ECBTL_Unlink((GS_ECB *)pevent);     
                 // Call the TIME_CALLBACK funtion to resolve according to the event type
                 gk_TIME_CALLBACK((GS_ECB *) pevent);
                 break;
+                
             case EVN_CODE_FROZEN:
+                // The Frozen event is acknowledge to process the following events
                 GRTOS_CMD_FRZ_EVN_CLR;
-                // fprintf(stderr,"[ MESSAGE ] FROZEN EVENT . Proc: %d\n", GRTOS_CMD_PRC_ID);
                 // Calls the gk_FROZEN_CALLBACK() routine in grtosfunctions.c file where 
                 // user may inplement frozen mode strategy
                 gk_FROZEN_CALLBACK();
-                // gk_KERNEL_FROZEN_IRQ_HANDLER(); /// Frozen Event happened
                 break;
             default: 
                 event_code--;  /// An External IRQ happened: IRQ = event_code, IRQ index = event_code - 1
-                // fprintf(stderr, "In %s, %d: Interrupt event %d", __FUNCTION__, __LINE__, event_code);
             
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-			if (g_kcb.KCB_ExtISR[event_code].G_TCB_ISR == (struct gs_tcb *) 0) G_DEBUG_WHILEFOREVER;  
-            if (!GRTOS_TASK_STATE_WAITING(g_kcb.KCB_ExtISR[event_code].G_TCB_ISR)) G_DEBUG_WHILEFOREVER;  // No re-entry for ISR
-#endif
+                PRINT_ASSERT((g_kcb.KCB_ExtISR[event_code].G_TCB_ISR != (struct gs_tcb *) 0),"ERROR Interrupt happened but without an associated ISR\n");
+                PRINT_ASSERT((GRTOS_TASK_STATE_WAITING(g_kcb.KCB_ExtISR[event_code].G_TCB_ISR)),"ERROR Interrupt ISR is not waiting (re-entry not allowed because interrupt is enabled when ISRs are completed)\n");
+
                 gk_ISR_RELEASE (event_code);
                 break;
 
 		}
-        event_code = 0;
-		// event_code = GRTOS_CMD_EVN_OCC; 
+        // Processor handler just one event and continue to avoid starving other processors from mutex
+        event_code = 0; 
 	}
 
     // #####################################################
@@ -233,11 +223,9 @@ void gk_ENTRY_IRQ_HANDLER (void)
 	GS_TCB *ptcbfrom = gk_PCB_GetCurrentTCB(); 
 	GS_TCB *ptcbto   = gk_PCB_GetNextTCB(); 
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcbto) != G_TRUE) G_DEBUG_WHILEFOREVER; 
-	if (TCB_IsValid(ptcbfrom) != G_TRUE && ptcbfrom != (struct gs_tcb *) 0) G_DEBUG_WHILEFOREVER; 
-	if (ptcbto->TCBState != G_TCBState_READY && ptcbto->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; 
-#endif
+    PRINT_ASSERT((TCB_IsValid(ptcbfrom) == G_TRUE),"ERROR current executing task is not a valid task\n");
+    PRINT_ASSERT((TCB_IsValid(ptcbto) == G_TRUE),"ERROR next executing task is not a valid task\n");
+    PRINT_ASSERT((ptcbto->TCBState == G_TCBState_READY || ptcbto->TCBState == G_TCBState_RUNNING),"ERROR next executing task is neither resdy nor running\n");
 
 	if (ptcbfrom != ptcbto) {
 		if (ptcbfrom->TCBState == G_TCBState_RUNNING){

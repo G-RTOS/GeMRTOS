@@ -174,6 +174,15 @@
 				 while(1){dest++;\
 			 }}while(0)
 
+#if G_DEBUG_WHILEFOREVER_ENABLE == 1
+	#define PRINT_ASSERT(condition,...) \
+        if (!(condition)) { \
+            fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+            G_DEBUG_WHILEFOREVER; \
+        }
+#else
+    #define PRINT_ASSERT(condition,...) 
+#endif
 
 /// \todo Check if it required
 #define G_DEBUG_RUN_MONITOR_ROUTINE \

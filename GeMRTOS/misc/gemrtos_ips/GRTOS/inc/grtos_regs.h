@@ -308,6 +308,12 @@ do { \
 /// GRTOS_CMD_PRC_ID  - returns the cpuID of the current processor
 #define GRTOS_CMD_PRC_ID  __builtin_rdctl(5)
 
+/// GRTOS_CMD_PRC_SP  - returns the Stack Pointer register (SP) of the current processor
+#define GRTOS_CMD_PRC_SP  ({ \
+        void *StackPointer; \
+        NIOS2_READ_SP(StackPointer); \
+        (INT32) StackPointer; \
+    })
 
 /// \brief GRTOS_CMD_PRC_INT(proc) 
 /// interrupts the processor and waits until it reaches the ISR and disables the interrupt

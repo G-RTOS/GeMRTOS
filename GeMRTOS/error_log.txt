@@ -127,6 +127,10 @@
 + cygpath -m /cygdrive/c/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/software/hellogemrtos_bsp
 + echo '[BSP' clean 'complete]'
 + cygpath -m /cygdrive/c/GeMRTOS/GeMRTOS/GeMRTOS/bemicrosdk/software/hellogemrtos_bsp
+drivers/src/grtos_kernel.c: In function 'gk_ENTRY_IRQ_HANDLER':
+drivers/src/grtos_kernel.c:164:13: warning: unused variable 'ptcb' [-Wunused-variable]
+     GS_TCB *ptcb; 
+             ^
 + echo '[BSP' build 'complete]'
 + cd ../hellogemrtos_bsp
 + pwd
