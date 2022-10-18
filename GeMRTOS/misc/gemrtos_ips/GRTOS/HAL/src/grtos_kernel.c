@@ -344,16 +344,7 @@ void  gk_KERNEL_TASK_COMPLETE(void)
     PRINT_ASSERT((TCB_IsValid(ptcbtostart) == G_TRUE),"ERROR Completed task is not valid %p \n",(void *) ptcbtostart);
 	PRINT_ASSERT((GRTOS_CMD_PRC_SP <= (INT32) (int) ptcbtostart->TCB_StackBottom),"ERROR SP out of bottom = %d\n",(int) GRTOS_CMD_PRC_SP);
     PRINT_ASSERT((GRTOS_CMD_PRC_SP > (INT32) (int) ptcbtostart->TCB_StackTop - 300),"ERROR SP out of top = %d\n",(int) GRTOS_CMD_PRC_SP);
-    PRINT_ASSERT((ptcbtostart->TCBState == G_TCBState_RUNNING),"ERROR Completed task (%p) is not running, TCBState= %d\n",(void *) ptcbtostart->TCBState);
-    
-// #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-//     if (TCB_IsValid(ptcbtostart) != G_TRUE) {PRINT_TO_DEBUG("ERROR TCB= %p\n",ptcbtostart); G_DEBUG_WHILEFOREVER;}
-// 	void *StackPointer; 
-// 	NIOS2_READ_SP(StackPointer); 
-// 	if ((int) StackPointer > (int) ptcbtostart->TCB_StackBottom) G_DEBUG_WHILEFOREVER; 
-// 	if ((int) StackPointer < (int) ptcbtostart->TCB_StackTop - 300) G_DEBUG_WHILEFOREVER; 
-//     if (ptcbtostart->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; PRINT_DEBUG_LINE
-// #endif
+    PRINT_ASSERT((ptcbtostart->TCBState == G_TCBState_RUNNING),"ERROR Completed task (%p) is not running, TCBState= %d\n",(void *) (void *) ptcbtostart, ptcbtostart->TCBState);
 
 	gk_TCB_Unlink(ptcbtostart); 
 
@@ -367,10 +358,8 @@ void  gk_KERNEL_TASK_COMPLETE(void)
 	/// Get the Next Priority to run in the current processor
 	ptcbtostart = gk_PCB_GetNextTCB(); 
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if ((TCB_IsValid(ptcbtostart) != G_TRUE) || (ptcbtostart == (struct gs_tcb *) 0)) G_DEBUG_WHILEFOREVER; 
-	if (ptcbtostart->TCBState != G_TCBState_READY) G_DEBUG_WHILEFOREVER; 
-#endif
+    PRINT_ASSERT((TCB_IsValid(ptcbtostart) == G_TRUE),"ERROR Next start task (%p) is not valid\n",(void *) ptcbtostart);
+    PRINT_ASSERT((ptcbtostart->TCBState == G_TCBState_READY),"ERROR Next start task state is not ready, TCBState= %d\n",(int) ptcbtostart->TCBState);
 
 	gk_TCBRDYL_Unlink(ptcbtostart); 
     gk_TCBRUNL_Link(ptcbtostart); 
@@ -400,6 +389,9 @@ void  gk_KERNEL_TASK_COMPLETE(void)
 void gk_KERNEL_TASK_SUSPEND(GS_TCB *ptcb)
 {
     SAMPLE_FUNCTION_BEGIN(1004);
+    
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR Task to suspend (%p) is not valid\n",(void *) ptcb);
+    
 	/* if not running nor ready, then nothing to do */
 	if (ptcb->TCBState != G_TCBState_READY && ptcb->TCBState != G_TCBState_RUNNING)
 	{
@@ -408,9 +400,6 @@ void gk_KERNEL_TASK_SUSPEND(GS_TCB *ptcb)
 		} else {
 			/* Check current task state */
 			if (ptcb->TCBState == G_TCBState_RUNNING){
-				/* task is running, interrupt processor */
-                // j = ptcb->TCB_AssocPCB; 
-                // fprintf(stderr, "[ OK ] Processor %d trigger proc %d in %s, %d\n", GRTOS_CMD_PRC_ID, j, __FUNCTION__,__LINE__);
                 GRTOS_CMD_PRC_INT(ptcb->TCB_AssocPCB);  /// Stop the processor triggering its interrupt
 			}
 			/* Unlink the task from ready or running */
@@ -436,10 +425,8 @@ void gk_KERNEL_TASK_SUSPEND_CURRENT(void)
 
     SAMPLE_FUNCTION_BEGIN(1005);
 
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcbfrom) != G_TRUE || ptcbfrom == (GS_TCB *) 0) G_DEBUG_WHILEFOREVER; 
-	if (ptcbfrom->TCBState != G_TCBState_RUNNING) G_DEBUG_WHILEFOREVER; 
-#endif
+    PRINT_ASSERT((TCB_IsValid(ptcbfrom) == G_TRUE),"ERROR Task to suspend (%p) is not valid\n",(void *) ptcbfrom);
+    PRINT_ASSERT((ptcbfrom->TCBState == G_TCBState_RUNNING),"ERROR Current task is not runnnig, TCBState= %d\n",(int) ptcbfrom->TCBState);
 
     // Assembler code reads this variable to storage the sp register
     G_TCB_CURRENT = (GS_STK) &g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer;
