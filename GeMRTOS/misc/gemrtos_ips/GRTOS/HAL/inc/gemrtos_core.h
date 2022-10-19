@@ -31,7 +31,6 @@
 #ifndef GEMRTOS_CORE_H_
 #define GEMRTOS_CORE_H_
 
-#include <grtosdefinitions.h>
 
 /************************************************************************************
  *  GRTOS TYPE DEFINITIONS
@@ -47,7 +46,6 @@ typedef struct gs_rrds     GS_RRDS;
 typedef struct g_rgb       G_RCB;
 typedef struct gs_mcb      GS_MCB; 
 typedef struct g_rgb       t_semaphore_resource;
-typedef union timepriority TIMEPRIORITY;
 
 /* This is the definition for Nios32.  */
 typedef unsigned long long INT64;
@@ -57,10 +55,10 @@ typedef unsigned int       GS_STK;      /* Type to Stack Pointers        */
 typedef unsigned long long gt_time;
 typedef unsigned long long gt_priority;
 
-union timepriority {
+typedef union timepriority {
         INT64 i64  __attribute__((aligned(4)));
         INT32 i32[2];
-};
+} TIMEPRIORITY;
 
 #include <mq.h>
 
@@ -712,16 +710,12 @@ GS_TCB *gk_CreateTask(void *TaskCode,
                      int TCB_INTNumber); 
                      
 INT32 gk_TASK_STK_Init(GS_TCB *ptcb);
-// void gk_TASK_TCB_Init (GS_TCB *ptcb);
-// void gk_INIT_IRQ(void);
-// void gk_KERNEL_TIME_IRQ_HANDLER (void);
 void gk_TIME_CALLBACK(GS_ECB *event);
 void gk_RESOURCE_ECB_KILL_CALLBACK(GS_ECB *pevent);
 void gk_FROZEN_CALLBACK(void);
 void gk_INIT_KERNEL(void);
 void gk_KERNEL_TASK_COMPLETE(void);
 void GRTOS_Task_GetPendingSCB(void);
-// void gk_KERNEL_FROZEN_IRQ_HANDLER(void);
 void gk_RST_MONITOR_HANDLER (void);
 
 

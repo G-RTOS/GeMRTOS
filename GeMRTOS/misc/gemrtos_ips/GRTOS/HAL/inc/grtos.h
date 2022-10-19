@@ -62,6 +62,7 @@ extern "C"
 // void *GRTOS_MONITOR_BASE;
 
 /*
+ * https://www.intel.com/content/www/us/en/docs/programmable/683282/current/enabling-software-initialization.html
  * Macros used by alt_sys_init when the ALT file descriptor facility isn't used.
  */
 

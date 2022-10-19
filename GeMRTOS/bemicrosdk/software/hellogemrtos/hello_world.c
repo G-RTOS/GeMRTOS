@@ -8,9 +8,8 @@
  */
 
 #include <stdio.h>
-// #include <mq.h>
-// #include <sem.h>
-#include <gemrtos_core.h>
+
+#include <gemrtos.h>
 
 // Change this for final version. This is just to make real-time tasks for runtime testing
 // #include "C:/genericDE10/corrida/rts.h"

@@ -28,7 +28,7 @@
 ******************************************************************************/
 
 
-#include <gemrtos_core.h>
+#include <gemrtos.h>
 // #include <grtos.h>
 #include <stdlib.h>
 

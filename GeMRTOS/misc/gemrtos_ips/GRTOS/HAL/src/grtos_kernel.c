@@ -26,7 +26,7 @@
 *                                                                             *
 ******************************************************************************/
 
-#include <gemrtos_core.h>
+#include <gemrtos.h>
 // #include <grtos.h>
 
 #include "sys/alt_exceptions.h"
@@ -167,7 +167,7 @@ void gk_ENTRY_IRQ_HANDLER (void)
     // Only interrupt from GRTOS supported
     PRINT_ASSERT(((alt_irq_pending() == 1) || (alt_irq_pending() == 0)),"ERROR alt_irq_pending()= %d\n",(int) alt_irq_pending());
     // Check that SP is in the stack of the IDLE task of the processor    
-	PRINT_ASSERT(((GRTOS_CMD_PRC_SP <= (INT32) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB->TCB_StackBottom) && ((INT32) GRTOS_CMD_PRC_SP >= (int) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB->TCB_StackTop - 300)),"ERROR SP = %d\n",(int) GRTOS_CMD_PRC_SP);
+	PRINT_ASSERT(((GRTOS_CMD_PRC_SP <= (INT32) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB->TCB_StackBottom) && ((INT32) GRTOS_CMD_PRC_SP >= (int) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_IDLETCB->TCB_StackTop - 300)),"ERROR SP = 0x%x\n",(int) GRTOS_CMD_PRC_SP);
 
     
 	GRTOS_CMD_PRC_INT_DSB;             /// Disable processor interrupt

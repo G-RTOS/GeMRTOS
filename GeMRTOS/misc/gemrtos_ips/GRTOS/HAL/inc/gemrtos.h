@@ -30,6 +30,19 @@
 #ifndef __GEMRTOS_H__
 #define __GEMRTOS_H__
 
+#include <system.h>
+#include <stdio.h>
+#include "sys/alt_irq.h"
+#include "priv/alt_irq_table.h"
+#include <sys/alt_cache.h>
+#include <inttypes.h>
+#include <assert.h>
+#include <grtos_regs.h>
+
+#include "../runtime/rts_gemrtos.h"
+
+#include <grtosdefinitions.h>
+#include <gemrtos_core.h>
 
 
 #endif /* __GEMRTOS_H__ */

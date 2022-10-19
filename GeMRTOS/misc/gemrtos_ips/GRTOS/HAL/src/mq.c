@@ -28,7 +28,7 @@
 
 
 // #include <stdio.h>
-#include <gemrtos_core.h>
+#include <gemrtos.h>
 #include <string.h>
 
 OPTIMEZE_CODE(3)

@@ -29,7 +29,8 @@ set_sw_property version 0.9
 set_sw_property min_compatible_hw_version 0.0
 
 # Initialize the driver in alt_sys_init()
-set_sw_property auto_initialize true
+# read https://www.intel.com/content/www/us/en/docs/programmable/683282/current/enabling-software-initialization.html
+set_sw_property auto_initialize false
 
 # Initialize the driver in alt_irq_init() if this module
 # is recognized as containing an interrupt controller.
@@ -76,7 +77,7 @@ add_sw_property asm_source HAL/src/grtos_switch.S
 add_sw_property include_source inc/grtos_regs.h
 add_sw_property include_source HAL/inc/gemrtos_core.h
 # add_sw_property include_source HAL/inc/gemrtos_core_api.h
-add_sw_property include_source HAL/inc/grtos.h
+# add_sw_property include_source HAL/inc/grtos.h
 add_sw_property include_source HAL/inc/gemrtos.h
 add_sw_property include_source HAL/inc/grtosdefinitions.h
 # add_sw_property include_source HAL/inc/grtosuserapi.h
