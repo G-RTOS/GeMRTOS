@@ -32,6 +32,17 @@
 #define GEMRTOS_CORE_H_
 
 
+
+
+
+
+
+/************************************************************************************
+ *  System constants definitions
+ ************************************************************************************/
+#define G_FALSE             0u
+#define G_TRUE              1u
+
 /************************************************************************************
  *  GRTOS TYPE DEFINITIONS
  ************************************************************************************/
@@ -46,6 +57,7 @@ typedef struct gs_rrds     GS_RRDS;
 typedef struct g_rgb       G_RCB;
 typedef struct gs_mcb      GS_MCB; 
 typedef struct g_rgb       t_semaphore_resource;
+typedef union timepriority TIMEPRIORITY;
 
 /* This is the definition for Nios32.  */
 typedef unsigned long long INT64;
@@ -55,21 +67,10 @@ typedef unsigned int       GS_STK;      /* Type to Stack Pointers        */
 typedef unsigned long long gt_time;
 typedef unsigned long long gt_priority;
 
-typedef union timepriority {
-        INT64 i64  __attribute__((aligned(4)));
-        INT32 i32[2];
-} TIMEPRIORITY;
-
-#include <mq.h>
-
-
-
-/************************************************************************************
- *  System constants definitions
- ************************************************************************************/
-#define G_FALSE             0u
-#define G_TRUE              1u
-
+union timepriority {
+    INT64 i64  __attribute__((aligned(4)));
+    INT32 i32[2];
+};
 
 typedef struct gs_tm {
 	int	tm_msec;	/* Seconds: 0-59 (K&R says 0-61?) */
@@ -160,8 +161,6 @@ struct gs_kcb {
 	struct gs_scb     *KCB_NextKCBASL;       ///< \brief Pointer to Signal Associated List for KCB
     struct gs_ext_isr KCB_ExtISR[ALT_NIRQ] __attribute__((aligned(4)));  ///< \brief Pointers to ISR TCBs for each interrupt number
     
-    // int     *GRTOS_PROCESSOR_BASE[G_NUMBER_OF_PCB+1] __attribute__((aligned(4))); /// \brief Processor specific addresses to go to idle state
-    
     GS_PCB  *G_PCBTbl __attribute__((aligned(4)));                                /// \brief Pointer to PCBs dynamic array
     
     INT32             KCB_NUMBER_OF_TCBs;    ///< \brief Number of TCB in the system 
@@ -172,9 +171,7 @@ struct gs_kcb {
     INT32             KCB_NUMBER_OF_SCBs;    ///< \brief Number of SCB in the system 
     INT32             KCB_NUMBER_OF_RRDSs;   ///< \brief Number of RRDS in the system 
     
-    /// IDLE and ISR tasks 
-    // volatile INT32   G_ISR_STACK[ALT_NIRQ][G_ISR_STACKSIZE] __attribute__((aligned(4)));           ///< \brief Array of STACKS for ISR tasks
-    // volatile GS_STK  G_IDLE_STACK[G_NUMBER_OF_PCB][G_IDLE_STACKSIZE] __attribute__((aligned(4)));  ///< \brief Array of STACKS for IDLE tasks    
+    /// IDLE and ISR tasks    
     volatile INT32   *G_ISR_STACK;
     volatile GS_STK  *G_IDLE_STACK;
     
@@ -235,7 +232,7 @@ struct gs_lcb {
  *  \todo Define the type for processors
  */
 struct gs_pcb {
-	int PCBID;                                  ///< \brief Processor ID 
+	INT32 PCBID;                                ///< \brief Processor ID 
 	int PCBState;                               ///< \brief State of the PCB : GS_FREE_PROCESSOR, GS_RUNNING_PROCESSOR  \ingroup PCBState
     int PCBType;                                ///< \brief Type of the processor                                       \ingroup PCBType
     int *GRTOS_PROCESSOR_BASE __attribute__((aligned(4))); /// \brief Processor specific addresses to go to idle state    
@@ -253,128 +250,6 @@ struct gs_pcb {
 
 #define  GS_PCBType_UNSPECIFIED           1u    ///< \brief It is FREE when not executing a main list task         \ingroup PCBState
 
-// #include <mq.h>
-#include <sem.h>
-
-// /** MESSAGE RESOURCE *************************************************************/
-// /**
-//  *  \todo Check if T_MESSAGE_RESOURCE structure is required
-//  */
-// struct T_MESSAGE_RESOURCE {
-//     INT32          MESSize;            /** Size of queue (maximum number of entries) */
-//     INT32          MESEntries;         /** Current number of entries in the queue    */
-//     struct gs_mcb  *MES_FirstMCB;      /** Pointer to the first MCB of queue data    */
-//     struct gs_mcb  *MES_LastMCB;       /** Pointer to the last MCB of queue data     */
-//     INT32          LAST_MCB_ID;        /** Last MCB_ID assigned to a MCB             */
-// };
-// 
-// /** QUEUE DATA STRUCTURE *********************************************************/
-// /**
-//  *  \todo Check if gs_mcb structure is required
-//  */
-// struct gs_mcb {                      /** MESSAGE CONTROL BLOCK                        */
-//     INT32         MCBState;          /** State of the Queue: UNUSED, FREE, LINKED       */
-//     INT32         MCBCount;          /** Number of task to deliver the message         */
-// 	struct gs_mcb *MCB_NextMCB;      /** Link to next queue control block in list of free blocks */
-// 	struct gs_mcb *MCB_PrevMCB;      /** Link to next queue control block in list of free blocks */
-//     void          *MCB_StartMessage; /** Pointer to the start of message data        */
-//     void          *MCB_EndMessage;   /** Pointer to the end of message data                */
-//     INT32         MCB_ID;            /** Identification for the MCB     */
-//     INT32         MCB_RlsCount;      /** Number of task to deliver the message         */
-// };
-// 
-// /// MCBState valid values
-// #define  GK_MCBState_UNLINKED   2u
-// #define  GK_MCBState_FREE       3u
-// #define  GK_MCBState_LINKED     4u
-
-
-extern struct T_QUEUE_RESOURCE     queue;
-
-//*************************************************************************************************
-/// \defgroup RCBState g_rgb::RCBState 
-/// \defgroup RCBType  g_rgb::RCBType 
-
-/// G_RCB Resource Request Data Structure
-/**
- *  \brief g_rgb  Resource Control Block (RCB)
- *  \details The g_rgb holds information about different kinds of resources.
- *  \todo Define a unified structure for different kind of resources. 
- */
-struct g_rgb{
-    struct {
-        unsigned int  BLOCK_HASH;             ///< \brief BLOCK_HASH of the RCB: (GS_RCB *) + 3
-        INT32         RCBState;               ///< \brief State of the Resource              \ingroup RCBState
-        INT32         RCBType;                ///< \brief Type of resource control block     \ingroup RCBType
-        INT32         RCBCount;               ///< \brief Counter for RCB
-        void          *malloc_address;        ///< \brief Pointer memory address of the malloc block                         
-        TIMEPRIORITY  RCBPriority;            ///< \brief Priority of the resource
-        TIMEPRIORITY  RCBGrantedPriority;     ///< \brief Lowest Priority of Current Granted Task
-        TIMEPRIORITY  RCBWaitingTimeout;      ///< \brief Default waiting timeout
-        TIMEPRIORITY  RCBGrantedTimeout;      ///< \brief Default granted timeout
-        struct gs_ecb *RCB_NextRCBWEL;        ///< \brief Pointer to linked list of waiting events of this event
-        struct gs_ecb *RCB_NextRCBGEL;        ///< \brief Pointer to the linked highest priority event
-        struct g_rcb  *RCB_NextRCB;           ///< \brief Pointer to link resources in free list
-        struct gs_scb *RCB_NextRCBASL;        ///< \brief Pointer to the Linked list of signals
-        
-        /// Fields for debugging
-        struct g_rgb *RCB_NEXT_RCBs;     ///< \brief Pointer to next RCB structure. Used for debugging purposes.
-        struct g_rgb *RCB_PREV_RCBs;     ///< \brief Pointer to previous RCB structure. Used for debugging purposes.
-    };    
-    union {
-        struct T_SEMAPHORE_RESOURCE semaphore;         ///< \brief is the semaphore resource structure
-        struct T_QUEUE_RESOURCE     queue;             ///< \brief is the queue resource, defined in mq.h
-    };
-};
-
-/// RCBState valid values                     
-#define  GK_RCBState_SEM           3u        ///< \brief State SEM for semaphore of the RCB    \ingroup RCBState 
-#define  GK_RCBState_MQ            4u        ///< \brief State MQ for MESSAGE QUEUE of the RCB \ingroup RCBState
-#define  GK_RCBState_UNDEFINED     5u        ///< \brief State UNDEFINED of the RCB            \ingroup RCBState
-#define  GK_RCBState_QUEUE         6u        ///< \brief State QUEUE for QUEUE of the RCB      \ingroup RCBState
-
-/// RCBType valid values
-#define  GK_RCBType_UNUSED         1u        ///< \brief Type UNUSED of the RCB               \ingroup RCBState 
-#define  GK_RCBType_FREE           2u        ///< \brief Type FREE of the RCB                 \ingroup RCBState
-#define  GK_RCBType_SEM            3u        ///< \brief Type SEM for semaphore of the RCB    \ingroup RCBState
-#define  GK_RCBType_MQ             4u        ///< \brief Type MQ for MESSAGE QUEUE of the RCB \ingroup RCBState
-#define  GK_RCBType_QUEUE          5u        ///< \brief Type QUEUE for QUEUE of the RCB      \ingroup RCBState
-
-
-//*************************************************************************************************
-/// \defgroup RRDS_State gs_rrds::SCBState 
-/// \defgroup RRDS_Type  gs_rrds::SCBType 
-
-/// GS_RRDS Resource Request Data Structure
-/**
- *  \brief gs_rrds  Resource Request Data Structure (RRDS)
- *  \details The gs_rrds holds information about different kinds of resource requests.
- *  \todo Define a unified srtucture for different kind of resources. 
- */
-struct gs_rrds {
-    struct {
-            unsigned int   BLOCK_HASH;           ///< \brief BLOCK_HASH of the RRDS: (GS_RRDS *) + 5
-            INT32          RRDS_State;           ///< \brief STATE of the RRDS      \ingroup RRDS_State
-            INT32          RRDS_Type;            ///< \brief TYPE of the RRDS       \ingroup RRDS_Type           
-            void           *malloc_address;      ///< \brief Pointer memory address of the malloc block                            
-            struct gs_rrds *RRDS_NextRRDS;       ///< \brief Pointer to the next RRDS structure                    
-            struct gs_scb  *RRDS_NextSCB;        ///< \brief Pointer to the Linked list of signals 
-            struct gs_ecb  *RRDS_AsocECB;        ///< \brief Pointer to ECB the RRDS is linked to
-            
-            /// Fields for debugging
-            struct gs_rrds  *RRDS_NEXT_RRDSs;     ///< \brief Pointer to next RRDS structure. Used for debugging purposes.
-            struct gs_rrds  *RRDS_PREV_RRDSs;     ///< \brief Pointer to previous RRDS structure. Used for debugging purposes.            
-    };
-    union {
-        struct {         
-            TIMEPRIORITY   RRDSWaitingTimeout;   ///< \brief Timeout for waiting the resource      
-            TIMEPRIORITY   RRDSGrantedTimeout;   ///< \brief Timeout for granting the resource     
-            TIMEPRIORITY   RRDSWaitingPriority;  ///< \brief Priority for waiting the resource     
-            TIMEPRIORITY   RRDSGrantedPriority;  ///< \brief Priority for granting the resource    
-        };
-        struct queue_buffer queue_buffer;                 ///< \brief QUEUE BUFFER structure defined in mq.h
-    };
-};
 
 
 //*************************************************************************************************
@@ -822,6 +697,8 @@ INT32 gk_SetTaskISR(struct gs_tcb *ptcb, unsigned int irq_nbr);
  */
 void gk_MONITOR_FIFO_SAMPLE(int data);
 INT32 Check_list_TCBAEL_IsValid(int cycles);
+
+
 
 
 
