@@ -791,14 +791,17 @@ alt_exception_result handler(alt_exception_cause cause,
  */
 void gk_CODE_IDLE_TASK(void* pdata)
 {
-    void *StackPointer;               // Check that SP is in the stack of the IDLE task of the processor
+    void *StackPointer = (void *) GRTOS_CMD_PRC_SP;               // Check that SP is in the stack of the IDLE task of the processor
 	while(1)
     {
+        PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, (int) StackPointer);
         #if G_DEBUG_PRINT_WHEN_PROCESSOR_GOES_IDLE == 1
             NIOS2_READ_SP(StackPointer);
             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "I, proc=%d, sp=%p \n", GRTOS_CMD_PRC_ID, StackPointer);
+            PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, (int) StackPointer);
         #endif
-        GRTOS_CMD_HALT_PROCESSOR; // Put the procesor in HALT mode 
+        GRTOS_CMD_HALT_PROCESSOR; // Put the procesor in HALT mode
+        PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, (int) StackPointer);
     }
 }
 

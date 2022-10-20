@@ -88,10 +88,7 @@ GS_TCB *gk_TCB_GetFree(void)
     ptcb->TCB_PREV_TCBs = (struct gs_tcb *) 0;
     g_kcb.KCB_ROOT_TCBs = (struct gs_tcb *) ptcb;
 
-
-#if G_DEBUG_WHILEFOREVER_ENABLE == 1
-	if (TCB_IsValid(ptcb) != G_TRUE) G_DEBUG_WHILEFOREVER;
-#endif
+    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR G_Running= %d\n",G_Running);
 
     SAMPLE_FUNCTION_END(36)
     return ptcb;

@@ -187,6 +187,12 @@ void task_generic(void* pdata)
     int i;
     
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
+        void *StackPointer = (void *) GRTOS_CMD_PRC_SP;
+    #endif
+
+    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+
+    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
         
@@ -197,21 +203,29 @@ void task_generic(void* pdata)
         gk_MONITOR_FIFO_SAMPLE ((int) pdata | 0x800000);
     }
     
+    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
         
     task_invocation_number[(int) pdata]++;        
     execution_auxiliar_counts[(int) pdata] = 0;
-    
+
+    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
-        
+
+    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+
     for (i=0; i < USER_TCB_execution_time[(int) pdata]; i++ ) {
         execution_auxiliar_counts[(int) pdata]++;
     }
-    
+
+    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
@@ -222,6 +236,9 @@ void task_generic(void* pdata)
         printf("T %d", ((int) pdata) );
         printf("; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time()); 
     }
+
+    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+
     // printf("Proc: %d, ", gu_Get_CPU_ID());
     // printf("y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
     // printf("h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
@@ -236,7 +253,9 @@ void task_generic(void* pdata)
         // IOWR(GRTOS_MONITOR_BASE, 0, (int) pdata | 0xC00000);
         gk_MONITOR_FIFO_SAMPLE ((int) pdata | 0xC00000);
     }
-    
+
+    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
         fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif

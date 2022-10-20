@@ -143,12 +143,98 @@ hello_world.c: In function 'task2':
 hello_world.c:91:14: warning: unused variable 'pbuffer' [-Wunused-variable]
      GS_ECB  *pbuffer;
               ^
+In file included from ../hellogemrtos_bsp/drivers/inc/gemrtos.h:44:0,
+                 from hello_world.c:12:
 hello_world.c: In function 'task_generic':
+hello_world.c:193:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:193:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:206:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:206:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:215:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:215:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:221:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:221:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:227:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:227:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:240:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:240:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:257:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
+hello_world.c:257:63: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'void *' [-Wformat=]
+     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, StackPointer);
+                                                               ^
+../hellogemrtos_bsp/drivers/inc/grtosdefinitions.h:174:51: note: in definition of macro 'PRINT_ASSERT'
+             fprintf(fpuart[GRTOS_CMD_PRC_ID-1], ##__VA_ARGS__); \
+                                                   ^
 hello_world.c:186:14: warning: unused variable 'pbuffer' [-Wunused-variable]
      GS_ECB  *pbuffer;
               ^
 hello_world.c: In function 'main':
-hello_world.c:290:13: warning: unused variable 'ptcb1' [-Wunused-variable]
+hello_world.c:309:13: warning: unused variable 'ptcb1' [-Wunused-variable]
      GS_TCB *ptcb1;
              ^
 + bash -c 'nios2-stackreport --prefix nios2-elf- hellogemrtos.elf'
