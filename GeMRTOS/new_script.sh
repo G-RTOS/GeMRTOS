@@ -171,6 +171,7 @@ if [ -d ./${BOARD} ]; then
     rm -rf ./${BOARD}/GRTOS 2> ${error_log_file}
     rm -rf ./${BOARD}/GRTOS_Multiprocessor 2> ${error_log_file}
     rm -rf ./${BOARD}/qsysscript.tcl 2> ${error_log_file}
+    rm -rf ./${BOARD}/grtos_nios_bsp_create.sh 2> ${error_log_file}
     cp -rpu ./misc/gemrtos_ips/AvalonBridge ./${BOARD}/AvalonBridge 2>> ${error_log_file}
     cp -rpu ./misc/gemrtos_ips/AvalonMonitor ./${BOARD}/AvalonMonitor 2>> ${error_log_file}
     cp -rpu ./misc/gemrtos_ips/GRTOS ./${BOARD}/GRTOS 2>> ${error_log_file}

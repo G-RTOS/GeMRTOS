@@ -87,12 +87,13 @@ add_sw_property include_source HAL/inc/mq.h
 add_sw_property include_source HAL/inc/sem.h
 
 #Override HAL functions
+add_sw_property excluded_hal_source HAL/src/alt_putchar.c
 # add_sw_property excluded_hal_source HAL/src/alt_iic.c
 # add_sw_property excluded_hal_source HAL/src/alt_load.c
 # add_sw_property excluded_hal_source HAL/src/alt_main.c
 # 
 # 
-# add_sw_property c_source HAL/src/alt_iic.c
+add_sw_property c_source HAL/src/alt_putchar.c
 # add_sw_property c_source HAL/src/alt_load.c
 # add_sw_property c_source HAL/src/alt_main.c
 

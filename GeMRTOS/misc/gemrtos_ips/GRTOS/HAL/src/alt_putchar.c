@@ -1,8 +1,8 @@
 /**
  *  \file 
  *  \author Ricardo Cayssials
- *  \brief Definition of GRTOS controller address
- *  \details This file contains the Definition of GRTOS controller address.
+ *  \brief Wrap for alt_putchar function for GeMRTOS
+ *  \details This file contains alt_putchar redefinition.
  *  \version 0.9a
  *  \date      2015-2020
  *  \bug  None known
@@ -17,7 +17,8 @@
  *  TO THE EXTENT PERMITTED UNDER APPLICABLE LAWS, RICARDO CAYSSIALS EXCLUDES ALL IMPLIED WARRANTIES,
  *  INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
  */
-  
+ 
+ 
 /******************************************************************************
 *                                                                             *
 * License Agreement                                                           *
@@ -26,28 +27,9 @@
 *                                                                             *
 ******************************************************************************/
 
+#include <gemrtos.h>
 
-#ifndef __GEMRTOS_H__
-#define __GEMRTOS_H__
-
-#include <system.h>
-
-#include <stdio.h>
-
-#include "sys/alt_irq.h"
-#include "priv/alt_irq_table.h"
-#include <sys/alt_cache.h>
-#include <inttypes.h>
-
-#include <grtos_regs.h>
-
-#include "../runtime/rts_gemrtos.h"
-
-#include <grtosdefinitions.h>
-
-#include <gemrtos_core.h>
-
-#include <gemrtos_resources.h>
-
-
-#endif /* __GEMRTOS_H__ */
+int alt_putchar(int c)
+{
+    return putchar(c);
+}
