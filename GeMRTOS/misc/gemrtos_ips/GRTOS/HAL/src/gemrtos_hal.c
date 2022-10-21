@@ -1,8 +1,8 @@
 /**
  *  \file 
  *  \author Ricardo Cayssials
- *  \brief Wrap for alt_putchar function for GeMRTOS
- *  \details This file contains alt_putchar redefinition.
+ *  \brief Wrap for gemrtos_hal functions for GeMRTOS
+ *  \details This file contains the hal redefinitions.
  *  \version 0.9a
  *  \date      2015-2020
  *  \bug  None known
@@ -29,7 +29,16 @@
 
 #include <gemrtos.h>
 
-int alt_putchar(int c)
-{
-    return putchar(c);
+#include <stdarg.h>
+#include <stdio.h>
+
+extern int __real_printf(const char*, ...);
+
+int __wrap_printf(const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    __real_printf("[!] ");
+    int result = vprintf(format, args);
+    va_end(args);
+    return result;
 }

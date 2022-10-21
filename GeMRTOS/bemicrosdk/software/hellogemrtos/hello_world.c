@@ -60,7 +60,7 @@ volatile int execution_auxiliar_counts[G_MAX_NUMBER_OF_USER_TCB];
 
 void sig_aborted_task1(int pdata)
 {
-    printf("\nTASK 1 ABORTED %d \n", pdata);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "\nTASK 1 ABORTED %d \n", pdata);
 }
 
 void task1(void* pdata)
@@ -69,11 +69,11 @@ void task1(void* pdata)
   while (1)
   {
     sys_time = gu_Clock(gu_get_now());
-    printf("Hi task1: ");
-    printf("Proc: %d, ", gu_Get_CPU_ID());
-    printf("y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
-    printf("h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
-    printf("s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec); 
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "Hi task1: ");
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "Proc: %d, ", gu_Get_CPU_ID());
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec); 
     gu_TASK_Sleep(0, 0, 15, 0);
   }
 }
@@ -99,11 +99,11 @@ void task2(void* pdata)
 //    pbuffer = (GS_ECB  *) gu_queue_consume((G_RCB *)pqueue, (void *)consumer_buffer2, (INT32) sizeof(consumer_buffer2), (gt_time) 0);
     
     sys_time = gu_Clock(gu_get_now());
-    printf("Hi task2: data is %d, invocation %d\n",(int) ((int) pdata & 0xFFFF) , (int) task_invocation_number[(int) pdata]);
-    printf("Proc: %d, ", gu_Get_CPU_ID());
-    printf("y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
-    printf("h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
-    printf("s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "Hi task2: data is %d, invocation %d\n",(int) ((int) pdata & 0xFFFF) , (int) task_invocation_number[(int) pdata]);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "Proc: %d, ", gu_Get_CPU_ID());
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec);
     // task_invocation_number[G_MAX_NUMBER_OF_USER_TCB];
     
     // IOWR(GRTOS_MONITOR_BASE, 0, (int) pdata | 0x0000);    
@@ -124,11 +124,11 @@ void task3(void* pdata)
     sem = (int) gu_sem_wait(semaphore1, (gt_priority) 0, (gt_priority) 0, (gt_time) 0, (gt_time) 0,(int) G_TRUE);
 
     sys_time = gu_Clock(gu_get_now());
-    printf("Hi task3: semaphore = %d, ",sem);
-    printf("Proc: %d, ", gu_Get_CPU_ID());
-    printf("y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
-    printf("h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
-    printf("s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "Hi task3: semaphore = %d, ",sem);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "Proc: %d, ", gu_Get_CPU_ID());
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec);
 }
 
 /************************************************************************************/
@@ -152,11 +152,11 @@ void task4(void* pdata)
                                 (gt_time) 0,(int) G_TRUE);
                                 
         sys_time = gu_Clock(gu_get_now());
-        printf("Hi task4: semaphore = %d, ",sem);
-        printf("Proc: %d, ", gu_Get_CPU_ID());
-        printf("y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
-        printf("h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
-        printf("s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec);
+        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "Hi task4: semaphore = %d, ",sem);
+        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "Proc: %d, ", gu_Get_CPU_ID());
+        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
+        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
+        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec);
 
         gu_sem_post((t_semaphore_resource *) semaphore1);        
         gu_TASK_Sleep(0, 0, 4, 0);
@@ -176,7 +176,7 @@ void task4(void* pdata)
 INT32    *generic_stk;
 void sig_aborted_task_generic(int pdata)
 {
-    printf("\nTASK 1 ABORTED %d \n", pdata);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "\nTASK 1 ABORTED %d \n", pdata);
 }
 
 
@@ -193,20 +193,19 @@ void task_generic(void* pdata)
     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
         
     // GRTOS_MULTIPROCESSOR_0_GRTOS_0_S_PROCESSOR_MONITOR_BASE
      // Write the sampling time
     if ((task_sampling_enable[(int) pdata] == 1) || (task_sampling_enable[(int) pdata] == 2)) {
-        // IOWR(GRTOS_MONITOR_BASE, 0, (int) pdata | 0x800000);
         gk_MONITOR_FIFO_SAMPLE ((int) pdata | 0x800000);
     }
     
     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
         
     task_invocation_number[(int) pdata]++;        
@@ -215,7 +214,7 @@ void task_generic(void* pdata)
     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
 
     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
@@ -227,14 +226,14 @@ void task_generic(void* pdata)
     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
     
     // sys_time = gu_Clock(gu_get_now());
     if (USER_TCB_execution_time[(int) pdata] == (int) 0) {
         // printf("T %d, P %d, I %d\n",(int) ((int) pdata & 0xFFFF) , gu_Get_CPU_ID(),(int) task_invocation_number[(int) pdata]);
-        printf("T %d", (int) pdata);
-        printf("; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time()); 
+        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "T %d", (int) pdata);
+        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time()); 
     }
 
     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
@@ -245,19 +244,18 @@ void task_generic(void* pdata)
     // printf("s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec);
     
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
     
      // Write the actuation time
     if ((task_sampling_enable[(int) pdata] == 1) || (task_sampling_enable[(int) pdata] == 3)) {     
-        // IOWR(GRTOS_MONITOR_BASE, 0, (int) pdata | 0xC00000);
         gk_MONITOR_FIFO_SAMPLE ((int) pdata | 0xC00000);
     }
 
     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
 
     #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        fprintf(stderr,"[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
+        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
     #endif
     
 }

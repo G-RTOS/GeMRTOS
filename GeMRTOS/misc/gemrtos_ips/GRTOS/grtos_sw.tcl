@@ -65,7 +65,7 @@ add_sw_property c_source HAL/src/listfunctions.c
 add_sw_property c_source HAL/src/grtos_kernel.c
 add_sw_property c_source HAL/src/monitor.c
 add_sw_property c_source HAL/src/grtosuserfunctions.c
-# add_sw_property c_source HAL/src/tasks.c
+add_sw_property c_source HAL/src/gemrtos_hal.c
 # add_sw_property c_source HAL/src/ext_isr.c
 add_sw_property c_source HAL/src/mq.c
 add_sw_property c_source HAL/src/sem.c
@@ -87,13 +87,13 @@ add_sw_property include_source HAL/inc/mq.h
 add_sw_property include_source HAL/inc/sem.h
 
 #Override HAL functions
-add_sw_property excluded_hal_source HAL/src/alt_putchar.c
+# add_sw_property excluded_hal_source HAL/src/alt_putchar.c
 # add_sw_property excluded_hal_source HAL/src/alt_iic.c
 # add_sw_property excluded_hal_source HAL/src/alt_load.c
 # add_sw_property excluded_hal_source HAL/src/alt_main.c
 # 
 # 
-add_sw_property c_source HAL/src/alt_putchar.c
+# add_sw_property c_source HAL/src/alt_putchar.c
 # add_sw_property c_source HAL/src/alt_load.c
 # add_sw_property c_source HAL/src/alt_main.c
 

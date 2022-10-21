@@ -516,7 +516,7 @@ INT32 gk_timeout_ECB_SEM_wait(GS_ECB *peventime) {
 
     gk_TASK_RESOURCE_UNWAIT((G_RCB *) pevent->ECB_AssocRCB, (GS_ECB *) pevent);
     
-    printf("\n\n\n ################## WAITING TIMEOUT ###########\n\n\n");
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "\n\n\n ################## WAITING TIMEOUT ###########\n\n\n");
     gk_TCB_Unlink(ptcb); PRINT_DEBUG_LINE
     gk_TCBRDYL_Link(ptcb); PRINT_DEBUG_LINE
     return G_TRUE;
@@ -536,7 +536,7 @@ INT32 gk_timeout_ECB_SEM_post(GS_ECB *peventime) {
     GS_SCB *psignal = gk_ECBASL_GetSCB(peventime, G_ECBType_TIMEOUT_SEM_GRANTED);
     
     /* It is the timeout of a waiting event *************************************/
-    printf("\n\n\n ################## GRANTING TIMEOUT ###########\n\n\n");
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "\n\n\n ################## GRANTING TIMEOUT ###########\n\n\n");
     
     /* It is the timeout of a waiting event *************************************/
     if (psignal != (struct gs_scb *) 0)
