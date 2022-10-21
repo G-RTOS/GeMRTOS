@@ -262,8 +262,62 @@ void task_generic(void* pdata)
 
 GS_TCB *ptcb_array[G_MAX_NUMBER_OF_USER_TCB];
 
+// from https://stackoverflow.com/questions/1056411/how-to-pass-variable-number-of-arguments-to-printf-sprintf
+#include <stdarg.h>
+void gu_printf(char *format, ...) 
+{
+    // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
+    va_list args;
+    va_list args1;
+    va_list args2;
+    va_start (args, format);
+    va_copy (args1, args);
+    va_copy (args2, args);
+    
+    printf(format, args);
+    va_end (args);
+    // #######
+    // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf    
+    const int BUF_LEN = 5;
+    char xo[BUF_LEN + 2];
+    // char *xo = malloc((BUF_LEN + 2) * sizeof(char));
+    char *x;
+
+    int size = snprintf(xo, BUF_LEN, format, args1);
+    va_end (args1);
+    if (size >= BUF_LEN) {
+        x = malloc((size + 2) * sizeof(char));
+        // realloc(&x,(size + 2) * sizeof(char));
+
+        snprintf(x, size + 1 , format, args2);
+        va_end (args2);
+        printf("%s",x);
+        free(x);
+    }
+    else
+    {
+        printf("%s",xo);
+    }
+    // free(x);
+    // #######
+}
+
 int main(void)
 {
+    // const int BUF_LEN = 3;
+    // // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf
+    // char *x = malloc(BUF_LEN * sizeof(char));
+    // int size = snprintf(x, BUF_LEN, "Print using memory      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
+    // if (size >= BUF_LEN) {
+    //     realloc(&x,(size + 1) * sizeof(char));
+    //     snprintf(x, size + 1 , "Print using memory      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
+    // }
+    // printf("%s",x);
+    // free(x);
+    
+
+    gu_printf("Prueba de gu_printf\n");
+    
     printf("GeMRTOS\n");
     printf("Processors      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
     printf("Clock frequency = %d MHz\n", (int)GRTOS_DRIVER_GRTOSFREQUENCY);

@@ -631,7 +631,7 @@ static void gk_START_KERNEL (void) __attribute__ ((destructor));
 void gk_START_KERNEL (void)
 {
     int i;    
-    char filename[20];  /// String to hold the de name
+    char filename[100];  /// String to hold the de name
     
     SAMPLE_FUNCTION_BEGIN(1006);
     
