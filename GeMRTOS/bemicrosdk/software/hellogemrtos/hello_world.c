@@ -279,26 +279,34 @@ void gu_printf(char *format, ...)
     // #######
     // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf    
     const int BUF_LEN = 5;
-    char xo[BUF_LEN + 2];
-    // char *xo = malloc((BUF_LEN + 2) * sizeof(char));
-    char *x;
+    char *x = malloc((BUF_LEN + 2) * sizeof(char));
+    char *x1;
+    if (NULL != x) {
+        printf("El x es %p\n",(void *) x);
 
-    int size = snprintf(xo, BUF_LEN, format, args1);
-    va_end (args1);
-    if (size >= BUF_LEN) {
-        x = malloc((size + 2) * sizeof(char));
-        // realloc(&x,(size + 2) * sizeof(char));
+        int size = snprintf(x, BUF_LEN, format, args1);
+        va_end (args1);
+        if (size >= BUF_LEN) {
+            x1 = realloc(x,(size + 2) * sizeof(char));
+            if (NULL != x1) {
+                printf("El x es %p\n",(void *) x1);
+                snprintf(x1, size + 1 , format, args2);
+                va_end (args2);
+                printf("%s",x1);
+                free(x1);
+            }
+            else
+            {
+                printf("[ ERROR ] Run out of memory: %s",x);
+                free(x);
+            }
+            
+        } else {
+            printf("%s",x);
+            free(x);
+        }
+    }
 
-        snprintf(x, size + 1 , format, args2);
-        va_end (args2);
-        printf("%s",x);
-        free(x);
-    }
-    else
-    {
-        printf("%s",xo);
-    }
-    // free(x);
     // #######
 }
 
