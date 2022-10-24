@@ -342,6 +342,7 @@ do { \
  *  Defines the entry to a critical section to handle system variables and ISR routines.
  *  It asks for critical section and puts the processor in halt mode. 
  *  GRTOS controller enables the processor when section is granted to it.
+ *  Only call Kernel functions in a critical section in order to avoid critical section reentrancy
  */
 #define GRTOS_CMD_CRITICAL_SECTION_GET \
 	do{ \

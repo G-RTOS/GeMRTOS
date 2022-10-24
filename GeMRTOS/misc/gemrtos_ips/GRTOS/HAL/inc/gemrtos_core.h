@@ -699,7 +699,10 @@ void gk_MONITOR_FIFO_SAMPLE(int data);
 INT32 Check_list_TCBAEL_IsValid(int cycles);
 
 
-
-
+/**
+ *   newlib FUNTIONS
+ */
+void gu_printf(char *format, ...);
+void gu_fprintf(FILE *stream, char *format, ...);
 
 #endif /* GEMRTOS_CORE_H_ */

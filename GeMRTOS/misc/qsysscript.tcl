@@ -53,8 +53,9 @@ set fp [open "grtos_hps_bsp_create.sh" w+]
 close $fp
 
 
+
 set fp [open "grtos_nios_bsp_create.sh" w+]
-    puts $fp "nios2-bsp hal \$1 ${project_name}.sopcinfo --cpu-name ${main_processor} --cmd \"set_setting hal.enable_reduced_device_drivers true\" --cmd \"set_setting hal.stderr ${stderr}\" --cmd \"set_setting hal.stdin ${stdio}\" --cmd \"set_setting hal.stdout ${stdio}\" --cmd \"${rstmem}\" "
+    puts $fp "nios2-bsp hal \$1 ${project_name}.sopcinfo --cpu-name ${main_processor} --cmd \"set_setting hal.enable_reduced_device_drivers true\" --cmd \"set_setting hal.make.cflags_mgpopt \-mgpopt=none\" --cmd \"set_setting hal.stderr ${stderr}\" --cmd \"set_setting hal.stdin ${stdio}\" --cmd \"set_setting hal.stdout ${stdio}\" --cmd \"${rstmem}\" "
 close $fp
 
 

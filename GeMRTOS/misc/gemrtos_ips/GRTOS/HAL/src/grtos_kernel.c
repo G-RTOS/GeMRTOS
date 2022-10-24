@@ -797,14 +797,14 @@ void gk_CODE_IDLE_TASK(void* pdata)
         PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, (int) StackPointer);
         #if G_DEBUG_PRINT_WHEN_PROCESSOR_GOES_IDLE == 1
             NIOS2_READ_SP(StackPointer);
-            fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "I, proc=%d, sp=%p \n", GRTOS_CMD_PRC_ID, StackPointer);
+            gu_fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "I, proc=%d, sp=%p \n", GRTOS_CMD_PRC_ID, StackPointer);
             PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, (int) StackPointer);
         #endif
         #ifdef ALT_SEMIHOSTING
-            fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "ALT_SEMIHOSTING defined\n");
+            gu_fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "ALT_SEMIHOSTING defined\n");
         #endif
         #ifdef ALT_USE_DIRECT_DRIVERS
-            fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "ALT_USE_DIRECT_DRIVERS defined\n");
+            gu_fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "ALT_USE_DIRECT_DRIVERS defined\n");
         #endif        
 
         GRTOS_CMD_HALT_PROCESSOR; // Put the procesor in HALT mode

@@ -7,7 +7,6 @@
  * All rights reserved.
  */
 
-#include <stdio.h>
 
 #include <gemrtos.h>
 
@@ -232,8 +231,10 @@ void task_generic(void* pdata)
     // sys_time = gu_Clock(gu_get_now());
     if (USER_TCB_execution_time[(int) pdata] == (int) 0) {
         // printf("T %d, P %d, I %d\n",(int) ((int) pdata & 0xFFFF) , gu_Get_CPU_ID(),(int) task_invocation_number[(int) pdata]);
-        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "T %d", (int) pdata);
-        fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time()); 
+        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "T %d", (int) pdata);
+        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time()); 
+        gu_printf("T %d", (int) pdata);
+        gu_printf("; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time());         
     }
 
     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
@@ -262,53 +263,6 @@ void task_generic(void* pdata)
 
 GS_TCB *ptcb_array[G_MAX_NUMBER_OF_USER_TCB];
 
-// from https://stackoverflow.com/questions/1056411/how-to-pass-variable-number-of-arguments-to-printf-sprintf
-#include <stdarg.h>
-void gu_printf(char *format, ...) 
-{
-    // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
-    va_list args;
-    va_list args1;
-    va_list args2;
-    va_start (args, format);
-    va_copy (args1, args);
-    va_copy (args2, args);
-    
-    printf(format, args);
-    va_end (args);
-    // #######
-    // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf    
-    const int BUF_LEN = 5;
-    char *x = malloc((BUF_LEN + 2) * sizeof(char));
-    char *x1;
-    if (NULL != x) {
-        printf("El x es %p\n",(void *) x);
-
-        int size = snprintf(x, BUF_LEN, format, args1);
-        va_end (args1);
-        if (size >= BUF_LEN) {
-            x1 = realloc(x,(size + 2) * sizeof(char));
-            if (NULL != x1) {
-                printf("El x es %p\n",(void *) x1);
-                snprintf(x1, size + 1 , format, args2);
-                va_end (args2);
-                printf("%s",x1);
-                free(x1);
-            }
-            else
-            {
-                printf("[ ERROR ] Run out of memory: %s",x);
-                free(x);
-            }
-            
-        } else {
-            printf("%s",x);
-            free(x);
-        }
-    }
-
-    // #######
-}
 
 int main(void)
 {
@@ -324,7 +278,7 @@ int main(void)
     // free(x);
     
 
-    gu_printf("Prueba de gu_printf\n");
+    // gu_printf("Prueba de gu_printf\n");
     
     printf("GeMRTOS\n");
     printf("Processors      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
