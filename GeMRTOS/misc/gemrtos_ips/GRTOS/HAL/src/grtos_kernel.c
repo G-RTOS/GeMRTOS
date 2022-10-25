@@ -779,6 +779,7 @@ alt_exception_result handler(alt_exception_cause cause,
     return (alt_exception_result) 0;
 }
 
+
 /**********************************************************************************
  *                        	IDLE TASK DOING NOTHING
  *********************************************************************************/
@@ -806,11 +807,14 @@ void gk_CODE_IDLE_TASK(void* pdata)
         #ifdef ALT_USE_DIRECT_DRIVERS
             gu_fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "ALT_USE_DIRECT_DRIVERS defined\n");
         #endif        
-
+       
         GRTOS_CMD_HALT_PROCESSOR; // Put the procesor in HALT mode
         PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = 0x%x, StackPointer= 0x%x\n",(int) GRTOS_CMD_PRC_SP, (int) StackPointer);
     }
 }
+
+
+
 
 
 OPTIMEZE_RESTORE
