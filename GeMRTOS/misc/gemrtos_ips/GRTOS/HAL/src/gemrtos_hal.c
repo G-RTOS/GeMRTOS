@@ -141,6 +141,14 @@ void gu_fprintf(FILE *stream, char *format, ...)
 
 void __malloc_lock ( struct _reent *_r )
 {
+    // GRTOS_CMD_NEWLIB_MUTEX_GET;
+    // unsigned int processor = (1 << (GRTOS_CMD_PRC_ID - 1));
+    // IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID);
+    // printf("Lock: Processor= %d, mux= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN));
+	//	do { \
+    //        IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID); \
+    //    } while (processor != IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN));  \    
+    // GRTOS_CMD_NEWLIB_MUTEX_GET;
 }
 
 /*
@@ -149,4 +157,5 @@ void __malloc_lock ( struct _reent *_r )
 
 void __malloc_unlock ( struct _reent *_r )
 {
+    // GRTOS_CMD_NEWLIB_MUTEX_RELEASE;
 }

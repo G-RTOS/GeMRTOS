@@ -311,8 +311,22 @@ int main(void)
     printf("sizeof(unsigned long long)   = %d\n", (int) sizeof(unsigned long long));
     
     
+    unsigned int processor = (1 << (GRTOS_CMD_PRC_ID - 1));
+    IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID);
+    printf("Lock: Processor= %d, mux= %d, counter= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN), (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS));
+    GRTOS_CMD_NEWLIB_MUTEX_RELEASE;
     
+    IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID);
+    printf("Lock: Processor= %d, mux= %d, counter= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN), (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS));
+    GRTOS_CMD_NEWLIB_MUTEX_GET;
+        
+
     
+    printf("Lock: Processor= %d, mux= %d, counter= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN), (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS));
+    GRTOS_CMD_NEWLIB_MUTEX_RELEASE; 
+    printf("Lock: Processor= %d, mux= %d, counter= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN), (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS));
+    GRTOS_CMD_NEWLIB_MUTEX_RELEASE; 
+    printf("Locklast: Processor= %d, mux= %d, counter= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN), (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS));
     
     void   *mem = malloc(sizeof(INT32) * G_MAX_NUMBER_OF_USER_TCB * TASK_STACKSIZE + 31);
     generic_stk = (INT32 *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);

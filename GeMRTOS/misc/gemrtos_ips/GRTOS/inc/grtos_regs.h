@@ -67,6 +67,9 @@
 #define ADDR_RST_CLR            30
 #define ADDR_TRG_INT_PRC	    31
 
+#define ADDR_MTX_NEWLIB_GRN     32
+#define ADDR_MTX_NEWLIB_RLS     33
+
 #define ADDR_HLT_ACT_CNT_SMP    34
 
 // Macros defined and implemented in hardware, but not used
@@ -388,9 +391,28 @@ do { \
 #define GRTOS_USER_CRITICAL_SECTION_RELEASE  GRTOS_CMD_CRITICAL_SECTION_RELEASE
 
 
+/**
+ *  \brief GRTOS_CMD_NEWLIB_MUTEX_GET 
+ *  Defines the stub for the newlib critical section.
+ *  It asks for mutex and checks if it is granted. When already granted, 
+ *  the nested counter is incremented.
+ */
+#define GRTOS_CMD_NEWLIB_MUTEX_GET \
+	do{ \
+		unsigned int processor = (1 << (GRTOS_CMD_PRC_ID - 1)); \
+		do { \
+            IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID); \
+        } while (processor != IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN));  \
+	}while(0)
 
 
-
+/**
+ *  \brief GRTOS_CMD_NEWLIB_MUTEX_RELEASE 
+ *  Defines the stub for the realise of the newlib critical section.
+ */
+#define GRTOS_CMD_NEWLIB_MUTEX_RELEASE \
+	do{ IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS, GRTOS_CMD_PRC_ID); \
+	}while(0)	
 
 
 
