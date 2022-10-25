@@ -29,16 +29,124 @@
 
 #include <gemrtos.h>
 
-#include <stdarg.h>
-#include <stdio.h>
+// from https://stackoverflow.com/questions/1056411/how-to-pass-variable-number-of-arguments-to-printf-sprintf
 
-extern int __real_printf(const char*, ...);
+/**gu_printf
+ *  \brief This function is the printf function but for multiprocessor 
+ *  \param Same as printf function of stdio.h
+ *  \todo Change the mutex to a particular for newlib functions
+ */
+// void gu_printf(char *format, ...) 
+// {
+//     // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
+//     va_list args;
+//     va_list args1;
+//     va_start (args, format);
+//     va_copy (args1, args);
+//     GRTOS_USER_CRITICAL_SECTION_GET;
+//     // printf(format, args);
+//     // va_end (args);
+//     // #######
+//     // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf    
+//     const int BUF_LEN = 5;
+//     char *x = malloc((BUF_LEN + 2) * sizeof(char));
+//     // char *x1;
+//     if (NULL != x) {
+//         // printf("El x es %p\n",(void *) x);
+// 
+//         int size = snprintf(x, BUF_LEN, format, args);
+//         va_end (args);
+//         if (size >= BUF_LEN) {
+//             x = realloc(x,(size + 2) * sizeof(char));
+//             if (NULL != x) {
+//                 // printf("El x es %p\n",(void *) x);
+//                 snprintf(x, size + 1 , format, args1);
+//                 va_end (args1);
+//                 // printf("%s",x);
+//                 // free(x);
+//             }
+//             else
+//             {
+//                 printf("[ ERROR ] Run out of memory for gu_printf");
+//                 // free(x);
+//             }              
+//         } 
+//         printf("%s",x);
+//         free(x);
+//     }
+//     else
+//     {
+//         printf("[ ERROR ] Run out of memory for gu_printf");
+//         // free(x);
+//     }
+//     GRTOS_CMD_CRITICAL_SECTION_RELEASE;
+// }
 
-int __wrap_printf(const char* format, ...) {
-    va_list args;
-    va_start(args, format);
-    __real_printf("[!] ");
-    int result = vprintf(format, args);
-    va_end(args);
-    return result;
+
+void gu_printf(char *format, ...) 
+{
+    GRTOS_USER_CRITICAL_SECTION_GET;
+    
+    // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf    
+    const int BUF_LEN = 255;
+    char *x = malloc((BUF_LEN + 2) * sizeof(char));
+
+    if (NULL != x) {
+        // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
+        va_list args;        
+        va_start (args, format);
+        int size = vsnprintf(x, BUF_LEN, format, args);
+        va_end (args);
+        printf("%s",x);
+
+    }
+    free(x);    
+    GRTOS_CMD_CRITICAL_SECTION_RELEASE;
+}
+
+/**gu_printf
+ *  \brief This function is the fprintf function but for multiprocessor 
+ *  \param Same as fprintf function of stdio.h
+ *  \todo Change the mutex to a particular for newlib functions
+ */
+void gu_fprintf(FILE *stream, char *format, ...) 
+{
+    GRTOS_USER_CRITICAL_SECTION_GET;
+    
+    // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf    
+    const int BUF_LEN = 255;
+    char *x = malloc((BUF_LEN + 2) * sizeof(char));
+
+    if (NULL != x) {
+        // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
+        va_list args;        
+        va_start (args, format);
+        int size = vsnprintf(x, BUF_LEN, format, args);
+        va_end (args);
+        fprintf(stream, "%s", x);
+    }
+    free(x);    
+    GRTOS_CMD_CRITICAL_SECTION_RELEASE;
+}
+
+
+#include <reent.h>
+
+/*
+ * These are the empty malloc lock/unlock stubs required by newlib. These are 
+ * used to make newlib's malloc() function thread safe. The default HAL 
+ * configuration is single threaded, so there is nothing to do here. Note that 
+ * this requires that malloc is never called by an interrupt service routine.
+ */
+
+void __malloc_lock ( struct _reent *_r )
+{
+}
+
+/*
+ *
+ */
+
+void __malloc_unlock ( struct _reent *_r )
+{
 }
