@@ -405,6 +405,8 @@ extern volatile GS_LCB *G_TASK_LCB_DEFAULT;
 extern volatile INT64 G_TASK_PRIORITY_DEFAULT;
 extern volatile INT64 G_TASK_PERIOD_DEFAULT;
 
+extern volatile unsigned int new_lib_grant;
+extern volatile unsigned int new_lib_counter;
 
 /// Core functions definitions
 GS_ECB *gk_Get_ECB(void);

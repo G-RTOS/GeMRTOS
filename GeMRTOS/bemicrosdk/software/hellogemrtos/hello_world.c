@@ -233,7 +233,7 @@ void task_generic(void* pdata)
         // printf("T %d, P %d, I %d\n",(int) ((int) pdata & 0xFFFF) , gu_Get_CPU_ID(),(int) task_invocation_number[(int) pdata]);
         // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "T %d", (int) pdata);
         // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time()); 
-        gu_printf("T %d", (int) pdata);
+        gu_printf("T %d, newlib_grant= %d, newlib_count= %d", (int) pdata, (int) new_lib_grant, (int) new_lib_counter);
         gu_printf("; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time());        
     }
 
