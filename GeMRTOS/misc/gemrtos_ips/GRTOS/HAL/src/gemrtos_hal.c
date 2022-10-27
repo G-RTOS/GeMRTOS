@@ -141,21 +141,37 @@ void gu_fprintf(FILE *stream, char *format, ...)
 
 void __malloc_lock ( struct _reent *_r )
 {
-    // GRTOS_CMD_NEWLIB_MUTEX_GET;
-    // unsigned int processor = (1 << (GRTOS_CMD_PRC_ID - 1));
-    // IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID);
-    // printf("Lock: Processor= %d, mux= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN));
-	//	do { \
-    //        IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID); \
-    //    } while (processor != IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN));  \    
-    // GRTOS_CMD_NEWLIB_MUTEX_GET;
-}
+    if (G_Running == G_TRUE) {
+        NIOS2_WRITE_IENABLE (0);
+        IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN);
+        IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID);
+    //     // GRTOS_CMD_NEWLIB_MUTEX_GET;
+    //     // GRTOS_CMD_NEWLIB_MUTEX_GET;
+    //     // unsigned int processor = (1 << (GRTOS_CMD_PRC_ID - 1));
+    //     // IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID);
+    //     // printf("Lock: Processor= %d, mux= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN));
+    //     //	do { \
+    //     //        IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID); \
+    //     //    } while (processor != IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN));  \    
+    //       // GRTOS_CMD_NEWLIB_MUTEX_GET;
+    }
 
-/*
- *
- */
-
-void __malloc_unlock ( struct _reent *_r )
-{
-    // GRTOS_CMD_NEWLIB_MUTEX_RELEASE;
+}    
+     
+/*   
+ *   
+ */  
+     
+void  __malloc_unlock ( struct _reent *_r )
+{    
+    if (G_Running == G_TRUE) {
+        // GRTOS_CMD_NEWLIB_MUTEX_RELEASE;
+        if ((unsigned int) (1 << (GRTOS_CMD_PRC_ID - 1)) == (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN)) 
+        {
+            IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS, GRTOS_CMD_PRC_ID);
+            if ((unsigned int)IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS) == (unsigned int) 0) {
+                NIOS2_WRITE_IENABLE (1);
+            }
+        }
+    }
 }

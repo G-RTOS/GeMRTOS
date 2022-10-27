@@ -234,7 +234,7 @@ void task_generic(void* pdata)
         // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "T %d", (int) pdata);
         // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time()); 
         gu_printf("T %d", (int) pdata);
-        gu_printf("; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time());         
+        gu_printf("; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time());        
     }
 
     PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
@@ -310,24 +310,6 @@ int main(void)
     printf("sizeof(unsigned long)   = %d\n", (int) sizeof(unsigned long));
     printf("sizeof(unsigned long long)   = %d\n", (int) sizeof(unsigned long long));
     
-    
-    unsigned int processor = (1 << (GRTOS_CMD_PRC_ID - 1));
-    IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID);
-    printf("Lock: Processor= %d, mux= %d, counter= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN), (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS));
-    GRTOS_CMD_NEWLIB_MUTEX_RELEASE;
-    
-    IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID);
-    printf("Lock: Processor= %d, mux= %d, counter= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN), (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS));
-    GRTOS_CMD_NEWLIB_MUTEX_GET;
-        
-
-    
-    printf("Lock: Processor= %d, mux= %d, counter= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN), (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS));
-    GRTOS_CMD_NEWLIB_MUTEX_RELEASE; 
-    printf("Lock: Processor= %d, mux= %d, counter= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN), (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS));
-    GRTOS_CMD_NEWLIB_MUTEX_RELEASE; 
-    printf("Locklast: Processor= %d, mux= %d, counter= %d\n",(int) processor, (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN), (int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS));
-    
     void   *mem = malloc(sizeof(INT32) * G_MAX_NUMBER_OF_USER_TCB * TASK_STACKSIZE + 31);
     generic_stk = (INT32 *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
     
@@ -348,13 +330,14 @@ int main(void)
             // ###################################################
             task_invocation_number[i] = 0;
             task_sampling_enable[i] = 0;
+
             
             /** TASK 2 **/
             ptcb_array[i] = gu_GetTask((void *) task_generic,                       ///< Pointer to the beginning of the task code
                                        (void *) i,                                  ///< Pointer to the argument of the first call
                                        (void *) generic_stk + sizeof(INT32) * ((i * TASK_STACKSIZE) + (TASK_STACKSIZE-4)),  ///< Botton of the Stack of the Task
                                        (unsigned int)  TASK_STACKSIZE);             /// Size of the stack in words
-                               
+                            
             if (ptcb_array[i] != (void *) 0)
             {
                 generic_task_tcbs[i] = ptcb_array[i];

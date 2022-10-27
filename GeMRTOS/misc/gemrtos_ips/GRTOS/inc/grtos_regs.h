@@ -399,10 +399,11 @@ do { \
  */
 #define GRTOS_CMD_NEWLIB_MUTEX_GET \
 	do{ \
-		unsigned int processor = (1 << (GRTOS_CMD_PRC_ID - 1)); \
+        unsigned int processor; \
 		do { \
+            processor = (1 << (GRTOS_CMD_PRC_ID - 1)); \
             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID); \
-        } while (processor != IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN));  \
+        } while (processor != (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN));  \
 	}while(0)
 
 

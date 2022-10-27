@@ -342,6 +342,7 @@ GS_TCB *gk_CreateTask(void *TaskCode,
     GS_TCB  *ptcb;
     
     ptcb = gk_TCB_GetFree();
+
     // Initialize the gs_tcb structure of the task
     if (ptcb != (struct gs_tcb *) 0) {
         ptcb->TCB_StackBottom      = (GS_STK *) ((((INT32) StkBotton)-8)& ~0x3); ///< Botton of the Stack of the Task

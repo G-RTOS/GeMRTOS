@@ -396,7 +396,8 @@ void *gu_GetTask(void         *TaskCode,
                  unsigned int  StkSize)	   
 {
     GS_TCB  *ptcb;
-    if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_GET;    
+    
+    if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_GET;
     
     ptcb = gk_CreateTask(TaskCode,                
 				         p_arg,                   
@@ -410,8 +411,9 @@ void *gu_GetTask(void         *TaskCode,
                          (GS_LCB *) G_TASK_LCB_DEFAULT,      
                          G_TRUE,                  
                          0); 
-   
+    
     if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_RELEASE;
+    
 	return ((void *) ptcb);
 }
 
