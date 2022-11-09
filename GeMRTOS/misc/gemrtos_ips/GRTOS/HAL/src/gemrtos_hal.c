@@ -149,8 +149,8 @@ void __malloc_lock ( struct _reent *_r )
     if (G_Running == G_TRUE) {
         do
         {
-            IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN);
-            IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS);
+            // IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN);
+            // IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS);
             NIOS2_WRITE_IENABLE (0);            
             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID);
             if ((unsigned int) (1 << (GRTOS_CMD_PRC_ID - 1)) != (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN)) 
