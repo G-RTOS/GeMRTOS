@@ -324,12 +324,17 @@ INT32 gk_ECBFL_Link(GS_ECB *pevent)
     PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR ECB not valid\n");
     PRINT_ASSERT((pevent->ECBState == GS_ECBState_UNLINKED),"ERROR ECBState= %d\n", (int) pevent->ECBState);
 
-    /// TCBs linked list for debugging
-    if (g_kcb.KCB_ROOT_ECBs != (struct gs_ecb *) pevent) pevent->ECB_PREV_ECBs->ECB_NEXT_ECBs = pevent->ECB_NEXT_ECBs;
-    else g_kcb.KCB_ROOT_ECBs = pevent->ECB_NEXT_ECBs;
-    if (pevent->ECB_NEXT_ECBs != (struct gs_ecb *) 0) pevent->ECB_NEXT_ECBs->ECB_PREV_ECBs = pevent->ECB_PREV_ECBs; 
 
-    free(pevent->malloc_address);
+
+    /// Does not free the structure to avoid fragmentation
+    /// TCBs linked list for debugging
+    /// if (g_kcb.KCB_ROOT_ECBs != (struct gs_ecb *) pevent) pevent->ECB_PREV_ECBs->ECB_NEXT_ECBs = pevent->ECB_NEXT_ECBs;
+    /// else g_kcb.KCB_ROOT_ECBs = pevent->ECB_NEXT_ECBs;
+    /// if (pevent->ECB_NEXT_ECBs != (struct gs_ecb *) 0) pevent->ECB_NEXT_ECBs->ECB_PREV_ECBs = pevent->ECB_PREV_ECBs;     
+    /// free(pevent->malloc_address);
+    pevent->ECB_NextECB = g_kcb.KCB_FREE_ECBs;
+    g_kcb.KCB_FREE_ECBs = pevent;
+    
     g_kcb.KCB_NUMBER_OF_ECBs-- ;
     
     SAMPLE_FUNCTION_END(7)
@@ -833,7 +838,15 @@ INT32 gk_RCBFL_Link(G_RCB *presource)
     else g_kcb.KCB_ROOT_RCBs = (struct g_rcb *) presource->RCB_NEXT_RCBs;
     if (presource->RCB_NEXT_RCBs != (G_RCB *) 0) presource->RCB_NEXT_RCBs->RCB_PREV_RCBs = presource->RCB_PREV_RCBs; 
 
-    free(presource->malloc_address);
+    /// Does not free the structure to avoid fragmentation
+    /// RCBs linked list for debugging
+    /// if (g_kcb.KCB_ROOT_RCBs != (struct g_rcb *) presource) presource->RCB_PREV_RCBs->RCB_NEXT_RCBs = presource->RCB_NEXT_RCBs;
+    /// else g_kcb.KCB_ROOT_RCBs = (struct g_rcb *) presource->RCB_NEXT_RCBs;
+    /// if (presource->RCB_NEXT_RCBs != (G_RCB *) 0) presource->RCB_NEXT_RCBs->RCB_PREV_RCBs = presource->RCB_PREV_RCBs;     
+    /// free(presource->malloc_address);
+    presource->RCB_NextRCB = g_kcb.KCB_FREE_RCBs;
+    g_kcb.KCB_FREE_RCBs = presource;    
+    
     g_kcb.KCB_NUMBER_OF_RCBs--; 
     
     SAMPLE_FUNCTION_END(18)
@@ -1132,12 +1145,16 @@ INT32 gk_SCBFL_Link(GS_SCB *psignal)
 
     PRINT_ASSERT((psignal->SCBState == G_SCBState_UNLINKED),"ERROR SCBState= %d\n", (int) psignal->SCBState);
 
+    /// Does not free the structure to avoid fragmentation
     /// SCBs linked list for debugging
-    if (g_kcb.KCB_ROOT_SCBs != (struct gs_scb *) psignal) psignal->SCB_PREV_SCBs->SCB_NEXT_SCBs = psignal->SCB_NEXT_SCBs;
-    else g_kcb.KCB_ROOT_SCBs = psignal->SCB_NEXT_SCBs;
-    if (psignal->SCB_NEXT_SCBs != (struct gs_scb *) 0) psignal->SCB_NEXT_SCBs->SCB_PREV_SCBs = psignal->SCB_PREV_SCBs; 
-
-    free(psignal->malloc_address);
+    /// if (g_kcb.KCB_ROOT_SCBs != (struct gs_scb *) psignal) psignal->SCB_PREV_SCBs->SCB_NEXT_SCBs = psignal->SCB_NEXT_SCBs;
+    /// else g_kcb.KCB_ROOT_SCBs = psignal->SCB_NEXT_SCBs;
+    /// if (psignal->SCB_NEXT_SCBs != (struct gs_scb *) 0) psignal->SCB_NEXT_SCBs->SCB_PREV_SCBs = psignal->SCB_PREV_SCBs; 
+    /// free(psignal->malloc_address);
+    
+    psignal->SCB_NextSCB = g_kcb.KCB_FREE_SCBs;
+    g_kcb.KCB_FREE_SCBs = psignal;      
+    
     g_kcb.KCB_NUMBER_OF_SCBs--; 
     
     SAMPLE_FUNCTION_END(25)
@@ -1464,13 +1481,16 @@ INT32 gk_TCBFL_Link(GS_TCB *ptcb)
 	/* Remove the links from TCB        */
     gk_TCB_List_Unlink(ptcb);
 
+    /// Does not free the structure to avoid fragmentation
     /// TCBs linked list for debugging
-    if (g_kcb.KCB_ROOT_TCBs != (struct gs_tcb *) ptcb) ptcb->TCB_PREV_TCBs->TCB_NEXT_TCBs = ptcb->TCB_NEXT_TCBs;
-    else g_kcb.KCB_ROOT_TCBs = ptcb->TCB_NEXT_TCBs;
-    if (ptcb->TCB_NEXT_TCBs != (struct gs_tcb *) 0) ptcb->TCB_NEXT_TCBs->TCB_PREV_TCBs = ptcb->TCB_PREV_TCBs;        
-
-    /// freed the structure
-    free(ptcb->malloc_address);
+    /// if (g_kcb.KCB_ROOT_TCBs != (struct gs_tcb *) ptcb) ptcb->TCB_PREV_TCBs->TCB_NEXT_TCBs = ptcb->TCB_NEXT_TCBs;
+    /// else g_kcb.KCB_ROOT_TCBs = ptcb->TCB_NEXT_TCBs;
+    /// if (ptcb->TCB_NEXT_TCBs != (struct gs_tcb *) 0) ptcb->TCB_NEXT_TCBs->TCB_PREV_TCBs = ptcb->TCB_PREV_TCBs;        
+    /// free(ptcb->malloc_address);
+    
+    ptcb->TCB_NextTCB = g_kcb.KCB_FREE_TCBs;
+    g_kcb.KCB_FREE_TCBs = ptcb;    
+    
     g_kcb.KCB_NUMBER_OF_TCBs--; 
 
 	G_DEBUG_VERBOSE
@@ -2022,12 +2042,16 @@ INT32 gk_RRDSFL_Link(GS_RRDS *prrds)
     fprintf(stderr,"[ MESSAGE ] Insert the RRDS in the Free RRDS List\n");    
 #endif
 
-    /// TCBs linked list for debugging
-    if (g_kcb.KCB_ROOT_RRDSs != (struct gs_rrds *) prrds) prrds->RRDS_PREV_RRDSs->RRDS_NEXT_RRDSs = prrds->RRDS_NEXT_RRDSs;
-    else g_kcb.KCB_ROOT_RRDSs = prrds->RRDS_NEXT_RRDSs;
-    if (prrds->RRDS_NEXT_RRDSs != (struct gs_rrds *) 0) prrds->RRDS_NEXT_RRDSs->RRDS_PREV_RRDSs = prrds->RRDS_PREV_RRDSs; 
+    /// Does not free the structure to avoid fragmentation
+    /// RRDSs linked list for debugging
+    /// if (g_kcb.KCB_ROOT_RRDSs != (struct gs_rrds *) prrds) prrds->RRDS_PREV_RRDSs->RRDS_NEXT_RRDSs = prrds->RRDS_NEXT_RRDSs;
+    /// else g_kcb.KCB_ROOT_RRDSs = prrds->RRDS_NEXT_RRDSs;
+    /// if (prrds->RRDS_NEXT_RRDSs != (struct gs_rrds *) 0) prrds->RRDS_NEXT_RRDSs->RRDS_PREV_RRDSs = prrds->RRDS_PREV_RRDSs; 
+    /// free(prrds->malloc_address);
     
-    free(prrds->malloc_address);
+    prrds->RRDS_NextRRDS = g_kcb.KCB_FREE_RRDSs;
+    g_kcb.KCB_FREE_RRDSs = prrds;     
+    
     g_kcb.KCB_NUMBER_OF_RRDSs-- ;
     
     SAMPLE_FUNCTION_END(47)

@@ -45,17 +45,28 @@ OPTIMEZE_CODE(3)
  */ 
 GS_TCB *gk_TCB_GetFree(void)
 {
+    GS_TCB *ptcb;
+    void *mem;
+    
     SAMPLE_FUNCTION_BEGIN(36)
     
     g_kcb.KCB_NUMBER_OF_TCBs++;
-    // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102
-    void *mem = malloc(sizeof(GS_TCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
-    GS_TCB *ptcb = (GS_TCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
+    
+    /// Check if free structure is available
+    if (g_kcb.KCB_FREE_TCBs  != (struct gs_tcb  *) 0) {
+        ptcb = g_kcb.KCB_FREE_TCBs;
+        g_kcb.KCB_FREE_TCBs = ptcb->TCB_NextTCB;
+    }
+    else
+    {
+        // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102
+        mem = malloc(sizeof(GS_TCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
+        ptcb = (GS_TCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
+        /// INITIALIZE THE TCB STRUCTURE
+        ptcb->BLOCK_HASH           = (unsigned int) ptcb + 1;        
+        ptcb->malloc_address       = mem;
+    }
  
-    /// INITIALIZE THE TCB STRUCTURE
-    ptcb->BLOCK_HASH           = (unsigned int) ptcb + 1;
-    ptcb->malloc_address       = mem;
-    // ptcb->TCBState             = G_TCBState_FREE; 
     ptcb->TCB_NextTCBAEL       = (struct gs_ecb *) 0; 
     ptcb->TCB_NextTCBASL       = (struct gs_scb *) 0; 
     ptcb->TCB_NextTCBPSL       = (struct gs_scb *) 0; 
@@ -103,15 +114,28 @@ GS_TCB *gk_TCB_GetFree(void)
  */ 
 GS_ECB *gk_ECB_GetFree(void)
 {
+    GS_ECB  *pecb;
+    void *mem;
+    
     SAMPLE_FUNCTION_BEGIN(1)
     
     g_kcb.KCB_NUMBER_OF_ECBs++;;
-    // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102    
-    void *mem = malloc(sizeof(GS_ECB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
-    GS_ECB  *pecb = (GS_ECB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
+    
+    /// Check if free structure is available
+    if (g_kcb.KCB_FREE_ECBs  != (struct gs_ecb  *) 0) {
+        pecb = g_kcb.KCB_FREE_ECBs;
+        g_kcb.KCB_FREE_ECBs = pecb->ECB_NextECB;
+    }
+    else
+    {    
+        // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102    
+        mem = malloc(sizeof(GS_ECB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
+        pecb = (GS_ECB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
+        pecb->BLOCK_HASH     = (unsigned int) pecb + 2;
+        pecb->malloc_address = mem;          
+    }
 
-    pecb->BLOCK_HASH     = (unsigned int) pecb + 2;
-    pecb->malloc_address = mem;    
+  
     // pecb->ECBState       = GS_ECBState_FREE; 
     pecb->ECB_NextECBAEL = (struct gs_ecb *) 0; 
     pecb->ECB_NextECBASL = (struct gs_scb *) 0; 
@@ -152,20 +176,33 @@ GS_ECB *gk_ECB_GetFree(void)
 G_RCB *gk_RCB_GetFree(void)
 {
     SAMPLE_FUNCTION_BEGIN(19)
+    G_RCB  *prcb;
+    void *mem;
     
-    g_kcb.KCB_NUMBER_OF_RCBs++;;
-    void *mem = malloc(sizeof(G_RCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
-    G_RCB  *prcb = (G_RCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
-    // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102    
+    g_kcb.KCB_NUMBER_OF_RCBs++;
+    
+    /// Check if free structure is available
+    if (g_kcb.KCB_FREE_RCBs  != (struct g_rcb  *) 0) {
+        prcb = (G_RCB  *) g_kcb.KCB_FREE_RCBs;
+        g_kcb.KCB_FREE_RCBs = prcb->RCB_NextRCB;
+    }
+    else
+    {      
+        // from https://stackoverflow.com/questions/227897/how-to-allocate-aligned-memory-only-using-the-standard-library/3430102#3430102    
+        mem = malloc(sizeof(G_RCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
+        prcb = (G_RCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
+        prcb->BLOCK_HASH     = (unsigned int) prcb + 3;
+        prcb->malloc_address = mem;         
+    }
 
-    prcb->BLOCK_HASH     = (unsigned int) prcb + 3;
-    prcb->malloc_address = mem;  
+ 
     // prcb->RCBType        = GK_RCBType_FREE; 
     prcb->RCBState       = GK_RCBState_UNDEFINED; 
     prcb->RCBCount       = (INT32) 0; 
     prcb->RCB_NextRCBASL = (struct gs_scb *) 0; 
     prcb->RCB_NextRCBGEL = (struct gs_ecb *) 0; 
     prcb->RCB_NextRCBWEL = (struct gs_ecb *) 0;
+    prcb->RCB_NextRCB    = (struct g_rcb *) 0;
     prcb->RCBType = GK_RCBType_UNUSED;
     
     /// TCBs linked list for debugging
@@ -190,16 +227,29 @@ G_RCB *gk_RCB_GetFree(void)
  */
 GS_SCB *gk_SCB_GetFree(void)
 {
+    void *mem;
+    GS_SCB *pscb;
+    
     SAMPLE_FUNCTION_BEGIN(26)
+    
     g_kcb.KCB_NUMBER_OF_SCBs++;
     
-    void *mem = malloc(sizeof(GS_SCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
-    GS_SCB *pscb = (GS_SCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
-    
-    pscb->BLOCK_HASH     = (unsigned int) pscb + 4;
-    pscb->malloc_address = mem;  
+    /// Check if free structure is available
+    if (g_kcb.KCB_FREE_SCBs  != (struct gs_scb  *) 0) {
+        pscb = g_kcb.KCB_FREE_SCBs;
+        g_kcb.KCB_FREE_SCBs = pscb->SCB_NextSCB;
+    }
+    else
+    {
+        mem = malloc(sizeof(GS_SCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
+        pscb = (GS_SCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
+        pscb->BLOCK_HASH     = (unsigned int) pscb + 4;
+        pscb->malloc_address = mem;  
+    }
+        
     pscb->SCBState       = G_SCBState_FREE;
     pscb->SCBState       = G_SCBState_UNLINKED;
+    pscb->SCB_NextSCB    = (struct gs_scb  *) 0;
     
     /// TCBs linked list for debugging
     pscb->SCB_NEXT_SCBs = g_kcb.KCB_ROOT_SCBs;
@@ -226,13 +276,25 @@ GS_SCB *gk_SCB_GetFree(void)
  */ 
 GS_RRDS *gk_RRDS_GetFree(void)
 {
-    SAMPLE_FUNCTION_BEGIN(48)
-    g_kcb.KCB_NUMBER_OF_RRDSs++;
-    void *mem = malloc(sizeof(GS_RRDS) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
-    GS_RRDS  *prrds = (GS_RRDS  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
+    void *mem;
+    GS_RRDS  *prrds;
     
-    prrds->BLOCK_HASH      = (unsigned int) prrds + 5;
-    prrds->malloc_address  = mem;
+    SAMPLE_FUNCTION_BEGIN(48)
+    
+    g_kcb.KCB_NUMBER_OF_RRDSs++;
+    
+    /// Check if free structure is available
+    if (g_kcb.KCB_FREE_RRDSs  != (struct gs_rrds  *) 0) {
+        prrds = g_kcb.KCB_FREE_RRDSs;
+        g_kcb.KCB_FREE_RRDSs = prrds->RRDS_NextRRDS;
+    }
+    else
+    {    
+        mem = malloc(sizeof(GS_RRDS) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
+        prrds = (GS_RRDS  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);
+        prrds->BLOCK_HASH      = (unsigned int) prrds + 5;
+        prrds->malloc_address  = mem;
+    }
     
     prrds->RRDS_State = 0;           ///< \todo verify correctness !!!!!
     prrds->RRDS_Type = 0;            ///< \todo verify correctness !!!!!
@@ -260,12 +322,23 @@ GS_RRDS *gk_RRDS_GetFree(void)
  */
 GS_LCB *gk_Get_LCB(void)
 {
+    void *mem;
+    GS_LCB *plcb; 
+    
     g_kcb.KCB_NUMBER_OF_LCBs++;
-    void *mem = malloc(sizeof(GS_LCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
-    GS_LCB *plcb = (GS_LCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);    
-
-    plcb->BLOCK_HASH      = (unsigned int) plcb + 6;
-    plcb->malloc_address  = mem;    
+    
+    /// Check if free structure is available
+    if (g_kcb.KCB_FREE_LCBs  != (struct gs_lcb  *) 0) {
+        plcb = g_kcb.KCB_FREE_LCBs;
+        g_kcb.KCB_FREE_LCBs = plcb->LCB_NextLCBL;
+    }
+    else
+    {        
+        mem = malloc(sizeof(GS_LCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
+        plcb = (GS_LCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);    
+        plcb->BLOCK_HASH      = (unsigned int) plcb + 6;
+        plcb->malloc_address  = mem;
+    }
     
     plcb->LCB_NextTCBRUNL = (struct gs_tcb *) 0;        /* Pointer to the TCB list of running tasks */
     plcb->LCBRunPriority  = (INT64) G_LOWEST_PRIORITY;  /* It is because it is empty*/

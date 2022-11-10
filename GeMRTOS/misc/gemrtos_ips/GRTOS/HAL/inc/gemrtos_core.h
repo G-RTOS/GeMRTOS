@@ -171,6 +171,16 @@ struct gs_kcb {
     INT32             KCB_NUMBER_OF_SCBs;    ///< \brief Number of SCB in the system 
     INT32             KCB_NUMBER_OF_RRDSs;   ///< \brief Number of RRDS in the system 
     
+    /// Pointers to free structures to avoid free and malloc frequently
+    /// Free structures are linked to this pointers instead of free the memory
+    /// New create structures pop from this list or malloc if it is empty
+    struct gs_tcb    *KCB_FREE_TCBs;        ///< \brief pointer to the first free TCB structure.
+    struct gs_ecb    *KCB_FREE_ECBs;        ///< \brief pointer to the first free ECB structure.
+    struct g_rcb     *KCB_FREE_RCBs;        ///< \brief pointer to the first free RCB structure.
+    struct gs_lcb    *KCB_FREE_LCBs;        ///< \brief pointer to the first free LCB structure.
+    struct gs_scb    *KCB_FREE_SCBs;        ///< \brief pointer to the first free SCB structure.    
+    struct gs_rrds   *KCB_FREE_RRDSs;       ///< \brief pointer to the first free RRDS structure.    
+    
     /// IDLE and ISR tasks    
     volatile INT32   *G_ISR_STACK;
     volatile GS_STK  *G_IDLE_STACK;

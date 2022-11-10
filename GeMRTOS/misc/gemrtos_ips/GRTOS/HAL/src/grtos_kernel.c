@@ -497,7 +497,14 @@ void gk_INIT_KERNEL(void)
     g_kcb.KCB_NUMBER_OF_RCBs  = 0; 
     g_kcb.KCB_NUMBER_OF_LCBs  = 0; 
     g_kcb.KCB_NUMBER_OF_SCBs  = 0; 
-    g_kcb.KCB_NUMBER_OF_RRDSs = 0;   
+    g_kcb.KCB_NUMBER_OF_RRDSs = 0;
+    
+    g_kcb.KCB_FREE_TCBs   = (struct gs_tcb  *) 0;
+    g_kcb.KCB_FREE_ECBs   = (struct gs_ecb  *) 0;
+    g_kcb.KCB_FREE_RCBs   = (struct g_rcb   *) 0;
+    g_kcb.KCB_FREE_LCBs   = (struct gs_lcb  *) 0;
+    g_kcb.KCB_FREE_SCBs   = (struct gs_scb  *) 0;
+    g_kcb.KCB_FREE_RRDSs  = (struct gs_rrds *) 0;    
 
     g_kcb.KCB_ROOT_TCBs   = (struct gs_tcb  *) 0;
     g_kcb.KCB_ROOT_ECBs   = (struct gs_ecb  *) 0;

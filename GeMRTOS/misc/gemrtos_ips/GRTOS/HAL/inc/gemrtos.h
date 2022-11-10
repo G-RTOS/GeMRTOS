@@ -34,6 +34,8 @@
 
 #include <stdio.h>
 
+#include <sys/alt_stdio.h>
+
 #include <stdarg.h>
 
 #include "sys/alt_irq.h"
