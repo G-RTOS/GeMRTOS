@@ -66,10 +66,21 @@ void gu_printf(char *format, ...)
     GEMRTOS_NEWLIB_LOCK;
     
     // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
+    /// va_list args;        
+    /// va_start (args, format);
+    /// printf(format, args);
+    /// va_end (args);
+    
+    // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
+    // from https://stackoverflow.com/questions/1056411/how-to-pass-variable-number-of-arguments-to-printf-sprintf    
+    const int BUF_LEN = 255;
+    char x[BUF_LEN];
+
     va_list args;        
     va_start (args, format);
-    printf(format, args);
+    int size = vsnprintf(x, BUF_LEN, format, args);
     va_end (args);
+    printf(x);
 
     GEMRTOS_NEWLIB_UNLOCK;
 }
