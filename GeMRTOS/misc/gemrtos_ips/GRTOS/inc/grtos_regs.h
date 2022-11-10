@@ -396,6 +396,7 @@ do { \
  *  Defines the stub for the newlib critical section.
  *  It asks for mutex and checks if it is granted. When already granted, 
  *  the nested counter is incremented.
+  *  internal use only in GEMRTOS_NEWLIB_LOCK
  */
 #define GRTOS_CMD_NEWLIB_MUTEX_GET \
 	do{ \
@@ -410,11 +411,49 @@ do { \
 /**
  *  \brief GRTOS_CMD_NEWLIB_MUTEX_RELEASE 
  *  Defines the stub for the realise of the newlib critical section.
+ *  internal use only in GEMRTOS_NEWLIB_UNLOCK
  */
 #define GRTOS_CMD_NEWLIB_MUTEX_RELEASE \
 	do{ IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS, GRTOS_CMD_PRC_ID); \
 	}while(0)	
 
+/**
+ *  \brief GEMRTOS_NEWLIB_LOCK 
+ *  Defines lock of a call for newlib.
+ */
+#define GEMRTOS_NEWLIB_LOCK \
+    do{ \
+        if (G_Running == G_TRUE) { \
+            do \
+            { \
+                NIOS2_WRITE_IENABLE (0); \
+                IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID); \
+                if ((unsigned int) (1 << (GRTOS_CMD_PRC_ID - 1)) != (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN)) \
+                { \
+                    NIOS2_WRITE_IENABLE (1); \
+                } \
+            } while ((unsigned int) (1 << (GRTOS_CMD_PRC_ID - 1)) != (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN)); \
+            new_lib_grant = (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN); \
+            new_lib_counter = (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS); \
+        } \
+	}while(0)
 
 
+/**
+ *  \brief GEMRTOS_NEWLIB_UNLOCK 
+ *  Defines unlock of a call for newlib.
+ */
+#define GEMRTOS_NEWLIB_UNLOCK \
+    if (G_Running == G_TRUE) { \
+        if ((unsigned int) (1 << (GRTOS_CMD_PRC_ID - 1)) == (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN)) \
+        { \
+            unsigned int mutex = (unsigned int)IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS); \
+            GRTOS_CMD_NEWLIB_MUTEX_RELEASE; \
+            if (mutex == (unsigned int) 1) { \
+                NIOS2_WRITE_IENABLE (1); \
+            } \
+        } \
+    }
+
+    
 #endif /* __GRTOS_REGS_H__ */

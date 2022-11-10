@@ -36,75 +36,46 @@
  *  \param Same as printf function of stdio.h
  *  \todo Change the mutex to a particular for newlib functions
  */
-// void gu_printf(char *format, ...) 
-// {
-//     // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
-//     va_list args;
-//     va_list args1;
-//     va_start (args, format);
-//     va_copy (args1, args);
-//     GRTOS_USER_CRITICAL_SECTION_GET;
-//     // printf(format, args);
-//     // va_end (args);
-//     // #######
-//     // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf    
-//     const int BUF_LEN = 5;
-//     char *x = malloc((BUF_LEN + 2) * sizeof(char));
-//     // char *x1;
-//     if (NULL != x) {
-//         // printf("El x es %p\n",(void *) x);
-// 
-//         int size = snprintf(x, BUF_LEN, format, args);
-//         va_end (args);
-//         if (size >= BUF_LEN) {
-//             x = realloc(x,(size + 2) * sizeof(char));
-//             if (NULL != x) {
-//                 // printf("El x es %p\n",(void *) x);
-//                 snprintf(x, size + 1 , format, args1);
-//                 va_end (args1);
-//                 // printf("%s",x);
-//                 // free(x);
-//             }
-//             else
-//             {
-//                 printf("[ ERROR ] Run out of memory for gu_printf");
-//                 // free(x);
-//             }              
-//         } 
-//         printf("%s",x);
-//         free(x);
-//     }
-//     else
-//     {
-//         printf("[ ERROR ] Run out of memory for gu_printf");
-//         // free(x);
-//     }
-//     GRTOS_CMD_CRITICAL_SECTION_RELEASE;
-// }
 
+/// void gu_printf(char *format, ...) 
+/// {
+///     GRTOS_USER_CRITICAL_SECTION_GET;
+///    //     va_list args;
+//     // va_list args1;
+//     // va_start (args, format);
+//     // va_copy (args1, args);
+///     // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf    
+///     const int BUF_LEN = 255;
+///     char *x = malloc((BUF_LEN + 2) * sizeof(char));
+/// 
+///     if (NULL != x) {
+///         // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
+///         va_list args;        
+///         va_start (args, format);
+///         int size = vsnprintf(x, BUF_LEN, format, args);
+///         va_end (args);
+///         printf("%s",x);
+/// 
+///     }
+///     free(x);    
+///     GRTOS_CMD_CRITICAL_SECTION_RELEASE;
+/// }
 
 void gu_printf(char *format, ...) 
 {
-    GRTOS_USER_CRITICAL_SECTION_GET;
+    GEMRTOS_NEWLIB_LOCK;
     
-    // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf    
-    const int BUF_LEN = 255;
-    char *x = malloc((BUF_LEN + 2) * sizeof(char));
+    // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
+    va_list args;        
+    va_start (args, format);
+    printf(format, args);
+    va_end (args);
 
-    if (NULL != x) {
-        // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
-        va_list args;        
-        va_start (args, format);
-        int size = vsnprintf(x, BUF_LEN, format, args);
-        va_end (args);
-        printf("%s",x);
-
-    }
-    free(x);    
-    GRTOS_CMD_CRITICAL_SECTION_RELEASE;
+    GEMRTOS_NEWLIB_UNLOCK;
 }
 
-/**gu_printf
+
+/**gu_fprintf
  *  \brief This function is the fprintf function but for multiprocessor 
  *  \param Same as fprintf function of stdio.h
  *  \todo Change the mutex to a particular for newlib functions
@@ -130,6 +101,7 @@ void gu_fprintf(FILE *stream, char *format, ...)
 }
 
 
+
 #include <reent.h>
 
 /*
@@ -143,42 +115,18 @@ volatile unsigned int new_lib_grant;
 volatile unsigned int new_lib_counter;
 
 
+
 void __malloc_lock ( struct _reent *_r )
 {
-    new_lib_grant = GRTOS_CMD_PRC_ID;
-    if (G_Running == G_TRUE) {
-        do
-        {
-            // IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN);
-            // IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS);
-            NIOS2_WRITE_IENABLE (0);            
-            IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN, GRTOS_CMD_PRC_ID);
-            if ((unsigned int) (1 << (GRTOS_CMD_PRC_ID - 1)) != (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN)) 
-            {
-                NIOS2_WRITE_IENABLE (1);
-            }
-        } while ((unsigned int) (1 << (GRTOS_CMD_PRC_ID - 1)) != (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN));
-            
-            new_lib_grant = (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN);
-            new_lib_counter = (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS);
-    }
-
+    GEMRTOS_NEWLIB_LOCK;
 }    
-     
+
 /*   
  *   
  */  
-     
+
+
 void  __malloc_unlock ( struct _reent *_r )
 {    
-    if (G_Running == G_TRUE) {
-        if ((unsigned int) (1 << (GRTOS_CMD_PRC_ID - 1)) == (unsigned int) IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_GRN)) 
-        {
-            GRTOS_CMD_NEWLIB_MUTEX_RELEASE;
-            // IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS, GRTOS_CMD_PRC_ID);
-            if ((unsigned int)IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_NEWLIB_RLS) == (unsigned int) 0) {
-                NIOS2_WRITE_IENABLE (1);
-            }
-        }
-    }
+    GEMRTOS_NEWLIB_UNLOCK;
 }

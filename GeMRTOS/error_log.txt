@@ -1,10 +1,10 @@
-2022.11.10.11:42:25 Info: Doing: <b>qsys-script --system-file=qsysgrtos.qsys --script=qsysscript.tcl</b>
-2022.11.10.11:43:06 Info: get_module_property NAME
-2022.11.10.11:43:06 Info: get_project_properties 
-2022.11.10.11:43:06 Info: get_instances 
-2022.11.10.11:43:06 Info: get_composed_instances GRTOS_Multiprocessor_1
-2022.11.10.11:43:06 Info: get_composed_instances clk_0
-2022.11.10.11:43:06 Info: get_composed_instances mddr_ctrl_0
+2022.11.10.16:33:03 Info: Doing: <b>qsys-script --system-file=qsysgrtos.qsys --script=qsysscript.tcl</b>
+2022.11.10.16:33:38 Info: get_module_property NAME
+2022.11.10.16:33:38 Info: get_project_properties 
+2022.11.10.16:33:38 Info: get_instances 
+2022.11.10.16:33:38 Info: get_composed_instances GRTOS_Multiprocessor_1
+2022.11.10.16:33:38 Info: get_composed_instances clk_0
+2022.11.10.16:33:38 Info: get_composed_instances mddr_ctrl_0
 + nios2-bsp hal ./software/hellogemrtos_bsp qsysgrtos.sopcinfo --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0'
 + DEFAULT_IFS=' 	
 '
@@ -138,12 +138,8 @@ drivers/src/gemrtos_core.c: In function 'gk_TCB_GetFree':
 drivers/src/gemrtos_core.c:58:29: warning: assignment discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
          g_kcb.KCB_FREE_TCBs = ptcb->TCB_NextTCB;
                              ^
-drivers/src/gemrtos_hal.c: In function 'gu_printf':
-drivers/src/gemrtos_hal.c:98:13: warning: unused variable 'size' [-Wunused-variable]
-         int size = vsnprintf(x, BUF_LEN, format, args);
-             ^
 drivers/src/gemrtos_hal.c: In function 'gu_fprintf':
-drivers/src/gemrtos_hal.c:124:13: warning: unused variable 'size' [-Wunused-variable]
+drivers/src/gemrtos_hal.c:98:13: warning: unused variable 'size' [-Wunused-variable]
          int size = vsnprintf(x, BUF_LEN, format, args);
              ^
 drivers/src/listfunctions.c: In function 'gk_RCBFL_Link':
