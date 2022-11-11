@@ -32,6 +32,17 @@
 
 #include <system.h>
 
+#include <unistd.h>
+#include <fcntl.h>
+
+// #include <sys/alt_errno.h>
+
+#include "sys/alt_errno.h"
+#include "sys/alt_warning.h"
+#include "priv/alt_file.h"
+#include "os/alt_syscall.h"
+
+#include "sys/alt_log_printf.h"
 
 #include <stdio.h>
 
