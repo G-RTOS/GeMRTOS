@@ -93,7 +93,7 @@ void gu_printf(char *format, ...)
  */
 void gu_fprintf(FILE *stream, char *format, ...) 
 {
-    GRTOS_USER_CRITICAL_SECTION_GET;
+    GEMRTOS_NEWLIB_LOCK;
     
     // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf    
     const int BUF_LEN = 255;
@@ -108,7 +108,7 @@ void gu_fprintf(FILE *stream, char *format, ...)
         fprintf(stream, "%s", x);
     }
     free(x);    
-    GRTOS_CMD_CRITICAL_SECTION_RELEASE;
+    GEMRTOS_NEWLIB_UNLOCK;
 }
 
 
