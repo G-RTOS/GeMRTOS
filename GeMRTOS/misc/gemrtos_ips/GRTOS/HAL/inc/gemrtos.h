@@ -32,9 +32,8 @@
 
 #include <system.h>
 
-#include <stdio.h>
 
-#include <sys/alt_stdio.h>
+#include <stdio.h>
 
 #include <stdarg.h>
 

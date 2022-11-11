@@ -1,11 +1,11 @@
-2022.11.11.07:35:39 Info: Doing: <b>qsys-script --system-file=qsysgrtos.qsys --script=qsysscript.tcl</b>
-2022.11.11.07:36:18 Info: get_module_property NAME
-2022.11.11.07:36:18 Info: get_project_properties 
-2022.11.11.07:36:18 Info: get_instances 
-2022.11.11.07:36:18 Info: get_composed_instances GRTOS_Multiprocessor_1
-2022.11.11.07:36:18 Info: get_composed_instances clk_0
-2022.11.11.07:36:18 Info: get_composed_instances mddr_ctrl_0
-+ nios2-bsp hal ./software/hellogemrtos_bsp qsysgrtos.sopcinfo --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0'
+2022.11.11.12:27:58 Info: Doing: <b>qsys-script --system-file=qsysgrtos.qsys --script=qsysscript.tcl</b>
+2022.11.11.12:28:46 Info: get_module_property NAME
+2022.11.11.12:28:46 Info: get_project_properties 
+2022.11.11.12:28:46 Info: get_instances 
+2022.11.11.12:28:46 Info: get_composed_instances GRTOS_Multiprocessor_1
+2022.11.11.12:28:46 Info: get_composed_instances clk_0
+2022.11.11.12:28:46 Info: get_composed_instances mddr_ctrl_0
++ nios2-bsp hal ./software/hellogemrtos_bsp qsysgrtos.sopcinfo --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0' --cmd 'set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf'
 + DEFAULT_IFS=' 	
 '
 + IFS=
@@ -41,7 +41,7 @@
 + trap cleanup EXIT
 + [[ hal = \-\-\h\e\l\p ]]
 + [[ hal = \-\-\e\x\t\e\n\d\e\d\-\h\e\l\p ]]
-+ [[ 15 -lt 2 ]]
++ [[ 17 -lt 2 ]]
 + [[ -r C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl ]]
 + [[ -r C:/intelFPGA/18.0/nios2eds/sdk2/bin/lwhal-set-defaults.tcl ]]
 + bsp_type=hal
@@ -52,63 +52,73 @@
 + sopc_arg=qsysgrtos.sopcinfo
 + shift
 + [[ ! -d ./software/hellogemrtos_bsp ]]
-+ [[ -n --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
 + create_update_options[${#create_update_options[@]}]=--cpu-name
 + shift
-+ [[ -n GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
 + create_update_options[${#create_update_options[@]}]=GRTOS_Multiprocessor_1_nios2_qsys_1
 + shift
-+ [[ -n --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
-+ [[ 10 -lt 2 ]]
++ [[ 12 -lt 2 ]]
 + [[ set_setting hal.enable_reduced_device_drivers true = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
 + create_update_options[${#create_update_options[@]}]=--cmd
 + shift
-+ [[ -n set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
 + create_update_options[${#create_update_options[@]}]='set_setting hal.enable_reduced_device_drivers true'
 + shift
-+ [[ -n --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
-+ [[ 8 -lt 2 ]]
++ [[ 10 -lt 2 ]]
 + [[ set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
 + create_update_options[${#create_update_options[@]}]=--cmd
 + shift
-+ [[ -n set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
 + create_update_options[${#create_update_options[@]}]='set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1'
 + shift
-+ [[ -n --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
-+ [[ 6 -lt 2 ]]
++ [[ 8 -lt 2 ]]
 + [[ set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
 + create_update_options[${#create_update_options[@]}]=--cmd
 + shift
-+ [[ -n set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
 + create_update_options[${#create_update_options[@]}]='set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0'
 + shift
-+ [[ -n --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
-+ [[ 4 -lt 2 ]]
++ [[ 6 -lt 2 ]]
 + [[ set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
 + create_update_options[${#create_update_options[@]}]=--cmd
 + shift
-+ [[ -n set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
 + create_update_options[${#create_update_options[@]}]='set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0'
 + shift
-+ [[ -n --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
-+ [[ 2 -lt 2 ]]
++ [[ 4 -lt 2 ]]
 + [[ add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
 + create_update_options[${#create_update_options[@]}]=--cmd
 + shift
-+ [[ -n add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 ]]
++ [[ -n add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
 + case $1 in
 + create_update_options[${#create_update_options[@]}]='add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0'
++ shift
++ [[ -n --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
++ case $1 in
++ [[ 2 -lt 2 ]]
++ [[ set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf = \a\d\d\_\s\e\c\t\i\o\n\_\m\a\p\p\i\n\g ]]
++ create_update_options[${#create_update_options[@]}]=--cmd
++ shift
++ [[ -n set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf ]]
++ case $1 in
++ create_update_options[${#create_update_options[@]}]='set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf'
 + shift
 + [[ -n '' ]]
 + IFS=' 	
@@ -125,8 +135,8 @@
 + [[ -f qsysgrtos.sopcinfo ]]
 + sopc_design_file=qsysgrtos.sopcinfo
 + [[ -r qsysgrtos.sopcinfo ]]
-+ echo 'nios2-bsp: Running "nios2-bsp-create-settings --sopc qsysgrtos.sopcinfo --type hal --settings ./software/hellogemrtos_bsp/settings.bsp --bsp-dir ./software/hellogemrtos_bsp --script C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl  --cpu-name' GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0"'
-+ nios2-bsp-create-settings --sopc qsysgrtos.sopcinfo --type hal --settings ./software/hellogemrtos_bsp/settings.bsp --bsp-dir ./software/hellogemrtos_bsp --script C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0
++ echo 'nios2-bsp: Running "nios2-bsp-create-settings --sopc qsysgrtos.sopcinfo --type hal --settings ./software/hellogemrtos_bsp/settings.bsp --bsp-dir ./software/hellogemrtos_bsp --script C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl  --cpu-name' GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0' --cmd 'set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf"'
++ nios2-bsp-create-settings --sopc qsysgrtos.sopcinfo --type hal --settings ./software/hellogemrtos_bsp/settings.bsp --bsp-dir ./software/hellogemrtos_bsp --script C:/intelFPGA/18.0/nios2eds/sdk2/bin/bsp-set-defaults.tcl --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd set_setting hal.enable_reduced_device_drivers true --cmd set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1 --cmd set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0 --cmd set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0 --cmd add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0 --cmd set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap printf
 + exit 0
 + cleanup
 + [[ -r '' ]]
@@ -138,14 +148,14 @@ drivers/src/gemrtos_core.c: In function 'gk_TCB_GetFree':
 drivers/src/gemrtos_core.c:58:29: warning: assignment discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
          g_kcb.KCB_FREE_TCBs = ptcb->TCB_NextTCB;
                              ^
-drivers/src/gemrtos_hal.c: In function 'gu_printf':
-drivers/src/gemrtos_hal.c:81:9: warning: unused variable 'size' [-Wunused-variable]
-     int size = vsnprintf(x, BUF_LEN, format, args);
-         ^
 drivers/src/gemrtos_hal.c: In function 'gu_fprintf':
-drivers/src/gemrtos_hal.c:106:13: warning: unused variable 'size' [-Wunused-variable]
+drivers/src/gemrtos_hal.c:126:13: warning: unused variable 'size' [-Wunused-variable]
          int size = vsnprintf(x, BUF_LEN, format, args);
              ^
+drivers/src/gemrtos_hal.c: In function '__wrap_printf':
+drivers/src/gemrtos_hal.c:77:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
 drivers/src/listfunctions.c: In function 'gk_RCBFL_Link':
 drivers/src/listfunctions.c:848:25: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
      g_kcb.KCB_FREE_RCBs = presource;    

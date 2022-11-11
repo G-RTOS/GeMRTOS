@@ -717,4 +717,6 @@ INT32 Check_list_TCBAEL_IsValid(int cycles);
 void gu_printf(char *format, ...);
 void gu_fprintf(FILE *stream, char *format, ...);
 
+int __wrap_printf(const char *__format, ...);
+
 #endif /* GEMRTOS_CORE_H_ */

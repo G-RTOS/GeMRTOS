@@ -61,6 +61,21 @@
 ///     GRTOS_CMD_CRITICAL_SECTION_RELEASE;
 /// }
 
+// int __real_printf (const char *__format, ...);
+
+int __wrap_printf(const char *__format, ...)
+{
+    GEMRTOS_NEWLIB_LOCK;
+
+    // from https://stackoverflow.com/questions/150543/forward-an-invocation-of-a-variadic-function-in-c
+    va_list args;        
+    va_start (args, __format);
+    vprintf(__format, args);
+    va_end (args);    
+    // __real_printf("__wrap_printf");
+    GEMRTOS_NEWLIB_UNLOCK;
+}
+
 void gu_printf(char *format, ...) 
 {
     GEMRTOS_NEWLIB_LOCK;
@@ -73,14 +88,19 @@ void gu_printf(char *format, ...)
     
     // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
     // from https://stackoverflow.com/questions/1056411/how-to-pass-variable-number-of-arguments-to-printf-sprintf    
-    const int BUF_LEN = 255;
-    char x[BUF_LEN];
+    /// const int BUF_LEN = 255;
+    /// char x[BUF_LEN+1];
+    /// va_list args;        
+    /// va_start (args, format);
+    /// int size = vsnprintf(x, BUF_LEN, format, args);
+    /// va_end (args);
+    /// printf(x);
 
+    // from https://stackoverflow.com/questions/150543/forward-an-invocation-of-a-variadic-function-in-c
     va_list args;        
     va_start (args, format);
-    int size = vsnprintf(x, BUF_LEN, format, args);
-    va_end (args);
-    printf(x);
+    vprintf(format, args);
+    va_end (args);    
 
     GEMRTOS_NEWLIB_UNLOCK;
 }
@@ -139,5 +159,27 @@ void __malloc_lock ( struct _reent *_r )
 
 void  __malloc_unlock ( struct _reent *_r )
 {    
+    GEMRTOS_NEWLIB_UNLOCK;
+}
+
+/*
+ * These are the empty env lock/unlock stubs required by newlib. These are 
+ * used to make accesses to environment variables thread safe. The default HAL 
+ * configuration is single threaded, so there is nothing to do here. Note that 
+ * this requires that environment variables are never manipulated by an interrupt 
+ * service routine.
+ */
+
+void __env_lock ( struct _reent *_r )
+{
+    GEMRTOS_NEWLIB_LOCK;    
+}
+
+/*
+ *
+ */
+
+void __env_unlock ( struct _reent *_r )
+{
     GEMRTOS_NEWLIB_UNLOCK;
 }
