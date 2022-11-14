@@ -719,4 +719,7 @@ void gu_fprintf(FILE *stream, char *format, ...);
 
 int __wrap_printf(const char *__format, ...);
 
+int newlib_write(int file, const void *ptr, size_t len);
+int newlib_read(int file, void *ptr, size_t len);
+
 #endif /* GEMRTOS_CORE_H_ */

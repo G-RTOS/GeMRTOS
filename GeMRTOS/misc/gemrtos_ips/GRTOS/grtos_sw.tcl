@@ -70,12 +70,17 @@ add_sw_property c_source HAL/src/gemrtos_hal.c
 add_sw_property c_source HAL/src/mq.c
 add_sw_property c_source HAL/src/sem.c
 
+# Files replacing the newlib syscalls
+add_sw_property c_source HAL/src/alt_write.c
+add_sw_property c_source HAL/src/alt_read.c
+
 # ASM source files
 add_sw_property asm_source HAL/src/grtos_switch.S
 
 # Include files
 add_sw_property include_source inc/grtos_regs.h
 add_sw_property include_source HAL/inc/gemrtos_core.h
+add_sw_property include_source HAL/inc/gemrtos_newlib_syscall.h
 add_sw_property include_source HAL/inc/gemrtos_resources.h
 # add_sw_property include_source HAL/inc/gemrtos_core_api.h
 # add_sw_property include_source HAL/inc/grtos.h
@@ -89,7 +94,9 @@ add_sw_property include_source HAL/inc/sem.h
 #Override HAL functions
 add_sw_property excluded_hal_source HAL/src/alt_malloc_lock.c
 add_sw_property excluded_hal_source HAL/src/alt_env_lock.c
+# add_sw_property excluded_hal_source HAL/inc/os/alt_syscall.h
 add_sw_property excluded_hal_source HAL/src/alt_write.c
+add_sw_property excluded_hal_source HAL/src/alt_read.c
 
 # add_sw_property excluded_hal_source HAL/src/alt_putchar.c
 # add_sw_property excluded_hal_source HAL/src/alt_iic.c
@@ -101,7 +108,8 @@ add_sw_property excluded_hal_source HAL/src/alt_write.c
 # add_sw_property c_source HAL/src/alt_load.c
 # add_sw_property c_source HAL/src/alt_main.c
 
-
+# set_sw_property bsp_subdirectory HAL
+# add_sw_property include_source HAL/inc/gemrtos_newlib_syscall.h
 
 #add_sw_property systemh_generation_script copyfiles.tcl
 

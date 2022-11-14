@@ -44,6 +44,8 @@
 
 #include "sys/alt_log_printf.h"
 
+#include <gemrtos_newlib_syscall.h>
+
 #include <stdio.h>
 
 #include <stdarg.h>
