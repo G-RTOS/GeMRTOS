@@ -182,82 +182,36 @@ void sig_aborted_task_generic(int pdata)
 void task_generic(void* pdata)
 {
     // gt_tm sys_time; 
-    GS_ECB  *pbuffer;
     int i;
-    
-    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        void *StackPointer = (void *) GRTOS_CMD_PRC_SP;
-    #endif
 
-    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
 
-    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
-    #endif
-        
-    // GRTOS_MULTIPROCESSOR_0_GRTOS_0_S_PROCESSOR_MONITOR_BASE
-     // Write the sampling time
+    // Write the sampling time
     if ((task_sampling_enable[(int) pdata] == 1) || (task_sampling_enable[(int) pdata] == 2)) {
         gk_MONITOR_FIFO_SAMPLE ((int) pdata | 0x800000);
     }
-    
-    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
-
-    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
-    #endif
         
     task_invocation_number[(int) pdata]++;        
     execution_auxiliar_counts[(int) pdata] = 0;
 
-    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
-
-    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
-    #endif
-
-    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
-
     for (i=0; i < USER_TCB_execution_time[(int) pdata]; i++ ) {
         execution_auxiliar_counts[(int) pdata]++;
     }
-
-    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
-
-    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
-    #endif
     
     // sys_time = gu_Clock(gu_get_now());
     if (USER_TCB_execution_time[(int) pdata] == (int) 0) {
-        // printf("T %d, P %d, I %d\n",(int) ((int) pdata & 0xFFFF) , gu_Get_CPU_ID(),(int) task_invocation_number[(int) pdata]);
-        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "T %d", (int) pdata);
-        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time()); 
         printf("T %d, newlib_grant= %d, newlib_count= %d", (int) pdata, (int) new_lib_grant, (int) new_lib_counter);
         printf("; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time());        
     }
-
-    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
 
     // printf("Proc: %d, ", gu_Get_CPU_ID());
     // printf("y= %d, d= %d, ", sys_time.tm_year, sys_time.tm_day);
     // printf("h= %d, m= %d, ", sys_time.tm_hour, sys_time.tm_min);
     // printf("s= %d, ms= %d\n", sys_time.tm_sec, sys_time.tm_msec);
     
-    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
-    #endif
-    
      // Write the actuation time
     if ((task_sampling_enable[(int) pdata] == 1) || (task_sampling_enable[(int) pdata] == 3)) {     
         gk_MONITOR_FIFO_SAMPLE ((int) pdata | 0xC00000);
     }
-
-    PRINT_ASSERT(((void *) GRTOS_CMD_PRC_SP == StackPointer ),"ERROR SP = %p, StackPointer= %p\n",(void *) GRTOS_CMD_PRC_SP, StackPointer);
-
-    #if G_DEBUG_WHILEFOREVER_ENABLE == 1
-        // fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "[ MESSAGE ] Executing  %s, %d, Proc: %d\n",__FUNCTION__,__LINE__,GRTOS_CMD_PRC_ID);
-    #endif
     
 }
 
@@ -266,19 +220,6 @@ GS_TCB *ptcb_array[G_MAX_NUMBER_OF_USER_TCB];
 
 int main(void)
 {
-    // const int BUF_LEN = 3;
-    // // from https://stackoverflow.com/questions/12746885/why-use-asprintf-instead-of-sprintf
-    // char *x = malloc(BUF_LEN * sizeof(char));
-    // int size = snprintf(x, BUF_LEN, "Print using memory      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
-    // if (size >= BUF_LEN) {
-    //     realloc(&x,(size + 1) * sizeof(char));
-    //     snprintf(x, size + 1 , "Print using memory      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
-    // }
-    // printf("%s",x);
-    // free(x);
-    
-
-    // gu_printf("Prueba de gu_printf\n");
     
     printf("GeMRTOS\n");
     printf("Processors      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
@@ -359,7 +300,7 @@ int main(void)
                 fprintf(stderr,"[ MESSAGE ] TASK %d CREATED\n", (int) i);
             #endif
         }
-        // task_sampling_enable[0] = 2;
+
     #endif
 
 
