@@ -175,7 +175,7 @@ void task4(void* pdata)
 INT32    *generic_stk;
 void sig_aborted_task_generic(int pdata)
 {
-    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "\nTASK 1 ABORTED %d \n", pdata);
+    fprintf(fpuart[GRTOS_CMD_PRC_ID-1], "\nTASK %d ABORTED\n", pdata);
 }
 
 
@@ -354,7 +354,7 @@ int main(void)
                 gu_SetTaskAbortwhenDeadline(ptcb_array[i], 0);       
                 gu_StartTaskwithOffset(ptcb_array[i], 0, 0, 5, 0);
             }
-            gu_signal_create(G_SCBType_TCB_ABORTED, 0, (void *) ptcb_array[i], (void *) sig_aborted_task_generic,  (void *) 1);  /// Abort when deadline
+            gu_signal_create(G_SCBType_TCB_ABORTED, 0, (void *) ptcb_array[i], (void *) sig_aborted_task_generic, (void *) i);  /// Abort when deadline
             #if G_DEBUG_WHILEFOREVER_ENABLE == 1
                 fprintf(stderr,"[ MESSAGE ] TASK %d CREATED\n", (int) i);
             #endif

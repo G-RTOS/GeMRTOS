@@ -882,12 +882,12 @@ INT32 gk_TASK_RELEASE(GS_TCB *ptcb)
     ptcb->TCB_NextTCBASL = (struct gs_scb *) psignal;   // Put back the Associated Signal list
 
     // Check if there is G_SCBType_TCB_ABORTED signal
-    if (state == G_TCBState_WAITING) {  // It is waiting not completed    
+    if ((state == G_TCBState_WAITING) || (state == G_TCBState_RUNNING) || (state == G_TCBState_READY)) {  // It is waiting not completed    
         psignal = gk_TCBASL_GetSCB(ptcb, G_SCBType_TCB_ABORTED); PRINT_DEBUG_LINE
         if (psignal != (GS_SCB *) 0) {
             psignal = gk_SCB_Copy((GS_SCB *) psignal); PRINT_DEBUG_LINE
             gk_TCBPSL_Link(ptcb, (GS_SCB *) psignal); PRINT_DEBUG_LINE
-            // fprintf(stderr,"[ MESSAGE ] SIGNAL next ASL of task 1 is %p copy is %p \n", (void *) ptcb->TCB_NextTCBASL, (void *) psignal);
+            // fprintf(stderr,"[ MESSAGE ] SIGNAL next ASL of task %p is %p copy is %p \n", (void *) ptcb, (void *) ptcb->TCB_NextTCBASL, (void *) psignal);
         }
     }
     SAMPLE_FUNCTION_END(20)
