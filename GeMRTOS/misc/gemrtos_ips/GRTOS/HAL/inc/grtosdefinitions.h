@@ -78,9 +78,6 @@
 #define RTSZ1(i, l, f) RTSZ2(i, l, f)
 #define RTSZ2(i, l, f) RTSZ_##i##_##l##_##f
 
-    //  if (G_Running == G_TRUE) { 
-    //      fprintf(fpuart[GRTOS_CMD_PRC_ID-1],"Proc %d in func %s, file %s, %d \n",GRTOS_CMD_PRC_ID , __FUNCTION__,__FILE__,__LINE__); 
-    //  } 
 
 #define SAMPLE_FUNCTION_BEGIN(number) \
     if ((G_DEBUG_SAMPLE_BEGIN_ENABLE == 0xFFFFFFFF) ||  (G_DEBUG_SAMPLE_BEGIN_ENABLE == number)){ \
@@ -88,12 +85,6 @@
         IOWR(GRTOS_DRIVER_GRTOS_MONITOR_BASE, 0, (unsigned int) &&RTSZ(0) | 0x80000000); \
     }
 
-    // if (G_Running == G_TRUE) { 
-    //     if ((g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer < g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackTop - 300) || (g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer > g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackBottom)) { 
-    //         PRINT_TO_DEBUG("ERROR TCB= %p, TCB_StackBottom = %p, TCB_StackPointer = %p, TCB_StackTop = %p\n",g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB, (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackBottom, (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackPointer, (void *)  g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCB_StackTop); 
-    //         PRINT_TO_DEBUG("ERROR TCB_IDLE= %p\n", (void *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB ); 
-    //         G_DEBUG_WHILEFOREVER; } 
-    // } 
     
 #define SAMPLE_FUNCTION_END(number) \
     if (Check_list_TCBAEL_IsValid((int) 10000) != G_TRUE) { \

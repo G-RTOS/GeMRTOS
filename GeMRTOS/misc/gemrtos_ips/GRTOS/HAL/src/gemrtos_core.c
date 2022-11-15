@@ -472,7 +472,9 @@ void  gk_INIT_IRQ (void)
 	{
 		///Create ISR TCB if IRQ is enabled
         if ((G_IRQ_ENABLED >> i) & 1) {
-
+            
+            printf("Redirecting IRQ = %d, handler in %p\n", (int) i, (void *) alt_irq[i].handler);
+            
             g_kcb.KCB_ExtISR[i].G_TCB_ISR = gk_CreateTask((void *) alt_irq[i].handler,  ///< Pointer to the beginning of isr
                                  (void *) alt_irq[i].context,               ///< Pointer to the argument of the first call
                                  // (void *) &g_kcb.G_ISR_STACK[i][G_ISR_STACKSIZE-4],              ///< Botton of the Stack of the Task
