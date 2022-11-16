@@ -220,6 +220,7 @@ GS_TCB *ptcb_array[G_MAX_NUMBER_OF_USER_TCB];
 
 int main(void)
 {
+    GS_LCB *pedf_list;
     
     printf("GeMRTOS\n");
     printf("Processors      = %d\n", (int)GRTOS_DRIVER_NPROCESSORS);
@@ -263,6 +264,9 @@ int main(void)
     fprintf(stderr,"[ MESSAGE ] GRTOS_DRIVER_GRTOSFREQUENCY %d\n", (int) GRTOS_DRIVER_GRTOSFREQUENCY);
     fprintf(stderr,"[ MESSAGE ] GRTOS_DRIVER_PRESCALE %d\n", (int) GRTOS_DRIVER_PRESCALE);
     fprintf(stderr,"[ MESSAGE ] G_TICKS_PER_SECOND %d\n", (int) G_TICKS_PER_SECOND);
+    
+    // Create the Scheduling list for EDF scheduled tasks
+    pedf_list = gk_Get_LCB();
 
     #if MODE_FREQUENTIAL_TASK == 1
         for ( i = 0; i < G_MAX_NUMBER_OF_USER_TCB; i++ ) {
@@ -287,12 +291,17 @@ int main(void)
                 USER_TCB_execution_time[i] = 0;
                 
                 gu_SetTaskType(ptcb_array[i], G_TCBType_PERIODIC);
-                // gu_SetTaskList(ptcb_array[i], (struct gs_lcb *) 0);
+                
+                // gu_SetTaskList(ptcb_array[i], (struct gs_lcb *) G_TASK_LCB_DEFAULT);
+                gu_SetTaskList(ptcb_array[i], (struct gs_lcb *) pedf_list);
+                
+                
                 gu_SetTaskReadyPriority(ptcb_array[i], USER_TCB_priority[i]);
                 gu_SetTaskRunPriority(ptcb_array[i], USER_TCB_priority[i]);
                 gu_SetTaskDeadline(ptcb_array[i], 0, 0, USER_TCB_period_s[i], USER_TCB_period_ms[i]);
                 gu_SetTaskPeriod(ptcb_array[i], 0, 0,  USER_TCB_period_s[i], USER_TCB_period_ms[i]);
-                gu_SetTaskAbortwhenDeadline(ptcb_array[i], 0);       
+                gu_SetTaskAbortwhenDeadline(ptcb_array[i], 0);
+                // Start execution of task with an offset
                 gu_StartTaskwithOffset(ptcb_array[i], 0, 0, 5, 0);
             }
             gu_signal_create(G_SCBType_TCB_ABORTED, 0, (void *) ptcb_array[i], (void *) sig_aborted_task_generic, (void *) i);  /// Abort when deadline

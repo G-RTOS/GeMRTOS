@@ -1720,7 +1720,7 @@ INT32 gk_TCBRDYL_Unlink(GS_TCB *ptcb)
 			if (ptcb->TCB_NextTCB != (GS_TCB *)0) ptcb->TCB_NextTCB->TCB_PrevTCB = (struct gs_tcb *) 0; PRINT_DEBUG_LINE
 		}
 		else
-		{/* It is not the first one */
+		{ /* It is not the first one */
 			if (ptcb->TCB_NextTCB != (GS_TCB *)0) ptcb->TCB_NextTCB->TCB_PrevTCB = ptcb->TCB_PrevTCB; PRINT_DEBUG_LINE
 			ptcb->TCB_PrevTCB->TCB_NextTCB = ptcb->TCB_NextTCB; PRINT_DEBUG_LINE
 		}
