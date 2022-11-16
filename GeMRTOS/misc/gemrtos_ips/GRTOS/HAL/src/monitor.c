@@ -80,6 +80,18 @@ INT32 TCB_IsValid(GS_TCB *ptcb)
     return(G_FALSE);
 }
 
+/**
+ * Returns G_TRUE if points to a GS_PCBAssocLCB
+ * @param ppcbalcb pointer to GS_PCBAssocLCB structure to check
+ * @return G_TRUE if pointer to GS_PCBAssocLCB, G_FALSE otherwise
+ */
+INT32 GS_PCBAssocLCB_IsValid(GS_PCBAssocLCB *ppcbalcb)
+{
+    if (ppcbalcb == (GS_PCBAssocLCB *) 0) return(G_FALSE);
+    if (ppcbalcb->BLOCK_HASH == (unsigned int) ppcbalcb + 7) return(G_TRUE);
+    return(G_FALSE);
+}
+
 INT32 PCB_IsValid(GS_PCB *ppcb)
 {
 	int processor;

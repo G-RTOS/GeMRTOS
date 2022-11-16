@@ -360,6 +360,48 @@ GS_LCB *gk_Get_LCB(void)
     return plcb;
 }
 
+/**gk_Get_PCBAssocLCB
+ *  \brief Creates a PCBAssocLCB structure and returns its pointer
+ *  \return Pointer to the PCBAssocLCB created
+ *  \relates Core
+ */
+GS_PCBAssocLCB *gk_Get_PCBAssocLCB(void)
+{
+    void *mem;
+    GS_PCBAssocLCB *ppcbalcb; 
+    
+    g_kcb.KCB_NUMBER_OF_PCBAssocLCBs++;
+    
+    /// Check if free structure is available
+    if (g_kcb.KCB_FREE_RDYs  != (struct gs_pcb_rdy_lcbl *) 0) {
+        ppcbalcb = g_kcb.KCB_FREE_RDYs;
+        g_kcb.KCB_FREE_RDYs = ppcbalcb->gs_pcb_rdy_lcbl_next;
+    }
+    else
+    {        
+        mem = malloc(sizeof(GS_PCBAssocLCB) + 15); // Adding 15 to make sure there exist an address module 16 to align the block
+        ppcbalcb = (GS_PCBAssocLCB  *) (((uintptr_t)mem+15) & ~ (uintptr_t)0x0F);    
+        ppcbalcb->BLOCK_HASH      = (unsigned int) ppcbalcb + 7;
+        ppcbalcb->malloc_address  = mem;
+    }
+    
+    // Initialize to zero the structure fields
+    ppcbalcb->gs_pcb_rdy_lcbl_next = (struct gs_pcb_rdy_lcbl *) 0;
+    ppcbalcb->gs_pcb_rdy_lcbl_prev = (struct gs_pcb_rdy_lcbl *) 0;
+    ppcbalcb->priority             = (INT32) 0;
+    ppcbalcb->PCB_RDY_LCBL         = (struct gs_lcb *) 0;
+
+    /// LCBs linked list for debugging
+    ppcbalcb->gs_pcb_lcbl_nexts = g_kcb.KCB_ROOT_RDYs;
+    if (g_kcb.KCB_ROOT_RDYs != (struct gs_pcb_rdy_lcbl *) 0) g_kcb.KCB_ROOT_RDYs->gs_pcb_lcbl_prevs = ppcbalcb;
+    ppcbalcb->gs_pcb_lcbl_prevs = (struct gs_pcb_rdy_lcbl *) 0;
+    g_kcb.KCB_ROOT_RDYs = (struct gs_pcb_rdy_lcbl *) ppcbalcb;
+
+
+    return ppcbalcb;
+}
+
+
 
 /**gk_Create_PCBs
  *  \brief Reservs system memory to store the Processor Control Blocks of the system (PCB)

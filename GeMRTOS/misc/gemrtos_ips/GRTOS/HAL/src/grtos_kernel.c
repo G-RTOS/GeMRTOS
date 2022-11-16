@@ -504,7 +504,8 @@ void gk_INIT_KERNEL(void)
     g_kcb.KCB_FREE_RCBs   = (struct g_rcb   *) 0;
     g_kcb.KCB_FREE_LCBs   = (struct gs_lcb  *) 0;
     g_kcb.KCB_FREE_SCBs   = (struct gs_scb  *) 0;
-    g_kcb.KCB_FREE_RRDSs  = (struct gs_rrds *) 0;    
+    g_kcb.KCB_FREE_RRDSs  = (struct gs_rrds *) 0;
+    g_kcb.KCB_FREE_RDYs   = (struct gs_pcb_rdy_lcbl *) 0;
 
     g_kcb.KCB_ROOT_TCBs   = (struct gs_tcb  *) 0;
     g_kcb.KCB_ROOT_ECBs   = (struct gs_ecb  *) 0;
@@ -512,6 +513,7 @@ void gk_INIT_KERNEL(void)
     g_kcb.KCB_ROOT_LCBs   = (struct gs_lcb  *) 0;
     g_kcb.KCB_ROOT_SCBs   = (struct gs_scb  *) 0;
     g_kcb.KCB_ROOT_RRDSs  = (struct gs_rrds *) 0;
+    g_kcb.KCB_ROOT_RDYs   = (struct gs_pcb_rdy_lcbl *) 0;
 
     // volatile INT32   G_ISR_STACK[ALT_NIRQ][G_ISR_STACKSIZE] __attribute__((aligned(4)));  
     void   *mem1 = malloc(sizeof(INT32) * ALT_NIRQ * G_ISR_STACKSIZE + 31);
@@ -603,6 +605,8 @@ void gk_INIT_KERNEL(void)
         g_kcb.G_PCBTbl[i].PCB_IDLETCB->TCB_AssocPCB = i + 1;
         
 		g_kcb.G_PCBTbl[i].PCB_EXECTCB = g_kcb.G_PCBTbl[i].PCB_IDLETCB; 
+        
+        g_kcb.G_PCBTbl[i].PCB_AssocLCB = (struct gs_pcb_rdy_lcbl *) 0;
         
         for (j = 0;  j < G_NUMBER_OF_LCBs_FOR_PCB;  j++) {         
             g_kcb.G_PCBTbl[i].PCB_RDY_LCBL[j] = (struct gs_lcb *) G_TASK_LCB_DEFAULT;  

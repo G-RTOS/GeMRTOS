@@ -2296,6 +2296,30 @@ GS_TCB *gk_PCB_GetNextTCB(void)
     return(ptcb);
 }
 
+/**gk_PCBAssocLCBFL_Link
+ *  \brief 
+ *  Links a PCBAssocLCB to the Free PCBAssocLCB List
+ *  \param [in] ppcbalcb Pointer to the TCB
+ *  \return G_TRUE if successful, G_FALSE otherwise
+ *  \relates Task
+ */ 
+INT32 gk_PCBAssocLCBFL_Link(GS_PCBAssocLCB *ppcbalcb)
+{
+    SAMPLE_FUNCTION_BEGIN(75)
+
+    PRINT_ASSERT((GS_PCBAssocLCB_IsValid(ppcbalcb) == G_TRUE),"ERROR GS_PCBAssocLCB_IsValid (%p) not valid\n",(void *) ppcbalcb);
+    
+    ppcbalcb->gs_pcb_rdy_lcbl_next = g_kcb.KCB_FREE_RDYs;
+    g_kcb.KCB_FREE_RDYs = ppcbalcb;    
+    
+    g_kcb.KCB_NUMBER_OF_PCBAssocLCBs--; 
+
+	G_DEBUG_VERBOSE
+
+    SAMPLE_FUNCTION_END(75)
+    return(G_TRUE);
+}
+
 /**gk_SetLowestProcessor
  *  \brief 
  *  Sets the Lowest Processor register in GRTOS Controller

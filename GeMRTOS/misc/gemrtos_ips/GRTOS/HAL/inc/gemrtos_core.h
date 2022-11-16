@@ -32,11 +32,6 @@
 #define GEMRTOS_CORE_H_
 
 
-
-
-
-
-
 /************************************************************************************
  *  System constants definitions
  ************************************************************************************/
@@ -55,7 +50,8 @@ typedef struct gs_ecb      GS_ECB;
 typedef struct gs_scb      GS_SCB; 
 typedef struct gs_rrds     GS_RRDS;
 typedef struct g_rgb       G_RCB;
-typedef struct gs_mcb      GS_MCB; 
+typedef struct gs_mcb      GS_MCB;
+typedef struct gs_pcb_rdy_lcbl GS_PCBAssocLCB;
 typedef struct g_rgb       t_semaphore_resource;
 typedef union timepriority TIMEPRIORITY;
 
@@ -163,13 +159,14 @@ struct gs_kcb {
     
     GS_PCB  *G_PCBTbl __attribute__((aligned(4)));                                /// \brief Pointer to PCBs dynamic array
     
-    INT32             KCB_NUMBER_OF_TCBs;    ///< \brief Number of TCB in the system 
-    INT32             KCB_NUMBER_OF_PCBs;    ///< \brief Number of PCB in the system 
-    INT32             KCB_NUMBER_OF_ECBs;    ///< \brief Number of ECB in the system 
-    INT32             KCB_NUMBER_OF_RCBs;    ///< \brief Number of RCB in the system 
-    INT32             KCB_NUMBER_OF_LCBs;    ///< \brief Number of LCB in the system 
-    INT32             KCB_NUMBER_OF_SCBs;    ///< \brief Number of SCB in the system 
-    INT32             KCB_NUMBER_OF_RRDSs;   ///< \brief Number of RRDS in the system 
+    INT32             KCB_NUMBER_OF_TCBs;           ///< \brief Number of TCB in the system 
+    INT32             KCB_NUMBER_OF_PCBs;           ///< \brief Number of PCB in the system 
+    INT32             KCB_NUMBER_OF_ECBs;           ///< \brief Number of ECB in the system 
+    INT32             KCB_NUMBER_OF_RCBs;           ///< \brief Number of RCB in the system 
+    INT32             KCB_NUMBER_OF_LCBs;           ///< \brief Number of LCB in the system 
+    INT32             KCB_NUMBER_OF_SCBs;           ///< \brief Number of SCB in the system 
+    INT32             KCB_NUMBER_OF_RRDSs;          ///< \brief Number of RRDS in the system 
+    INT32             KCB_NUMBER_OF_PCBAssocLCBs;   ///< \brief Number of RRDS in the system
     
     /// Pointers to free structures to avoid free and malloc frequently
     /// Free structures are linked to this pointers instead of free the memory
@@ -179,7 +176,8 @@ struct gs_kcb {
     struct g_rcb     *KCB_FREE_RCBs;        ///< \brief pointer to the first free RCB structure.
     struct gs_lcb    *KCB_FREE_LCBs;        ///< \brief pointer to the first free LCB structure.
     struct gs_scb    *KCB_FREE_SCBs;        ///< \brief pointer to the first free SCB structure.    
-    struct gs_rrds   *KCB_FREE_RRDSs;       ///< \brief pointer to the first free RRDS structure.    
+    struct gs_rrds   *KCB_FREE_RRDSs;       ///< \brief pointer to the first free RRDS structure.
+    struct gs_pcb_rdy_lcbl *KCB_FREE_RDYs;  ///< \brief pointer to the first gs_pcb_rdy_lcbl structure. Used for debugging purposes.    
     
     /// IDLE and ISR tasks    
     volatile INT32   *G_ISR_STACK;
@@ -190,8 +188,9 @@ struct gs_kcb {
     struct gs_ecb    *KCB_ROOT_ECBs;        ///< \brief pointer to the first ECB structure. Used for debugging purposes.
     struct g_rcb     *KCB_ROOT_RCBs;        ///< \brief pointer to the first RCB structure. Used for debugging purposes.
     struct gs_lcb    *KCB_ROOT_LCBs;        ///< \brief pointer to the first LCB structure. Used for debugging purposes.
-    struct gs_scb    *KCB_ROOT_SCBs;        ///< \brief pointer to the first SCB structure. Used for debugging purposes.    
-    struct gs_rrds   *KCB_ROOT_RRDSs;       ///< \brief pointer to the first RRDS structure. Used for debugging purposes.    
+    struct gs_scb    *KCB_ROOT_SCBs;        ///< \brief pointer to the first SCB structure. Used for debugging purposes.
+    struct gs_rrds   *KCB_ROOT_RRDSs;       ///< \brief pointer to the first RRDS structure. Used for debugging purposes.
+    struct gs_pcb_rdy_lcbl *KCB_ROOT_RDYs;  ///< \brief pointer to the first gs_pcb_rdy_lcbl structure. Used for debugging purposes.
 };
 
 //*************************************************************************************************
@@ -234,7 +233,23 @@ struct gs_lcb {
 /// \defgroup PCBState g_rgb::PCBState 
 /// \defgroup PCBType  g_rgb::PCBType 
 
-
+/// gs_pcb_rdy_lcbl Processor associated LCB list
+/**
+ *  \brief gs_pcb_rdy_lcbl  structure to associate a PCB to a LCB
+ *  \details The gs_pcb holds a linked list of gs_pcb_rdy_lcbl with each one of the LCB associated. 
+ */
+struct gs_pcb_rdy_lcbl {
+    unsigned int           BLOCK_HASH;               ///< \brief BLOCK_HASH of the GS_PCBAssocLCB: (GS_PCBAssocLCB *) + 7
+    void                   *malloc_address;          ///< \brief Pointer memory address of the malloc block     
+    struct gs_pcb_rdy_lcbl *gs_pcb_rdy_lcbl_next;
+    struct gs_pcb_rdy_lcbl *gs_pcb_rdy_lcbl_prev;
+    INT32                  priority;
+    struct gs_lcb          *PCB_RDY_LCBL;
+    
+    /// Fields for debugging
+    struct gs_pcb_rdy_lcbl *gs_pcb_lcbl_nexts;
+    struct gs_pcb_rdy_lcbl *gs_pcb_lcbl_prevs;
+};
 
 
 /// GS_PCB Processor Control Block
@@ -248,7 +263,8 @@ struct gs_pcb {
 	INT32 PCBID;                                ///< \brief Processor ID 
 	int PCBState;                               ///< \brief State of the PCB : GS_FREE_PROCESSOR, GS_RUNNING_PROCESSOR  \ingroup PCBState
     int PCBType;                                ///< \brief Type of the processor                                       \ingroup PCBType
-    int *GRTOS_PROCESSOR_BASE __attribute__((aligned(4))); /// \brief Processor specific addresses to go to idle state    
+    int *GRTOS_PROCESSOR_BASE __attribute__((aligned(4))); /// \brief Processor specific addresses to go to idle state
+    struct gs_pcb_rdy_lcbl *PCB_AssocLCB;       ///< \brief Linked list of the associated LCBs that processor serves
 	struct gs_lcb *PCB_RDY_LCBL[G_NUMBER_OF_LCBs_FOR_PCB] __attribute__((aligned(4))); ///< \brief Ready Lists the processor services 
 	struct gs_tcb *PCB_IDLETCB;                 ///< \brief Pointer to the TCB of the IDLE Task 
 	struct gs_tcb *PCB_EXECTCB;                 ///< \brief Current task assigned to processor 
@@ -428,6 +444,9 @@ GS_SCB *gk_Get_SCB(void);
 GS_RRDS *gk_Get_RRDS(void);
 GS_LCB *gk_Get_LCB(void);
 INT32 gk_Create_PCBs(int Nmbr_PCB);
+GS_PCBAssocLCB *gk_Get_PCBAssocLCB(void);
+INT32 gk_PCBAssocLCBFL_Link(GS_PCBAssocLCB *ppcbalcb);
+
 
 
 /***************************************************************/
@@ -446,6 +465,7 @@ GS_TCB *gk_PCB_GetCurrentTCB(void);
 /* debug function                                              */
 /***************************************************************/
 INT32 TCB_IsValid(GS_TCB *ptcb);
+INT32 GS_PCBAssocLCB_IsValid(GS_PCBAssocLCB *ppcbalcb);
 
 INT32 LCB_IsValid(GS_LCB *plcb);
 
