@@ -267,6 +267,11 @@ int main(void)
     
     // Create the Scheduling list for EDF scheduled tasks
     pedf_list = gk_Get_LCB();
+    // Assign all the processors to the list
+    for (i = 0;  i < G_NUMBER_OF_PCB;  i++) {
+        g_kcb.G_PCBTbl[i].PCB_RDY_LCBL[0] = pedf_list;
+    }
+
 
     #if MODE_FREQUENTIAL_TASK == 1
         for ( i = 0; i < G_MAX_NUMBER_OF_USER_TCB; i++ ) {
