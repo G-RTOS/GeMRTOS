@@ -311,7 +311,7 @@ INT32 gu_SetTaskPeriod(struct gs_tcb *ptcb, unsigned int hours, unsigned int min
 INT32 gu_StartTaskwithOffset(struct gs_tcb *ptcb, unsigned int hours, unsigned int minutes, unsigned int seconds, unsigned int ms)
 {
     INT64 ticks;
-    GS_ECB *pevent;
+
     
     if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_GET;
         ms = ms * (unsigned int) G_TICKS_PER_MSECOND;
@@ -320,40 +320,7 @@ INT32 gu_StartTaskwithOffset(struct gs_tcb *ptcb, unsigned int hours, unsigned i
         hours   = hours   * (unsigned int) G_TICKS_PER_MSECOND * 1000 * 60 * 60;
         ticks   = (INT64) hours + (INT64) minutes + (INT64) seconds + (INT64) ms;
     
-        switch (ptcb->TCBType){
-            case G_TCBType_UCOS:
-                gk_TCBRDYL_Link(ptcb);  /* Insert Task in Ready List                */
-                break;
-            case G_TCBType_PERIODIC:
-                /* Get the starting time of the task depending whether the  RTOS is running or not */
-                if (G_Running != G_FALSE) ticks = GRTOS_now + ticks;
-                // else time = GRTOS_now + ticks;
-
-                if (ticks == (INT64) 0){
-                    /* Task Ready and Set next Release in Period Time from start time */
-                    gk_TCBRDYL_Link(ptcb);  /* Insert Task in Ready List                */
-                    ticks = (INT64) ticks + ptcb->TCBPeriod;  
-                }
-                else
-                {
-                    gk_TCBWL_Link(ptcb, G_TCBState_WAITING_COMPLETED);
-                }
-                pevent = gk_ECB_GetFree();
-                pevent->ECBValue.i64 = (INT64) ticks;
-                pevent->ECBType = (INT32) G_ECBType_PERIODIC;
-                gk_TCBAEL_Link(pevent, ptcb);
-                gk_ECBTL_Link(pevent);
-                break;
-            // case G_TCBType_ISR:
-            //     gk_TCBWL_Link(ptcb, G_TCBState_WAITING_COMPLETED);
-            //     break;
-            // case G_TCBType_IDLE:
-            //     gk_TCBRDYL_Link(ptcb);  /* Insert Task in Ready List                */
-            //     break;
-            default:
-                G_DEBUG_WHILEFOREVER;
-                break;
-        }
+        gk_START_TASK_CALLBACKK(ptcb, ticks);
 
         /* Si está ejecutandose el GRTOS, hago cambio de tarea si corresponde */
     if (G_Running == G_TRUE) gk_KERNEL_TASK_SUSPEND_CURRENT();
@@ -1034,6 +1001,53 @@ INT32 gk_TASK_PRIORITY_SET_CALLBACK(GS_TCB *ptcb, INT32 task_state)
 	// if (task_state == G_TCBState_RUNNING && ptcb->TCBCurrentPriority > ptcb->TCBRunPriority) {
 	// 	ptcb->TCBCurrentPriority = ptcb->TCBRunPriority;}
     SAMPLE_FUNCTION_END(58)
+    return(G_TRUE);
+}
+
+
+INT32 gk_START_TASK_CALLBACKK(GS_TCB *ptcb, INT64 ticks_offset)
+{
+    GS_ECB *pevent;
+    switch (ptcb->TCBType){
+        case G_TCBType_UCOS:
+            gk_TCBRDYL_Link(ptcb);  /* Insert Task in Ready List                */
+            break;
+        case G_TCBType_PERIODIC:
+            /* Get the starting time of the task depending whether the RTOS is running or not */
+            if (G_Running != G_FALSE) ticks_offset = GRTOS_now + ticks_offset;
+            
+            pevent = gk_ECB_GetFree();
+            pevent->ECBValue.i64 = (INT64) ticks_offset;
+            pevent->ECBType = (INT32) G_ECBType_PERIODIC;
+            gk_TCBAEL_Link(pevent, ptcb);
+            if (ticks_offset == (INT64) 0){ /*TAsk is ready and event is next event */
+                pevent->ECBValue.i64 = (INT64)  ptcb->TCBPeriod;
+            }
+            else /* is waiting and next event is the offset */
+            {
+                pevent->ECBValue.i64 = (INT64) ticks_offset;
+            }
+            gk_ECBTL_Link(pevent);
+            if (ticks_offset == (INT64) 0){
+                /* Task Ready and Set next Release in Period Time from start time */
+                gk_TCBRDYL_Link(ptcb);  /* Insert Task in Ready List                */
+            }
+            else
+            {
+                gk_TCBWL_Link(ptcb, G_TCBState_WAITING_COMPLETED);
+            }
+            break;
+            
+        // case G_TCBType_ISR:
+        //     gk_TCBWL_Link(ptcb, G_TCBState_WAITING_COMPLETED);
+        //     break;
+        // case G_TCBType_IDLE:
+        //     gk_TCBRDYL_Link(ptcb);  /* Insert Task in Ready List                */
+        //     break;
+        default:
+            G_DEBUG_WHILEFOREVER;
+            break;
+    }
     return(G_TRUE);
 }
 

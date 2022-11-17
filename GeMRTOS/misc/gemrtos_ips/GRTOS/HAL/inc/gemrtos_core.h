@@ -596,8 +596,10 @@ void    gk_KERNEL_TASK_SUSPEND_CURRENT(void);
 INT32   gk_TASK_IS_BLOCKED(GS_TCB *ptcb);
 GS_ECB *gk_TCB_in_RCBGEL(G_RCB *presource, GS_TCB *ptcb);
 INT32    gk_TASK_PRIORITY_SET_CALLBACK(GS_TCB *ptcb, INT32 task_state);
+INT32 gk_START_TASK_CALLBACKK(GS_TCB *ptcb, INT64 ticks_offset);
 INT64   gk_TASK_GRANTED_PRIORITY_GET(GS_TCB *ptcb);
 INT32    gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB * ptcb);
+
 
 
 /***************************************************************/
