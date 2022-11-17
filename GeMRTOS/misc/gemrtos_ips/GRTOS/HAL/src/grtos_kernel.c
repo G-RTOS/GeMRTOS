@@ -91,7 +91,7 @@ FILE* fpuart[G_NUMBER_OF_PCB] __attribute__((aligned(4)));    ///< \brief Files 
 
 volatile INT32 G_TASK_TYPE_DEFAULT __attribute__((aligned(4)));        ///< \brief Default assignment for Task Type
 volatile GS_LCB *G_TASK_LCB_DEFAULT __attribute__((aligned(4)));       ///< \brief Default assignment for Task LCB
-volatile GS_LCB *G_TASK_LCB_DEFAULT_PRIORITY __attribute__((aligned(4)));       ///< \brief Priority of the default LCB
+volatile INT32 G_TASK_LCB_DEFAULT_PRIORITY __attribute__((aligned(4)));       ///< \brief Priority of the default LCB
 volatile INT64 G_TASK_PRIORITY_DEFAULT __attribute__((aligned(4)));    ///< \brief Default assignment for Task Priority
 volatile INT64 G_TASK_PERIOD_DEFAULT __attribute__((aligned(4)));      ///< \brief Default assignment for Task Period
 
@@ -469,7 +469,7 @@ void gk_KERNEL_TASK_SUSPEND_CURRENT(void)
 void gk_INIT_KERNEL(void) __attribute__ ((constructor)); 
 void gk_INIT_KERNEL(void)
 {
-	int i,j;     
+	int i;     
 
     PRINT_ASSERT((GRTOS_CMD_PRC_ID  == (int) 1),"ERROR Processor is not 1, CPUID= %d\n",(int) GRTOS_CMD_PRC_ID);
 

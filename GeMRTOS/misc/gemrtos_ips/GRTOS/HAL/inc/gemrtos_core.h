@@ -430,7 +430,7 @@ extern FILE* fpuart[G_NUMBER_OF_PCB];
 
 extern volatile INT32 G_TASK_TYPE_DEFAULT;
 extern volatile GS_LCB *G_TASK_LCB_DEFAULT;
-extern volatile GS_LCB *G_TASK_LCB_DEFAULT_PRIORITY;
+extern volatile INT32 G_TASK_LCB_DEFAULT_PRIORITY;
 extern volatile INT64 G_TASK_PRIORITY_DEFAULT;
 extern volatile INT64 G_TASK_PERIOD_DEFAULT;
 

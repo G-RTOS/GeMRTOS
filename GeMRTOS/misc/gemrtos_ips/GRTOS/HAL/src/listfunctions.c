@@ -845,7 +845,7 @@ INT32 gk_RCBFL_Link(G_RCB *presource)
     /// if (presource->RCB_NEXT_RCBs != (G_RCB *) 0) presource->RCB_NEXT_RCBs->RCB_PREV_RCBs = presource->RCB_PREV_RCBs;     
     /// free(presource->malloc_address);
     presource->RCB_NextRCB = g_kcb.KCB_FREE_RCBs;
-    g_kcb.KCB_FREE_RCBs = presource;    
+    g_kcb.KCB_FREE_RCBs = (struct g_rcb *) presource;    
     
     g_kcb.KCB_NUMBER_OF_RCBs--; 
     

@@ -55,7 +55,7 @@ GS_TCB *gk_TCB_GetFree(void)
     /// Check if free structure is available
     if (g_kcb.KCB_FREE_TCBs  != (struct gs_tcb  *) 0) {
         ptcb = g_kcb.KCB_FREE_TCBs;
-        g_kcb.KCB_FREE_TCBs = ptcb->TCB_NextTCB;
+        g_kcb.KCB_FREE_TCBs = (struct gs_tcb *) ptcb->TCB_NextTCB;
     }
     else
     {

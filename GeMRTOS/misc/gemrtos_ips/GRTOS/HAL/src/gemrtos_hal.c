@@ -74,6 +74,7 @@ int __wrap_printf(const char *__format, ...)
     va_end (args);    
     // __real_printf("__wrap_printf");
     GEMRTOS_NEWLIB_UNLOCK;
+    return(G_TRUE);
 }
 
 void gu_printf(char *format, ...) 
@@ -123,7 +124,7 @@ void gu_fprintf(FILE *stream, char *format, ...)
         // from https://learn.microsoft.com/es-es/cpp/c-runtime-library/reference/va-arg-va-copy-va-end-va-start?view=msvc-170
         va_list args;        
         va_start (args, format);
-        int size = vsnprintf(x, BUF_LEN, format, args);
+        vsnprintf(x, BUF_LEN, format, args);
         va_end (args);
         fprintf(stream, "%s", x);
     }
