@@ -225,10 +225,13 @@ struct gs_lcb {
 };
 
 /** State of the List Control Block */
-#define  GS_LCBState_LINKED                        1u  ///< \brief State LINKED for LIST                      \ingroup PCBState
-#define  GS_LCBState_UNLINKED                      2u  ///< \brief State UNLINKED for LIST                    \ingroup PCBState
+#define  GS_LCBState_LINKED                   1u  ///< \brief State LINKED for LIST                  \ingroup LCBState
+#define  GS_LCBState_UNLINKED                 2u  ///< \brief State UNLINKED for LIST                \ingroup LCBState
 
-#define  GS_LCBType_UNSPECIFIED                    2u  ///< \brief State UNLINKED for LIST                    \ingroup PCBState
+#define  GS_LCBType_UNSPECIFIED               2u  ///< \brief State UNLINKED for LIST                \ingroup LCBState
+#define  GS_LCBType_EDF                       3u  ///< \brief List is a EDF schedule one             \ingroup LCBState
+#define  GS_LCBType_FP                        3u  ///< \brief List is a FP schedule one              \ingroup LCBState
+
 //*************************************************************************************************
 /// \defgroup PCBState g_rgb::PCBState 
 /// \defgroup PCBType  g_rgb::PCBType 

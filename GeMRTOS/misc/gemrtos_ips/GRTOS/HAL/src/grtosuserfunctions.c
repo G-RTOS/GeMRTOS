@@ -855,12 +855,14 @@ void gk_TIME_CALLBACK(GS_ECB *pevent)
 
             gk_TCBAEL_Unlink(pevent);  // Preserve the Periodic event to remove the rest of events for a clean release
             
-            gk_TASK_RELEASE((GS_TCB *) ptcb);
+            gk_TASK_RELEASE((GS_TCB *) ptcb);  // Initialise the TCB and stack preserving signals
             
             /* Set a new event in the future */
             pevent->ECBValue.i64 = (INT64) pevent->ECBValue.i64 + ptcb->TCBPeriod;
             gk_TCBAEL_Link(pevent, ptcb);  // Link the periodic event back to the tcb
-            gk_ECBTL_Link(pevent);                 
+            gk_ECBTL_Link(pevent);
+            
+            gk_TCBRDYL_Link(ptcb); PRINT_DEBUG_LINE
             break; 
 
         case G_ECBType_TIMEOUT_SEM_WAITING:

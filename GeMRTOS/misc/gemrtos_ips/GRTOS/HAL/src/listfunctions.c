@@ -875,11 +875,12 @@ INT32 gk_TASK_RELEASE(GS_TCB *ptcb)
     gk_TCB_Unlink(ptcb); 
     // Debo dejar la tarea como si recien se ejecutara
     ptcb->TCB_NextTCBASL = (struct gs_scb *) 0;
-    gk_TCB_List_Unlink(ptcb);                  // Remove all the lists from the TCB
-    gk_TASK_STK_Init(ptcb);                    // Initiates the stack of the task
-
-    gk_TCBRDYL_Link(ptcb); PRINT_DEBUG_LINE
+    gk_TCB_List_Unlink(ptcb);                           // Remove all the lists from the TCB
+    gk_TASK_STK_Init(ptcb);                             // Initiates the stack of the task
     ptcb->TCB_NextTCBASL = (struct gs_scb *) psignal;   // Put back the Associated Signal list
+
+    //  gk_TCBRDYL_Link(ptcb); PRINT_DEBUG_LINE
+
 
     // Check if there is G_SCBType_TCB_ABORTED signal
     if ((state == G_TCBState_WAITING) || (state == G_TCBState_RUNNING) || (state == G_TCBState_READY)) {  // It is waiting not completed    
@@ -887,7 +888,6 @@ INT32 gk_TASK_RELEASE(GS_TCB *ptcb)
         if (psignal != (GS_SCB *) 0) {
             psignal = gk_SCB_Copy((GS_SCB *) psignal); PRINT_DEBUG_LINE
             gk_TCBPSL_Link(ptcb, (GS_SCB *) psignal); PRINT_DEBUG_LINE
-            // fprintf(stderr,"[ MESSAGE ] SIGNAL next ASL of task %p is %p copy is %p \n", (void *) ptcb, (void *) ptcb->TCB_NextTCBASL, (void *) psignal);
         }
     }
     SAMPLE_FUNCTION_END(20)
@@ -2464,6 +2464,19 @@ INT32 gk_TASK_PRIORITY_SET(GS_TCB *ptcb, INT32 task_state)
     SAMPLE_FUNCTION_BEGIN(58)
     
     PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB is not valid, PTCB= %p\n", (void *) ptcb);
+    
+    
+    
+    switch (task_state)
+    {
+        case G_TCBState_READY:   /* Insert in Ready list */
+
+            break;
+        case G_TCBState_RUNNING: /* Insert in Running list */
+        
+            break;
+    }            
+
 
 	if (ptcb->TCBReadyPriority < ptcb->TCBInherPriority) {ptcb->TCBCurrentPriority = ptcb->TCBReadyPriority;}
 	else {ptcb->TCBCurrentPriority = ptcb->TCBInherPriority;}
