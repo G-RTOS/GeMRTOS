@@ -265,7 +265,6 @@ struct gs_pcb {
     int PCBType;                                ///< \brief Type of the processor                                       \ingroup PCBType
     int *GRTOS_PROCESSOR_BASE __attribute__((aligned(4))); /// \brief Processor specific addresses to go to idle state
     struct gs_pcb_rdy_lcbl *PCB_AssocLCB;       ///< \brief Linked list of the associated LCBs that processor serves
-	struct gs_lcb *PCB_RDY_LCBL[G_NUMBER_OF_LCBs_FOR_PCB] __attribute__((aligned(4))); ///< \brief Ready Lists the processor services 
 	struct gs_tcb *PCB_IDLETCB;                 ///< \brief Pointer to the TCB of the IDLE Task 
 	struct gs_tcb *PCB_EXECTCB;                 ///< \brief Current task assigned to processor 
 	struct gs_pcb *PCB_NextPCB;                 ///< \brief Pointer to the next free processor 

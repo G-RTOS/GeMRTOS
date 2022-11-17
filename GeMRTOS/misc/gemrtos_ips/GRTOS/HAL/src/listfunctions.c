@@ -648,7 +648,6 @@ INT32 gk_LCBFPL_Link(int processorID)
 {
     SAMPLE_FUNCTION_BEGIN(14)
 	GS_PCB *ppcb = &g_kcb.G_PCBTbl[processorID-1];
-    // GS_LCB *plcb = ppcb->PCB_RDY_LCBL[0];
     GS_LCB *plcb = ppcb->PCB_AssocLCB->PCB_RDY_LCBL;
 
     PRINT_ASSERT((processorID >= 1 && processorID <= G_NUMBER_OF_PCB),"ERROR processorID= %d\n", (int) processorID);
@@ -688,7 +687,6 @@ INT32 gk_LCBFPL_Unlink(int processorID)
 {
     SAMPLE_FUNCTION_BEGIN(15)
 	GS_PCB *ppcb = &g_kcb.G_PCBTbl[processorID-1];
-    // GS_LCB *plcb = ppcb->PCB_RDY_LCBL[0];
     GS_LCB *plcb = ppcb->PCB_AssocLCB->PCB_RDY_LCBL;
 
     PRINT_ASSERT((processorID >= 1 && processorID <= G_NUMBER_OF_PCB),"ERROR processorID= %d\n", (int) processorID);
@@ -1823,14 +1821,12 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
     ptcb->TCB_AssocPCB = GRTOS_CMD_PRC_ID;
     
     // Si no esta en la lista principal del procesador o es tarea idle, el procesador es puesto como libre
-	// if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCB_RDY_LCBL[0] || ptcb->TCBType == G_TCBType_IDLE)
     if ((ptcb->TCB_RDY_LCB_Index != (GS_LCB *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCB_AssocLCB->PCB_RDY_LCBL) || (ptcb->TCBType == G_TCBType_IDLE))
 	{
 		if (g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCBState != GS_PCBState_FREE)
 	        gk_LCBFPL_Link(GRTOS_CMD_PRC_ID); PRINT_DEBUG_LINE // Link the processor to the free list
 	}
     else
-	// if (ptcb->TCB_RDY_LCB_Index == g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_RDY_LCBL[0])
 	{
         // Si esta en la lista de ready principal del procesador, entocnes es sacado de la lista de libres        
 		if (g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCBState == GS_PCBState_FREE)
@@ -2257,43 +2253,33 @@ GS_TCB *gk_PCB_GetNextTCB(void)
 {
     SAMPLE_FUNCTION_BEGIN(54)
 	GS_TCB *ptcb = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB;
-	GS_PCB *ppcb = &g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1]; 
-    int i;
-    // int run_main;
-
-    // fprintf(stderr, "[ OK1 ] ptcb %p, IDLE %p, PCBState %d, ptcb->TCB_RDY_LCB_Index %d PCB_RDY_LCBL[0] %d in %s, %d\n", ptcb, ppcb->PCB_IDLETCB, ppcb->PCBState, ptcb->TCB_RDY_LCB_Index, g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_RDY_LCBL[0], __FUNCTION__,__LINE__);
+	GS_PCB *ppcb = &g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1];
+    GS_PCBAssocLCB *ppcbalcb = ppcb->PCB_AssocLCB;
 
     if (ppcb->PCBState == GS_PCBState_FREE) { // It is not executing a main list task
         // Unlink if it executing a task
-        // if ((ptcb != ppcb->PCB_IDLETCB) && (ptcb != (struct gs_tcb *) 0)) { // It is executing a task (no from main list)
         if (ptcb != ppcb->PCB_IDLETCB) {
             gk_TCBRUNL_Unlink(ptcb);
             gk_TCBRDYL_Link(ptcb);
         }
-        if (ppcb->PCB_RDY_LCBL[0]->LCB_NextTCBRDYL != (struct gs_tcb *) 0) { // main list has a ready task
-            ptcb = ppcb->PCB_RDY_LCBL[0]->LCB_NextTCBRDYL;
-        }            
-        else { // No task to execute from main list
-            ptcb = ppcb->PCB_IDLETCB;
-            for (i = 1; i < G_NUMBER_OF_LCBs_FOR_PCB; i++) {
-                if (ppcb->PCB_RDY_LCBL[i]->LCB_NextTCBRDYL != (struct gs_tcb *) 0) {
-                    ptcb = ppcb->PCB_RDY_LCBL[i]->LCB_NextTCBRDYL;
-                    break;
-                }
+        ptcb = ppcb->PCB_IDLETCB;
+        while (ppcbalcb != (struct gs_pcb_rdy_lcbl *) 0)
+        {
+            if (ppcbalcb->PCB_RDY_LCBL->LCB_NextTCBRDYL != (struct gs_tcb *) 0) { // main list has a ready task
+                ptcb = ppcbalcb->PCB_RDY_LCBL->LCB_NextTCBRDYL;
+                break;
             }
+            ppcbalcb = ppcbalcb->gs_pcb_rdy_lcbl_next;
         }
     }
     else {
-        if (ppcb->PCB_RDY_LCBL[0]->LCB_NextTCBRDYL != (struct gs_tcb *) 0) { // main list has a ready task
-        	if (ptcb->TCBCurrentPriority > ppcb->PCB_RDY_LCBL[0]->LCB_NextTCBRDYL->TCBCurrentPriority) {
+        if (ppcbalcb->PCB_RDY_LCBL->LCB_NextTCBRDYL != (struct gs_tcb *) 0) { // main list has a ready task
+        	if (ptcb->TCBCurrentPriority > ppcbalcb->PCB_RDY_LCBL->LCB_NextTCBRDYL->TCBCurrentPriority) {
                 gk_TCBRUNL_Unlink(ptcb);
                 gk_TCBRDYL_Link(ptcb);
-                ptcb = ppcb->PCB_RDY_LCBL[0]->LCB_NextTCBRDYL;
+                ptcb = ppcbalcb->PCB_RDY_LCBL->LCB_NextTCBRDYL;
             }
-        } 
-        else {
-            ptcb = ptcb;
-        }
+        }        
     }
     SAMPLE_FUNCTION_END(54)
     return(ptcb);
@@ -2497,7 +2483,7 @@ INT32 gk_TASK_PRIORITY_SET(GS_TCB *ptcb, INT32 task_state)
 INT32 gk_LCB_CheckInvertion(void)
 {
     SAMPLE_FUNCTION_BEGIN(59)
-	GS_LCB *readylist = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCB_RDY_LCBL[0];
+    GS_LCB *readylist = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCB_AssocLCB->PCB_RDY_LCBL;
 
     PRINT_ASSERT((LCB_IsValid(readylist) == G_TRUE),"ERROR LCB is not valid\n");
     

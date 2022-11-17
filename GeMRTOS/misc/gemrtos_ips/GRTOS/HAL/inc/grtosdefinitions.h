@@ -50,7 +50,7 @@
 #define G_ISR_STACKSIZE                          4096  ///< \brief Size of the stack of an Interrupt task 
 #define G_ISR_PRIORITY                              0  ///< \brief Priority assigned to an Interrupt task 
 #define G_IDLE_STACKSIZE                         4096  ///< \brief Size of the stack of an Idle task      
-#define G_NUMBER_OF_LCBs_FOR_PCB                   2u  ///< \brief Number of LCB list for PCB             
+/// #define G_NUMBER_OF_LCBs_FOR_PCB                   2u  ///< \brief Number of LCB list for PCB             
 
 
 /************************************************************************************

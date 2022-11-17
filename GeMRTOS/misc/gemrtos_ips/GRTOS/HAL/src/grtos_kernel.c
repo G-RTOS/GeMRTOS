@@ -613,9 +613,6 @@ void gk_INIT_KERNEL(void)
         // Assign the default list to the processor with the default priority
         gk_LCB_Associate_PCB((GS_LCB *) G_TASK_LCB_DEFAULT, (INT32) i, (INT32) G_TASK_LCB_DEFAULT_PRIORITY); 
         
-        for (j = 0;  j < G_NUMBER_OF_LCBs_FOR_PCB;  j++) {         
-            g_kcb.G_PCBTbl[i].PCB_RDY_LCBL[j] = (struct gs_lcb *) G_TASK_LCB_DEFAULT;  
-        }
 		g_kcb.G_PCBTbl[i].PCBID           = (int) 0; 
 		g_kcb.G_PCBTbl[i].PCBType         = (int) GS_PCBType_UNSPECIFIED; 
 		g_kcb.G_PCBTbl[i].PCB_NextPCB     = (struct gs_pcb *) 0; 
