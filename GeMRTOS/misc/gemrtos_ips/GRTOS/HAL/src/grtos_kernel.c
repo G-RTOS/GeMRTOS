@@ -538,7 +538,7 @@ void gk_INIT_KERNEL(void)
 	/*  Assign default values                                                            */
 	/*************************************************************************************/
     G_TASK_TYPE_DEFAULT         = G_TCBType_UCOS;
-    G_TASK_LCB_DEFAULT          = gk_Get_LCB();
+    G_TASK_LCB_DEFAULT          = gk_Get_LCB((INT32) GS_LCBType_FP);
     G_TASK_LCB_DEFAULT_PRIORITY = (INT32) 0x7FFFFFF0;
     G_TASK_PRIORITY_DEFAULT     = (INT64) 0x7FFFFFFFFFFFFFF0LL;
     G_TASK_PERIOD_DEFAULT       = (INT64) 0x7FFFFFFFFFFFFFF0LL;  

@@ -230,7 +230,7 @@ struct gs_lcb {
 
 #define  GS_LCBType_UNSPECIFIED               2u  ///< \brief State UNLINKED for LIST                \ingroup LCBState
 #define  GS_LCBType_EDF                       3u  ///< \brief List is a EDF schedule one             \ingroup LCBState
-#define  GS_LCBType_FP                        3u  ///< \brief List is a FP schedule one              \ingroup LCBState
+#define  GS_LCBType_FP                        4u  ///< \brief List is a FP schedule one              \ingroup LCBState
 
 //*************************************************************************************************
 /// \defgroup PCBState g_rgb::PCBState 
@@ -445,7 +445,7 @@ GS_ECB *gk_Get_ECB(void);
 G_RCB  *gk_Get_RCB(void);
 GS_SCB *gk_Get_SCB(void);
 GS_RRDS *gk_Get_RRDS(void);
-GS_LCB *gk_Get_LCB(void);
+GS_LCB *gk_Get_LCB(INT32 lcbtype);
 INT32 gk_Create_PCBs(int Nmbr_PCB);
 GS_PCBAssocLCB *gk_Get_PCBAssocLCB(void);
 INT32 gk_PCBAssocLCBFL_Link(GS_PCBAssocLCB *ppcbalcb);
@@ -631,7 +631,8 @@ void gk_INIT_KERNEL(void);
 void gk_KERNEL_TASK_COMPLETE(void);
 void GRTOS_Task_GetPendingSCB(void);
 void gk_RST_MONITOR_HANDLER (void);
-
+GS_TCB *gu_GetCurrentTCB(void);
+INT64 gu_GetCurrentPriority(void);            
 
 /***************************************************************/
 /*  SYSTEM TASKS                                               */

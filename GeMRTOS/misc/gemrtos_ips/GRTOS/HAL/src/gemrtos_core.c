@@ -320,7 +320,7 @@ GS_RRDS *gk_RRDS_GetFree(void)
  *  \todo Write the destroy LCB structure
  *  \relates Core
  */
-GS_LCB *gk_Get_LCB(void)
+GS_LCB *gk_Get_LCB(INT32 lcbtype)
 {
     void *mem;
     GS_LCB *plcb; 
@@ -345,7 +345,7 @@ GS_LCB *gk_Get_LCB(void)
     plcb->LCB_NextTCBRDYL = (struct gs_tcb *) 0; 	   /* Pointer to the TCB of the Highest Priority Task */
     plcb->LCB_NextLCBFPL  = (struct gs_pcb *) 0;       /*!< Next free processor for this list */
     plcb->LCBState        = GS_LCBState_UNLINKED;
-    plcb->LCBType         = GS_LCBType_UNSPECIFIED;
+    plcb->LCBType         = lcbtype; // GS_LCBType_UNSPECIFIED;
 
     /// LCBs linked list for debugging
     plcb->LCB_NEXT_LCBs = g_kcb.KCB_ROOT_LCBs;

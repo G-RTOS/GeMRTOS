@@ -820,6 +820,38 @@ gt_tm gu_Clock(gt_time ticks)
 	return(return_time);
 }
 
+/**gu_GetCurrentTCB
+ *  \brief 
+ *  Returns the task TCB that the current processor was executing
+ *  \return Pointer to the TCB of the task being executed by the current processor
+ *  \relates Task
+ *  \sa Processor
+ */
+GS_TCB *gu_GetCurrentTCB(void)
+{
+    GS_TCB *ptcb;
+    GEMRTOS_NEWLIB_LOCK;
+    ptcb = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB;
+    GEMRTOS_NEWLIB_UNLOCK;
+	return(ptcb);
+}
+
+/**gu_GetCurrentPriority
+ *  \brief 
+ *  Returns the task TCB that the current processor was executing
+ *  \return Current priority of the task being executed by the current processor
+ *  \relates Task
+ *  \sa Processor
+ */
+INT64 gu_GetCurrentPriority(void)
+{
+    INT64 priority;
+    GEMRTOS_NEWLIB_LOCK;
+    priority = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCBCurrentPriority;
+    GEMRTOS_NEWLIB_UNLOCK;
+	return(priority);
+}
+
 
 /**gk_TIME_CALLBACK
  *  \brief This function is called when a time event happened. It has to resolve according the event type.

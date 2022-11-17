@@ -184,7 +184,6 @@ void task_generic(void* pdata)
     // gt_tm sys_time; 
     int i;
 
-
     // Write the sampling time
     if ((task_sampling_enable[(int) pdata] == 1) || (task_sampling_enable[(int) pdata] == 2)) {
         gk_MONITOR_FIFO_SAMPLE ((int) pdata | 0x800000);
@@ -199,8 +198,9 @@ void task_generic(void* pdata)
     
     // sys_time = gu_Clock(gu_get_now());
     if (USER_TCB_execution_time[(int) pdata] == (int) 0) {
-        printf("T %d, newlib_grant= %d, newlib_count= %d", (int) pdata, (int) new_lib_grant, (int) new_lib_counter);
-        printf("; Mutex time      = %llx\n", (unsigned long long) gu_get_mutex_time());        
+        printf("T %d, nlib_grnt= %d, nlib_cnt= %d", (int) pdata, (int) new_lib_grant, (int) new_lib_counter);
+        printf("; Priority = %llx", (unsigned long long) gu_GetCurrentPriority()); 
+        printf("; Mutex time = %llx\n", (unsigned long long) gu_get_mutex_time());        
     }
 
     // printf("Proc: %d, ", gu_Get_CPU_ID());
@@ -266,7 +266,7 @@ int main(void)
     fprintf(stderr,"[ MESSAGE ] G_TICKS_PER_SECOND %d\n", (int) G_TICKS_PER_SECOND);
     
     // Create the Scheduling list for EDF scheduled tasks
-    pedf_list = gk_Get_LCB();
+    pedf_list = gk_Get_LCB((INT32) GS_LCBType_EDF);
     // Assign all the processors to the list
     for (i = 0;  i < G_NUMBER_OF_PCB;  i++) {
         gk_LCB_Associate_PCB((GS_LCB *) pedf_list, (INT32) i, (INT32) 0);
@@ -295,7 +295,6 @@ int main(void)
             task_invocation_number[i] = 0;
             task_sampling_enable[i] = 0;
 
-            
             /** TASK 2 **/
             ptcb_array[i] = gu_GetTask((void *) task_generic,                       ///< Pointer to the beginning of the task code
                                        (void *) i,                                  ///< Pointer to the argument of the first call

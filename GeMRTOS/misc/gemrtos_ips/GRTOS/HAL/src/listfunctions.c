@@ -2175,6 +2175,7 @@ INT32  gk_RRDSASL_UnLink(GS_RRDS *prrds, GS_SCB *psignal)
  * 
  * @return pointer to TCB of task executed by processor
  */
+ 
 /**gk_PCB_GetCurrentTCB
  *  \brief 
  *  Returns the task that the current processor was executing
@@ -2461,27 +2462,64 @@ INT32 gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB *ptcb)
  */
 INT32 gk_TASK_PRIORITY_SET(GS_TCB *ptcb, INT32 task_state)
 {
+    GS_ECB *pevent;
     SAMPLE_FUNCTION_BEGIN(58)
     
     PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB is not valid, PTCB= %p\n", (void *) ptcb);
     
-    
-    
-    switch (task_state)
+    INT32 lcbtype = ptcb->TCB_RDY_LCB_Index->LCBType;
+
+    switch (lcbtype)
     {
-        case G_TCBState_READY:   /* Insert in Ready list */
-
+        case GS_LCBType_EDF:
+            if (ptcb->TCBType == G_TCBType_PERIODIC)
+            {
+                /* Get the next occurrence time associated with the task */
+                pevent = ptcb->TCB_NextTCBAEL;
+                while (pevent != (GS_ECB *) 0)
+                {
+                    PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR ECB is not valid, pevent= %p\n", (void *) pevent);
+                    if (pevent->ECBType == G_ECBType_PERIODIC)
+                    {
+                        ptcb->TCBCurrentPriority = pevent->ECBValue.i64;
+                        break;
+                    }
+                    pevent = (GS_ECB *) pevent->ECB_NextTCBAEL;
+                }
+                PRINT_ASSERT((pevent != (GS_ECB *) 0),"ERROR G_ECBType_PERIODIC not found\n");
+            }
+            else
+            {
+                switch (task_state)
+                {
+                    case G_TCBState_READY:   /* Insert in Ready list */
+                        ptcb->TCBCurrentPriority = ptcb->TCBReadyPriority;
+                        break;
+                    case G_TCBState_RUNNING: /* Insert in Running list */
+                        ptcb->TCBCurrentPriority = ptcb->TCBRunPriority;
+                        break;
+                }                
+            }
             break;
-        case G_TCBState_RUNNING: /* Insert in Running list */
-        
+
+        case GS_LCBType_UNSPECIFIED:            
+        case GS_LCBType_FP:
+            switch (task_state)
+            {
+                case G_TCBState_READY:   /* Insert in Ready list */
+                    ptcb->TCBCurrentPriority = ptcb->TCBReadyPriority;
+                    break;
+                case G_TCBState_RUNNING: /* Insert in Running list */
+                    ptcb->TCBCurrentPriority = ptcb->TCBRunPriority;
+                    break;
+            }             
             break;
-    }            
+    }
 
-
-	if (ptcb->TCBReadyPriority < ptcb->TCBInherPriority) {ptcb->TCBCurrentPriority = ptcb->TCBReadyPriority;}
-	else {ptcb->TCBCurrentPriority = ptcb->TCBInherPriority;}
-	if (task_state == G_TCBState_RUNNING && ptcb->TCBCurrentPriority > ptcb->TCBRunPriority) {
-		ptcb->TCBCurrentPriority = ptcb->TCBRunPriority;}
+	// if (ptcb->TCBReadyPriority < ptcb->TCBInherPriority) {ptcb->TCBCurrentPriority = ptcb->TCBReadyPriority;}
+	// else {ptcb->TCBCurrentPriority = ptcb->TCBInherPriority;}
+	// if (task_state == G_TCBState_RUNNING && ptcb->TCBCurrentPriority > ptcb->TCBRunPriority) {
+	// 	ptcb->TCBCurrentPriority = ptcb->TCBRunPriority;}
     SAMPLE_FUNCTION_END(58)
     return(G_TRUE);
 }
