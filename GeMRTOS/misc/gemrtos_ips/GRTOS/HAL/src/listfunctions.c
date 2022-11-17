@@ -1630,7 +1630,7 @@ INT32 gk_TCBRDYL_Link(GS_TCB *ptcb)
     PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB not valid");
     PRINT_ASSERT((ptcb->TCBState == G_TCBState_UNLINKED),"ERROR TCBState= %d\n",(int) ptcb->TCBState);  
 
-	gk_TASK_PRIORITY_SET(ptcb, G_TCBState_READY); PRINT_DEBUG_LINE
+	gk_TASK_PRIORITY_SET_CALLBACK(ptcb, G_TCBState_READY); PRINT_DEBUG_LINE
 
 	if (ptcb->TCBType != G_TCBType_IDLE)   /* Idle task are not inserted in Ready Lists */
 	{
@@ -1753,7 +1753,7 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
     PRINT_ASSERT((TCB_IsValid(ptcb1) == G_TRUE || ptcb1 == (struct gs_tcb *) 0),"ERROR TCB not valid\n");
     PRINT_ASSERT((ptcb->TCBState == G_TCBState_UNLINKED),"ERROR TCBState= %d\n",(int) ptcb->TCBState);    
   
-	gk_TASK_PRIORITY_SET(ptcb, G_TCBState_RUNNING); PRINT_DEBUG_LINE
+	gk_TASK_PRIORITY_SET_CALLBACK(ptcb, G_TCBState_RUNNING); PRINT_DEBUG_LINE
     
 	/* Set the current processor as the processor associated  of the task */
 	ptcb->TCB_AssocPCB = (INT32) GRTOS_CMD_PRC_ID; PRINT_DEBUG_LINE
@@ -2448,79 +2448,6 @@ INT32 gk_TASK_INHERENCE_PRIORITY_SET(GS_TCB *ptcb)
 	}
 	ptcb->TCBInherPriority = priority;
     SAMPLE_FUNCTION_END(57)
-    return(G_TRUE);
-}
-
-/**gk_TASK_PRIORITY_SET
- *  \brief 
- *  Computes the current priority of the task
- *  \param [in] ptcb       Pointer to the TCB
- *  \param [in] task_state State of the task (G_TCBState_READY, G_TCBState_RUNNING)
- *  \return G_TRUE when successful, G_FALSE otherwise
- *  \todo Check if state is valid
- *  \relates Task
- */
-INT32 gk_TASK_PRIORITY_SET(GS_TCB *ptcb, INT32 task_state)
-{
-    GS_ECB *pevent;
-    SAMPLE_FUNCTION_BEGIN(58)
-    
-    PRINT_ASSERT((TCB_IsValid(ptcb) == G_TRUE),"ERROR TCB is not valid, PTCB= %p\n", (void *) ptcb);
-    
-    INT32 lcbtype = ptcb->TCB_RDY_LCB_Index->LCBType;
-
-    switch (lcbtype)
-    {
-        case GS_LCBType_EDF:
-            if (ptcb->TCBType == G_TCBType_PERIODIC)
-            {
-                /* Get the next occurrence time associated with the task */
-                pevent = ptcb->TCB_NextTCBAEL;
-                while (pevent != (GS_ECB *) 0)
-                {
-                    PRINT_ASSERT((ECB_IsValid(pevent) == G_TRUE),"ERROR ECB is not valid, pevent= %p\n", (void *) pevent);
-                    if (pevent->ECBType == G_ECBType_PERIODIC)
-                    {
-                        ptcb->TCBCurrentPriority = pevent->ECBValue.i64;
-                        break;
-                    }
-                    pevent = (GS_ECB *) pevent->ECB_NextTCBAEL;
-                }
-                PRINT_ASSERT((pevent != (GS_ECB *) 0),"ERROR G_ECBType_PERIODIC not found\n");
-            }
-            else
-            {
-                switch (task_state)
-                {
-                    case G_TCBState_READY:   /* Insert in Ready list */
-                        ptcb->TCBCurrentPriority = ptcb->TCBReadyPriority;
-                        break;
-                    case G_TCBState_RUNNING: /* Insert in Running list */
-                        ptcb->TCBCurrentPriority = ptcb->TCBRunPriority;
-                        break;
-                }                
-            }
-            break;
-
-        case GS_LCBType_UNSPECIFIED:            
-        case GS_LCBType_FP:
-            switch (task_state)
-            {
-                case G_TCBState_READY:   /* Insert in Ready list */
-                    ptcb->TCBCurrentPriority = ptcb->TCBReadyPriority;
-                    break;
-                case G_TCBState_RUNNING: /* Insert in Running list */
-                    ptcb->TCBCurrentPriority = ptcb->TCBRunPriority;
-                    break;
-            }             
-            break;
-    }
-
-	// if (ptcb->TCBReadyPriority < ptcb->TCBInherPriority) {ptcb->TCBCurrentPriority = ptcb->TCBReadyPriority;}
-	// else {ptcb->TCBCurrentPriority = ptcb->TCBInherPriority;}
-	// if (task_state == G_TCBState_RUNNING && ptcb->TCBCurrentPriority > ptcb->TCBRunPriority) {
-	// 	ptcb->TCBCurrentPriority = ptcb->TCBRunPriority;}
-    SAMPLE_FUNCTION_END(58)
     return(G_TRUE);
 }
 

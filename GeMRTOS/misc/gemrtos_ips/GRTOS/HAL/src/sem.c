@@ -409,7 +409,7 @@ INT32 gk_TASK_RESOURCE_UNGRANT(G_RCB *presource, GS_ECB *pevent)
             ptcb = pevent->ECB_AssocTCB;             
             ptcb->TCBInherPriority = gk_TASK_GRANTED_PRIORITY_GET(ptcb); 
             gk_TCBWL_Unlink(ptcb); 
-            gk_TASK_PRIORITY_SET(ptcb, G_TCBState_READY); 
+            gk_TASK_PRIORITY_SET_CALLBACK(ptcb, G_TCBState_READY); 
             gk_TCBRDYL_Link(ptcb); 
         }            
         retorno = G_TRUE;
