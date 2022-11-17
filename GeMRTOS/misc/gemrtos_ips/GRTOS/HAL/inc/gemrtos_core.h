@@ -431,6 +431,7 @@ extern FILE* fpuart[G_NUMBER_OF_PCB];
 
 extern volatile INT32 G_TASK_TYPE_DEFAULT;
 extern volatile GS_LCB *G_TASK_LCB_DEFAULT;
+extern volatile GS_LCB *G_TASK_LCB_DEFAULT_PRIORITY;
 extern volatile INT64 G_TASK_PRIORITY_DEFAULT;
 extern volatile INT64 G_TASK_PERIOD_DEFAULT;
 
@@ -446,6 +447,7 @@ GS_LCB *gk_Get_LCB(void);
 INT32 gk_Create_PCBs(int Nmbr_PCB);
 GS_PCBAssocLCB *gk_Get_PCBAssocLCB(void);
 INT32 gk_PCBAssocLCBFL_Link(GS_PCBAssocLCB *ppcbalcb);
+INT32 gk_LCB_Associate_PCB(GS_LCB *plcb, INT32 CPUID, INT32 priority);
 
 
 

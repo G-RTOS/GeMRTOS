@@ -648,7 +648,8 @@ INT32 gk_LCBFPL_Link(int processorID)
 {
     SAMPLE_FUNCTION_BEGIN(14)
 	GS_PCB *ppcb = &g_kcb.G_PCBTbl[processorID-1];
-    GS_LCB *plcb = ppcb->PCB_RDY_LCBL[0];
+    // GS_LCB *plcb = ppcb->PCB_RDY_LCBL[0];
+    GS_LCB *plcb = ppcb->PCB_AssocLCB->PCB_RDY_LCBL;
 
     PRINT_ASSERT((processorID >= 1 && processorID <= G_NUMBER_OF_PCB),"ERROR processorID= %d\n", (int) processorID);
 
@@ -687,7 +688,8 @@ INT32 gk_LCBFPL_Unlink(int processorID)
 {
     SAMPLE_FUNCTION_BEGIN(15)
 	GS_PCB *ppcb = &g_kcb.G_PCBTbl[processorID-1];
-    GS_LCB *plcb = ppcb->PCB_RDY_LCBL[0];    
+    // GS_LCB *plcb = ppcb->PCB_RDY_LCBL[0];
+    GS_LCB *plcb = ppcb->PCB_AssocLCB->PCB_RDY_LCBL;
 
     PRINT_ASSERT((processorID >= 1 && processorID <= G_NUMBER_OF_PCB),"ERROR processorID= %d\n", (int) processorID);
 
@@ -1821,7 +1823,8 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
     ptcb->TCB_AssocPCB = GRTOS_CMD_PRC_ID;
     
     // Si no esta en la lista principal del procesador o es tarea idle, el procesador es puesto como libre
-	if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCB_RDY_LCBL[0] || ptcb->TCBType == G_TCBType_IDLE)
+	// if (ptcb->TCB_RDY_LCB_Index != g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCB_RDY_LCBL[0] || ptcb->TCBType == G_TCBType_IDLE)
+    if ((ptcb->TCB_RDY_LCB_Index != (GS_LCB *) g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCB_AssocLCB->PCB_RDY_LCBL) || (ptcb->TCBType == G_TCBType_IDLE))
 	{
 		if (g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID-1].PCBState != GS_PCBState_FREE)
 	        gk_LCBFPL_Link(GRTOS_CMD_PRC_ID); PRINT_DEBUG_LINE // Link the processor to the free list
@@ -2266,7 +2269,7 @@ GS_TCB *gk_PCB_GetNextTCB(void)
         if (ptcb != ppcb->PCB_IDLETCB) {
             gk_TCBRUNL_Unlink(ptcb);
             gk_TCBRDYL_Link(ptcb);
-        }    
+        }
         if (ppcb->PCB_RDY_LCBL[0]->LCB_NextTCBRDYL != (struct gs_tcb *) 0) { // main list has a ready task
             ptcb = ppcb->PCB_RDY_LCBL[0]->LCB_NextTCBRDYL;
         }            
@@ -2295,6 +2298,67 @@ GS_TCB *gk_PCB_GetNextTCB(void)
     SAMPLE_FUNCTION_END(54)
     return(ptcb);
 }
+
+/**gk_LCB_Associate_PCB
+ *  \brief 
+ *  Associate a LCB to a processor with a given priority
+ *  \param [in] plcb Pointer to the LCB
+ *  \param [in] CPUID Id of the processor to associate the LCB
+ *  \param [in] priority Priority to be assigned. Highest priority (lowest value) will be the foreground list
+ *  \return G_TRUE if successful, G_FALSE otherwise
+ *  \relates List
+ */ 
+INT32 gk_LCB_Associate_PCB(GS_LCB *plcb, INT32 CPUID, INT32 priority)
+{
+    GS_PCBAssocLCB *ppcbalcb = gk_Get_PCBAssocLCB();
+    GS_PCBAssocLCB *ppcbalcb_aux;
+    
+    if (g_kcb.G_PCBTbl[CPUID].PCB_AssocLCB == (struct gs_pcb_rdy_lcbl *) 0) 
+    {
+        ppcbalcb->gs_pcb_rdy_lcbl_next = (struct gs_pcb_rdy_lcbl *) 0;
+        ppcbalcb->gs_pcb_rdy_lcbl_prev = (struct gs_pcb_rdy_lcbl *) 0;
+        g_kcb.G_PCBTbl[CPUID].PCB_AssocLCB = ppcbalcb;
+    }
+    else if (g_kcb.G_PCBTbl[CPUID].PCB_AssocLCB->priority > priority)
+    {
+        ppcbalcb->gs_pcb_rdy_lcbl_next = (struct gs_pcb_rdy_lcbl *) g_kcb.G_PCBTbl[CPUID].PCB_AssocLCB;
+        ppcbalcb->gs_pcb_rdy_lcbl_prev = (struct gs_pcb_rdy_lcbl *) 0;
+        g_kcb.G_PCBTbl[CPUID].PCB_AssocLCB->gs_pcb_rdy_lcbl_prev = ppcbalcb;
+        g_kcb.G_PCBTbl[CPUID].PCB_AssocLCB = ppcbalcb;
+    }
+    else
+    {
+        ppcbalcb_aux = g_kcb.G_PCBTbl[CPUID].PCB_AssocLCB;
+        while (ppcbalcb_aux != (struct gs_pcb_rdy_lcbl *) 0)
+        {
+            if (ppcbalcb_aux->gs_pcb_rdy_lcbl_next == (struct gs_pcb_rdy_lcbl *) 0)     /* It has to be inserted as the last element */
+            {
+                ppcbalcb->gs_pcb_rdy_lcbl_next     = (struct gs_pcb_rdy_lcbl *) 0;
+                ppcbalcb->gs_pcb_rdy_lcbl_prev     = ppcbalcb_aux;
+                ppcbalcb_aux->gs_pcb_rdy_lcbl_next = ppcbalcb;
+                ppcbalcb_aux = (struct gs_pcb_rdy_lcbl *) 0;
+            }
+            else if (ppcbalcb_aux->priority > priority)            /* It has to be inserted before next */
+            {
+                ppcbalcb->gs_pcb_rdy_lcbl_next                           = ppcbalcb_aux->gs_pcb_rdy_lcbl_next;
+                ppcbalcb->gs_pcb_rdy_lcbl_prev                           = ppcbalcb_aux;
+                ppcbalcb_aux->gs_pcb_rdy_lcbl_next->gs_pcb_rdy_lcbl_prev = ppcbalcb;
+                ppcbalcb_aux->gs_pcb_rdy_lcbl_next                       = ppcbalcb;
+                ppcbalcb_aux = (struct gs_pcb_rdy_lcbl *) 0;                
+            }
+            else
+            {
+                ppcbalcb_aux = ppcbalcb_aux->gs_pcb_rdy_lcbl_next;
+            }
+        }
+    }
+
+    ppcbalcb->priority             = (INT32) priority;
+    ppcbalcb->PCB_RDY_LCBL         = (struct gs_lcb *) plcb;     
+    return(G_TRUE);
+}
+
+
 
 /**gk_PCBAssocLCBFL_Link
  *  \brief 

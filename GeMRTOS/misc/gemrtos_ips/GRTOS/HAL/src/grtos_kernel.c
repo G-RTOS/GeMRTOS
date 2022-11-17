@@ -91,6 +91,7 @@ FILE* fpuart[G_NUMBER_OF_PCB] __attribute__((aligned(4)));    ///< \brief Files 
 
 volatile INT32 G_TASK_TYPE_DEFAULT __attribute__((aligned(4)));        ///< \brief Default assignment for Task Type
 volatile GS_LCB *G_TASK_LCB_DEFAULT __attribute__((aligned(4)));       ///< \brief Default assignment for Task LCB
+volatile GS_LCB *G_TASK_LCB_DEFAULT_PRIORITY __attribute__((aligned(4)));       ///< \brief Priority of the default LCB
 volatile INT64 G_TASK_PRIORITY_DEFAULT __attribute__((aligned(4)));    ///< \brief Default assignment for Task Priority
 volatile INT64 G_TASK_PERIOD_DEFAULT __attribute__((aligned(4)));      ///< \brief Default assignment for Task Period
 
@@ -536,10 +537,11 @@ void gk_INIT_KERNEL(void)
     /*************************************************************************************/
 	/*  Assign default values                                                            */
 	/*************************************************************************************/
-    G_TASK_TYPE_DEFAULT     = G_TCBType_UCOS;
-    G_TASK_LCB_DEFAULT      = gk_Get_LCB();
-    G_TASK_PRIORITY_DEFAULT = (INT64) 0x7FFFFFFFFFFFFFF0LL;
-    G_TASK_PERIOD_DEFAULT   = (INT64) 0x7FFFFFFFFFFFFFF0LL;  
+    G_TASK_TYPE_DEFAULT         = G_TCBType_UCOS;
+    G_TASK_LCB_DEFAULT          = gk_Get_LCB();
+    G_TASK_LCB_DEFAULT_PRIORITY = (INT32) 0x7FFFFFF0;
+    G_TASK_PRIORITY_DEFAULT     = (INT64) 0x7FFFFFFFFFFFFFF0LL;
+    G_TASK_PERIOD_DEFAULT       = (INT64) 0x7FFFFFFFFFFFFFF0LL;  
 
     /*************************************************************************************/
 	/*  RTOS Variables and GRTOS Controller Initialization                               */
@@ -607,6 +609,9 @@ void gk_INIT_KERNEL(void)
 		g_kcb.G_PCBTbl[i].PCB_EXECTCB = g_kcb.G_PCBTbl[i].PCB_IDLETCB; 
         
         g_kcb.G_PCBTbl[i].PCB_AssocLCB = (struct gs_pcb_rdy_lcbl *) 0;
+        
+        // Assign the default list to the processor with the default priority
+        gk_LCB_Associate_PCB((GS_LCB *) G_TASK_LCB_DEFAULT, (INT32) i, (INT32) G_TASK_LCB_DEFAULT_PRIORITY); 
         
         for (j = 0;  j < G_NUMBER_OF_LCBs_FOR_PCB;  j++) {         
             g_kcb.G_PCBTbl[i].PCB_RDY_LCBL[j] = (struct gs_lcb *) G_TASK_LCB_DEFAULT;  

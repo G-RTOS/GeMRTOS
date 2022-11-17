@@ -270,8 +270,23 @@ int main(void)
     // Assign all the processors to the list
     for (i = 0;  i < G_NUMBER_OF_PCB;  i++) {
         g_kcb.G_PCBTbl[i].PCB_RDY_LCBL[0] = pedf_list;
+        gk_LCB_Associate_PCB((GS_LCB *) pedf_list, (INT32) i, (INT32) 0);
     }
 
+    GS_PCBAssocLCB *passociate;
+    printf("DEFAULT LIST = %p, EDF LIST= %p\n", G_TASK_LCB_DEFAULT, pedf_list); 
+    for (i = 0;  i < G_NUMBER_OF_PCB;  i++)
+    {
+        passociate = g_kcb.G_PCBTbl[i].PCB_AssocLCB;
+        printf("Processor %d\n", i);
+        while (passociate != (GS_PCBAssocLCB *) 0)
+        {
+            printf("Associated list= %p\n", (void *) passociate->PCB_RDY_LCBL);
+            passociate = passociate->gs_pcb_rdy_lcbl_next;
+        }
+    }
+
+    // while (1);
 
     #if MODE_FREQUENTIAL_TASK == 1
         for ( i = 0; i < G_MAX_NUMBER_OF_USER_TCB; i++ ) {

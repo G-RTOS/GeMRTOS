@@ -1,10 +1,10 @@
-2022.11.16.09:40:55 Info: Doing: <b>qsys-script --system-file=qsysgrtos.qsys --script=qsysscript.tcl</b>
-2022.11.16.09:41:23 Info: get_module_property NAME
-2022.11.16.09:41:23 Info: get_project_properties 
-2022.11.16.09:41:23 Info: get_instances 
-2022.11.16.09:41:23 Info: get_composed_instances GRTOS_Multiprocessor_1
-2022.11.16.09:41:23 Info: get_composed_instances clk_0
-2022.11.16.09:41:23 Info: get_composed_instances mddr_ctrl_0
+2022.11.16.14:50:40 Info: Doing: <b>qsys-script --system-file=qsysgrtos.qsys --script=qsysscript.tcl</b>
+2022.11.16.14:51:04 Info: get_module_property NAME
+2022.11.16.14:51:04 Info: get_project_properties 
+2022.11.16.14:51:04 Info: get_instances 
+2022.11.16.14:51:04 Info: get_composed_instances GRTOS_Multiprocessor_1
+2022.11.16.14:51:04 Info: get_composed_instances clk_0
+2022.11.16.14:51:04 Info: get_composed_instances mddr_ctrl_0
 + nios2-bsp hal ./software/hellogemrtos_bsp qsysgrtos.sopcinfo --cpu-name GRTOS_Multiprocessor_1_nios2_qsys_1 --cmd 'set_setting hal.enable_reduced_device_drivers true' --cmd 'set_setting hal.stderr GRTOS_Multiprocessor_1_jtag_uart_1' --cmd 'set_setting hal.stdin GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'set_setting hal.stdout GRTOS_Multiprocessor_1_jtag_uart_0' --cmd 'add_section_mapping rstaux GRTOS_Multiprocessor_1_onchip_memory2_0' --cmd 'set_setting hal.make.bsp_cflags_user_flags -Wl,--wrap=printf'
 + DEFAULT_IFS=' 	
 '
@@ -156,8 +156,12 @@ drivers/src/gemrtos_hal.c: In function '__wrap_printf':
 drivers/src/gemrtos_hal.c:77:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
+drivers/src/grtos_kernel.c: In function 'gk_INIT_KERNEL':
+drivers/src/grtos_kernel.c:542:33: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     G_TASK_LCB_DEFAULT_PRIORITY = (INT32) 0x7FFFFFF0;
+                                 ^
 drivers/src/listfunctions.c: In function 'gk_RCBFL_Link':
-drivers/src/listfunctions.c:848:25: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+drivers/src/listfunctions.c:850:25: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
      g_kcb.KCB_FREE_RCBs = presource;    
                          ^
 + echo '[BSP' build 'complete]'
