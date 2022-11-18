@@ -1811,7 +1811,7 @@ INT32  gk_TCBRUNL_Link(GS_TCB *ptcb)
 
     ptcb->TCBState = G_TCBState_RUNNING; PRINT_DEBUG_LINE
 
-
+    if (ptcb->TCBType != G_TCBType_IDLE) RunList->LCBCurrentRunning++;
     
     /***********************************************/
     /* Set the processor to ptcb                   */
@@ -1896,6 +1896,7 @@ INT32  gk_TCBRUNL_Unlink(GS_TCB *ptcb)
     g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_EXECTCB = g_kcb.G_PCBTbl[ptcb->TCB_AssocPCB-1].PCB_IDLETCB;
     
     if (ptcb->TCBType != G_TCBType_IDLE) ptcb->TCB_AssocPCB = (INT32) 0; PRINT_DEBUG_LINE
+    if (ptcb->TCBType != G_TCBType_IDLE) RunList->LCBCurrentRunning--;
     
 	ptcb->TCBState = G_TCBState_UNLINKED; PRINT_DEBUG_LINE
 
@@ -2266,7 +2267,8 @@ GS_TCB *gk_PCB_GetNextTCB(void)
         ptcb = ppcb->PCB_IDLETCB;
         while (ppcbalcb != (struct gs_pcb_rdy_lcbl *) 0)
         {
-            if (ppcbalcb->PCB_RDY_LCBL->LCB_NextTCBRDYL != (struct gs_tcb *) 0) { // main list has a ready task
+            if ((ppcbalcb->PCB_RDY_LCBL->LCB_NextTCBRDYL != (struct gs_tcb *) 0) &&  
+                (ppcbalcb->PCB_RDY_LCBL->LCBExclusion > ppcbalcb->PCB_RDY_LCBL->LCBCurrentRunning)) { // main list has a ready task
                 ptcb = ppcbalcb->PCB_RDY_LCBL->LCB_NextTCBRDYL;
                 break;
             }

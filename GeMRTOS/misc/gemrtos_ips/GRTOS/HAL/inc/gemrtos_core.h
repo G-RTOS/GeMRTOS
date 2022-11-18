@@ -634,7 +634,8 @@ void gk_KERNEL_TASK_COMPLETE(void);
 void GRTOS_Task_GetPendingSCB(void);
 void gk_RST_MONITOR_HANDLER (void);
 GS_TCB *gu_GetCurrentTCB(void);
-INT64 gu_GetCurrentPriority(void);            
+INT64 gu_GetCurrentPriority(void);
+INT32 gu_SetLCB_Exclusion(GS_LCB *plcb, INT32 exclusion);
 
 /***************************************************************/
 /*  SYSTEM TASKS                                               */

@@ -340,12 +340,15 @@ GS_LCB *gk_Get_LCB(INT32 lcbtype)
         plcb->malloc_address  = mem;
     }
     
-    plcb->LCB_NextTCBRUNL = (struct gs_tcb *) 0;        /* Pointer to the TCB list of running tasks */
-    plcb->LCBRunPriority  = (INT64) G_LOWEST_PRIORITY;  /* It is because it is empty*/
-    plcb->LCB_NextTCBRDYL = (struct gs_tcb *) 0; 	   /* Pointer to the TCB of the Highest Priority Task */
-    plcb->LCB_NextLCBFPL  = (struct gs_pcb *) 0;       /*!< Next free processor for this list */
-    plcb->LCBState        = GS_LCBState_UNLINKED;
-    plcb->LCBType         = lcbtype; // GS_LCBType_UNSPECIFIED;
+    plcb->LCB_NextTCBRUNL   = (struct gs_tcb *) 0;        /* Pointer to the TCB list of running tasks */
+    plcb->LCBRunPriority    = (INT64) G_LOWEST_PRIORITY;  /* It is because it is empty*/
+    plcb->LCB_NextTCBRDYL   = (struct gs_tcb *) 0; 	   /* Pointer to the TCB of the Highest Priority Task */
+    plcb->LCB_NextLCBFPL    = (struct gs_pcb *) 0;       /*!< Next free processor for this list */
+    plcb->LCBState          = GS_LCBState_UNLINKED;
+    plcb->LCBType           = lcbtype; // GS_LCBType_UNSPECIFIED;
+    plcb->LCBExclusion      = (INT32) G_NUMBER_OF_PCB + 1;
+    plcb->LCBCurrentRunning = (INT32) 0;
+
 
     /// LCBs linked list for debugging
     plcb->LCB_NEXT_LCBs = g_kcb.KCB_ROOT_LCBs;

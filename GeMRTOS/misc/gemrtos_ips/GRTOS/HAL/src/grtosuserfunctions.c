@@ -797,11 +797,28 @@ gt_tm gu_Clock(gt_time ticks)
 GS_TCB *gu_GetCurrentTCB(void)
 {
     GS_TCB *ptcb;
-    GEMRTOS_NEWLIB_LOCK;
+    if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_GET;
     ptcb = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB;
-    GEMRTOS_NEWLIB_UNLOCK;
+    if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_RELEASE;
 	return(ptcb);
 }
+
+/**gu_SetLCB_Exclusion
+ *  \brief 
+ *  Set the exclusion number for the LCB pointed by plcb
+ *  \relates List
+ *  \sa Processor
+ */
+INT32 gu_SetLCB_Exclusion(GS_LCB *plcb, INT32 exclusion)
+{
+    GS_TCB *ptcb;
+    if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_GET;
+    plcb->LCBExclusion = exclusion;
+    if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_RELEASE;
+	return(G_TRUE);
+}
+
+
 
 /**gu_GetCurrentPriority
  *  \brief 
@@ -813,9 +830,9 @@ GS_TCB *gu_GetCurrentTCB(void)
 INT64 gu_GetCurrentPriority(void)
 {
     INT64 priority;
-    GEMRTOS_NEWLIB_LOCK;
+    if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_GET;
     priority = g_kcb.G_PCBTbl[GRTOS_CMD_PRC_ID -1].PCB_EXECTCB->TCBCurrentPriority;
-    GEMRTOS_NEWLIB_UNLOCK;
+    if (G_Running == G_TRUE) GRTOS_USER_CRITICAL_SECTION_RELEASE;
 	return(priority);
 }
 

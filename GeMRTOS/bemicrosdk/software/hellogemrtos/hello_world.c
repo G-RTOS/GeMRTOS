@@ -271,6 +271,8 @@ int main(void)
     for (i = 0;  i < G_NUMBER_OF_PCB;  i++) {
         gk_LCB_Associate_PCB((GS_LCB *) pedf_list, (INT32) i, (INT32) 0);
     }
+    // Limit the number of concurrent executing task in the LCB
+    // gu_SetLCB_Exclusion(pedf_list, 1); 
 
     /// GS_PCBAssocLCB *passociate;
     /// printf("DEFAULT LIST = %p, EDF LIST= %p\n", G_TASK_LCB_DEFAULT, pedf_list); 
@@ -316,6 +318,7 @@ int main(void)
                 
                 gu_SetTaskReadyPriority(ptcb_array[i], USER_TCB_priority[i]);
                 gu_SetTaskRunPriority(ptcb_array[i], USER_TCB_priority[i]);
+                // gu_SetTaskRunPriority(ptcb_array[i], 0); // make task non-preemptive
                 gu_SetTaskDeadline(ptcb_array[i], 0, 0, USER_TCB_period_s[i], USER_TCB_period_ms[i]);
                 gu_SetTaskPeriod(ptcb_array[i], 0, 0,  USER_TCB_period_s[i], USER_TCB_period_ms[i]);
                 gu_SetTaskAbortwhenDeadline(ptcb_array[i], 0);
