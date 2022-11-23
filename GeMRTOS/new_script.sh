@@ -225,7 +225,7 @@ START=$(date +%s);
 # Open Qsys is argument is equal to al
 if [ "${EDIT_QSYS}" = "1" ]; then 
     # Open Qsys to modify the SOPC
-    qsys-edit ${QSYS_PRJ}.qsys 2>> ${error_log_file}
+    qsys-edit.exe ${QSYS_PRJ}.qsys 2>> ${error_log_file}
 fi
 
 
@@ -248,11 +248,11 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
     rm -rf ./hps_isw_handoff 2>> ${error_log_file}
 
     # Generate the Qsys SOPC
-    qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores 2>> ${error_log_file}
-    qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG 2>> ${error_log_file}
+    qsys-generate.exe ${QSYS_PRJ}.qsys --upgrade-ip-cores 2>> ${error_log_file}
+    qsys-generate.exe ${QSYS_PRJ}.qsys --synthesis=VERILOG 2>> ${error_log_file}
 
     # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
-    qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl 2>> ${error_log_file}
+    qsys-script.exe --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl 2>> ${error_log_file}
 
     # Create and generate the BSP setting file
     bash grtos_nios_bsp_create.sh ./${SOFTWARE_DIR_NAME}/${BSP_NAME} 2>> ${error_log_file}
@@ -266,7 +266,7 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
 
 
     # Generate the Makefile of the application and build
-    nios2-app-generate-makefile --bsp-dir ./${SOFTWARE_DIR_NAME}/${BSP_NAME} --app-dir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --elf-name ${APP_NAME}.elf --inc-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --src-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} ${APP_INCLUDE_DIR} ${APP_SRC_DIR} 2>> ${error_log_file}
+    nios2-app-generate-makefile.exe --bsp-dir ./${SOFTWARE_DIR_NAME}/${BSP_NAME} --app-dir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --elf-name ${APP_NAME}.elf --inc-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --src-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} ${APP_INCLUDE_DIR} ${APP_SRC_DIR} 2>> ${error_log_file}
 
     # Build the application
     cd ./${SOFTWARE_DIR_NAME}/${APP_NAME} 2>> ${error_log_file}
@@ -280,7 +280,7 @@ if [ $generated -gt $compilated ] || [ ! -f ./output_files/${QUARTUS_PRJ}.sof ] 
     cd ../../ 2>> ${error_log_file}
     
     # Compile the Quartus project
-    quartus_cmd ${QUARTUS_PRJ}.qpf -c ${QUARTUS_PRJ}.qsf 2>> ${error_log_file}
+    quartus_cmd.exe ${QUARTUS_PRJ}.qpf -c ${QUARTUS_PRJ}.qsf 2>> ${error_log_file}
 
     # #######################################
     # Compile the Quartus project and create BSP for HPS if required
@@ -305,8 +305,8 @@ else
     if [ $newest_file_time -gt $generated ]; then
     
         # Generate the Qsys SOPC
-        qsys-generate ${QSYS_PRJ}.qsys --upgrade-ip-cores 2>> ${error_log_file}
-        qsys-generate ${QSYS_PRJ}.qsys --synthesis=VERILOG 2>> ${error_log_file}
+        qsys-generate.exe ${QSYS_PRJ}.qsys --upgrade-ip-cores 2>> ${error_log_file}
+        qsys-generate.exe ${QSYS_PRJ}.qsys --synthesis=VERILOG 2>> ${error_log_file}
         
     fi
     
@@ -316,7 +316,7 @@ else
     
     if [ $newest_file_time -gt $generated ]; then    
         # Get  data to produce the BSP settings file for HPS BSP and Nios BSP
-        qsys-script --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl 2>> ${error_log_file}
+        qsys-script.exe --system-file=${QSYS_PRJ}.qsys --script=qsysscript.tcl 2>> ${error_log_file}
     fi
     
     # Create and generate the BSP setting file
@@ -330,7 +330,7 @@ else
     cd ../../ 2>> ${error_log_file}
 
     # Generate the Makefile of the application and build
-    nios2-app-generate-makefile --bsp-dir ./${SOFTWARE_DIR_NAME}/${BSP_NAME} --app-dir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --elf-name ${APP_NAME}.elf --inc-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --src-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} 2>> ${error_log_file}
+    nios2-app-generate-makefile.exe --bsp-dir ./${SOFTWARE_DIR_NAME}/${BSP_NAME} --app-dir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --elf-name ${APP_NAME}.elf --inc-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} --src-rdir ./${SOFTWARE_DIR_NAME}/${APP_NAME} 2>> ${error_log_file}
 
     # Build the application
     cd ./${SOFTWARE_DIR_NAME}/${APP_NAME} 2>> ${error_log_file}
@@ -349,28 +349,34 @@ if [ "${BOARD}" = "bemicrosdk" ]; then
 fi
 
 
-jtagconfig -n 2>> ${error_log_file}
+jtagconfig.exe -n 2>> ${error_log_file}
 # from https://forum.trenz-electronic.de/index.php?topic=1228.0
-jtagconfig --setparam 1 JtagClock 9M 2>> ${error_log_file}
+jtagconfig.exe --setparam 1 JtagClock 9M 2>> ${error_log_file}
 jtagconfig.exe --getparam 1 JtagClock 2>> ${error_log_file}
 
 # Open terminal windows for standard outputs
-cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=0 2>> ${error_log_file}
+cmd.exe /c start nios2-terminal.exe -v --flush --no-quit-on-ctrl-d --instance=0 2>> ${error_log_file}
+# cygstart nios2-terminal.exe -v --flush --no-quit-on-ctrl-d --instance=0 2>> ${error_log_file}
 sleep 2s 2>> ${error_log_file}
 
 #cygstart terminal_err.sh
-cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=1 2>> ${error_log_file} 
+cmd.exe /c start nios2-terminal.exe -v --flush --no-quit-on-ctrl-d --instance=1 2>> ${error_log_file}
+# cygstart nios2-terminal.exe -v --flush --no-quit-on-ctrl-d --instance=1 2>> ${error_log_file} 
 sleep 2s 2>> ${error_log_file}
-#cygstart terminal_1.sh
-cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=2 2>> ${error_log_file}
+# cygstart terminal_1.sh
+cmd.exe /c start nios2-terminal.exe -v --flush --no-quit-on-ctrl-d --instance=2 2>> ${error_log_file}
+# cygstart nios2-terminal.exe -v --flush --no-quit-on-ctrl-d --instance=2 2>> ${error_log_file}
 sleep 2s 2>> ${error_log_file}
-#cygstart terminal_2.sh
-cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=3 2>> ${error_log_file}
+# cygstart terminal_2.sh
+cmd.exe /c start nios2-terminal.exe -v --flush --no-quit-on-ctrl-d --instance=3 2>> ${error_log_file}
+# cygstart nios2-terminal.exe -v --flush --no-quit-on-ctrl-d --instance=3 2>> ${error_log_file}
 sleep 2s 2>> ${error_log_file}
-#cygstart terminal_3.sh
-cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=4 2>> ${error_log_file}
+# cygstart terminal_3.sh
+cmd.exe /c start nios2-terminal.exe -v --flush --no-quit-on-ctrl-d --instance=4 2>> ${error_log_file}
+# cygstart nios2-terminal.exe -v --flush --no-quit-on-ctrl-d --instance=4 2>> ${error_log_file}
 sleep 2s 2>> ${error_log_file}
-cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=5 2>> ${error_log_file}
+cmd.exe /c start nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=5 2>> ${error_log_file}
+# cygstart nios2-terminal -v --flush --no-quit-on-ctrl-d --instance=5 2>> ${error_log_file}
 sleep 2s 2>> ${error_log_file}
 
 nios2-download --go -r ./${SOFTWARE_DIR_NAME}/${APP_NAME}/${APP_NAME}.elf --instance=0 2>> ${error_log_file}

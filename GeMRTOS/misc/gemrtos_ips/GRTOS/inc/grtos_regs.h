@@ -43,11 +43,11 @@
 #define ADDR_MTX_RLS            7
 
 #define ADDR_MTX_RSV_SET        9
-#define ADDR_MTX_RSV_CLR        10
+/// 22/11/2022 #define ADDR_MTX_RSV_CLR        10
 #define ADDR_INT_PRC_PND_CLR    11
 #define ADDR_ELP_TM_CNT         12
 #define ADDR_MTX_SET_TM         13
-#define ADDR_FRZ_TM_HGH         14
+/// 22/11/2022 #define ADDR_FRZ_TM_HGH         14
 #define ADDR_TM_PSC             15
 #define ADDR_FRZ_THR_HGH        16
 #define ADDR_CTRL               17
@@ -70,19 +70,19 @@
 #define ADDR_MTX_NEWLIB_GRN     32
 #define ADDR_MTX_NEWLIB_RLS     33
 
-#define ADDR_HLT_ACT_CNT_SMP    34
+/// 22/11/2022 #define ADDR_HLT_ACT_CNT_SMP    34
 
 // Macros defined and implemented in hardware, but not used
-#define IORD_GRTOS_HLT_ACT_CNT_SMP               IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_ACT_CNT_SMP)
-#define IORD_GRTOS_TRG_INT_PRC                   IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TRG_INT_PRC)
-#define IORD_GRTOS_HLT_IDL_PRC_ENB               IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_ENB)
-#define IORD_GRTOS_RST_CLR                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR)
-#define IORD_GRTOS_FRZ_TM_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH)
+/// 22/11/2022 #define IORD_GRTOS_HLT_ACT_CNT_SMP               IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_ACT_CNT_SMP)
+/// 22/11/2022 #define IORD_GRTOS_TRG_INT_PRC                   IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_TRG_INT_PRC)
+/// 22/11/2022 #define IORD_GRTOS_HLT_IDL_PRC_ENB               IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_ENB)
+/// 22/11/2022 #define IORD_GRTOS_RST_CLR                       IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_RST_CLR)
+/// 22/11/2022 #define IORD_GRTOS_FRZ_TM_HGH                    IORD(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH)
 
-#define IOWR_GRTOS_HLT_IDL_PRC_CLR(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_DSB, data)
-#define IOWR_GRTOS_FRZ_TM_HGH(data)              IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH,data)
-#define IOWR_GRTOS_MTX_RSV_CLR(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RSV_CLR, data)
-#define IOWR_GRTOS_MTX_RQS(data)                 IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_GRN, data)
+/// 22/11/2022 #define IOWR_GRTOS_HLT_IDL_PRC_CLR(data)         IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_HLT_IDL_PRC_DSB, data)
+/// 22/11/2022 #define IOWR_GRTOS_FRZ_TM_HGH(data)              IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_FRZ_TM_HGH,data)
+/// 22/11/2022 #define IOWR_GRTOS_MTX_RSV_CLR(data)             IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_RSV_CLR, data)
+/// 22/11/2022 #define IOWR_GRTOS_MTX_RQS(data)                 IOWR(GRTOS_DRIVER_GRTOS_BASE, ADDR_MTX_GRN, data)
 
 
 // Read grtos registers
