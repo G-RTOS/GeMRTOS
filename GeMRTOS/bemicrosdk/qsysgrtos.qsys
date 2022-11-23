@@ -80,7 +80,7 @@
   <parameter name="CFrequency" value="50000000" />
   <parameter name="ENABLE_HPS_MAP_ACCESS" value="false" />
   <parameter name="NProcessors" value="3" />
-  <parameter name="Processor_type" value="Nios II/e (economy)" />
+  <parameter name="Processor_type" value="Nios II/f (full)" />
   <parameter name="icache_burst_parameter" value="Enable" />
   <parameter name="icache_size_parameter" value="2 KB" />
  </module>
