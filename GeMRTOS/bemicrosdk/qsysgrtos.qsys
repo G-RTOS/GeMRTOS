@@ -80,11 +80,11 @@
   <parameter name="CFrequency" value="50000000" />
   <parameter name="ENABLE_HPS_MAP_ACCESS" value="false" />
   <parameter name="NProcessors" value="3" />
-  <parameter name="Processor_type" value="Nios II/f (full)" />
+  <parameter name="Processor_type" value="Nios II/e (economy)" />
   <parameter name="icache_burst_parameter" value="Enable" />
   <parameter name="icache_size_parameter" value="2 KB" />
  </module>
- <module name="clk_0" kind="clock_source" version="22.1" enabled="1">
+ <module name="clk_0" kind="clock_source" version="18.0" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
@@ -95,7 +95,7 @@
  </module>
  <connection
    kind="avalon"
-   version="22.1"
+   version="18.0"
    start="GRTOS_Multiprocessor_1.gemrtos_avalon_processor_m1"
    end="mddr_ctrl_0.avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
@@ -104,7 +104,7 @@
  </connection>
  <connection
    kind="avalon"
-   version="22.1"
+   version="18.0"
    start="GRTOS_Multiprocessor_1.gemrtos_avalon_processor_m2"
    end="mddr_ctrl_0.avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
@@ -113,7 +113,7 @@
  </connection>
  <connection
    kind="avalon"
-   version="22.1"
+   version="18.0"
    start="GRTOS_Multiprocessor_1.gemrtos_avalon_processor_m3"
    end="mddr_ctrl_0.avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
@@ -122,23 +122,23 @@
  </connection>
  <connection
    kind="clock"
-   version="22.1"
+   version="18.0"
    start="clk_0.clk"
    end="GRTOS_Multiprocessor_1.clk_external_bus" />
  <connection
    kind="clock"
-   version="22.1"
+   version="18.0"
    start="clk_0.clk"
    end="GRTOS_Multiprocessor_1.clk_processors" />
- <connection kind="clock" version="22.1" start="clk_0.clk" end="mddr_ctrl_0.clock" />
+ <connection kind="clock" version="18.0" start="clk_0.clk" end="mddr_ctrl_0.clock" />
  <connection
    kind="reset"
-   version="22.1"
+   version="18.0"
    start="clk_0.clk_reset"
    end="mddr_ctrl_0.clock_reset" />
  <connection
    kind="reset"
-   version="22.1"
+   version="18.0"
    start="clk_0.clk_reset"
    end="GRTOS_Multiprocessor_1.reset_in" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
