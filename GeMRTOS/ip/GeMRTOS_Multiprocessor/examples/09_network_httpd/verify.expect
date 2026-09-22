@@ -1,0 +1,5 @@
+tse_receive_server: netif->state
+Acquired IP address via DHCP client
+IP validation PASSED
+task periodic task running
+task infinite-loop task running

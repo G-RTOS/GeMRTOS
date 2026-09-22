@@ -1,0 +1,58 @@
+GeMRTOS Controller -- Copyright and Licence Notice
+==================================================
+
+SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+Copyright (c) 2013-2026 GeMRTOS Project Contributors
+
+Required Notice: Copyright GeMRTOS Project Contributors (https://gemrtos.com)
+
+
+Why this notice is a separate file
+----------------------------------
+
+grtos.vhd is the GeMRTOS controller, delivered ENCRYPTED. The file is opaque
+from its first byte and cannot carry a readable header, so the copyright and
+licence that apply to it are stated here instead.
+
+
+Terms
+-----
+
+The GeMRTOS controller is proprietary hardware IP.
+
+  - Free for academic and research use.
+  - Commercial use requires a separate written agreement with GeMRTOS.
+
+The GeMRTOS software (kernel, drivers, HAL, headers, examples and
+documentation) is licensed separately under the PolyForm Noncommercial
+License 1.0.0. Full terms:
+
+  https://polyformproject.org/licenses/noncommercial/1.0.0
+
+
+Using the encrypted IP
+----------------------
+
+Quartus(R) Prime requires a FlexLM licence file (.dat) to use encrypted IP.
+That requirement is technical, not commercial: the IP is encrypted so that a
+single canonical version stays under the project's control rather than
+fragmenting into uncontrolled forks.
+
+  fixed  -- one machine
+  float  -- a licence server serving several workstations
+
+The files distributed with GeMRTOS work with any network adapter. A licence
+tied to a specific adapter can be issued on request; it is generated from the
+MAC address of the machine running the FlexLM server -- the same detail
+Altera asks for when issuing licensed Quartus(R) Prime.
+
+
+Files in this directory
+-----------------------
+
+  grtos.vhd       the encrypted controller (this notice applies to it)
+  grtos.sdc       timing constraints
+  grtos_hw.tcl    Platform Designer component descriptor
+  grtos_sw.tcl    software component descriptor
+  callbacks.tcl   generation callbacks
+  HAL/            kernel and driver sources, each carrying its own header

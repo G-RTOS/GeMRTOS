@@ -1,0 +1,6 @@
+task periodic task running
+task infinite-loop task running
+Read timeout in JTAG UART
+tse_receive_server: netif->state
+Acquired IP address via DHCP client
+IP validation PASSED

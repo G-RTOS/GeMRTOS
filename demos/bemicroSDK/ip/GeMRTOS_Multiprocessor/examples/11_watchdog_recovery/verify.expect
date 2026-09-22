@@ -1,0 +1,3 @@
+watchdog] recovered: cpu=1
+canary=0xc0ffee01
+steady_worker

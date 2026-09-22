@@ -1,0 +1,9 @@
+signal sent
+signal received
+slot acquired, 1 remaining
+slot request timed out
+mutex acquired at t=
+mutex released at t=
+recursive: outer take
+recursive: inner take (nested)
+recursive: outer give

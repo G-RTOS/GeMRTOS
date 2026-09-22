@@ -1,0 +1,5 @@
+[beacon] tick 0
+[worker] iteration 0 starting
+[worker] iteration 0 done
+supervisor: worker suspended
+supervisor: worker resumed

@@ -1,0 +1,182 @@
+/* GeMRTOS web status/config page stylesheet.
+ * Shared by fs/index.html and fs/status.html -- this httpd has no
+ * server-side include mechanism, so the page markup is duplicated per
+ * file, but the styling itself lives here once. Deliberately
+ * self-contained: no web fonts, no external frameworks, no CDN
+ * dependency -- the board may not have outbound internet access, and
+ * this page must render correctly regardless. */
+
+:root {
+  --gemrtos-sidebar-bg: #f4f6f8;
+  --gemrtos-sidebar-border: #dfe3e8;
+  --gemrtos-accent: #2c6e9e;
+  --gemrtos-accent-bg: #e4eef6;
+  --gemrtos-text: #2a2f36;
+  --gemrtos-text-muted: #6b7280;
+  --gemrtos-border: #d7dbe0;
+  --gemrtos-row-alt: #f7f9fb;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--gemrtos-text);
+  background: #ffffff;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ---- Sidebar: logo + navigation menu ---- */
+
+.gemrtos-sidebar {
+  flex: 0 0 200px;
+  width: 200px;
+  background: var(--gemrtos-sidebar-bg);
+  border-right: 1px solid var(--gemrtos-sidebar-border);
+  padding: 16px;
+}
+
+.gemrtos-sidebar img {
+  max-width: 100%;
+  height: auto;
+}
+
+.gemrtos-menu {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+}
+
+.gemrtos-menu li {
+  margin: 2px 0;
+}
+
+.gemrtos-menu a,
+.gemrtos-menu span.active {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--gemrtos-text);
+}
+
+.gemrtos-menu a:hover {
+  background: var(--gemrtos-accent-bg);
+  color: var(--gemrtos-accent);
+}
+
+.gemrtos-menu span.active {
+  background: var(--gemrtos-accent-bg);
+  color: var(--gemrtos-accent);
+  font-weight: bold;
+  border-left: 3px solid var(--gemrtos-accent);
+  padding-left: 7px;
+}
+
+/* ---- Main content ---- */
+
+.gemrtos-content {
+  flex: 1;
+  padding: 24px 32px;
+  max-width: 900px;
+}
+
+.gemrtos-content h1 {
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+.gemrtos-content h2 {
+  font-size: 1.15rem;
+  margin-top: 2em;
+  border-bottom: 1px solid var(--gemrtos-border);
+  padding-bottom: 0.3em;
+}
+
+.gemrtos-content p {
+  line-height: 1.5;
+}
+
+.gemrtos-content a {
+  color: var(--gemrtos-accent);
+}
+
+/* ---- Status table (also used for the SSI-rendered #sysvars-table) ---- */
+
+table.gemrtos-table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 0.5em;
+}
+
+table.gemrtos-table th,
+table.gemrtos-table td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--gemrtos-border);
+}
+
+table.gemrtos-table th {
+  background: var(--gemrtos-sidebar-bg);
+  font-weight: 600;
+}
+
+table.gemrtos-table tr:nth-child(even) td {
+  background: var(--gemrtos-row-alt);
+}
+
+table.gemrtos-table td:last-child {
+  font-family: "Consolas", "Courier New", monospace;
+}
+
+/* ---- Configuration form ---- */
+
+form.gemrtos-form {
+  margin-top: 0.5em;
+}
+
+form.gemrtos-form table {
+  border-collapse: collapse;
+}
+
+form.gemrtos-form td {
+  padding: 6px 10px;
+}
+
+form.gemrtos-form input[type="number"] {
+  padding: 4px 6px;
+  border: 1px solid var(--gemrtos-border);
+  border-radius: 4px;
+  width: 120px;
+}
+
+form.gemrtos-form input[type="submit"] {
+  margin-top: 10px;
+  padding: 6px 18px;
+  background: var(--gemrtos-accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form.gemrtos-form input[type="submit"]:hover {
+  opacity: 0.9;
+}
+
+/* ---- Footer ---- */
+
+.gemrtos-footer {
+  margin-top: 3em;
+  padding-top: 1em;
+  border-top: 1px solid var(--gemrtos-border);
+  color: var(--gemrtos-text-muted);
+  font-size: 0.85rem;
+}
+
+.gemrtos-footer a {
+  color: inherit;
+}

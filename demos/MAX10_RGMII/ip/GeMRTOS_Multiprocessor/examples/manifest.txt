@@ -1,0 +1,32 @@
+# GeMRTOS example applications — catalogue manifest
+#
+# One record per line, pipe-separated.  Lines starting with '#' are comments.
+#
+#   <example_name>|<app_dir>|<description>|<requirements>
+#
+#   example_name  Directory under examples/.  Selected with -ex <name>.
+#   app_dir       Application directory created under <software_dir>/.
+#                 This is an EXPLICIT mapping, not the example name with its
+#                 "NN_" ordering prefix stripped: 10_full_demo must keep
+#                 building into "hellogemrtos" so that every existing
+#                 document, script and tool path remains valid.
+#   description   One line, shown by `-ex list`.
+#   requirements  Comma-separated hardware/environment prerequisites, used by
+#                 the verification matrix to SKIP (not fail) an example the
+#                 board cannot satisfy.  Empty means "no special requirement".
+#
+# IMPORTANT: no spaces around the '|' separators.  The fields are compared
+# verbatim by new_script.bat and gemrtos_build.bat, which parse this file with
+# `for /f "delims=|"` and do not trim whitespace.
+#
+01_hello_task|01_hello_task|Minimum viable GeMRTOS application: one task printing over the JTAG UART. Board smoke test.|jtag_uart
+02_tasks_and_delays|02_tasks_and_delays|Task model: periodic vs one-shot tasks, ready/run priority, start offsets, external suspend/resume.|jtag_uart
+03_semaphores|03_semaphores|All four semaphore flavours (binary, counting, mutex, recursive mutex), acquisition timeouts, and the static priority-ceiling protocol.|jtag_uart
+04_dining_philosophers|04_dining_philosophers|Classic contention and deadlock-avoidance stress demo: binary semaphores, acquisition timeouts, asymmetric fork-ordering deadlock avoidance. Extracted from 10_full_demo.|jtag_uart,leds
+05_message_queue_pubsub|05_message_queue_pubsub|Message queues as publish/subscribe: fan-out broadcast to multiple subscribers, guaranteed partial-delivery/timeout path, late-subscriber semantics.|jtag_uart
+06_triggers_and_isr|06_triggers_and_isr|Hardware triggers and ISR-as-task using the JTAG UART's real interrupt: happy path and trigger timeout path. Own copy of the JTAG UART trigger driver, extracted from 10_full_demo.|jtag_uart
+07_multiprocessor_scheduling|07_multiprocessor_scheduling|Multiple scheduling lists: partitioned scheduling (CPU affinity), global scheduling, and mutual exclusion between lists with no semaphore involved.|jtag_uart,dual_proc
+08_signals_and_frozen_mode|08_signals_and_frozen_mode|Fault handling and robustness: deliberate task-deadline overrun (G_SCBType_TCB_ABORTED) and deliberate timed-event service backlog (G_SCBType_FROZEN_MODE/UNFROZEN_MODE), both self-recovering.|jtag_uart
+09_network_httpd|09_network_httpd|Network showcase: LwIP + raw HTTP server with SSI status variables, CGI-editable runtime parameters, and client-side AJAX live updates.|jtag_uart,tse,leds
+10_full_demo|hellogemrtos|Everything combined: philosophers, periodic and one-shot tasks, JTAG UART server, LwIP with SSI/CGI web status page. The regression reference.|jtag_uart,tse,leds
+11_watchdog_recovery|11_watchdog_recovery|Per-processor watchdog on CPU 1: a task pinned to processor 1 hangs deliberately, is caught, and processor 1 is reset and recovered via the avalon_monitor reset-vector redirection while a task on processor 2 keeps running. W-1 stage S-2 form (arms the monitor from the task).|jtag_uart,dual_proc

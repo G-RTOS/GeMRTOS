@@ -1,0 +1,5 @@
+global_worker
+affinity_worker
+pinned to 2
+exclusive_worker 0]: ENTER
+exclusive_worker 1]: ENTER
